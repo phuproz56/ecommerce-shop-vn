@@ -17,7 +17,7 @@ export const allNav = [
     title: "Orders",
     icon: <AiOutlineShoppingCart />,
     role: 'admin',
-    path: '/admin/orders',
+    path: '/admin/dashboard/orders',
   },
   {
     id: 3,
