@@ -54,32 +54,47 @@ const Orders = () => {
               </div>
             </div>
 
-            {/* {
-                            myOrders.map((o, i) => <div className='text-[#d0d2d6]'>
-                                <div className='flex justify-between items-start border-b border-slate-700'>
-                                    <div className='py-4 w-[25%] font-medium whitespace-nowrap'>{o._id}</div>
-                                    <div className='py-4 w-[13%]'>${o.price}</div>
-                                    <div className='py-4 w-[18%]'>{o.payment_status}</div>
-                                    <div className='py-4 w-[18%]'>{o.delivery_status}</div>
-                                    <div className='py-4 w-[18%]'>
-                                        <Link to={`/admin/dashboard/order/details/${o._id}`}>view</Link>
-                                    </div>
-                                    <div onClick={(e) => setShow(o._id)} className='py-4 cursor-pointer w-[8%]'>
-                                        <MdKeyboardArrowDown />
-                                    </div>
-                                </div>
-                                <div className={show === o._id ? 'block border-b border-slate-700 bg-slate-800' : 'hidden'}>
-                                    {
-                                        o.suborder.map((so, i) => <div className='flex justify-start items-start border-b border-slate-700'>
-                                            <div className='py-4 w-[25%] font-medium whitespace-nowrap pl-3'>${so._id}</div>
-                                            <div className='py-4 w-[13%]'>${so.price}</div>
-                                            <div className='py-4 w-[18%]'>{so.payment_status}</div>
-                                            <div className='py-4 w-[18%]'>{so.delivery_status}</div>
-                                        </div>)
-                                    }
-                                </div>
-                            </div>)
-                        } */}
+            {[1, 2, 3, 4, 5].map((o, i) => (
+              <div className="text-[#d0d2d6]">
+                <div className="flex justify-between items-start border-b border-slate-700">
+                  <div className="py-4 w-[25%] font-medium whitespace-nowrap">
+                    123
+                  </div>
+                  <div className="py-4 w-[13%]">$123</div>
+                  <div className="py-4 w-[18%]">123</div>
+                  <div className="py-4 w-[18%]">123</div>
+                  <div className="py-4 w-[18%]">
+                    <Link to={`/admin/dashboard/order/details/${o._id}`}>
+                      view
+                    </Link>
+                  </div>
+                  <div
+                    onClick={(e) => setShow(o._id)}
+                    className="py-4 cursor-pointer w-[8%]"
+                  >
+                    <MdKeyboardArrowDown />
+                  </div>
+                </div>
+                <div
+                  className={
+                    show === 123
+                      ? "block border-b border-slate-700 bg-slate-800"
+                      : "hidden"
+                  }
+                >
+                  {[1, 2, 3, 4, 5].map((so, i) => (
+                    <div className="flex justify-start items-start border-b border-slate-700">
+                      <div className="py-4 w-[25%] font-medium whitespace-nowrap pl-3">
+                        123
+                      </div>
+                      <div className="py-4 w-[13%]">$123</div>
+                      <div className="py-4 w-[18%]">123</div>
+                      <div className="py-4 w-[18%]">123</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
         <div className="w-full flex justify-end mt-4 bottom-4 right-4">
@@ -91,17 +106,7 @@ const Orders = () => {
             showItem={4}
           />
         </div>
-        {/* {
-                    totalOrder <= parPage ? "" : <div className='w-full flex justify-end mt-4 bottom-4 right-4'>
-                        <Pagination
-                            pageNumber={currentPage}
-                            setPageNumber={setCurrentPage}
-                            totalItem={totalOrder}
-                            parPage={parPage}
-                            showItem={4}
-                        />
-                    </div>
-                } */}
+       
       </div>
     </div>
   );
