@@ -158,7 +158,8 @@ const SellerDashboard = () => {
             <div className="flex flex-col gap-2 pt-6 text-[#d0d2d6]">
               <ol className="relative border-1 border-slate-600 ml-4">
                 {[1, 2, 3, 4, 5].map((m, i) => (
-                  <li className="mb-3 ml-6">
+                  <li className="mb-3 ml-6" key={i}>
+                    {/* add key to list use map */}
                     <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-[#00d1e848] rounded-full z-10">
                       <img
                         className="w-full rounded-full h-full shadow-lg"
