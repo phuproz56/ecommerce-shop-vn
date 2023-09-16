@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import { BsImages } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
+import { Link } from "react-router-dom";
 const AddProduct = () => {
   const categorys = [
     {
@@ -63,13 +63,13 @@ const AddProduct = () => {
     if (length > 0) {
       setImages([...images, ...files]);
       let imageUrl = [];
-
       for (let i = 0; i < length; i++) {
         imageUrl.push({ url: URL.createObjectURL(files[i]) });
       }
       setImageShow([...imageShow, ...imageUrl]);
     }
   };
+
   const changeImage = (img, index) => {
     if (img) {
       let tempUrl = imageShow;
@@ -159,6 +159,7 @@ const AddProduct = () => {
                   <div className="flex justify-start items-start flex-col h-[200px] overflow-x-scroll">
                     {allCategory.map((c, i) => (
                       <span
+                        key={i}
                         className={`px-4 py-2 hover:bg-indigo-500 hover:text-white hover:shadow-lg w-full cursor-pointer ${
                           category === c.name && "bg-indigo-500"
                         }`}
