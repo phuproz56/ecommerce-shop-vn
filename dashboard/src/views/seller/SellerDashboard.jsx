@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/scope */
 import React from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { RiProductHuntLine } from "react-icons/ri";
