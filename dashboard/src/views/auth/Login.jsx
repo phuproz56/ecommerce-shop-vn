@@ -3,12 +3,13 @@ import { AiOutlineGithub, AiOutlineGooglePlus } from "react-icons/ai";
 import { CiTwitter } from "react-icons/ci";
 import { FiFacebook } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../../utils/utils";
 import { messageClear, seller_login } from "../../store/Reducers/authReducer";
 import toast from "react-hot-toast";
 function Login() {
+  const navigate = useNavigate();
   const [state, setSatate] = useState({
     email: "",
     password: "",
@@ -25,12 +26,13 @@ function Login() {
   };
   const submit = (e) => {
     e.preventDefault();
-    dispatch(seller_login(state))
+    dispatch(seller_login(state));
   };
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
+      navigate("/");
     }
     if (errorMessage) {
       toast.error(errorMessage);

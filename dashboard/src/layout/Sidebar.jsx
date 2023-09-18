@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { getNavs } from "../navigation";
 import { BiLogInCircle } from "react-icons/bi";
 
 function Sidebar({ showSidebar, setShowSidebar }) {
+  const { role } = useSelector((state) => state.auth);
   const { pathname } = useLocation();
   const [allNav, setAllNav] = useState([]);
   useEffect(() => {
-    const navs = getNavs("seller");
+    const navs = getNavs(role);
     setAllNav(navs);
-  }, []);
+  }, [role]);
   return (
     <div>
       <div
