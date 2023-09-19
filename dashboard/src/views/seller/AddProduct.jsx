@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsImages } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { get_category } from "../../store/Reducers/categoryReducer";
+import { add_product } from "../../store/Reducers/productReducer";
 const AddProduct = () => {
-  const categorys = [
-    {
-      id: 1,
-      name: "sdasd",
-    },
-    {
-      id: 2,
-      name: "dasdas123",
-    },
-  ];
+  const dispatch = useDispatch();
+  const { categorys } = useSelector((state) => state.category);
 
+  useEffect(() => {
+    dispatch(
+      get_category({
+        searchValue: "",
+        parPage: "",
+        page: "",
+      })
+    );
+  }, []);
   const [category, setCategory] = useState("");
   const [allCategory, setAllCategory] = useState(categorys);
   const [searchValue, setSearchValue] = useState("");
@@ -87,6 +91,22 @@ const AddProduct = () => {
     setImages(filterImage);
     setImageShow(filterImageUrl);
   };
+  useEffect(() => {
+    setAllCategory(categorys)
+  }, [categorys])
+
+  const add = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', state.name);
+    formData.append('description', state.description);
+    formData.append('price', state.price);
+    formData.append('stock', state.stock);
+    formData.append('discount', state.discount);
+    formData.append('images', images);
+
+    dispatch(add_product(formData));
+  };
 
   return (
     <div className="px-2 lg:px-7 pt-5 ">
@@ -101,7 +121,7 @@ const AddProduct = () => {
           </Link>
         </div>
         <div>
-          <form>
+          <form onSubmit={add}>
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1">
                 <label htmlFor="name">Product name</label>

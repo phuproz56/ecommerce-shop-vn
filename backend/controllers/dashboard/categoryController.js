@@ -48,7 +48,6 @@ class categoryController {
   };
 
   get_category = async (req, res) => {
-    console.log(req.query)
     const { page, searchValue, parPage } = req.query;
     try {
       let skipPage = "";

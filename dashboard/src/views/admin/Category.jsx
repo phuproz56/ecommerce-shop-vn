@@ -16,7 +16,7 @@ import {
 } from "../../store/Reducers/categoryReducer";
 const Category = () => {
   const dispatch = useDispatch();
-  const { loader, successMessage, errorMessage } = useSelector(
+  const { loader, successMessage, errorMessage, categorys } = useSelector(
     (state) => state.category
   );
   const [searchValue, setSearchValue] = useState("");
@@ -71,8 +71,6 @@ const Category = () => {
     dispatch(get_category(obj));
   }, [searchValue, currentPage, parPage]);
 
-
-  console.log(searchValue)
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="flex lg:hidden justify-between items-center mb-5 p-4 bg-[#283046] rounded-md">
@@ -111,13 +109,13 @@ const Category = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {[1, 2, 3].map((d, i) => (
+                  {categorys.map((d, i) => (
                     <tr key={i}>
                       <td
                         scope="row"
                         className="py-1 px-4 font-medium whitespace-nowrap"
                       >
-                        1
+                        {i+1}
                       </td>
                       <td
                         scope="row"
@@ -133,7 +131,7 @@ const Category = () => {
                         scope="row"
                         className="py-1 px-4 font-medium whitespace-nowrap"
                       >
-                        <span>phu</span>
+                        <span>{d.name}</span>
                       </td>
                       <td
                         scope="row"
