@@ -115,7 +115,7 @@ const Category = () => {
                         scope="row"
                         className="py-1 px-4 font-medium whitespace-nowrap"
                       >
-                        {i+1}
+                        {i + 1}
                       </td>
                       <td
                         scope="row"

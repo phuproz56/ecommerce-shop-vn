@@ -4,10 +4,17 @@ import { IoCloseSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { get_category } from "../../store/Reducers/categoryReducer";
-import { add_product } from "../../store/Reducers/productReducer";
+import { add_product, messageClear } from "../../store/Reducers/productReducer";
+import { overrideStyle } from "../../utils/utils";
+import toast from "react-hot-toast";
+import { PropagateLoader } from "react-spinners";
+
 const AddProduct = () => {
   const dispatch = useDispatch();
   const { categorys } = useSelector((state) => state.category);
+  const { loader, successMessage, errorMessage } = useSelector(
+    (state) => state.product
+  );
 
   useEffect(() => {
     dispatch(
@@ -51,9 +58,9 @@ const AddProduct = () => {
     });
   };
 
-  // useEffect(() => {
-  //   setAllCategory(categorys);
-  // }, [categorys]);
+  useEffect(() => {
+    setAllCategory(categorys);
+  }, [categorys]);
 
   const [cateShow, setCateShow] = useState(false);
 
@@ -92,19 +99,45 @@ const AddProduct = () => {
     setImageShow(filterImageUrl);
   };
   useEffect(() => {
-    setAllCategory(categorys)
-  }, [categorys])
+    setAllCategory(categorys);
+  }, [categorys]);
+
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+      setState({
+        name: "",
+        description: "",
+        discount: "",
+        price: "",
+        brand: "",
+        stock: "",
+      });
+      setImageShow([]);
+      setImages([]);
+      setCategory("");
+    }
+  }, [successMessage, errorMessage]);
 
   const add = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('name', state.name);
-    formData.append('description', state.description);
-    formData.append('price', state.price);
-    formData.append('stock', state.stock);
-    formData.append('discount', state.discount);
-    formData.append('images', images);
-
+    formData.append("name", state.name);
+    formData.append("description", state.description);
+    formData.append("price", state.price);
+    formData.append("stock", state.stock);
+    formData.append("category", category);
+    formData.append("discount", state.discount);
+    formData.append("shopName", "Vn-Shop");
+    formData.append("brand", state.brand);
+    for (let i = 0; i < images.length; i++) {
+      formData.append("images", images[i]);
+    }
     dispatch(add_product(formData));
   };
 
@@ -205,6 +238,8 @@ const AddProduct = () => {
                   placeholder="product stock"
                   name="stock"
                   id="stock"
+                  onChange={inputHandle}
+                  value={state.stock}
                 />
               </div>
             </div>
@@ -218,6 +253,8 @@ const AddProduct = () => {
                   placeholder="price"
                   name="price"
                   id="price"
+                  onChange={inputHandle}
+                  value={state.price}
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
@@ -229,6 +266,8 @@ const AddProduct = () => {
                   placeholder="%discount%"
                   name="discount"
                   id="discount"
+                  onChange={inputHandle}
+                  value={state.discount}
                 />
               </div>
             </div>
@@ -240,6 +279,8 @@ const AddProduct = () => {
                 placeholder="description"
                 name="description"
                 id="description"
+                onChange={inputHandle}
+                value={state.description}
               ></textarea>
             </div>
             <div className="grid lg:grid-cols-4 grid-cols-1 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 md:gap-4 xs:gap-4 gap-3 w-full text-[#d0d2d6] mb-4">
@@ -276,6 +317,7 @@ const AddProduct = () => {
                 <span>select image</span>
               </label>
               <input
+                multiple
                 onChange={inmageHandle}
                 className="hidden"
                 type="file"
@@ -283,8 +325,15 @@ const AddProduct = () => {
               />
             </div>
             <div className="flex">
-              <button className="bg-blue-500 w-[190px] hover:shadow-blue-500/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3">
-                Add Product
+              <button
+                disabled={loader ? true : false}
+                className="bg-blue-500 w-full hover:shadow-blue-500/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
+              >
+                {loader ? (
+                  <PropagateLoader color="#fff" cssOverride={overrideStyle} />
+                ) : (
+                  "Add Category"
+                )}
               </button>
             </div>
           </form>
