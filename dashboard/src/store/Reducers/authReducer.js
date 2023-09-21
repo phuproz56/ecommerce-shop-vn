@@ -71,13 +71,28 @@ const returnRole = (token) => {
     if (new Date() > expireTime) {
       localStorage.removeItem("accessToken");
       return "";
-    }else {
+    } else {
       return decodeToken.role;
     }
   } else {
     return "";
   }
 };
+
+export const profile_image_upload = createAsyncThunk(
+  "auth/profile_image_upload",
+  async (image, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/profile-image-upload", image, {
+        withCredentials: true,
+      });
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const authReducer = createSlice({
   name: "auth",
@@ -138,7 +153,15 @@ export const authReducer = createSlice({
     [get_user_info.fulfilled]: (state, { payload }) => {
       state.loader = false;
       state.userInfo = payload.userInfo;
-      state.role = payload.userInfo.role
+      state.role = payload.userInfo.role;
+    },
+    [profile_image_upload.pending]: (state, _) => {
+      state.loader = true;
+    },
+    [profile_image_upload.fulfilled]: (state, { payload }) => {
+      state.loader = false;
+      state.userInfo = payload.userInfo;
+      state.successMessage = payload.message;
     },
   },
 });
