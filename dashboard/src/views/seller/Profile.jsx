@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   profile_image_upload,
   messageClear,
-  profile_info_add
+  profile_info_add,
 } from "../../store/Reducers/authReducer";
 import toast from "react-hot-toast";
 import { overrideStyle } from "../../utils/utils";
@@ -34,7 +34,7 @@ const Profile = () => {
 
   const add = (e) => {
     e.preventDefault();
-    dispatch(profile_info_add(state))
+    dispatch(profile_info_add(state));
   };
 
   const inputHandle = (e) => {
@@ -119,12 +119,17 @@ const Profile = () => {
                 <div className="flex gap-2">
                   <span>Payment Account : </span>
                   <p>
-                    {userInfo.payment === "inactive" ? (
+                    {userInfo.payment === "active" ? (
                       <span className="bg-red-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded ">
                         {userInfo.payment}
                       </span>
                     ) : (
-                      <span className="bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded ">
+                      <span
+                        //onClick={() =>
+                          // dispatch(create_stripe_connect_account())
+                        //}
+                        className="bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded "
+                      >
                         click active
                       </span>
                     )}

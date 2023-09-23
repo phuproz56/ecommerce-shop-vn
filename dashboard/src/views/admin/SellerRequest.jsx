@@ -2,15 +2,34 @@ import React, { useEffect, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
+import { useSelector, useDispatch } from "react-redux";
+import Search from "../components/Search";
+import { get_seller_request } from "../../store/Reducers/sellerReducer";
 const SellerRequest = () => {
+  const dispatch = useDispatch();
+  const { sellers, totalSeller } = useSelector((state) => state.seller);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
   const [show, setShow] = useState(false);
 
+  useEffect(() => {
+    dispatch(
+      get_seller_request({
+        parPage,
+        searchValue,
+        page: currentPage,
+      })
+    );
+  }, [parPage, searchValue, currentPage]);
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4  bg-[#283046] rounded-md">
+        <Search
+          setParPage={setParPage}
+          setSearchValue={setSearchValue}
+          searchValue={searchValue}
+        />
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left text-[#d0d2d6]">
             <thead className="text-xs text-[#d0d2d6] uppercase border-b border-slate-700">
@@ -36,39 +55,39 @@ const SellerRequest = () => {
               </tr>
             </thead>
             <tbody className="text-sm font-normal">
-              {[1, 2, 3, 4, 5, 6].map((d, i) => (
+              {sellers.map((d, i) => (
                 <tr className="border-b border-slate-700" key={i}>
-                  <td
+                  <th
                     scope="row"
                     className="py-2 px-4 font-normal whitespace-nowrap"
                   >
                     {i + 1}
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-2 px-4 font-normal whitespace-nowrap"
                   >
                     <span>{d.name}</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-2 px-4 font-normal whitespace-nowrap"
                   >
                     <span>{d.email}</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-2 px-4 font-normal whitespace-nowrap"
                   >
                     <span>{d.payment}</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-2 px-4 font-normal whitespace-nowrap"
                   >
                     <span>{d.status}</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-2 px-4 font-normal whitespace-nowrap"
                   >
@@ -80,21 +99,25 @@ const SellerRequest = () => {
                         <FaEye />
                       </Link>
                     </div>
-                  </td>
+                  </th>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <div className="w-full flex justify-end mt-4 bottom-4 right-4">
-          <Pagination
-            pageNumber={currentPage}
-            setPageNumber={setCurrentPage}
-            totalItem={50}
-            parPage={parPage}
-            showItem={4}
-          />
-        </div>
+        {totalSeller <= parPage ? (
+          ""
+        ) : (
+          <div className="w-full flex justify-end mt-4 bottom-4 right-4">
+            <Pagination
+              pageNumber={currentPage}
+              setPageNumber={setCurrentPage}
+              totalItem={50}
+              parPage={parPage}
+              showItem={4}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
