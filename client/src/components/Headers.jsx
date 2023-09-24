@@ -357,12 +357,10 @@ const Headers = () => {
               </div>
               <div
                 className={`${
-                  categoryShow
-                    ? "h-0"
-                    : "h-[400px] overflow-hidden transition-all md-lg:relative duration-500 absolute z-[9999] bg-white w-full border-x"
-                }`}
+                  categoryShow ? "h-0" : "h-[400px]"
+                } overflow-hidden transition-all md-lg:relative duration-500 absolute z-[99999] bg-white w-full border-x`}
               >
-                <ul className="py-2 text-slate-600 font-medium">
+                <ul className="py-2 text-slate-600 font-medium h-full overflow-auto">
                   {categorys.map((c, i) => {
                     return (
                       <li
