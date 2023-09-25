@@ -54,10 +54,10 @@ const Products = ({title}) => {
       >
         {products.map((p, i) => {
           return (
-            <div className="flex flex-col justify-start gap-2">
+            <div key={i} className="flex flex-col justify-start gap-2">
               {p.map((pl) => 
                 <Link className='flex justify-start items-start' to="#">
-                  <img className='w-[110px] h-[110px]'  src={`/images/banner/${pl}.jpg`} alt="" />
+                  <img className='w-[110px] h-[110px]'  src={`/images/products/${pl}.webp`} alt="" />
                   <div className="px-3 flex justify-start items-start gap-1 flex-col text-slate-600">
                     <h2>long skdf ckc asdk </h2>
                     <span className="text-lg font-bold">$123</span>

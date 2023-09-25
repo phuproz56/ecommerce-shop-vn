@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import { GrMail } from "react-icons/gr";
 import { IoIosCall } from "react-icons/io";
@@ -108,7 +110,7 @@ const Headers = () => {
                   <img src="/images/logo.png" alt="logo" />
                 </Link>
                 <div
-                  className="flex justify-center items-center w-[30px] h-[30px] bg-white text-slate-600 border border-slate-600 rounded-sm cursor-pointer lg:hidden md-lg:flex xl:hidden hidden"
+                  className="flex justify-center items-center w-[30px] h-[30px] bg-white text-slate-600 border border-slate-600 rounded-sm cursor-pointer lg:hidden md-lg:flex xl:hidden"
                   onClick={() => setShowShidebar(false)}
                 >
                   <span>
@@ -130,7 +132,7 @@ const Headers = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link
+                    <Link to="/shops"
                       className={`p-2 block ${
                         pathname === "/shop"
                           ? "text-[#7fad39]"

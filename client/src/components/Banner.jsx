@@ -40,7 +40,7 @@ const Banner = () => {
                     key={i}
                     to="#"
                   >
-                    <img
+                    <img className="w-full h-[400px]"
                       src={`http://localhost:3000/images/banner/${img}.jpg`}
                       alt=""
                     />
