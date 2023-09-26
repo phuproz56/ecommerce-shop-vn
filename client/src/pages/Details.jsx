@@ -6,9 +6,14 @@ import "react-multi-carousel/lib/styles.css";
 import { Link } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Footer from "../components/Footer";
-import Rating from "../components/Ratings";
+import Ratings from "../components/Ratings";
 import { AiFillGithub, AiFillHeart, AiOutlineTwitter } from "react-icons/ai";
 import { FaFacebookF, FaLinkedin } from "react-icons/fa";
+import Reviews from "../components/Reviews";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
 const Details = () => {
   const [image, setImage] = useState("");
   const images = [1, 2, 3, 4, 5, 6, 7];
@@ -26,6 +31,10 @@ const Details = () => {
       breakpoint: { max: 1024, min: 464 },
       items: 4,
     },
+    mdtablet: {
+      breakpoint: { max: 991, min: 464 },
+      items: 4,
+    },
     mobile: {
       breakpoint: { max: 768, min: 0 },
       items: 3,
@@ -33,6 +42,10 @@ const Details = () => {
     smmobile: {
       breakpoint: { max: 640, min: 0 },
       items: 2,
+    },
+    xsmobile: {
+      breakpoint: { max: 440, min: 0 },
+      items: 1,
     },
   };
   const discount = 5;
@@ -108,7 +121,7 @@ const Details = () => {
               </div>
               <div className="flex justify-start items-center gap-4">
                 <div className="flex text-xl">
-                  <Rating ratings={4.5}></Rating>
+                  <Ratings ratings={4.5}></Ratings>
                 </div>
                 <span className="text-green-500">(23 reviews)</span>
               </div>
@@ -216,7 +229,7 @@ const Details = () => {
         </div>
       </section>
       <section>
-        <div className="w-[85%] md:w-[80%] sm:w-[90%] h-full mx-auto pb-16">
+        <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto pb-16">
           <div className="flex flex-wrap">
             <div className="w-[72%] md-lg:w-full">
               <div className="pr-4 md-lg:pr-0">
@@ -242,11 +255,127 @@ const Details = () => {
                     Description
                   </button>
                 </div>
-                <div>{state === "reviews" ? "reviews" : "description"}</div>
+                <div>
+                  {state === "reviews" ? (
+                    <Reviews />
+                  ) : (
+                    <p className="py-5 text-slate-600">
+                      By drawing on a fundamental description of cause and
+                      effect found in Einstein’s theory of special relativity,
+                      researchers from Imperial College London have come up with
+                      a way to help AIs make better guesses too. HOW SPECIAL
+                      RELATIVITY CAN HELP AI PREDICT THE FUTURE | WILL HEAVEN |
+                      AUGUST 28, 2020 | MIT TECHNOLOGY REVIEW However, as the
+                      workaround description implies, this separate tracking
+                      carries the risk of someone still being served the same ad
+                      even after the limit has been exceeded.
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
-            <div className="w-[72%] md-lg:w-full">
-              <div className="pl-4 md-lg:pl-0"></div>
+            <div className="w-[28%] md-lg:w-full">
+              <div className="pl-4 md-lg:pl-0">
+                <div className="px-3 py-2 text-slate-600 bg-slate-200">
+                  <h2> From asdasd</h2>
+                </div>
+                <div className="flex flex-col gap-5 mt-3 border p-3">
+                  {[1, 2, 3].map((p, i) => {
+                    return (
+                      <Link className="block">
+                        <div className="relative h-[270px]">
+                          <img
+                            className="w-full h-full"
+                            src={`http://localhost:3000/images/products/${p}.webp`}
+                            alt=""
+                          />
+                          {p.discount !== 0 && (
+                            <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
+                              {p.discount}%
+                            </div>
+                          )}
+                        </div>
+                        <h2 className="text-slate-600 py-1">asdasd asd</h2>
+                        <div className="flex gap-2">
+                          <h2 className="text-[#6699ff] text-lg font-bold">
+                            $123
+                          </h2>
+                          <div className="flex items-center gap-2">
+                            <Ratings ratings={4.5} />
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
+          <h2 className="text-2xl py-8-text text-slate-600">
+            Related Products
+          </h2>
+          <div>
+            <Swiper
+              slidesPerView="auto"
+              breakpoints={{
+                1280: {
+                  slidesPerView: 3,
+                },
+                565: {
+                  slidesPerView: 2,
+                },
+              }}
+              spaceBetween={25}
+              loop={true}
+              pagination={{
+                clickable: true,
+                el: ".custom_bullet",
+              }}
+              modules={[Pagination]}
+              className="mySwiper"
+            >
+              {[1, 2, 3, 4, 5, 6, 7].map((p, i) => {
+                return (
+                  <SwiperSlide>
+                    <Link className="block">
+                      <div className="relative h-[270px]">
+                        <div className="w-full h-full">
+                          <img
+                            className="w-full h-full"
+                            src={`http://localhost:3000/images/products/${p}.webp`}
+                            alt=""
+                          />
+                          <div className="absolute h-full w-full top-0 left-0 bg-[#000] opacity-25 hover:opacity-50 transition-all duration-500"></div>
+                        </div>
+
+                        {p.discount !== 0 && (
+                          <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
+                            {p.discount}%
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-4 flex flex-col gap-1">
+                        <h2 className="text-slate-600 text-lg font-semibold">
+                          asdasd asd asdasd
+                        </h2>
+                        <div className="flex justify-start items-center gap-3">
+                          <h2 className="text-[#6699ff] text-lg font-bold">asd</h2>
+                          <div className="flex items-center gap-2">
+                            <Ratings ratings={4.5} />
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+            <div className="w-full flex justify-center items-center py-10">
+              <div className="custom_bullet justify-center gap-3 !w-auto"></div>
             </div>
           </div>
         </div>
