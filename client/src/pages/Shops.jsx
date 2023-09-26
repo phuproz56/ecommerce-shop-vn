@@ -10,9 +10,13 @@ import { CiStar } from "react-icons/ci";
 import { FaThList } from "react-icons/fa";
 import { BsFillGridFill } from "react-icons/bs";
 import Products from "../components/products/Products";
+import ShopProducts from "../components/products/ShopProducts";
+import Pagination from "../components/Pagination";
 
 const Shops = () => {
-  const [styles, setStyles] = useState('list');
+  const [pageNumber, setPageNumber] = useState(1);
+  const [perPage, setPerPage] = useState(3);
+  const [styles, setStyles] = useState("list");
   const [filter, setFilter] = useState(true);
   const [state, setState] = useState({ values: [50, 2000] });
   const categorys = ["Clothing", "Sports", "Shose", "Laptop", "Tablet"];
@@ -234,22 +238,36 @@ const Shops = () => {
                       <option value="">High to Low Price</option>
                     </select>
                     <div className="flex justify-center items-start gap-4 md-lg:hidden">
-                      <div onClick={() => setStyles('grid')}
+                      <div
+                        onClick={() => setStyles("grid")}
                         className={`p-2 ${
-                          styles === 'grid' && "bg-slate-300"
+                          styles === "grid" && "bg-slate-300"
                         } text-slate-600 hover:bg-slate-300 cursor-pointer rounded-sm`}
                       >
                         <BsFillGridFill />
                       </div>
-                      <div onClick={() => setStyles('list')}
+                      <div
+                        onClick={() => setStyles("list")}
                         className={`p-2 ${
-                          styles === 'list' && "bg-slate-300"
+                          styles === "list" && "bg-slate-300"
                         } text-slate-600 hover:bg-slate-300 cursor-pointer rounded-sm`}
                       >
                         <FaThList />
                       </div>
                     </div>
                   </div>
+                </div>
+                <div className="pb-8">
+                  <ShopProducts styles={styles} />
+                </div>
+                <div>
+                  <Pagination
+                    pageNumber={pageNumber}
+                    setPageNumber={setPageNumber}
+                    totalItem={20}
+                    perPage={perPage}
+                    showItem={Math.floor(20 / 3)}
+                  />
                 </div>
               </div>
             </div>
