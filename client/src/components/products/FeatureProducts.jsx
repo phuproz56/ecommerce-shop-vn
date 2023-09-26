@@ -42,7 +42,7 @@ const FeatureProducts = () => {
                   <AiFillHeart />
                 </li>
                 <Link
-                  to={`/product/details/`}
+                  to={`/product/details/123`}
                   className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all"
                 >
                   <FaEye />

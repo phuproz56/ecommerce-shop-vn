@@ -6,19 +6,23 @@ const Banner = () => {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: 1,
+      items: 5,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 1,
+      items: 5,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
-      items: 1,
+      items: 4,
     },
     mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
+      breakpoint: { max: 768, min: 0 },
+      items: 3,
+    },
+    smmobile: {
+      breakpoint: { max: 640, min: 0 },
+      items: 2,
     },
   };
   return (
@@ -40,7 +44,8 @@ const Banner = () => {
                     key={i}
                     to="#"
                   >
-                    <img className="w-full h-[400px]"
+                    <img
+                      className="w-full h-[400px]"
                       src={`http://localhost:3000/images/banner/${img}.jpg`}
                       alt=""
                     />
