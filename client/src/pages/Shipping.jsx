@@ -23,12 +23,12 @@ const Shipping = () => {
     });
   };
   const save = (e) => {
-        e.preventDefault()
-        const { name, address, phone, post, province, city, area } = state;
-        if (name && address && phone && post && province && city && area) {
-            setRes(true)
-        }
+    e.preventDefault();
+    const { name, address, phone, post, province, city, area } = state;
+    if (name && address && phone && post && province && city && area) {
+      setRes(true);
     }
+  };
   return (
     <div>
       <Headers />
@@ -162,17 +162,94 @@ const Shipping = () => {
                   )}
                   {res && (
                     <div className="flex flex-col gap-1">
-                      <h2>Deliver to {state.name}</h2>
+                      <h2 className="text-slate-600 font-semibold pb-2">
+                        Deliver to {state.name}
+                      </h2>
                       <p>
-                        <span>Home</span>
-                        <span></span>
+                        <span className="bg-blue-200 text-blue-800 text-xs font-medium mr-2 px-3 py-1 rounded">
+                          Home
+                        </span>
+                        <span className="text-slate-600 text-sm">
+                          {state.address} {state.province} {state.city}{" "}
+                          {state.area}
+                        </span>
+                        <span
+                          onClick={() => setRes(false)}
+                          className="text-indigo-500 cursor-pointer"
+                        >
+                          change
+                        </span>
                       </p>
+                      <p>Email to phuproz348@gmail.com</p>
                     </div>
                   )}
                 </div>
+                {[1, 2, 3, 4].map((p, i) => (
+                  <div className="flex bg-white p-4 flex-col gap-2">
+                    <div className="flex justify-start items-center ">
+                      <h2 className="text-md text-slate-600">dasdasdsad 12</h2>
+                    </div>
+                    {[1, 2].map((p, i) => (
+                      <div className="w-full flex flex-wrap">
+                        <div className="flex sm-w-full gap-2 w-7/12">
+                          <div className="flex gap-2 justify-start items-center">
+                            <img
+                              className="w-[80px] h-[80px]"
+                              src={`http://localhost:3000/images/products/${
+                                i + 1
+                              }.webp`}
+                              alt="product_image"
+                            />
+                            <div className="pr-4 text-slate-600">
+                              <h2 className="text-md">Ao thun askdjk</h2>
+                              <span className="text-sm">Brand : easy</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex justify-end w-5/12 sm:w-full sm:mt-3 ">
+                          <div className="pl-4 sm:pt-0">
+                            <h2 className="text-orange-500 text-lg">$135</h2>
+                            <p className="line-through">$150</p>
+                            <p>-10%</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="w-[33%] md-lg:w-full"></div>
+            <div className="w-[33%] md-lg:w-full">
+              <div className="pl-3 md-lg:pl-0">
+                <div className="bg-white font-medium p-5 text-slate-600 flex flex-col gap-3">
+                  <h2 className="text-xl font-semibold">Order Summary</h2>
+                  <div className="flex justify-between  items-center">
+                    <span>Items Total</span>
+                    <span className="text-lg text-orange-500">$136</span>
+                  </div>
+                  <div className="flex justify-between  items-center">
+                    <span>Delivery Fee</span>
+                    <span className="text-lg text-orange-500">$136</span>
+                  </div>
+                  <div className="flex justify-between  items-center">
+                    <span>Total Payment</span>
+                    <span className="text-lg text-orange-500">$136</span>
+                  </div>
+                  <div className="flex justify-between  items-center">
+                    <span>Total</span>
+                    <span className="text-lg text-orange-500">$136</span>
+                  </div>
+                  <button
+                    disabled={res ? false : true}
+                    className={`px-5 py-[6px] rounded-sm hover:shadow-orange-500/20 hover:shadow-lg ${
+                      res ? "bg-orange-500" : "bg-orange-200"
+                    }  text-sm text-white uppercase`}
+                  >
+                    Place Order
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
