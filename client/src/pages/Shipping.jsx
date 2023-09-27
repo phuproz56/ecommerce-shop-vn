@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import Headers from "../components/Headers";
 import Footer from "../components/Footer";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 const Shipping = () => {
-  //const { state } = useLocation();
   const [res, setRes] = useState(false);
   const [state, setState] = useState({
     name: "",
