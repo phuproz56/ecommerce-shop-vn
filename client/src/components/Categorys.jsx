@@ -1,11 +1,11 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const Categorys = () => {
-    const categorys = ["Clothing", "Sports", "Shose", "Laptop", "Tablet", "Bags", "asdasd"];
+const Categorys = ({categorys}) => {
 
   const responsive = {
     superLargeDesktop: {
@@ -49,10 +49,10 @@ const Categorys = () => {
         {categorys.map((c, i) => (
           <Link className="h-[185px] border block" key={i} to="#">
             <div className="w-full h-full relative p-3">
-              <img src={`/images/products/${i+1}.webp`} alt="image" />
+              <img src={c.image} alt="image" />
               <div className="absolute bottom-6 w-full mx-auto font-bold left-0 flex justify-center items-center">
                 <span className="py-[2px] px-6 bg-[#3330305d] text-white">
-                  {c}
+                  {c.name}
                 </span>
               </div>
             </div>

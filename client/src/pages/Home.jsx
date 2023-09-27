@@ -16,10 +16,10 @@ const Home = () => {
   }, [dispatch]);
   return (
     <div className="w-full">
-      <Headers />
+      <Headers categorys={categorys}/>
       <Banner />
       <div className="my-4">
-        <Categorys />
+        <Categorys categorys={categorys}/>
       </div>
       <div className="py-[45px]">
         <FeatureProducts />

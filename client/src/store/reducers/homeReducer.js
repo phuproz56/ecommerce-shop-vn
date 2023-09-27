@@ -2,12 +2,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
 export const get_category = createAsyncThunk(
   "category/get_category",
-  async (_, {fulfillWithValue}) => {
+  async (_, { fulfillWithValue }) => {
     try {
-      const { data } = await api.get("/home/get_category");
-      console.log(data);
+      const { data } = await api.get("/home/get-categorys");
+      return fulfillWithValue(data);
     } catch (error) {
-        console.log(error.response)
+      console.log(error.response);
     }
   }
 );
@@ -18,7 +18,11 @@ export const homeReducer = createSlice({
     categorys: [],
   },
   reducers: {},
-  extraReducers: {},
+  extraReducers: {
+    [get_category.fulfilled]: (state, { payload }) => {
+      state.categorys = payload.categorys;
+    },
+  },
 });
 
 export default homeReducer.reducer;

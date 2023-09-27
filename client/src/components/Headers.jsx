@@ -19,13 +19,13 @@ import {
 } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
 
-const Headers = () => {
+const Headers = ({ categorys }) => {
   const [categoryShow, setCategoryShow] = useState(true);
   const { pathname } = useLocation();
-  const [showShidebar, setShowShidebar] = useState(true);
+  const [showSlidebar, setshowSlidebar] = useState(true);
   const user = 1;
   const wishlist = 4;
-  const categorys = ["Clothing", "Sports", "Shose", "Laptop", "Tablet"];
+
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
   return (
@@ -110,8 +110,8 @@ const Headers = () => {
                   <img src="/images/logo.png" alt="logo" />
                 </Link>
                 <div
-                  className="flex justify-center items-center w-[30px] h-[30px] bg-white text-slate-600 border border-slate-600 rounded-sm cursor-pointer lg:hidden md-lg:flex xl:hidden"
-                  onClick={() => setShowShidebar(false)}
+                  className="flex justify-center items-center w-[30px] h-[30px] bg-white text-slate-600 border border-slate-600 rounded-sm cursor-pointer lg:hidden md-lg:flex xl:hidden hidden"
+                  onClick={() => setshowSlidebar(false)}
                 >
                   <span>
                     <FaList />
@@ -123,7 +123,8 @@ const Headers = () => {
               <div className="flex justify-between md-lg:justify-center items-center flex-wrap pl-8">
                 <ul className="flex justify-start items-start gap-8 text-sm font-bold uppercase md-lg:hidden">
                   <li>
-                    <Link to="/"
+                    <Link
+                      to="/"
                       className={`p-2 block ${
                         pathname === "/" ? "text-[#7fad39]" : "text-slate-600"
                       }`}
@@ -132,7 +133,8 @@ const Headers = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/shops"
+                    <Link
+                      to="/shops"
                       className={`p-2 block ${
                         pathname === "/shops"
                           ? "text-[#7fad39]"
@@ -203,14 +205,14 @@ const Headers = () => {
       </div>
       <div className="hidden md-lg:block">
         <div
-          onClick={() => setShowShidebar(true)}
+          onClick={() => setshowSlidebar(true)}
           className={`fixed duration-200 transition-all ${
-            showShidebar ? "invisible" : "visible"
+            showSlidebar ? "invisible" : "visible"
           } hidden md-lg:block w-screen h-screen bg-[rgba(0,0,0,0.5)] top-0 left-0 z-20`}
         ></div>
         <div
           className={`w-[300px] z-[9999] transition-all duration-200 fixed ${
-            showShidebar ? "-left-[300px]" : "left-0 "
+            showSlidebar ? "-left-[300px]" : "left-0 "
           } top-0 overflow-y-auto bg-white h-screen py-6 px-8`}
         >
           <div className="flex justify-start flex-col gap-6">
@@ -369,7 +371,17 @@ const Headers = () => {
                         key={i}
                         className="flex justify-start items-center gap-2 px-[24px] py-[6px]"
                       >
-                        <Link className="text-sm block">{c}</Link>
+                        <img
+                          className="w-[30px] h-[30px] rounded-full overflow-hidden"
+                          src={c.image}
+                          alt={c.name}
+                        />
+                        <Link
+                          to={`/product/${c.slug}`}
+                          className="text-sm block"
+                        >
+                          {c.name}
+                        </Link>
                       </li>
                     );
                   })}
@@ -390,7 +402,7 @@ const Headers = () => {
                     >
                       <option value="">Select category</option>
                       {categorys.map((c, i) => (
-                        <option value={c}>{c}</option>
+                        <option value={c.name}>{c.name}</option>
                       ))}
                     </select>
                   </div>
