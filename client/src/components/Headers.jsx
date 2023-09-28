@@ -18,8 +18,13 @@ import {
   AiFillShopping,
 } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const Headers = ({ categorys }) => {
+const Headers = () => {
+  const {
+    categorys,
+    
+  } = useSelector((state) => state.home);
   const [categoryShow, setCategoryShow] = useState(true);
   const { pathname } = useLocation();
   const [showSlidebar, setshowSlidebar] = useState(true);

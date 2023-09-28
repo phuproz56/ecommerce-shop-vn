@@ -11,7 +11,6 @@ import { get_categorys, get_products } from "../store/reducers/homeReducer";
 const Home = () => {
   const dispatch = useDispatch();
   const {
-    categorys,
     products,
     latest_products,
     topRated_products,
@@ -23,10 +22,10 @@ const Home = () => {
   }, [dispatch]);
   return (
     <div className="w-full">
-      <Headers categorys={categorys} />
+      <Headers  />
       <Banner />
       <div className="my-4">
-        <Categorys categorys={categorys} />
+        <Categorys  />
       </div>
       <div className="py-[45px]">
         <FeatureProducts products={products} />

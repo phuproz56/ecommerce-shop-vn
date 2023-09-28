@@ -16,7 +16,7 @@ function App() {
     if (token) {
       dispatch(get_user_info());
     }
-  }, [token]);
+  }, [token, dispatch]);
   return <Router allRoutes={allRoutes} />;
 }
 

@@ -12,14 +12,30 @@ import { BsFillGridFill } from "react-icons/bs";
 import Products from "../components/products/Products";
 import ShopProducts from "../components/products/ShopProducts";
 import Pagination from "../components/Pagination";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { price_range_product } from "../store/reducers/homeReducer";
 
 const Shops = () => {
+  const { categorys, products, latest_products, priceRange } = useSelector(
+    (state) => state.home
+  );
+  const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(3);
   const [styles, setStyles] = useState("list");
   const [filter, setFilter] = useState(true);
-  const [state, setState] = useState({ values: [50, 2000] });
-  const categorys = ["Clothing", "Sports", "Shose", "Laptop", "Tablet"];
+  const [state, setState] = useState({ values: [1, 100] });
+
+  useEffect(() => {
+    dispatch(price_range_product());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setState({
+      values: [priceRange.low, priceRange.high],
+    });
+  }, [priceRange]);
   return (
     <div>
       <Headers />
@@ -69,9 +85,9 @@ const Shops = () => {
                     <input type="checkbox" />
                     <label
                       className="text-slate-600 block cursor-pointer"
-                      htmlFor={c}
+                      htmlFor={c.name}
                     >
-                      {c}
+                      {c.name}
                     </label>
                   </div>
                 ))}
@@ -82,8 +98,8 @@ const Shops = () => {
                 </h2>
                 <Range
                   step={5}
-                  min={50}
-                  max={2000}
+                  min={priceRange.low}
+                  max={priceRange.high}
                   values={state.values}
                   onChange={(values) => setState({ values })}
                   renderTrack={({ props, children }) => (
@@ -218,7 +234,7 @@ const Shops = () => {
                 </div>
               </div>
               <div className="py-5 flex flex-col gap-4 md:hidden">
-                <Products title="Lastest Product" />
+                {/* <Products title="Lastest Product" /> */}
               </div>
             </div>
             <div className="w-9/12 md-lg:w-8/12 md:w-full">

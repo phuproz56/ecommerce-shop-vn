@@ -1,7 +1,7 @@
 const formidable = require("formidable");
 const cloudinary = require("cloudinary").v2;
-const { responseReturn } = require("../../utils/response");
 const productModel = require("../../models/productModel");
+const { responseReturn } = require("../../utils/response");
 class productController {
   add_product = async (req, res) => {
     const { id } = req;
@@ -128,7 +128,6 @@ class productController {
       responseReturn(res, 500, { error: error.message });
     }
   };
-  
   product_image_update = async (req, res) => {
     const form = formidable({ multiples: true });
 
