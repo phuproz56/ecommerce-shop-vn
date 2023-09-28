@@ -21,12 +21,14 @@ class queryProducts {
       : this.products;
     return this;
   };
+
   priceQuery = () => {
     this.products = this.products.filter(
       (p) => p.price >= this.query.lowPrice && p.price <= this.query.highPrice
     );
     return this;
   };
+
   searchQuery = () => {
     this.products = this.query.searchValue
       ? this.products.filter(
@@ -37,6 +39,7 @@ class queryProducts {
       : this.products;
     return this;
   };
+
   sortByPrice = () => {
     if (this.query.sortPrice) {
       if (this.query.sortPrice === "low-to-high") {
@@ -51,6 +54,7 @@ class queryProducts {
     }
     return this;
   };
+
   skip = () => {
     let { pageNumber } = this.query;
     const skipPage = (parseInt(pageNumber) - 1) * this.query.parPage;
@@ -63,6 +67,7 @@ class queryProducts {
     this.products = skipProduct;
     return this;
   };
+  
   limit = () => {
     let temp = [];
     if (this.products.length > this.query.parPage) {

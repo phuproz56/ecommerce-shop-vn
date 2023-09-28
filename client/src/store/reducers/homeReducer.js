@@ -62,6 +62,7 @@ export const homeReducer = createSlice({
   initialState: {
     categorys: [],
     products: [],
+    totalProduct: 0,
     latest_products: [],
     topRated_products: [],
     discount_products: [],
@@ -81,6 +82,10 @@ export const homeReducer = createSlice({
     [price_range_product.fulfilled]: (state, { payload }) => {
       state.latest_products = payload.latest_products;
       state.priceRange = payload.priceRange;
+    },
+    [query_products.fulfilled]: (state, { payload }) => {
+      state.products = payload.products;
+      state.totalProduct = payload.totalProduct;
     },
   },
 });

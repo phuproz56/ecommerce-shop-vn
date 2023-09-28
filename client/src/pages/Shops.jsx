@@ -20,7 +20,7 @@ import {
 } from "../store/reducers/homeReducer";
 
 const Shops = () => {
-  const { categorys, products, latest_products, priceRange } = useSelector(
+  const { categorys, products, totalProduct, latest_products, priceRange } = useSelector(
     (state) => state.home
   );
   const dispatch = useDispatch();
@@ -292,7 +292,7 @@ const Shops = () => {
               <div className="pl-8 md:pl-0">
                 <div className="py-4 bg-white mb-10 px-3 rounded-md flex justify-between items-start border">
                   <h2 className="text-lg font-medium mb-3 text-slate-600">
-                    12 Products
+                    {totalProduct} Products
                   </h2>
                   <div className="flex justify-center items-center gap-3">
                     <select
@@ -326,7 +326,7 @@ const Shops = () => {
                   </div>
                 </div>
                 <div className="pb-8">
-                  <ShopProducts styles={styles} />
+                  <ShopProducts products={products} styles={styles} />
                 </div>
                 <div>
                   <Pagination

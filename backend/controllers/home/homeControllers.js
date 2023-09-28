@@ -120,7 +120,6 @@ class homeControllers {
         .limit()
         .getProducts();
 
-      console.log(result);
       responseReturn(res, 200, {
         products: result,
         totalProduct,
