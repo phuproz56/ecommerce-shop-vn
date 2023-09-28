@@ -21,10 +21,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Headers = () => {
-  const {
-    categorys,
-    
-  } = useSelector((state) => state.home);
+  const { categorys } = useSelector((state) => state.home);
   const [categoryShow, setCategoryShow] = useState(true);
   const { pathname } = useLocation();
   const [showSlidebar, setshowSlidebar] = useState(true);
@@ -382,7 +379,7 @@ const Headers = () => {
                           alt={c.name}
                         />
                         <Link
-                          to={`/product/${c.slug}`}
+                          to={`/product/?category=${c.name}`}
                           className="text-sm block"
                         >
                           {c.name}

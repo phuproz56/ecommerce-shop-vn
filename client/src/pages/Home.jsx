@@ -20,6 +20,8 @@ const Home = () => {
     dispatch(get_categorys());
     dispatch(get_products());
   }, [dispatch]);
+
+
   return (
     <div className="w-full">
       <Headers  />

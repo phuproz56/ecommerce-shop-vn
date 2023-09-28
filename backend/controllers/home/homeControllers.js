@@ -34,30 +34,22 @@ class homeControllers {
   };
 
   get_products = async (req, res) => {
+    console.log(req.body);
     try {
-      const products = await productModel
-        .find({})
-        .limit(16)
-        .sort({ createdAt: -1 });
-      const allProduct1 = await productModel
-        .find({})
-        .limit(9)
-        .sort({ createdAt: -1 });
-
+      const products = await productModel.find({}).limit(16).sort({
+        createdAt: -1,
+      });
+      const allProduct1 = await productModel.find({}).limit(9).sort({
+        createdAt: -1,
+      });
       const latest_products = this.formateProduct(allProduct1);
-
-      const allProduct2 = await productModel
-        .find({})
-        .limit(9)
-        .sort({ rating: -1 });
-
+      const allProduct2 = await productModel.find({}).limit(9).sort({
+        rating: -1,
+      });
       const topRated_products = this.formateProduct(allProduct2);
-
-      const allProduct3 = await productModel
-        .find({})
-        .limit(9)
-        .sort({ discount: -1 });
-
+      const allProduct3 = await productModel.find({}).limit(9).sort({
+        discount: -1,
+      });
       const discount_products = this.formateProduct(allProduct3);
 
       responseReturn(res, 200, {
