@@ -4,16 +4,8 @@ import { Link } from "react-router-dom";
 import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { FaEye } from "react-icons/fa";
 import Ratings from "../Ratings";
-const FeatureProducts = () => {
-  const products = [
-    "Clothing",
-    "Sports",
-    "Shose",
-    "Laptop",
-    "Tablet",
-    "Bags",
-    "asdasd",
-  ];
+const FeatureProducts = ({ products }) => {
+  
   return (
     <div className="w-[85%] flex flex-wrap mx-auto">
       <div className="w-full">
@@ -26,14 +18,16 @@ const FeatureProducts = () => {
         {products.map((c, i) => (
           <div className="border group transition-all duration-500 hover:shadow-md hover:-mt-3">
             <div className="relative overflow-hidden">
-              <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
-                6%
-              </div>
+              {
+                c.discount ? <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
+                {c.discount}%
+              </div> : ""
+              }
 
               <img
                 key={i}
                 className="sm:w-full w-full h-[240px]"
-                src={`/images/products/${i + 1}.webp`}
+                src={c.images[0]}
                 alt="product image"
               />
 
@@ -53,10 +47,10 @@ const FeatureProducts = () => {
               </ul>
             </div>
             <div className="py-3 text-slate-600 px-2">
-              <h2>123</h2>
+              <h2>{c.name}</h2>
               <div className="flex justify-start items-center gap-3">
-                <span className="text-lg  font-bold">$123</span>
-                <div className="flex">{<Ratings ratings={1.5} />}</div>
+                <span className="text-lg  font-bold">{c.price}$</span>
+                <div className="flex">{<Ratings ratings={c.rating} />}</div>
               </div>
             </div>
           </div>
