@@ -14,7 +14,10 @@ import ShopProducts from "../components/products/ShopProducts";
 import Pagination from "../components/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { price_range_product } from "../store/reducers/homeReducer";
+import {
+  price_range_product,
+  query_products,
+} from "../store/reducers/homeReducer";
 
 const Shops = () => {
   const { categorys, products, latest_products, priceRange } = useSelector(
@@ -25,8 +28,12 @@ const Shops = () => {
   const [perPage, setPerPage] = useState(3);
   const [styles, setStyles] = useState("list");
   const [filter, setFilter] = useState(true);
-  const [state, setState] = useState({ values: [1, 100] });
-
+  const [state, setState] = useState({
+    values: [priceRange.low, priceRange.high],
+  });
+  const [rating, setRating] = useState("");
+  const [category, setCategory] = useState("");
+  const [sortPrice, setSortPrice] = useState("");
   useEffect(() => {
     dispatch(price_range_product());
   }, [dispatch]);
@@ -36,6 +43,27 @@ const Shops = () => {
       values: [priceRange.low, priceRange.high],
     });
   }, [priceRange]);
+  const queryCategory = (e, value) => {
+    if (e.target.checked) {
+      setCategory(value);
+    } else {
+      setCategory("");
+    }
+  };
+
+  useEffect(() => {
+    dispatch(
+      query_products({
+        low: state.values[0],
+        high: state.values[1],
+        category,
+        rating,
+        pageNumber,
+        sortPrice,
+      })
+    );
+  }, [category, rating, pageNumber, sortPrice, dispatch, state.values]);
+
   return (
     <div>
       <Headers />
@@ -82,7 +110,12 @@ const Shops = () => {
                     className="flex justify-start items-center gap-2 py-1"
                     key={i}
                   >
-                    <input type="checkbox" />
+                    <input
+                      checked={category === c.name ? true : false}
+                      onChange={(e) => queryCategory(e, c.name)}
+                      type="checkbox"
+                      id={c.name}
+                    />
                     <label
                       className="text-slate-600 block cursor-pointer"
                       htmlFor={c.name}
@@ -129,7 +162,10 @@ const Shops = () => {
                   Rating
                 </h2>
                 <div className="flex flex-col gap-3">
-                  <div className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer">
+                  <div
+                    onClick={() => setRating(5)}
+                    className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
+                  >
                     <span>
                       <AiFillStar />
                     </span>
@@ -146,7 +182,10 @@ const Shops = () => {
                       <AiFillStar />
                     </span>
                   </div>
-                  <div className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer">
+                  <div
+                    onClick={() => setRating(4)}
+                    className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
+                  >
                     <span>
                       <AiFillStar />
                     </span>
@@ -163,7 +202,10 @@ const Shops = () => {
                       <CiStar />
                     </span>
                   </div>
-                  <div className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer">
+                  <div
+                    onClick={() => setRating(3)}
+                    className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
+                  >
                     <span>
                       <AiFillStar />
                     </span>
@@ -180,7 +222,10 @@ const Shops = () => {
                       <CiStar />
                     </span>
                   </div>
-                  <div className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer">
+                  <div
+                    onClick={() => setRating(2)}
+                    className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
+                  >
                     <span>
                       <AiFillStar />
                     </span>
@@ -197,7 +242,10 @@ const Shops = () => {
                       <CiStar />
                     </span>
                   </div>
-                  <div className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer">
+                  <div
+                    onClick={() => setRating(1)}
+                    className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
+                  >
                     <span>
                       <AiFillStar />
                     </span>
@@ -214,7 +262,10 @@ const Shops = () => {
                       <CiStar />
                     </span>
                   </div>
-                  <div className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer">
+                  <div
+                    onClick={() => setRating(0)}
+                    className="text-orange-500 flex justify-start items-start gap-2 text-xl cursor-pointer"
+                  >
                     <span>
                       <CiStar />
                     </span>
@@ -234,7 +285,7 @@ const Shops = () => {
                 </div>
               </div>
               <div className="py-5 flex flex-col gap-4 md:hidden">
-                {/* <Products title="Lastest Product" /> */}
+                <Products title="Lastest Product" products={latest_products} />
               </div>
             </div>
             <div className="w-9/12 md-lg:w-8/12 md:w-full">
@@ -245,13 +296,14 @@ const Shops = () => {
                   </h2>
                   <div className="flex justify-center items-center gap-3">
                     <select
+                      onChange={(e) => setSortPrice(e.target.value)}
                       className="p-1 border outline-0 text-slate-600 font-semibold"
                       name=""
                       id=""
                     >
                       <option value="">Sort By</option>
-                      <option value="">Low to High Price</option>
-                      <option value="">High to Low Price</option>
+                      <option value="low-to-high">Low to High Price</option>
+                      <option value="high-to-low">High to Low Price</option>
                     </select>
                     <div className="flex justify-center items-start gap-4 md-lg:hidden">
                       <div

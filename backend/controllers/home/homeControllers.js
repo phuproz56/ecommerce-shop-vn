@@ -93,6 +93,10 @@ class homeControllers {
       console.log(error.message);
     }
   };
+
+  query_products = async (req, res) => {
+    console.log(req.query);
+  };
 }
 
 module.exports = new homeControllers();
