@@ -2,6 +2,7 @@ const { response } = require("express");
 const categoryModel = require("../../models/categoryModel");
 const productModel = require("../../models/productModel");
 const { responseReturn } = require("../../utils/response");
+const queryProducts = require("../../utils/queryProducts");
 class homeControllers {
   formateProduct = (products) => {
     const productArray = [];
@@ -95,7 +96,39 @@ class homeControllers {
   };
 
   query_products = async (req, res) => {
-    console.log(req.query);
+    const parPage = 12;
+    req.query.parPage = parPage;
+    try {
+      const products = await productModel.find({}).sort({
+        createdAt: -1,
+      });
+      const totalProduct = new queryProducts(products, req.query)
+        .categoryQuery()
+        .searchQuery()
+        .priceQuery()
+        .ratingQuery()
+        .sortByPrice()
+        .countProducts();
+
+      const result = new queryProducts(products, req.query)
+        .categoryQuery()
+        .searchQuery()
+        .ratingQuery()
+        .priceQuery()
+        .sortByPrice()
+        .skip()
+        .limit()
+        .getProducts();
+
+      console.log(result);
+      responseReturn(res, 200, {
+        products: result,
+        totalProduct,
+        parPage,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 }
 
