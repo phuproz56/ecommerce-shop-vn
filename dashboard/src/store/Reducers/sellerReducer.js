@@ -12,7 +12,6 @@ export const get_seller_request = createAsyncThunk(
         `/request-seller-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
         { withCredentials: true }
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -27,7 +26,6 @@ export const get_seller = createAsyncThunk(
       const { data } = await api.get(`/get-seller/${sellerId}`, {
         withCredentials: true,
       });
-      console.log(data);
       return fulfillWithValue(data);
       
     } catch (error) {

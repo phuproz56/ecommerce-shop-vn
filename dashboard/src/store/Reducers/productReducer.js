@@ -60,7 +60,6 @@ export const get_products = createAsyncThunk(
         `/products-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
         { withCredentials: true }
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

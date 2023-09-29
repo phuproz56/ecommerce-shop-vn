@@ -19,7 +19,9 @@ app.use(cookieParser());
 
 // HOME route
 app.use("/api/home", require("./routes/home/homeRoutes"));
+app.use("/api", require("./routes/home/customerAuthRoutes"));
 
+// DASHBOARD route
 app.use("/api", require("./routes/authRoutes"));
 app.use("/api", require("./routes/dashboard/categoryRoutes"));
 app.use("/api", require("./routes/dashboard/productRoutes"));

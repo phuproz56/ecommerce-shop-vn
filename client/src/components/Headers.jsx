@@ -22,20 +22,19 @@ import { useSelector } from "react-redux";
 
 const Headers = () => {
   const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
   const { categorys } = useSelector((state) => state.home);
   const [categoryShow, setCategoryShow] = useState(true);
   const { pathname } = useLocation();
   const [showSlidebar, setshowSlidebar] = useState(true);
-  const user = 1;
+  const user = 0;
   const wishlist = 4;
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
 
   const search = () => {
-    navigate(
-      `/product/search?category=${category}&&value=${searchValue}`
-    );
+    navigate(`/product/search?category=${category}&&value=${searchValue}`);
   };
   return (
     <div className="w-full bg-white">
@@ -84,7 +83,7 @@ const Headers = () => {
                     <li>English</li>
                   </ul>
                 </div>
-                {user ? (
+                {userInfo ? (
                   <Link
                     className="flex cursor-pointer justify-center items-center gap-2 text-sm"
                     to="/dashboard"
@@ -92,15 +91,18 @@ const Headers = () => {
                     <span>
                       <FaUser />
                     </span>
-                    <span>Phu</span>
+                    <span>{userInfo.name}</span>
                   </Link>
                 ) : (
-                  <div className="flex cursor-pointer justify-center items-center gap-2 text-sm">
+                  <Link
+                    to="/login"
+                    className="flex cursor-pointer justify-center items-center gap-2 text-sm"
+                  >
                     <span>
                       <FaLock />
                     </span>
                     <span>Login</span>
-                  </div>
+                  </Link>
                 )}
               </div>
             </div>
@@ -243,7 +245,7 @@ const Headers = () => {
                   <li>English</li>
                 </ul>
               </div>
-              {user ? (
+              {userInfo ? (
                 <Link
                   className="flex cursor-pointer justify-center items-center gap-2 text-sm"
                   to="/dashboard"
@@ -251,7 +253,7 @@ const Headers = () => {
                   <span>
                     <FaUser />
                   </span>
-                  <span>Phu</span>
+                  <span>{userInfo.name}</span>
                 </Link>
               ) : (
                 <div className="flex cursor-pointer justify-center items-center gap-2 text-sm">

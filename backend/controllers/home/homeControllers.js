@@ -34,7 +34,6 @@ class homeControllers {
   };
 
   get_products = async (req, res) => {
-    console.log(req.body);
     try {
       const products = await productModel.find({}).limit(16).sort({
         createdAt: -1,
@@ -88,7 +87,6 @@ class homeControllers {
   };
 
   query_products = async (req, res) => {
-    console.log(req.query);
     const parPage = 12;
     req.query.parPage = parPage;
     try {
