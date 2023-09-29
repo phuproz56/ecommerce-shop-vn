@@ -18,7 +18,7 @@ export const get_products = createAsyncThunk(
   async (_, { fulfillWithValue }) => {
     try {
       const { data } = await api.get("/home/get-products");
-      console.log(data)
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.response);
@@ -64,6 +64,7 @@ export const homeReducer = createSlice({
     categorys: [],
     products: [],
     totalProduct: 0,
+    parPage: 2,
     latest_products: [],
     topRated_products: [],
     discount_products: [],
@@ -87,6 +88,7 @@ export const homeReducer = createSlice({
     [query_products.fulfilled]: (state, { payload }) => {
       state.products = payload.products;
       state.totalProduct = payload.totalProduct;
+      state.parPage = payload.parPage;
     },
   },
 });

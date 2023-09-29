@@ -49,7 +49,7 @@ const Products = ({ title, products }) => {
     );
   };
   return (
-    <div className="flex gap-8 flex-col-reverse">
+    <div className="flex gap-10 flex-col-reverse">
       <Carousel
         autoPlay={false}
         infinite={true}
@@ -61,7 +61,7 @@ const Products = ({ title, products }) => {
       >
         {products.map((p, i) => {
           return (
-            <div key={i} className="flex flex-col justify-start gap-2">
+            <div key={i} className="flex flex-col justify-start gap-2 pb-1">
               {p.map((pl,j) => (
                 <Link key={j} className="flex justify-start items-start" to="#">
                   <img

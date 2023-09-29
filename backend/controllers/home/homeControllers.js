@@ -88,6 +88,7 @@ class homeControllers {
   };
 
   query_products = async (req, res) => {
+    console.log(req.query);
     const parPage = 12;
     req.query.parPage = parPage;
     try {

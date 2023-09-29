@@ -17,10 +17,11 @@ import {
   AiFillHeart,
   AiFillShopping,
 } from "react-icons/ai";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Headers = () => {
+  const navigate = useNavigate();
   const { categorys } = useSelector((state) => state.home);
   const [categoryShow, setCategoryShow] = useState(true);
   const { pathname } = useLocation();
@@ -30,6 +31,12 @@ const Headers = () => {
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
+
+  const search = () => {
+    navigate(
+      `/product/search?category=${category}&&value=${searchValue}`
+    );
+  };
   return (
     <div className="w-full bg-white">
       <div className="header-top bg-[#eeeeee] md-lg:hidden">
@@ -404,7 +411,9 @@ const Headers = () => {
                     >
                       <option value="">Select category</option>
                       {categorys.map((c, i) => (
-                        <option value={c.name}>{c.name}</option>
+                        <option key={i} value={c.name}>
+                          {c.name}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -414,7 +423,10 @@ const Headers = () => {
                     type="text"
                     placeholder="what do you need?"
                   />
-                  <button className="bg-violet-400 right-0 absolute px-8 h-full font-semibold uppercase text-white">
+                  <button
+                    onClick={search}
+                    className="bg-violet-400 right-0 absolute px-8 h-full font-semibold uppercase text-white"
+                  >
                     Search
                   </button>
                 </div>
