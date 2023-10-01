@@ -57,6 +57,13 @@ export const cardReducer = createSlice({
       state.successMessage = payload.message;
       state.card_products_count = state.card_products_count + 1;
     },
+    [get_card_products.fulfilled]: (state, { payload }) => {
+      state.card_products = payload.card_products;
+      state.price = payload.price;
+      state.card_product_count = payload.card_product_count;
+      state.shipping_fee = payload.shipping_fee;
+      state.outofstock_products = payload.outOfStockProduct;
+    },
   },
 });
 

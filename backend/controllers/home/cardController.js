@@ -62,44 +62,40 @@ class cardController {
           },
         },
       ]);
+      let buy_product_item = 0;
       let calculatePrice = 0;
       let card_product_count = 0;
-      const outOfstockProduct = card_products.filter(
+      const outOfStockProduct = card_products.filter(
         (p) => p.products[0].stock < p.quantity
       );
-
-      for (let i = 0; i < outOfstockProduct.length; i++) {
-        card_product_count = card_product_count + outOfstockProduct[i].quantity;
+      for (let i = 0; i < outOfStockProduct.length; i++) {
+        card_product_count = card_product_count + outOfStockProduct[i].quantity;
       }
-
       const stockProduct = card_products.filter(
         (p) => p.products[0].stock >= p.quantity
       );
-
-      for (let i = 0; i < outOfstockProduct.length; i++) {
+      for (let i = 0; i < stockProduct.length; i++) {
         const { quantity } = stockProduct[i];
         card_product_count = card_product_count + quantity;
+        buy_product_item = buy_product_item + quantity;
         const { price, discount } = stockProduct[i].products[0];
-
         if (discount !== 0) {
           calculatePrice =
             calculatePrice +
-            quantity * (price - Math.floor(price * discount) / 100);
+            quantity * (price - Math.floor((price * discount) / 100));
         } else {
           calculatePrice = calculatePrice + quantity * price;
         }
       }
-
       let p = [];
       let unique = [
         ...new Set(stockProduct.map((p) => p.products[0].sellerId.toString())),
       ];
-
       for (let i = 0; i < unique.length; i++) {
         let price = 0;
         for (let j = 0; j < stockProduct.length; j++) {
           const tempProduct = stockProduct[j].products[0];
-          if (unique[j] === tempProduct.sellerId.toString()) {
+          if (unique[i] === tempProduct.sellerId.toString()) {
             let pri = 0;
             if (tempProduct.discount !== 0) {
               pri =
@@ -123,16 +119,25 @@ class cardController {
                       productInfo: tempProduct,
                     },
                   ]
-                : {
-                    _id: stockProduct[j]._id,
-                    quantity: stockProduct[j].quantity,
-                    productInfo: tempProduct,
-                  },
+                : [
+                    {
+                      _id: stockProduct[j]._id,
+                      quantity: stockProduct[j].quantity,
+                      productInfo: tempProduct,
+                    },
+                  ],
             };
           }
         }
       }
-      
+      responseReturn(res, 200, {
+        card_products: p,
+        price: calculatePrice,
+        card_product_count,
+        shipping_fee: 85 * p.length,
+        outOfStockProduct,
+        buy_product_item,
+      });
     } catch (error) {
       console.log(error.message);
     }

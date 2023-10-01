@@ -217,7 +217,7 @@ const Headers = () => {
                         <AiFillShopping />
                       </span>
                       {card_products_count !== 0 && (
-                        <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                        <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px] text-[12px]">
                           {card_products_count}
                         </div>
                       )}
