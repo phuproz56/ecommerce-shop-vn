@@ -1,24 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Headers from "../components/Headers";
 import { Link } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { get_card_products } from "../store/reducers/cardReducer";
 
 const Cart = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const cart_products = [1, 2, 3];
   const outOfStockProduct = [1];
+  const { userInfo } = useSelector((state) => state.auth);
   const redirect = () => {
-    navigate("/shipping",{
+    navigate("/shipping", {
       state: {
-        products:[],
+        products: [],
         price: 500,
         shipping_fee: 454,
         items: 4,
-      }
+      },
     });
   };
+
+  useEffect(() => {
+    dispatch(get_card_products(userInfo.id));
+  }, [dispatch]);
   return (
     <div>
       <Headers />

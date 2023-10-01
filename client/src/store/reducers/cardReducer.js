@@ -6,10 +6,25 @@ export const add_to_card = createAsyncThunk(
   async (info, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.post("/home/product/add-to-card", info);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_card_products = createAsyncThunk(
+  "card/get_card_products",
+  async (userId, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/home/product/get-card-product/${userId}`
+      );
       console.log(data);
+      return fulfillWithValue(data);
     } catch (error) {
       console.log(error.response);
-      //   return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -18,7 +33,7 @@ export const cardReducer = createSlice({
   name: "card",
   initialState: {
     card_products: [],
-    card_product_count: 0,
+    card_products_count: 0,
     buy_product_item: 0,
     wishlist_count: 0,
     wishlist: [],
@@ -34,7 +49,15 @@ export const cardReducer = createSlice({
       state.successMessage = "";
     },
   },
-  extraReducers: {},
+  extraReducers: {
+    [add_to_card.rejected]: (state, { payload }) => {
+      state.errorMessage = payload.error;
+    },
+    [add_to_card.fulfilled]: (state, { payload }) => {
+      state.successMessage = payload.message;
+      state.card_products_count = state.card_products_count + 1;
+    },
+  },
 });
 
 export const { messageClear } = cardReducer.actions;

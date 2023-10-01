@@ -1,16 +1,18 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { FaEye } from "react-icons/fa";
 import Ratings from "../Ratings";
 import { useDispatch, useSelector } from "react-redux";
-import { add_to_card } from "../../store/reducers/cardReducer";
+import { add_to_card, messageClear } from "../../store/reducers/cardReducer";
+import toast from "react-hot-toast";
 
 const FeatureProducts = ({ products }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
+  const { successMessage, errorMessage } = useSelector((state) => state.card);
 
   const add_card = (id) => {
     if (userInfo) {
@@ -18,13 +20,25 @@ const FeatureProducts = ({ products }) => {
         add_to_card({
           userId: userInfo.id,
           quantity: 1,
-          productId: id
+          productId: id,
         })
       );
     } else {
       navigate("/login");
     }
   };
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [dispatch, errorMessage, successMessage]);
+
   return (
     <div className="w-[85%] flex flex-wrap mx-auto">
       <div className="w-full">

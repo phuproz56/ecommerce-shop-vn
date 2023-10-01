@@ -27,6 +27,7 @@ const Headers = () => {
   const [categoryShow, setCategoryShow] = useState(true);
   const { pathname } = useLocation();
   const [showSlidebar, setshowSlidebar] = useState(true);
+  const { card_products_count } = useSelector((state) => state.card);
   const user = 0;
   const wishlist = 4;
 
@@ -36,6 +37,15 @@ const Headers = () => {
   const search = () => {
     navigate(`/product/search?category=${category}&&value=${searchValue}`);
   };
+
+  const redirect_card_page = () => {
+    if (userInfo) {
+      navigate(`/cart`);
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <div className="w-full bg-white">
       <div className="header-top bg-[#eeeeee] md-lg:hidden">
@@ -199,13 +209,18 @@ const Headers = () => {
                         {wishlist}
                       </div>
                     </div>
-                    <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]">
+                    <div
+                      onClick={redirect_card_page}
+                      className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
+                    >
                       <span className="text-xl text-orange-500">
                         <AiFillShopping />
                       </span>
-                      <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
-                        {wishlist}
-                      </div>
+                      {card_products_count !== 0 && (
+                        <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                          {card_products_count}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
