@@ -1,11 +1,33 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { FaEye } from "react-icons/fa";
 import Ratings from "../Ratings";
+import { useDispatch, useSelector } from "react-redux";
+import { add_to_card } from "../../store/reducers/cardReducer";
+
 const FeatureProducts = ({ products }) => {
-  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.auth);
+
+
+  const add_card = (id) => {
+    if (userInfo) {
+
+      console.log(userInfo._id)
+      // dispatch(
+      //   add_to_card({
+      //     userId: userInfo._id,
+      //     quantity: 1,
+      //     productId: id
+      //   })
+      // );
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <div className="w-[85%] flex flex-wrap mx-auto">
       <div className="w-full">
@@ -16,13 +38,18 @@ const FeatureProducts = ({ products }) => {
       </div>
       <div className="w-full grid grid-cols-4 md-lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6">
         {products.map((c, i) => (
-          <div className="border group transition-all duration-500 hover:shadow-md hover:-mt-3">
+          <div
+            key={i}
+            className="border group transition-all duration-500 hover:shadow-md hover:-mt-3"
+          >
             <div className="relative overflow-hidden">
-              {
-                c.discount ? <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
-                {c.discount}%
-              </div> : ""
-              }
+              {c.discount ? (
+                <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
+                  {c.discount}%
+                </div>
+              ) : (
+                ""
+              )}
 
               <img
                 key={i}
@@ -41,7 +68,10 @@ const FeatureProducts = ({ products }) => {
                 >
                   <FaEye />
                 </Link>
-                <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all">
+                <li
+                  onClick={() => add_card(c._id)}
+                  className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all"
+                >
                   <AiOutlineShoppingCart />
                 </li>
               </ul>
