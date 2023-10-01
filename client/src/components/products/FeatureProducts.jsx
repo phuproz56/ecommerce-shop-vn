@@ -12,11 +12,10 @@ const FeatureProducts = ({ products }) => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth);
 
-
+  console.log(userInfo);
+  console.log("userInfo_id: ", userInfo._id);
   const add_card = (id) => {
     if (userInfo) {
-
-      console.log(userInfo._id)
       // dispatch(
       //   add_to_card({
       //     userId: userInfo._id,
