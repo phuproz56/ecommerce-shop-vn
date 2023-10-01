@@ -20,6 +20,7 @@ app.use(cookieParser());
 // HOME route
 app.use("/api/home", require("./routes/home/homeRoutes"));
 app.use("/api", require("./routes/home/customerAuthRoutes"));
+app.use("/api", require("./routes/home/cardRoutes"));
 
 // DASHBOARD route
 app.use("/api", require("./routes/authRoutes"));

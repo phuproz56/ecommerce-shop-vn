@@ -10,19 +10,17 @@ import { add_to_card } from "../../store/reducers/cardReducer";
 const FeatureProducts = ({ products }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state.auth);
 
-  console.log(userInfo);
-  console.log("userInfo_id: ", userInfo._id);
   const add_card = (id) => {
     if (userInfo) {
-      // dispatch(
-      //   add_to_card({
-      //     userId: userInfo._id,
-      //     quantity: 1,
-      //     productId: id
-      //   })
-      // );
+      dispatch(
+        add_to_card({
+          userId: userInfo.id,
+          quantity: 1,
+          productId: id
+        })
+      );
     } else {
       navigate("/login");
     }
