@@ -8,7 +8,6 @@ export const add_to_card = createAsyncThunk(
       const { data } = await api.post("/home/product/add-to-card", info);
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response);
       return rejectWithValue(error.response.data);
     }
   }
@@ -47,10 +46,8 @@ export const quantity_inc = createAsyncThunk(
   async (card_id, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.put(`/home/product/quantity-inc/${card_id}`);
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      console.log(error.response);
       return rejectWithValue(error.response.data);
     }
   }

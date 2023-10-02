@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import Headers from "../components/Headers";
 import Footer from "../components/Footer";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 const Shipping = () => {
+  const {
+    state: { products, price, shipping_fee, items },
+  } = useLocation();
   const [res, setRes] = useState(false);
   const [state, setState] = useState({
     name: "",
@@ -15,6 +19,7 @@ const Shipping = () => {
     city: "",
     area: "",
   });
+
   const inputHandle = (e) => {
     setState({
       ...state,
@@ -28,6 +33,8 @@ const Shipping = () => {
       setRes(true);
     }
   };
+
+  console.log(products[0]);
   return (
     <div>
       <Headers />
@@ -183,33 +190,44 @@ const Shipping = () => {
                     </div>
                   )}
                 </div>
-                {[1, 2, 3, 4].map((p, i) => (
-                  <div className="flex bg-white p-4 flex-col gap-2">
+                {products.map((p, i) => (
+                  <div key={i} className="flex bg-white p-4 flex-col gap-2">
                     <div className="flex justify-start items-center ">
-                      <h2 className="text-md text-slate-600">dasdasdsad 12</h2>
+                      <h2 className="text-md text-slate-600">
+                        Shop name: {p.shopName}
+                      </h2>
                     </div>
-                    {[1, 2].map((p, i) => (
-                      <div className="w-full flex flex-wrap">
+                    {p.products.map((pt, j) => (
+                      <div key={j} className="w-full flex flex-wrap">
                         <div className="flex sm-w-full gap-2 w-7/12">
                           <div className="flex gap-2 justify-start items-center">
                             <img
                               className="w-[80px] h-[80px]"
-                              src={`http://localhost:3000/images/products/${
-                                i + 1
-                              }.webp`}
+                              src={pt.productInfo.images[0]}
                               alt="product_image"
                             />
                             <div className="pr-4 text-slate-600">
-                              <h2 className="text-md">Ao thun askdjk</h2>
-                              <span className="text-sm">Brand : easy</span>
+                              <h2 className="text-md">{pt.productInfo.name}</h2>
+                              <span className="text-sm">
+                                Brand : {pt.productInfo.brand}
+                              </span>
                             </div>
                           </div>
                         </div>
                         <div className="flex justify-end w-5/12 sm:w-full sm:mt-3 ">
                           <div className="pl-4 sm:pt-0">
-                            <h2 className="text-orange-500 text-lg">$135</h2>
-                            <p className="line-through">$150</p>
-                            <p>-10%</p>
+                            <h2 className="text-orange-500 text-lg">
+                              $
+                              {pt.productInfo.price -
+                                Math.floor(
+                                  pt.productInfo.price * pt.productInfo.discount
+                                ) /
+                                  100}
+                            </h2>
+                            <p className="line-through">
+                              ${pt.productInfo.price}
+                            </p>
+                            <p>-{pt.productInfo.discount}%</p>
                           </div>
                         </div>
                       </div>
@@ -224,19 +242,19 @@ const Shipping = () => {
                   <h2 className="text-xl font-semibold">Order Summary</h2>
                   <div className="flex justify-between  items-center">
                     <span>Items Total</span>
-                    <span className="text-lg text-orange-500">$136</span>
+                    <span className="text-lg text-orange-500">${price}</span>
                   </div>
                   <div className="flex justify-between  items-center">
                     <span>Delivery Fee</span>
-                    <span className="text-lg text-orange-500">$136</span>
+                    <span className="text-lg text-orange-500">${shipping_fee}</span>
                   </div>
                   <div className="flex justify-between  items-center">
                     <span>Total Payment</span>
-                    <span className="text-lg text-orange-500">$136</span>
+                    <span className="text-lg text-orange-500">${price + shipping_fee}</span>
                   </div>
                   <div className="flex justify-between  items-center">
                     <span>Total</span>
-                    <span className="text-lg text-orange-500">$136</span>
+                    <span className="text-lg text-orange-500">${price + shipping_fee}</span>
                   </div>
                   <button
                     disabled={res ? false : true}

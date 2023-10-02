@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import Headers from "../components/Headers";
@@ -30,16 +31,16 @@ const Cart = () => {
     price,
   } = useSelector((state) => state.card);
 
-  // const redirect = () => {
-  //   navigate("/shipping", {
-  //     state: {
-  //       products: [],
-  //       price: 500,
-  //       shipping_fee: 454,
-  //       items: 4,
-  //     },
-  //   });
-  // };
+  const redirect = () => {
+    navigate("/shipping", {
+      state: {
+        products: card_products,
+        price: price,
+        shipping_fee: shipping_fee,
+        items: buy_product_item,
+      },
+    });
+  };
 
   useEffect(() => {
     dispatch(get_card_products(userInfo.id));
@@ -57,6 +58,9 @@ const Cart = () => {
     const temp = quantity + 1;
     if (temp <= stock) {
       dispatch(quantity_inc(card_id));
+    } else {
+      toast.error("Out of stock");
+      dispatch(messageClear());
     }
   };
 
@@ -64,8 +68,11 @@ const Cart = () => {
     const temp = quantity - 1;
     if (temp !== 0) {
       dispatch(quantity_dec(card_id));
+    } else {
+      dispatch(delete_card_product(card_id));
     }
   };
+
   return (
     <div>
       <Headers />
@@ -126,13 +133,13 @@ const Cart = () => {
                             <div className="flex justify-between w-5/12 sm:w-full sm:mt-3">
                               <div className="pl-4 sm:pl-0">
                                 <h2 className="text-lg text-orange-500">
-                                  $
+                                  ${" "}
                                   {pt.productInfo.price -
                                     Math.floor(
-                                      (pt.productInfo.price *
-                                        pt.productInfo.discount) /
-                                        100
-                                    )}{" "}
+                                      pt.productInfo.price *
+                                        pt.productInfo.discount
+                                    ) /
+                                      100}
                                 </h2>
                                 <p className="line-through">
                                   {pt.productInfo.price}
@@ -190,7 +197,7 @@ const Cart = () => {
                                   <img
                                     className="w-[80px] h-[80px]"
                                     src={p.products[0].images[0]}
-                                    alt="product image"
+                                    alt="product_image"
                                   />
                                   <div className="pr-4 text-slate-600">
                                     <h2 className="text-md">
@@ -211,7 +218,7 @@ const Cart = () => {
                                         (p.products[0].price *
                                           p.products[0].discount) /
                                           100
-                                      )}{" "}
+                                      )}
                                   </h2>
                                   <p className="line-through">
                                     {p.products[0].price}
@@ -288,10 +295,10 @@ const Cart = () => {
                         </span>
                       </div>
                       <button
-                        // onClick={redirect}
+                        onClick={redirect}
                         className="px-5 py-[6px] rounded-sm hover:shadow-orange-500/20 hover:shadow-lg bg-orange-500 text-sm text-white uppercase"
                       >
-                        Proceed to checkout 4
+                        Proceed to checkout {buy_product_item}
                       </button>
                     </div>
                   )}

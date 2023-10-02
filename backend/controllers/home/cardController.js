@@ -85,8 +85,10 @@ class cardController {
             quantity * (price - Math.floor((price * discount) / 100));
         } else {
           calculatePrice = calculatePrice + quantity * price;
+          console.log(calculatePrice);
         }
       }
+
       let p = [];
       let unique = [
         ...new Set(stockProduct.map((p) => p.products[0].sellerId.toString())),
@@ -156,44 +158,36 @@ class cardController {
   };
 
   quantity_inc = async (req, res) => {
-    const {
-        card_id
-    } = req.params
+    const { card_id } = req.params;
     try {
-        const product = await cardModel.findById(card_id)
-        const {
-            quantity
-        } = product
-        await cardModel.findByIdAndUpdate(card_id, {
-            quantity: quantity + 1
-        })
-        responseReturn(res, 200, {
-            message: 'success'
-        })
+      const product = await cardModel.findById(card_id);
+      const { quantity } = product;
+      await cardModel.findByIdAndUpdate(card_id, {
+        quantity: quantity + 1,
+      });
+      responseReturn(res, 200, {
+        message: "success",
+      });
     } catch (error) {
-        console.log(error.message)
+      console.log(error.message);
     }
-}
+  };
 
-quantity_dec = async (req, res) => {
-    const {
-        card_id
-    } = req.params
+  quantity_dec = async (req, res) => {
+    const { card_id } = req.params;
     try {
-        const product = await cardModel.findById(card_id)
-        const {
-            quantity
-        } = product
-        await cardModel.findByIdAndUpdate(card_id, {
-            quantity: quantity - 1
-        })
-        responseReturn(res, 200, {
-            message: 'success'
-        })
+      const product = await cardModel.findById(card_id);
+      const { quantity } = product;
+      await cardModel.findByIdAndUpdate(card_id, {
+        quantity: quantity - 1,
+      });
+      responseReturn(res, 200, {
+        message: "success",
+      });
     } catch (error) {
-        console.log(error.message)
+      console.log(error.message);
     }
-}
+  };
 }
 
 module.exports = new cardController();
