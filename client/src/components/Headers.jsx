@@ -27,7 +27,7 @@ const Headers = () => {
   const [categoryShow, setCategoryShow] = useState(true);
   const { pathname } = useLocation();
   const [showSlidebar, setshowSlidebar] = useState(true);
-  const { card_products_count } = useSelector((state) => state.card);
+  const { card_product_count } = useSelector((state) => state.card);
   const user = 0;
   const wishlist = 4;
 
@@ -216,9 +216,9 @@ const Headers = () => {
                       <span className="text-xl text-orange-500">
                         <AiFillShopping />
                       </span>
-                      {card_products_count !== 0 && (
+                      {card_product_count !== 0 && (
                         <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px] text-[12px]">
-                          {card_products_count}
+                          {card_product_count}
                         </div>
                       )}
                     </div>

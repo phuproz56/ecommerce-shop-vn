@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import Headers from "../components/Headers";
 import { Link } from "react-router-dom";
@@ -5,7 +6,14 @@ import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { get_card_products } from "../store/reducers/cardReducer";
+import {
+  get_card_products,
+  delete_card_product,
+  messageClear,
+  quantity_inc,
+  quantity_dec,
+} from "../store/reducers/cardReducer";
+import toast from "react-hot-toast";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -14,12 +22,13 @@ const Cart = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const {
     card_products,
+    successMessage,
     card_product_count,
     shipping_fee,
+    buy_product_item,
     outofstock_products,
+    price,
   } = useSelector((state) => state.card);
-
-  // console.log(card_products[0].products.productInfo.name);
 
   // const redirect = () => {
   //   navigate("/shipping", {
@@ -35,6 +44,28 @@ const Cart = () => {
   useEffect(() => {
     dispatch(get_card_products(userInfo.id));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+      dispatch(get_card_products(userInfo.id));
+    }
+  }, [successMessage]);
+
+  const inc = (quantity, stock, card_id) => {
+    const temp = quantity + 1;
+    if (temp <= stock) {
+      dispatch(quantity_inc(card_id));
+    }
+  };
+
+  const dec = (quantity, card_id) => {
+    const temp = quantity - 1;
+    if (temp !== 0) {
+      dispatch(quantity_dec(card_id));
+    }
+  };
   return (
     <div>
       <Headers />
@@ -110,11 +141,32 @@ const Cart = () => {
                               </div>
                               <div className="flex gap-2 flex-col">
                                 <div className="flex bg-slate-200 h-[30px] justify-center items-center text-xl">
-                                  <div className="px-3 cursor-pointer">-</div>
+                                  <div
+                                    onClick={() => dec(pt.quantity, pt._id)}
+                                    className="px-3 cursor-pointer"
+                                  >
+                                    -
+                                  </div>
                                   <div className="px-3">{pt.quantity}</div>
-                                  <div className="px-3 cursor-pointer">+</div>
+                                  <div
+                                    onClick={() =>
+                                      inc(
+                                        pt.quantity,
+                                        pt.productInfo.stock,
+                                        pt._id
+                                      )
+                                    }
+                                    className="px-3 cursor-pointer"
+                                  >
+                                    +
+                                  </div>
                                 </div>
-                                <button className="px-5 py-[3px] bg-red-500 text-white">
+                                <button
+                                  onClick={() =>
+                                    dispatch(delete_card_product(pt._id))
+                                  }
+                                  className="px-5 py-[3px] bg-red-500 text-white"
+                                >
                                   Delete
                                 </button>
                               </div>
@@ -133,12 +185,12 @@ const Cart = () => {
                         <div className="bg-white p-4">
                           {outofstock_products.map((p, i) => (
                             <div key={i} className="w-full flex flex-wrap">
-                              <div className="flex sm-w-full gap-2 w-7/12">
+                              <div className="flex sm:w-full gap-2 w-7/12">
                                 <div className="flex gap-2 justify-start items-center">
                                   <img
                                     className="w-[80px] h-[80px]"
                                     src={p.products[0].images[0]}
-                                    alt="product_image"
+                                    alt="product image"
                                   />
                                   <div className="pr-4 text-slate-600">
                                     <h2 className="text-md">
@@ -150,15 +202,16 @@ const Cart = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="flex justify-between w-5/12 sm:w-full sm:mt-3 ">
-                                <div className="pl-4 sm:pt-0">
-                                  <h2 className="text-orange-500 text-lg">
+                              <div className="flex justify-between w-5/12 sm:w-full sm:mt-3">
+                                <div className="pl-4 sm:pl-0">
+                                  <h2 className="text-lg text-orange-500">
+                                    $
                                     {p.products[0].price -
                                       Math.floor(
                                         (p.products[0].price *
                                           p.products[0].discount) /
                                           100
-                                      )}
+                                      )}{" "}
                                   </h2>
                                   <p className="line-through">
                                     {p.products[0].price}
@@ -167,11 +220,32 @@ const Cart = () => {
                                 </div>
                                 <div className="flex gap-2 flex-col">
                                   <div className="flex bg-slate-200 h-[30px] justify-center items-center text-xl">
-                                    <div className="px-3 cursor-pointer">-</div>
+                                    <div
+                                      onClick={() => dec(p.quantity, p._id)}
+                                      className="px-3 cursor-pointer"
+                                    >
+                                      -
+                                    </div>
                                     <div className="px-3">{p.quantity}</div>
-                                    <div className="px-3 cursor-pointer">+</div>
+                                    <div
+                                      onClick={() =>
+                                        dec(
+                                          p.quantity,
+                                          p.products[0].stock,
+                                          p._id
+                                        )
+                                      }
+                                      className="px-3 cursor-pointer"
+                                    >
+                                      +
+                                    </div>
                                   </div>
-                                  <button className="px-5 py-[3px] bg-red-500 text-white">
+                                  <button
+                                    onClick={() =>
+                                      dispatch(delete_card_product(p._id))
+                                    }
+                                    className="px-5 py-[3px] bg-red-500 text-white"
+                                  >
                                     Delete
                                   </button>
                                 </div>
@@ -190,12 +264,12 @@ const Cart = () => {
                     <div className="bg-white p-3 text-slate-600 flex flex-col gap-3">
                       <h2 className="text-xl font-bold">Order Sumary</h2>
                       <div className="flex justify-between  items-center">
-                        <span>4 Items</span>
-                        <span>$135</span>
+                        <span>{buy_product_item} Items</span>
+                        <span>${price}</span>
                       </div>
                       <div className="flex justify-between  items-center">
                         <span>Shiping Fee</span>
-                        <span>$1</span>
+                        <span>${shipping_fee}</span>
                       </div>
                       <div className="flex gap-2">
                         <input
@@ -209,7 +283,9 @@ const Cart = () => {
                       </div>
                       <div className="flex justify-between  items-center">
                         <span>Total</span>
-                        <span className="text-lg text-orange-500">$136</span>
+                        <span className="text-lg text-orange-500">
+                          ${price + shipping_fee}
+                        </span>
                       </div>
                       <button
                         // onClick={redirect}

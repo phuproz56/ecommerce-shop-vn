@@ -134,7 +134,7 @@ class cardController {
         card_products: p,
         price: calculatePrice,
         card_product_count,
-        shipping_fee: 85 * p.length,
+        shipping_fee: 2 * p.length,
         outOfStockProduct,
         buy_product_item,
       });
@@ -142,6 +142,58 @@ class cardController {
       console.log(error.message);
     }
   };
+
+  delete_card_product = async (req, res) => {
+    const { card_id } = req.params;
+    try {
+      await cardModel.findByIdAndDelete(card_id);
+      responseReturn(res, 200, {
+        message: "success",
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  quantity_inc = async (req, res) => {
+    const {
+        card_id
+    } = req.params
+    try {
+        const product = await cardModel.findById(card_id)
+        const {
+            quantity
+        } = product
+        await cardModel.findByIdAndUpdate(card_id, {
+            quantity: quantity + 1
+        })
+        responseReturn(res, 200, {
+            message: 'success'
+        })
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+quantity_dec = async (req, res) => {
+    const {
+        card_id
+    } = req.params
+    try {
+        const product = await cardModel.findById(card_id)
+        const {
+            quantity
+        } = product
+        await cardModel.findByIdAndUpdate(card_id, {
+            quantity: quantity - 1
+        })
+        responseReturn(res, 200, {
+            message: 'success'
+        })
+    } catch (error) {
+        console.log(error.message)
+    }
+}
 }
 
 module.exports = new cardController();
