@@ -1,11 +1,15 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import Headers from "../components/Headers";
 import Footer from "../components/Footer";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { orderReducer, place_order } from "../store/reducers/orderReducer";
 
 const Shipping = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     state: { products, price, shipping_fee, items },
   } = useLocation();
@@ -19,6 +23,8 @@ const Shipping = () => {
     city: "",
     area: "",
   });
+
+  const { userInfo } = useSelector((state) => state.auth);
 
   const inputHandle = (e) => {
     setState({
@@ -34,7 +40,19 @@ const Shipping = () => {
     }
   };
 
-  console.log(products[0]);
+  const placeOrder = () => {
+    dispatch(
+      place_order({
+        price,
+        products,
+        shipping_fee,
+        shippingInfo: state,
+        userInfo: userInfo.id,
+        navigate,
+        items,
+      })
+    );
+  };
   return (
     <div>
       <Headers />
@@ -246,17 +264,24 @@ const Shipping = () => {
                   </div>
                   <div className="flex justify-between  items-center">
                     <span>Delivery Fee</span>
-                    <span className="text-lg text-orange-500">${shipping_fee}</span>
+                    <span className="text-lg text-orange-500">
+                      ${shipping_fee}
+                    </span>
                   </div>
                   <div className="flex justify-between  items-center">
                     <span>Total Payment</span>
-                    <span className="text-lg text-orange-500">${price + shipping_fee}</span>
+                    <span className="text-lg text-orange-500">
+                      ${price + shipping_fee}
+                    </span>
                   </div>
                   <div className="flex justify-between  items-center">
                     <span>Total</span>
-                    <span className="text-lg text-orange-500">${price + shipping_fee}</span>
+                    <span className="text-lg text-orange-500">
+                      ${price + shipping_fee}
+                    </span>
                   </div>
                   <button
+                    onClick={placeOrder}
                     disabled={res ? false : true}
                     className={`px-5 py-[6px] rounded-sm hover:shadow-orange-500/20 hover:shadow-lg ${
                       res ? "bg-orange-500" : "bg-orange-200"
