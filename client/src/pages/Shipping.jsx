@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { orderReducer, place_order } from "../store/reducers/orderReducer";
 
 const Shipping = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.auth);
   const {
     state: { products, price, shipping_fee, items },
   } = useLocation();
@@ -23,9 +24,6 @@ const Shipping = () => {
     city: "",
     area: "",
   });
-
-  const { userInfo } = useSelector((state) => state.auth);
-
   const inputHandle = (e) => {
     setState({
       ...state,
@@ -39,7 +37,6 @@ const Shipping = () => {
       setRes(true);
     }
   };
-
   const placeOrder = () => {
     dispatch(
       place_order({
@@ -47,12 +44,13 @@ const Shipping = () => {
         products,
         shipping_fee,
         shippingInfo: state,
-        userInfo: userInfo.id,
+        userId: userInfo.id,
         navigate,
         items,
       })
     );
   };
+
   return (
     <div>
       <Headers />
