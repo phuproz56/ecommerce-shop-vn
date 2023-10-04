@@ -3,7 +3,9 @@ const customerOrder = require("../../models/customerOrder");
 const cardModel = require("../../models/cardModel");
 const moment = require("moment");
 const { responseReturn } = require("../../utils/response");
-
+const {
+  mongo: { ObjectId },
+} = require("mongoose");
 class orderController {
   paymentCheck = async (id) => {
     try {
@@ -90,6 +92,43 @@ class orderController {
       responseReturn(res, 201, {
         message: "order place success",
         orderId: order.id,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  get_customer_dashboard_data = async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+      const recentOrders = await customerOrder
+        .find({
+          customerId: new ObjectId(userId),
+        })
+        .limit(5);
+      const pendingOrder = await customerOrder
+        .find({
+          customerId: new ObjectId(userId),
+          delivery_status: "pending",
+        })
+        .countDocuments();
+      const totalOrder = await customerOrder
+        .find({
+          customerId: new ObjectId(userId),
+        })
+        .countDocuments();
+      const cancelledOrder = await customerOrder
+        .find({
+          customerId: new ObjectId(userId),
+          delivery_status: "cancelled",
+        })
+        .countDocuments();
+      responseReturn(res, 200, {
+        recentOrders,
+        pendingOrder,
+        cancelledOrder,
+        totalOrder,
       });
     } catch (error) {
       console.log(error.message);
