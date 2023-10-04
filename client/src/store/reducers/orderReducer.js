@@ -27,13 +27,28 @@ export const place_order = createAsyncThunk(
           price: price + shipping_fee,
           items,
           orderId: data.orderId,
-          
         },
       });
       console.log(data);
       return true;
     } catch (error) {
       console.log(error.response);
+    }
+  }
+);
+
+export const get_orders = createAsyncThunk(
+  "order/get_orders",
+  async ({ customerId, status }, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/home/customer/get-orders/${customerId}/${status}`
+      );
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.response);
+      return rejectWithValue(error.response);
     }
   }
 );
@@ -52,7 +67,12 @@ export const orderReducer = createSlice({
       state.successMessage = "";
     },
   },
-  extraReducers: {},
+  extraReducers: {
+    [get_orders.fulfilled]: (state,{payload})=> {
+      state.myOrders = payload.orders;
+      
+    }
+  },
 });
 
 export const { messageClear } = orderReducer.actions;

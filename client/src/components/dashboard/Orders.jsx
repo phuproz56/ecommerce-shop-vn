@@ -1,8 +1,41 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+import { get_orders } from "../../store/reducers/orderReducer";
+import { useDispatch, useSelector } from "react-redux";
+
 const Orders = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.auth);
+  const { myOrders } = useSelector((state) => state.order);
   const [state, setState] = useState("all");
+
+  useEffect(() => {
+    dispatch(
+      get_orders({
+        status: state,
+        customerId: userInfo.id,
+      })
+    );
+  }, [dispatch, state]);
+
+  const redirect = (ord) => {
+    let items = 0;
+    for(let i = 0; i < ord.length; i++){
+      items = ord.products[i].quantity + items
+    }
+    navigate('/payment',{
+      state: {
+        price: ord.price,
+        items,
+        orderId: ord._id,
+        
+      }
+    })
+  };
+  
   return (
     <div className="bg-white p-4 rounded-md">
       <div className="flex justify-between items-center">
@@ -12,7 +45,7 @@ const Orders = () => {
           name=""
           id=""
           value={state}
-          onChange={(e) => setState("e.target.value")}
+          onChange={(e) => setState(e.target.value)}
         >
           <option value="all">---order status---</option>
           <option value="placed">Placed</option>
@@ -44,48 +77,49 @@ const Orders = () => {
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5, 6].map((o, i) => (
-                <>
+              {myOrders.map((o, i) => (
                   <tr key={i} className="bg-white border-b">
                     <th
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-nowrap"
                     >
-                      1231412
+                      {o._id}
                     </th>
                     <th
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-nowrap"
                     >
-                      $123
+                      ${o.price}
                     </th>
                     <th
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-nowrap"
                     >
-                      pending
+                      {o.payment_status}
                     </th>
                     <th
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-nowrap"
                     >
-                      pending
+                      {o.delivery_status}
                     </th>
                     <th
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-nowrap"
                     >
-                      <Link to={`/dashboard/order/details/4312312`}>
+                      <Link to={`/dashboard/order/details/${o._id}`}>
                         <span className="bg-green-100 text-green-800 text-sm font-normal mr-2 px-2.5 py-[1px] rounded">
                           View
                         </span>
                       </Link>
-                      <span className="bg-green-100 text-green-800 text-sm font-normal mr-2 px-2.5 py-[1px] rounded cursor-pointer">
+                      <span
+                        onClick={() => redirect(o)}
+                        className="bg-green-100 text-green-800 text-sm font-normal mr-2 px-2.5 py-[1px] rounded cursor-pointer"
+                      >
                         Pay Now
                       </span>
                     </th>
                   </tr>
-                </>
               ))}
             </tbody>
           </table>
