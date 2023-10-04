@@ -12,7 +12,9 @@ import { get_categorys } from "./store/reducers/homeReducer";
 import CategoryShops from "./pages/CategoryShops";
 import SearchProducts from "./pages/SearchProducts";
 import Payment from "./pages/Payment";
-
+import Dashboard from "./pages/Dashboard";
+import ProtectUser from "./utils/ProtectUser";
+import Index from "./components/dashboard/Index.js";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -21,16 +23,22 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/register" element={<Register />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/shops" element={<Shops />}></Route>
-        <Route path="/product?" element={<CategoryShops />}></Route>
-        <Route path="/product/search?" element={<SearchProducts />}></Route>
-        <Route path="/cart" element={<Cart />}></Route>
-        <Route path="/shipping" element={<Shipping />}></Route>
-        <Route path="/payment" element={<Payment />}></Route>
-        <Route path="/product/details/:slug" element={<Details />}></Route>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/shops" element={<Shops />} />
+        <Route path="/product?" element={<CategoryShops />} />
+        <Route path="/product/search?" element={<SearchProducts />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/shipping" element={<Shipping />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/product/details/:slug" element={<Details />} />
+
+        <Route path="/dashboard" element={<ProtectUser />}>
+          <Route path="" element={<Dashboard />}>
+            <Route path="" element={<Index />} />
+          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
