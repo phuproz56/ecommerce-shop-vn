@@ -1,5 +1,7 @@
 const { responseReturn } = require("../../utils/response");
 const cardModel = require("../../models/cardModel");
+const wishlistModel = require("../../models/wishlistModel");
+
 const {
   mongo: { ObjectId },
 } = require("mongoose");
@@ -184,6 +186,21 @@ class cardController {
       responseReturn(res, 200, {
         message: "success",
       });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  add_to_wishlist = async (req, res) => {
+    const { slug } = req.body;
+    try {
+      const product = await wishlistModel.findOne({ slug });
+      if (product) {
+        responseReturn(res, 404, { error: "Already added!" });
+      } else {
+        await wishlistModel.create(req.body);
+        responseReturn(res, 201, { message: "add to wishlist success!" });
+      }
     } catch (error) {
       console.log(error.message);
     }
