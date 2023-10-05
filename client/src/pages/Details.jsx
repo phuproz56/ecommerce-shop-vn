@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Headers from "../components/Headers";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Footer from "../components/Footer";
 import Ratings from "../components/Ratings";
@@ -14,10 +16,17 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
+import { useDispatch, useSelector } from "react-redux";
+import { get_product } from "../store/reducers/homeReducer";
 const Details = () => {
+  const dispatch = useDispatch();
+  const { slug } = useParams();
   const [image, setImage] = useState("");
-  const images = [1, 2, 3, 4, 5, 6, 7];
   const [state, setState] = useState("reviews");
+  const { product, relatedProducts, moreProducts } = useSelector(
+    (state) => state.home
+  );
+
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -50,6 +59,9 @@ const Details = () => {
   };
   const discount = 5;
   const stock = 1;
+  useEffect(() => {
+    dispatch(get_product(slug));
+  }, [dispatch]);
 
   return (
     <div>
@@ -70,11 +82,11 @@ const Details = () => {
             <span className="pt-2">
               <MdOutlineKeyboardArrowRight />
             </span>
-            <Link to="/">Sport</Link>
+            <Link to="/">{product.category}</Link>
             <span className="pt-2">
               <MdOutlineKeyboardArrowRight />
             </span>
-            <span>Ao thun</span>
+            <span>{product.name}</span>
           </div>
         </div>
       </div>
@@ -87,26 +99,27 @@ const Details = () => {
                   className="h-[500px] w-full"
                   src={
                     image
-                      ? `http://localhost:3000/images/products/${image}.webp`
-                      : `http://localhost:3000/images/products/${images[2]}.webp`
+                      ? image : product.images?.[0]
+                      
                   }
                   alt="product_image"
                 />
               </div>
               <div className="py-3">
-                {images && (
+                {product.images && (
                   <Carousel
                     autoPlay={true}
                     infinite={true}
                     transitionDuration={500}
                     responsive={responsive}
                   >
-                    {images.map((img, i) => {
+                    {product.images.map((img, i) => {
                       return (
-                        <div onClick={() => setImage(img)}>
+                        <div key={i} onClick={() => setImage(img)}>
                           <img
-                            src={`http://localhost:3000/images/products/${img}.webp`}
-                            alt=""
+                          className="h-[120px] cursor-pointer"
+                            src={img}
+                            alt="img_new"
                           />
                         </div>
                       );
@@ -117,35 +130,33 @@ const Details = () => {
             </div>
             <div className="flex flex-col gap-5">
               <div className="text-3xl text-slate-600 font-bold">
-                <h2>Ao thun</h2>
+                <h2>{product.name}</h2>
               </div>
               <div className="flex justify-start items-center gap-4">
                 <div className="flex text-xl">
-                  <Ratings ratings={4.5}></Ratings>
+                  <Ratings ratings={product.rating}></Ratings>
                 </div>
                 <span className="text-green-500">(23 reviews)</span>
               </div>
               <div className="text-2xl text-red-500 font-bold flex gap-3">
                 {discount ? (
                   <>
-                    <h2 className="line-through">$500</h2>
+                    <h2 className="line-through">${product.price}</h2>
                     <h2>
-                      ${500 - Math.floor(500 * discount) / 100} (-{discount}%)
+                      ${product.price - Math.floor(product.price * discount) / 100} (-{discount}%)
                     </h2>
                   </>
                 ) : (
-                  <h2>Price: $500</h2>
+                  <h2>Price: ${product.price}</h2>
                 )}
               </div>
               <div className="text-slate-600">
                 <p>
-                  asdsadksadmxc,zxzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-                  zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-                  zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+                  {product.description}
                 </p>
               </div>
               <div className="flex gap-3 pb-10 border-b">
-                {stock ? (
+                {product.stock ? (
                   <>
                     <div className="flex bg-slate-200 h-[50px] justify-center items-center text-xl">
                       <div className="px-6 cursor-pointer">-</div>
@@ -174,7 +185,7 @@ const Details = () => {
                 </div>
                 <div className="flex flex-col gap-5">
                   <span className={`text-${stock ? "green" : "red"}-500`}>
-                    {stock ? `In Stock(${stock})` : "Out of Stock"}
+                    {product.stock ? `In Stock(${product.stock})` : "Out of Stock"}
                   </span>
                   <ul className="flex justify-start items-center gap-3">
                     <li>
@@ -260,15 +271,7 @@ const Details = () => {
                     <Reviews />
                   ) : (
                     <p className="py-5 text-slate-600">
-                      By drawing on a fundamental description of cause and
-                      effect found in Einstein’s theory of special relativity,
-                      researchers from Imperial College London have come up with
-                      a way to help AIs make better guesses too. HOW SPECIAL
-                      RELATIVITY CAN HELP AI PREDICT THE FUTURE | WILL HEAVEN |
-                      AUGUST 28, 2020 | MIT TECHNOLOGY REVIEW However, as the
-                      workaround description implies, this separate tracking
-                      carries the risk of someone still being served the same ad
-                      even after the limit has been exceeded.
+                      {product.description}
                     </p>
                   )}
                 </div>
@@ -277,7 +280,7 @@ const Details = () => {
             <div className="w-[28%] md-lg:w-full">
               <div className="pl-4 md-lg:pl-0">
                 <div className="px-3 py-2 text-slate-600 bg-slate-200">
-                  <h2> From asdasd</h2>
+                  <h2> From {product.shopName}</h2>
                 </div>
                 <div className="flex flex-col gap-5 mt-3 border p-3">
                   {[1, 2, 3].map((p, i) => {
@@ -363,7 +366,9 @@ const Details = () => {
                           asdasd asd asdasd
                         </h2>
                         <div className="flex justify-start items-center gap-3">
-                          <h2 className="text-[#6699ff] text-lg font-bold">asd</h2>
+                          <h2 className="text-[#6699ff] text-lg font-bold">
+                            asd
+                          </h2>
                           <div className="flex items-center gap-2">
                             <Ratings ratings={4.5} />
                           </div>
