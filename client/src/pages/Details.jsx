@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import Headers from "../components/Headers";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Footer from "../components/Footer";
 import Ratings from "../components/Ratings";
@@ -18,7 +18,14 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { useDispatch, useSelector } from "react-redux";
 import { get_product } from "../store/reducers/homeReducer";
+import {
+  add_to_card,
+  messageClear,
+  add_to_wishlist,
+} from "../store/reducers/cardReducer";
+import toast from "react-hot-toast";
 const Details = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { slug } = useParams();
   const [image, setImage] = useState("");
@@ -26,6 +33,17 @@ const Details = () => {
   const { product, relatedProducts, moreProducts } = useSelector(
     (state) => state.home
   );
+  const { userInfo } = useSelector((state) => state.auth);
+  const { errorMessage, successMessage } = useSelector((state) => state.card);
+
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo({
+        top: 400,
+        left: 400,
+        behavior: "smooth",
+      });
+  }, [location]);
 
   const responsive = {
     superLargeDesktop: {
@@ -57,11 +75,70 @@ const Details = () => {
       items: 1,
     },
   };
-  const discount = 5;
-  const stock = 1;
+
+  const [quantity, setQuantity] = useState(1);
+
+  const inc = () => {
+    if (quantity >= product.stock) {
+      toast.error("Out of stock");
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const dec = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const add_card = () => {
+    if (userInfo) {
+      dispatch(
+        add_to_card({
+          userId: userInfo.id,
+          quantity,
+          productId: product._id,
+        })
+      );
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const add_wishlist = () => {
+    if (userInfo) {
+      dispatch(
+        add_to_wishlist({
+          userId: userInfo.id,
+          productId: product._id,
+          name: product.name,
+          price: product.price,
+          image: product.images[0],
+          discount: product.discount,
+          rating: product.rating,
+          slug: product.slug,
+        })
+      );
+    } else {
+      navigate("/login");
+    }
+  };
+
   useEffect(() => {
     dispatch(get_product(slug));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+  }, [errorMessage, successMessage]);
 
   return (
     <div>
@@ -97,11 +174,7 @@ const Details = () => {
               <div className="p-5 border">
                 <img
                   className="h-[500px] w-full"
-                  src={
-                    image
-                      ? image : product.images?.[0]
-                      
-                  }
+                  src={image ? image : product.images?.[0]}
                   alt="product_image"
                 />
               </div>
@@ -117,7 +190,7 @@ const Details = () => {
                       return (
                         <div key={i} onClick={() => setImage(img)}>
                           <img
-                          className="h-[120px] cursor-pointer"
+                            className="h-[120px] cursor-pointer"
                             src={img}
                             alt="img_new"
                           />
@@ -139,11 +212,14 @@ const Details = () => {
                 <span className="text-green-500">(23 reviews)</span>
               </div>
               <div className="text-2xl text-red-500 font-bold flex gap-3">
-                {discount ? (
+                {product.discount ? (
                   <>
                     <h2 className="line-through">${product.price}</h2>
                     <h2>
-                      ${product.price - Math.floor(product.price * discount) / 100} (-{discount}%)
+                      $
+                      {product.price -
+                        Math.floor(product.price * product.discount) / 100}{" "}
+                      (-{product.discount}%)
                     </h2>
                   </>
                 ) : (
@@ -151,20 +227,31 @@ const Details = () => {
                 )}
               </div>
               <div className="text-slate-600">
-                <p>
-                  {product.description}
-                </p>
+                <p>{product.description}</p>
               </div>
               <div className="flex gap-3 pb-10 border-b">
                 {product.stock ? (
                   <>
                     <div className="flex bg-slate-200 h-[50px] justify-center items-center text-xl">
-                      <div className="px-6 cursor-pointer">-</div>
-                      <div className="px-5"> 5</div>
-                      <div className="px-6 cursor-pointer">+</div>
+                      <div
+                        onClick={() => dec()}
+                        className="px-6 cursor-pointer"
+                      >
+                        -
+                      </div>
+                      <div className="px-5"> {quantity}</div>
+                      <div
+                        onClick={() => inc()}
+                        className="px-6 cursor-pointer"
+                      >
+                        +
+                      </div>
                     </div>
                     <div>
-                      <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white">
+                      <button
+                        onClick={add_card}
+                        className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white"
+                      >
                         Add to cart
                       </button>
                     </div>
@@ -173,7 +260,10 @@ const Details = () => {
                   ""
                 )}
                 <div>
-                  <div className="h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white">
+                  <div
+                    onClick={add_wishlist}
+                    className="h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white"
+                  >
                     <AiFillHeart />
                   </div>
                 </div>
@@ -184,8 +274,12 @@ const Details = () => {
                   <span>Share on</span>
                 </div>
                 <div className="flex flex-col gap-5">
-                  <span className={`text-${stock ? "green" : "red"}-500`}>
-                    {product.stock ? `In Stock(${product.stock})` : "Out of Stock"}
+                  <span
+                    className={`text-${product.stock ? "green" : "red"}-500`}
+                  >
+                    {product.stock
+                      ? `In Stock(${product.stock})`
+                      : "Out of Stock"}
                   </span>
                   <ul className="flex justify-start items-center gap-3">
                     <li>
@@ -224,7 +318,7 @@ const Details = () => {
                 </div>
               </div>
               <div className="flex gap-3">
-                {stock ? (
+                {product.stock ? (
                   <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white">
                     Buy now
                   </button>
@@ -270,9 +364,7 @@ const Details = () => {
                   {state === "reviews" ? (
                     <Reviews />
                   ) : (
-                    <p className="py-5 text-slate-600">
-                      {product.description}
-                    </p>
+                    <p className="py-5 text-slate-600">{product.description}</p>
                   )}
                 </div>
               </div>
@@ -283,13 +375,18 @@ const Details = () => {
                   <h2> From {product.shopName}</h2>
                 </div>
                 <div className="flex flex-col gap-5 mt-3 border p-3">
-                  {[1, 2, 3].map((p, i) => {
+                  {moreProducts.map((p, i) => {
                     return (
-                      <Link className="block">
+                      <Link
+                        to={`/product/details/${p.slug}`}
+                        target="_blank"
+                        key={i}
+                        className="block"
+                      >
                         <div className="relative h-[270px]">
                           <img
                             className="w-full h-full"
-                            src={`http://localhost:3000/images/products/${p}.webp`}
+                            src={p.images[0]}
                             alt=""
                           />
                           {p.discount !== 0 && (
@@ -298,13 +395,13 @@ const Details = () => {
                             </div>
                           )}
                         </div>
-                        <h2 className="text-slate-600 py-1">asdasd asd</h2>
+                        <h2 className="text-slate-600 py-1">{p.name}</h2>
                         <div className="flex gap-2">
                           <h2 className="text-[#6699ff] text-lg font-bold">
-                            $123
+                            ${p.price}
                           </h2>
                           <div className="flex items-center gap-2">
-                            <Ratings ratings={4.5} />
+                            <Ratings ratings={p.rating} />
                           </div>
                         </div>
                       </Link>
@@ -341,15 +438,20 @@ const Details = () => {
               modules={[Pagination]}
               className="mySwiper"
             >
-              {[1, 2, 3, 4, 5, 6, 7].map((p, i) => {
+              {relatedProducts.map((p, i) => {
                 return (
                   <SwiperSlide>
-                    <Link className="block">
+                    <Link
+                      key={i}
+                      className="block"
+                      to={`/product/details/${p.slug}`}
+                      target="_blank"
+                    >
                       <div className="relative h-[270px]">
                         <div className="w-full h-full">
                           <img
                             className="w-full h-full"
-                            src={`http://localhost:3000/images/products/${p}.webp`}
+                            src={p.images[0]}
                             alt=""
                           />
                           <div className="absolute h-full w-full top-0 left-0 bg-[#000] opacity-25 hover:opacity-50 transition-all duration-500"></div>
@@ -363,14 +465,14 @@ const Details = () => {
                       </div>
                       <div className="p-4 flex flex-col gap-1">
                         <h2 className="text-slate-600 text-lg font-semibold">
-                          asdasd asd asdasd
+                          {p.name}
                         </h2>
                         <div className="flex justify-start items-center gap-3">
                           <h2 className="text-[#6699ff] text-lg font-bold">
-                            asd
+                            {p.price}
                           </h2>
                           <div className="flex items-center gap-2">
-                            <Ratings ratings={4.5} />
+                            <Ratings ratings={p.rating} />
                           </div>
                         </div>
                       </div>

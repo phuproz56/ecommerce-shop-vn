@@ -115,11 +115,12 @@ const Cart = () => {
                           <div className="w-full flex flex-wrap">
                             <div className="flex sm:w-full gap-2 w-7/12">
                               <div className="flex gap-2 justify-start items-center">
+                                <Link to={`/product/details/${pt.productInfo.slug}`}>
                                 <img
                                   className="w-[80px] h-[80px]"
                                   src={pt.productInfo.images[0]}
                                   alt="product_image"
-                                />
+                                /></Link>
                                 <div className="pr-4 text-slate-600">
                                   <h2 className="text-md">
                                     {pt.productInfo.name}
