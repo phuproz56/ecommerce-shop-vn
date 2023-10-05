@@ -85,6 +85,7 @@ export const get_wishlist_products = createAsyncThunk(
       const { data } = await api.get(
         `/home/product/get-wishlist-products/${userId}`
       );
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -99,6 +100,7 @@ export const remove_wishlist = createAsyncThunk(
       const { data } = await api.delete(
         `/home/product/delete-wishlist-product/${wishlistId}`
       );
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
