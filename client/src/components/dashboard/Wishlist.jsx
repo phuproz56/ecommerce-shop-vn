@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 const Wishlist = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
-  const { wishlist, successMessage, wishlistId } = useSelector(
+  const { wishlist, successMessage } = useSelector(
     (state) => state.card
   );
 
@@ -53,7 +53,7 @@ const Wishlist = () => {
             <ul className="flex transition-all duration-700 -bottom-10 justify-center items-center gap-2 absolute w-full group-hover:bottom-3">
               <li
                 onClick={() => dispatch(remove_wishlist(p._id))}
-                className=" w-[38px] h-[38px] cursor-pointer bg-red-500 flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all"
+                className=" w-[38px] h-[38px] cursor-pointer bg-white text-red-500 flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:rotate-[720deg] transition-all"
               >
                 <AiFillHeart />
               </li>

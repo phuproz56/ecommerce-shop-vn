@@ -70,6 +70,16 @@ export const query_products = createAsyncThunk(
   }
 );
 
+export const customer_review = createAsyncThunk(
+  "review/customer_review",
+  async (info, { fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/home/customer/submit-review", info);
+      console.log(data);
+    } catch (error) {}
+  }
+);
+
 export const homeReducer = createSlice({
   name: "home",
   initialState: {
@@ -84,8 +94,15 @@ export const homeReducer = createSlice({
     product: {},
     relatedProducts: [],
     moreProducts: [],
+    successMessage: "",
+    errorMessage: "",
   },
-  reducers: {},
+  reducers: {
+    messageClear: (state, _) => {
+      state.successMessage = "";
+      state.errorMessage = "";
+    },
+  },
   extraReducers: {
     [get_categorys.fulfilled]: (state, { payload }) => {
       state.categorys = payload.categorys;
@@ -112,5 +129,5 @@ export const homeReducer = createSlice({
     },
   },
 });
-
+export const {messageClear} = homeReducer.actions;
 export default homeReducer.reducer;

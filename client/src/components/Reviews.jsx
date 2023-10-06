@@ -6,12 +6,30 @@ import RatingReact from "react-rating";
 import { AiFillStar } from "react-icons/ai";
 import { CiStar } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import { customer_review, messageClear } from "../store/reducers/homeReducer";
+import { useDispatch, useSelector } from "react-redux";
 
-const Reviews = () => {
+const Reviews = ({ product }) => {
+  const dispatch = useDispatch();
+
+  const [rat, setRat] = useState();
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerpage] = useState(10);
-  const userInfo = {};
-  const [rat, setRat] = useState();
+  const userInfo = useSelector((state) => state.auth);
+  const [re, setRe] = useState();
+
+  const review_submit = (e) => {
+    e.preventDefault();
+    const obj = { 
+      name: userInfo.name, 
+      review: re, 
+      rating: rat,
+      productId: product._id
+    
+    };
+
+    dispatch(customer_review(obj));
+  };
   return (
     <div className="mt-8">
       <div className="flex gap-10 md:flex-col">
@@ -118,8 +136,10 @@ const Reviews = () => {
                 }
               />
             </div>
-            <form action="">
+            <form onSubmit={review_submit}>
               <textarea
+                required
+                onChange={(e) => setRe(e.target.value)}
                 className="border outline-0 p-3 w-full"
                 name=""
                 id=""
@@ -135,7 +155,10 @@ const Reviews = () => {
           </div>
         ) : (
           <div>
-            <Link to="/login" className="py-1 px-5 bg-indigo-500 text-white rounded-sm">
+            <Link
+              to="/login"
+              className="py-1 px-5 bg-indigo-500 text-white rounded-sm"
+            >
               Login
             </Link>
           </div>

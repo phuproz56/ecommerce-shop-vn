@@ -168,6 +168,10 @@ class homeControllers {
       console.log(error.message);
     }
   };
+
+  submit_review = async (req, res) => {
+    console.log(req.body);
+  };
 }
 
 module.exports = new homeControllers();

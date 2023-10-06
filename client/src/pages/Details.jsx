@@ -22,6 +22,7 @@ import {
   add_to_card,
   messageClear,
   add_to_wishlist,
+  remove_wishlist,
 } from "../store/reducers/cardReducer";
 import toast from "react-hot-toast";
 const Details = () => {
@@ -39,10 +40,10 @@ const Details = () => {
   const location = useLocation();
   useEffect(() => {
     window.scrollTo({
-        top: 400,
-        left: 400,
-        behavior: "smooth",
-      });
+      top: 400,
+      left: 400,
+      behavior: "smooth",
+    });
   }, [location]);
 
   const responsive = {
@@ -139,6 +140,32 @@ const Details = () => {
       dispatch(messageClear());
     }
   }, [errorMessage, successMessage]);
+
+  const buy = () => {
+    let price = 0;
+    if (product.discount !== 0) {
+      price =
+        product.price - Math.floor((product.price * product.discount) / 100);
+    } else {
+      price = product.price;
+    }
+    const obj = [
+      {
+        sellerId: product.sellerId,
+        shopName: product.shopName,
+        price: quantity * (price - Math.floor(price * 5) / 100),
+        products: [{ quantity, productInfo: product }],
+      },
+    ];
+    navigate("/shipping", {
+      state: {
+        products: obj,
+        price: price * quantity,
+        shipping_fee: 85,
+        items: 1,
+      },
+    });
+  };
 
   return (
     <div>
@@ -259,10 +286,13 @@ const Details = () => {
                 ) : (
                   ""
                 )}
-                <div>
+                <div
+                // onClick={()=>setColor(!color)}
+                >
                   <div
                     onClick={add_wishlist}
-                    className="h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white"
+                    className={`h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white
+                  `}
                   >
                     <AiFillHeart />
                   </div>
@@ -319,7 +349,7 @@ const Details = () => {
               </div>
               <div className="flex gap-3">
                 {product.stock ? (
-                  <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white">
+                  <button onClick={buy} className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white">
                     Buy now
                   </button>
                 ) : (
@@ -362,7 +392,7 @@ const Details = () => {
                 </div>
                 <div>
                   {state === "reviews" ? (
-                    <Reviews />
+                    <Reviews product={product} />
                   ) : (
                     <p className="py-5 text-slate-600">{product.description}</p>
                   )}
