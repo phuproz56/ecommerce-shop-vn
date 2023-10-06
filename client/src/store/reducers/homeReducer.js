@@ -75,7 +75,7 @@ export const customer_review = createAsyncThunk(
   async (info, { fulfillWithValue }) => {
     try {
       const { data } = await api.post("/home/customer/submit-review", info);
-      console.log(data);
+      return fulfillWithValue(data);
     } catch (error) {}
   }
 );
@@ -127,7 +127,10 @@ export const homeReducer = createSlice({
       state.totalProduct = payload.totalProduct;
       state.parPage = payload.parPage;
     },
+    [customer_review.fulfilled]: (state, { payload }) => {
+      state.successMessage = payload.message;
+    },
   },
 });
-export const {messageClear} = homeReducer.actions;
+export const { messageClear } = homeReducer.actions;
 export default homeReducer.reducer;
