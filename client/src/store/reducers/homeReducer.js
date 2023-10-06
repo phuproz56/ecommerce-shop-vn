@@ -76,7 +76,24 @@ export const customer_review = createAsyncThunk(
     try {
       const { data } = await api.post("/home/customer/submit-review", info);
       return fulfillWithValue(data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+);
+
+export const get_reviews = createAsyncThunk(
+  "review/get_reviews",
+  async ({ productId, pageNumber }, { fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/home/customer/get-reviews/${productId}?pageNo=${pageNumber}`
+      );
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 );
 

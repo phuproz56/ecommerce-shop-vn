@@ -7,7 +7,11 @@ import RatingReact from "react-rating";
 import { AiFillStar } from "react-icons/ai";
 import { CiStar } from "react-icons/ci";
 import { Link } from "react-router-dom";
-import { customer_review, messageClear } from "../store/reducers/homeReducer";
+import {
+  customer_review,
+  get_reviews,
+  messageClear,
+} from "../store/reducers/homeReducer";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
@@ -36,11 +40,22 @@ const Reviews = ({ product }) => {
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
-      setRat('')
-      setRe('')
+      setRat("");
+      setRe("");
       dispatch(messageClear());
     }
   }, [successMessage]);
+
+  useEffect(() => {
+    if (product._id) {
+      dispatch(
+        get_reviews({
+          productId: product._id,
+          pageNumber,
+        })
+      );
+    }
+  }, [pageNumber, product]);
 
   return (
     <div className="mt-8">
@@ -150,7 +165,7 @@ const Reviews = ({ product }) => {
             </div>
             <form onSubmit={review_submit}>
               <textarea
-              value={re}
+                value={re}
                 required
                 onChange={(e) => setRe(e.target.value)}
                 className="border outline-0 p-3 w-full"
