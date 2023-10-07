@@ -10,6 +10,7 @@ import { CiStar } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import {
   customer_review,
+  get_product,
   get_reviews,
   messageClear,
 } from "../store/reducers/homeReducer";
@@ -36,13 +37,19 @@ const Reviews = ({ product }) => {
       rating: rat,
       productId: product._id,
     };
-
     dispatch(customer_review(obj));
   };
 
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
+      dispatch(
+        get_reviews({
+          productId: product._id,
+          pageNumber,
+        })
+      );
+      dispatch(get_product(product.slug));
       setRat("");
       setRe("");
       dispatch(messageClear());
