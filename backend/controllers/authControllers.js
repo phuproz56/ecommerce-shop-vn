@@ -131,7 +131,6 @@ class authControllers {
             message: "image upload success",
             userInfo,
           });
-          console.log(userInfo);
         } else {
           responseReturn(res, 404, { error: "image upload failed" });
         }

@@ -29,7 +29,6 @@ export const place_order = createAsyncThunk(
           orderId: data.orderId,
         },
       });
-      console.log(data);
       return true;
     } catch (error) {
       console.log(error.response);
@@ -56,7 +55,6 @@ export const get_order = createAsyncThunk(
   "order/get_order",
   async ( orderId , { rejectWithValue, fulfillWithValue }) => {
     try {
-      console.log(orderId);
       const { data } = await api.get(`/home/customer/get-order/${orderId}`);
       return fulfillWithValue(data);
     } catch (error) {

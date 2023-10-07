@@ -30,7 +30,6 @@ export const get_product = createAsyncThunk(
   async (slug, { fulfillWithValue }) => {
     try {
       const { data } = await api.get(`/home/get-product/${slug}`);
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.response);
@@ -89,7 +88,6 @@ export const get_reviews = createAsyncThunk(
       const { data } = await api.get(
         `/home/customer/get-reviews/${productId}?pageNo=${pageNumber}`
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.message);

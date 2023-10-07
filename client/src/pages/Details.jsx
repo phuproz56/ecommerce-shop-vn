@@ -166,6 +166,14 @@ const Details = () => {
       },
     });
   };
+  const [color, setColor] = useState(true);
+  const color_wishlist = () => {
+    if (add_wishlist) {
+      setColor(false);
+    } else {
+      setColor(true);
+    }
+  };
 
   return (
     <div>
@@ -213,7 +221,7 @@ const Details = () => {
                     transitionDuration={500}
                     responsive={responsive}
                   >
-                    {product.images.map((img, i) => {
+                    {product.images.map((img,i) => {
                       return (
                         <div key={i} onClick={() => setImage(img)}>
                           <img
@@ -286,9 +294,7 @@ const Details = () => {
                 ) : (
                   ""
                 )}
-                <div
-                // onClick={()=>setColor(!color)}
-                >
+                <div>
                   <div
                     onClick={add_wishlist}
                     className={`h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white
@@ -349,7 +355,10 @@ const Details = () => {
               </div>
               <div className="flex gap-3">
                 {product.stock ? (
-                  <button onClick={buy} className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white">
+                  <button
+                    onClick={buy}
+                    className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white"
+                  >
                     Buy now
                   </button>
                 ) : (
@@ -405,7 +414,7 @@ const Details = () => {
                   <h2> From {product.shopName}</h2>
                 </div>
                 <div className="flex flex-col gap-5 mt-3 border p-3">
-                  {moreProducts.map((p, i) => {
+                  {moreProducts.map((p,i) => {
                     return (
                       <Link
                         to={`/product/details/${p.slug}`}
@@ -468,11 +477,10 @@ const Details = () => {
               modules={[Pagination]}
               className="mySwiper"
             >
-              {relatedProducts.map((p, i) => {
+              {relatedProducts.map((p) => {
                 return (
-                  <SwiperSlide>
+                  <SwiperSlide key={p._id}>
                     <Link
-                      key={i}
                       className="block"
                       to={`/product/details/${p.slug}`}
                       target="_blank"
