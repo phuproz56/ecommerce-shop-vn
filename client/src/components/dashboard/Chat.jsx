@@ -20,13 +20,12 @@ const Chat = () => {
   }, []);
 
   useEffect(() => {
-    if (sellerId) {
-        dispatch(add_friend({
-            sellerId: sellerId || '',
-            userId: userInfo.id,
-
-        }))
-    }
+    dispatch(
+      add_friend({
+        sellerId: sellerId || "",
+        userId: userInfo.id,
+      })
+    );
   }, [sellerId]);
 
   return (
