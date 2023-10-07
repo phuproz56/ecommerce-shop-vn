@@ -19,6 +19,7 @@ import Orders from "./components/dashboard/Orders";
 import Wishlist from "./components/dashboard/Wishlist";
 import ChangePassword from "./components/dashboard/ChangePassword";
 import Order from "./components/dashboard/Order";
+import Chat from "./components/dashboard/Chat";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/shipping" element={<Shipping />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/product/details/:slug" element={<Details />} />
+        
         <Route path="/dashboard" element={<ProtectUser />}>
           <Route path="" element={<Dashboard />}>
             <Route path="" element={<Index />} />
@@ -44,8 +46,11 @@ function App() {
             <Route path="my-wishlist" element={<Wishlist />} />
             <Route path="order/details/:orderId" element={<Order />} />
             <Route path="change-password" element={<ChangePassword />} />
+            <Route path="chat" element={<Chat />} />
+            <Route path="chat/:sellerId" element={<Chat />} />
           </Route>
         </Route>
+
       </Routes>
     </BrowserRouter>
   );

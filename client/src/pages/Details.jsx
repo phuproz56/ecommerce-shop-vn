@@ -364,9 +364,9 @@ const Details = () => {
                 ) : (
                   ""
                 )}
-                <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-orange-500/40 bg-orange-500 text-white">
+                <Link to={`/dashboard/chat/${product.sellerId}`} className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-orange-500/40 bg-orange-500 text-white block">
                   Chat with Seller
-                </button>
+                </Link>
               </div>
             </div>
           </div>
