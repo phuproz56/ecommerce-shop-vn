@@ -3,6 +3,7 @@ import authReducer from "./reducers/authReducer";
 import cardReducer from "./reducers/cardReducer";
 import orderReducer from "./reducers/orderReducer";
 import dashboardReducer from "./reducers/dashboardReducer";
+import chatReducer from "./reducers/ChatReducer";
 
 const rootReducers = {
   home: homeReducer,
@@ -10,5 +11,6 @@ const rootReducers = {
   card: cardReducer,
   order: orderReducer,
   dashboard: dashboardReducer,
+  chat: chatReducer,
 };
 export default rootReducers;
