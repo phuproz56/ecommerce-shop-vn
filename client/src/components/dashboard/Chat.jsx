@@ -7,7 +7,13 @@ import { IoSend } from "react-icons/io5";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
-import { add_friend, send_message } from "../../store/reducers/ChatReducer";
+import {
+  add_friend,
+  messageClear,
+  send_message,
+  updateMessage,
+} from "../../store/reducers/ChatReducer";
+import toast from "react-hot-toast";
 
 const socket = io("http://localhost:5000");
 
@@ -16,9 +22,11 @@ const Chat = () => {
   const { sellerId } = useParams();
   const [text, setText] = useState("");
   const { userInfo } = useSelector((state) => state.auth);
-  const { fd_messages, currentFd, my_friends } = useSelector(
+  const [activeSeller, setActiveSeller] = useState([]);
+  const { fd_messages, currentFd, my_friends, successMessage } = useSelector(
     (state) => state.chat
   );
+  const [receverMessage, setReceverMessage] = useState("");
 
   useEffect(() => {
     socket.emit("add_user", userInfo.id, userInfo);
@@ -47,6 +55,37 @@ const Chat = () => {
     }
   };
 
+  useEffect(() => {
+    socket.on("seller_message", (msg) => {
+      setReceverMessage(msg);
+    });
+    socket.on("activeSeller", (sellers) => {
+      setActiveSeller(sellers);
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log(receverMessage);
+    if (receverMessage) {
+      if (
+        sellerId === receverMessage.senderId &&
+        userInfo.id === receverMessage.receverId
+      ) {
+        dispatch(updateMessage(receverMessage));
+      } else {
+        toast.success(receverMessage.senderName + "" + "send a message");
+        dispatch(messageClear());
+      }
+    }
+  }, [receverMessage]);
+
+  useEffect(() => {
+    if (successMessage) {
+      socket.emit("send_customer_message", fd_messages[fd_messages.length - 1]);
+      dispatch(messageClear());
+    }
+  }, [successMessage]);
+
   return (
     <div className="bg-white p-3 rounded-md">
       <div className="w-full flex">
@@ -65,7 +104,9 @@ const Chat = () => {
                 className="flex gap-2 justify-start items-center pl-2 py-[5px]"
               >
                 <div className="w-[30px] h-[30px] rounded-full relative">
-                  <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0"></div>
+                  {activeSeller.some((c) => c.sellerId === f.fdId) && (
+                    <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0"></div>
+                  )}
                   <img src="/images/user.png" alt="" />
                 </div>
                 <span>{f.name}</span>
@@ -77,11 +118,12 @@ const Chat = () => {
           {currentFd ? (
             <div className="w-full h-full">
               <div className="flex justify-start gap-3 items-center text-slate-600 text-xl h-[50px]">
-                <img
-                  className="w-[30px] h-[30px] rounded-full"
-                  src="/images/user.png"
-                  alt=""
-                />
+                <div className="w-[30px] h-[30px] rounded-full relative">
+                  {activeSeller.some((c) => c.sellerId === currentFd.fdId) && (
+                    <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0"></div>
+                  )}
+                  <img src="http://localhost:3000/images/user.png" alt="" />
+                </div>
                 <span>{currentFd.name}</span>
               </div>
               <div className="h-[400px] w-full bg-slate-100 p-3 rounded-md">

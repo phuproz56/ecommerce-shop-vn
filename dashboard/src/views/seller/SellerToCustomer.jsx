@@ -6,25 +6,80 @@ import { Link } from "react-router-dom";
 import { BsEmojiSmile } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { get_customers, messageClear,get_customer_message } from "../../store/Reducers/chatReducer";
+import {
+  get_customers,
+  messageClear,
+  get_customer_message,
+  send_message,
+  updateMessage,
+} from "../../store/Reducers/chatReducer";
+import { socket } from "../../utils/utils";
+import toast from "react-hot-toast";
 
 const SellerToCustomer = () => {
   const { userInfo } = useSelector((state) => state.auth);
-  const { customers,messages } = useSelector((state) => state.chat);
+  const { customers, currentCustomer, messages, successMessage } = useSelector(
+    (state) => state.chat
+  );
   const dispatch = useDispatch();
   const { customerId } = useParams();
   const [show, setShow] = useState(false);
+  const [text, setText] = useState("");
+  const [receverMessage, setReceverMessage] = useState("");
 
   useEffect(() => {
     dispatch(get_customers(userInfo._id));
-  }, [dispatch]);
+  }, []);
 
-  useEffect(()=>{
-    if(customerId){
-      dispatch(get_customer_message(customerId))
+  useEffect(() => {
+    if (customerId) {
+      dispatch(get_customer_message(customerId));
     }
-  },[customerId])
+  }, [customerId]);
 
+  const send = (e) => {
+    e.preventDefault();
+    dispatch(
+      send_message({
+        senderId: userInfo._id,
+        receverId: customerId,
+        text,
+        name: userInfo?.shopInfo?.shopName,
+      })
+    );
+    setText("");
+  };
+
+  useEffect(() => {
+    if (successMessage) {
+      socket.emit("send_seller_message", messages[messages.length - 1]);
+      dispatch(messageClear());
+    }
+  }, [successMessage]);
+
+  useEffect(() => {
+    socket.on("customer_message", (msg) => {
+      setReceverMessage(msg);
+    });
+    // socket.on("activeSeller", (sellers) => {
+    //   setActiveSeller(sellers);
+    // });
+  }, []);
+
+  useEffect(() => {
+    if (receverMessage) {
+      if (
+        customerId === receverMessage.senderId &&
+        userInfo._id === receverMessage.receverId
+      ) {
+        dispatch(updateMessage(receverMessage));
+      } else {
+        toast.success(receverMessage.senderName + "" + "send a message");
+        dispatch(messageClear());
+      }
+    }
+  }, [receverMessage]);
+  console.log(receverMessage)
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-[#283046] px-4 py-4 rounded-md h-[calc(100vh-140px)]">
@@ -68,7 +123,7 @@ const SellerToCustomer = () => {
           </div>
           <div className="w-full md:w-[calc(100%-200px)] md:pl-4">
             <div className="flex justify-between items-center">
-              {"123" && (
+              {customerId && (
                 <div className="flex justify-start items-center gap-3">
                   <div className="relative">
                     <img
@@ -77,7 +132,9 @@ const SellerToCustomer = () => {
                       alt=""
                     />
                   </div>
-                  <h2 className="text-base text-white font-semibold">Phu</h2>
+                  <h2 className="text-base text-white font-semibold">
+                    {currentCustomer.name}
+                  </h2>
                 </div>
               )}
               <div
@@ -91,9 +148,9 @@ const SellerToCustomer = () => {
             </div>
             <div className="py-4">
               <div className="bg-slate-800 h-[calc(100vh-290px)] rounded-md p-3 overflow-y-auto">
-                {"123" ? (
-                  [1, 2, 3].map((m, i) => {
-                    if (m.senderId === "123") {
+                {customerId ? (
+                  messages.map((m, i) => {
+                    if (m.senderId === customerId) {
                       return (
                         <div
                           key={i}
@@ -103,7 +160,7 @@ const SellerToCustomer = () => {
                             <div>
                               <img
                                 className="w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]"
-                                src="http://localhost:3001/images/admin.jpg"
+                                src="/images/admin.jpg"
                                 alt=""
                               />
                             </div>
@@ -126,7 +183,7 @@ const SellerToCustomer = () => {
                             <div>
                               <img
                                 className="w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]"
-                                src="http://localhost:3001/images/admin.jpg"
+                                src="/images/admin.jpg"
                                 alt=""
                               />
                             </div>
@@ -145,8 +202,10 @@ const SellerToCustomer = () => {
                 )}
               </div>
             </div>
-            <form className="flex gap-3">
+            <form onSubmit={send} className="flex gap-3">
               <input
+                onChange={(e) => setText(e.target.value)}
+                value={text}
                 className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]"
                 type="text"
                 placeholder="input your message"
