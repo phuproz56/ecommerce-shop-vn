@@ -6,10 +6,11 @@ import { Link } from "react-router-dom";
 import { BsEmojiSmile } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { get_customers, messageClear } from "../../store/Reducers/chatReducer";
+import { get_customers, messageClear,get_customer_message } from "../../store/Reducers/chatReducer";
 
 const SellerToCustomer = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const { customers,messages } = useSelector((state) => state.chat);
   const dispatch = useDispatch();
   const { customerId } = useParams();
   const [show, setShow] = useState(false);
@@ -17,6 +18,12 @@ const SellerToCustomer = () => {
   useEffect(() => {
     dispatch(get_customers(userInfo._id));
   }, [dispatch]);
+
+  useEffect(()=>{
+    if(customerId){
+      dispatch(get_customer_message(customerId))
+    }
+  },[customerId])
 
   return (
     <div className="px-2 lg:px-7 py-5">
@@ -37,7 +44,7 @@ const SellerToCustomer = () => {
                   <IoMdClose />
                 </span>
               </div>
-              {[1, 2, 3, 4, 5].map((c, i) => (
+              {customers.map((c, i) => (
                 <Link
                   key={i}
                   to={`/seller/dashboard/chat-customer/${c.fdId}`}
