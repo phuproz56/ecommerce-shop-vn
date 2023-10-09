@@ -3,9 +3,11 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { socket } from "../utils/utils";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateCustomer } from "../store/Reducers/chatReducer";
 
 function MainLayout() {
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const [showSidebar, setShowSidebar] = useState(false);
 
@@ -16,6 +18,13 @@ function MainLayout() {
       socket.emit("add_admin", userInfo);
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    socket.on("activeCustomer", (customers) => {
+      dispatch(updateCustomer(customers));
+    });
+  }, []);
+
   return (
     <div className="bg-[#161d31] w-full min-h-screen">
       <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} />

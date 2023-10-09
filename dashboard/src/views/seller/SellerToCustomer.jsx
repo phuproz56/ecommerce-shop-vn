@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-concat */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
@@ -15,22 +16,29 @@ import {
 } from "../../store/Reducers/chatReducer";
 import { socket } from "../../utils/utils";
 import toast from "react-hot-toast";
+import { useRef } from "react";
 
 const SellerToCustomer = () => {
+  const scrollRef = useRef();
   const { userInfo } = useSelector((state) => state.auth);
-  const { customers, currentCustomer, messages, successMessage } = useSelector(
-    (state) => state.chat
-  );
-  const dispatch = useDispatch();
-  const { customerId } = useParams();
-  const [show, setShow] = useState(false);
-  const [text, setText] = useState("");
+  const {
+    customers,
+    currentCustomer,
+    messages,
+    successMessage,
+    activeCustomer,
+  } = useSelector((state) => state.chat);
   const [receverMessage, setReceverMessage] = useState("");
+  const dispatch = useDispatch();
+  const [text, setText] = useState("");
+  const { customerId } = useParams();
+
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     dispatch(get_customers(userInfo._id));
   }, []);
-
+  
   useEffect(() => {
     if (customerId) {
       dispatch(get_customer_message(customerId));
@@ -61,9 +69,9 @@ const SellerToCustomer = () => {
     socket.on("customer_message", (msg) => {
       setReceverMessage(msg);
     });
-    // socket.on("activeSeller", (sellers) => {
-    //   setActiveSeller(sellers);
-    // });
+    // socket.on('activeSeller', (sellers) => {
+    //     setActiveSeller(sellers)
+    // })
   }, []);
 
   useEffect(() => {
@@ -74,12 +82,15 @@ const SellerToCustomer = () => {
       ) {
         dispatch(updateMessage(receverMessage));
       } else {
-        toast.success(receverMessage.senderName + "" + "send a message");
+        toast.success(receverMessage.senderName + " " + "send a message");
         dispatch(messageClear());
       }
     }
   }, [receverMessage]);
-  console.log(receverMessage)
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-[#283046] px-4 py-4 rounded-md h-[calc(100vh-140px)]">
@@ -111,6 +122,9 @@ const SellerToCustomer = () => {
                       src="http://localhost:3001/images/admin.jpg"
                       alt=""
                     />
+                    {activeCustomer.some((a) => a.customerId === c.fdId) && (
+                      <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+                    )}
                   </div>
                   <div className="flex justify-center items-start flex-col w-full">
                     <div className="flex justify-between items-center w-full">
@@ -131,6 +145,11 @@ const SellerToCustomer = () => {
                       src="http://localhost:3001/images/admin.jpg"
                       alt=""
                     />
+                    {activeCustomer.some(
+                      (a) => a.customerId === currentCustomer._id
+                    ) && (
+                      <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+                    )}
                   </div>
                   <h2 className="text-base text-white font-semibold">
                     {currentCustomer.name}
@@ -153,6 +172,7 @@ const SellerToCustomer = () => {
                     if (m.senderId === customerId) {
                       return (
                         <div
+                          ref={scrollRef}
                           key={i}
                           className="w-full flex justify-start items-center"
                         >
@@ -160,7 +180,7 @@ const SellerToCustomer = () => {
                             <div>
                               <img
                                 className="w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]"
-                                src="/images/admin.jpg"
+                                src="http://localhost:3001/images/admin.jpg"
                                 alt=""
                               />
                             </div>
@@ -173,6 +193,7 @@ const SellerToCustomer = () => {
                     } else {
                       return (
                         <div
+                          ref={scrollRef}
                           key={i}
                           className="w-full flex justify-end items-center"
                         >
@@ -183,7 +204,7 @@ const SellerToCustomer = () => {
                             <div>
                               <img
                                 className="w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]"
-                                src="/images/admin.jpg"
+                                src="http://localhost:3001/images/admin.jpg"
                                 alt=""
                               />
                             </div>
@@ -204,13 +225,17 @@ const SellerToCustomer = () => {
             </div>
             <form onSubmit={send} className="flex gap-3">
               <input
+                readOnly={customerId ? false : true}
                 onChange={(e) => setText(e.target.value)}
                 value={text}
                 className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]"
                 type="text"
                 placeholder="input your message"
               />
-              <button className="shadow-lg bg-cyan-500 hover:shadow-cyan-500/50 text-semibold w-[75px] h-[35px] rounded-md text-white flex justify-center items-center">
+              <button
+                disabled={customerId ? false : true}
+                className="shadow-lg bg-cyan-500 hover:shadow-cyan-500/50 text-semibold w-[75px] h-[35px] rounded-md text-white flex justify-center items-center"
+              >
                 Send
               </button>
             </form>

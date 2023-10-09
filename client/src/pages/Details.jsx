@@ -38,6 +38,7 @@ const Details = () => {
   const { errorMessage, successMessage } = useSelector((state) => state.card);
 
   const location = useLocation();
+  
   useEffect(() => {
     window.scrollTo({
       top: 400,
@@ -166,6 +167,7 @@ const Details = () => {
       },
     });
   };
+
   const [color, setColor] = useState(true);
   const color_wishlist = () => {
     if (add_wishlist) {

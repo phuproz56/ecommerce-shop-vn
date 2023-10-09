@@ -72,6 +72,9 @@ export const chatReducer = createSlice({
     updateMessage: (state, { payload }) => {
       state.messages = [...state.messages, payload];
     },
+    updateCustomer: (state, { payload }) => {
+      state.activeCustomer = payload;
+    },
   },
   extraReducers: {
     [get_customers.fulfilled]: (state, { payload }) => {
@@ -98,5 +101,6 @@ export const chatReducer = createSlice({
     },
   },
 });
-export const { messageClear, updateMessage } = chatReducer.actions;
+export const { messageClear, updateMessage, updateCustomer } =
+  chatReducer.actions;
 export default chatReducer.reducer;

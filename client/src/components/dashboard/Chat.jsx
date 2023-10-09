@@ -14,19 +14,22 @@ import {
   updateMessage,
 } from "../../store/reducers/ChatReducer";
 import toast from "react-hot-toast";
+import { useRef } from "react";
 
 const socket = io("http://localhost:5000");
 
 const Chat = () => {
+  const scrollRef = useRef();
+
   const dispatch = useDispatch();
   const { sellerId } = useParams();
   const [text, setText] = useState("");
-  const { userInfo } = useSelector((state) => state.auth);
+  const [receverMessage, setReceverMessage] = useState("");
   const [activeSeller, setActiveSeller] = useState([]);
+  const { userInfo } = useSelector((state) => state.auth);
   const { fd_messages, currentFd, my_friends, successMessage } = useSelector(
     (state) => state.chat
   );
-  const [receverMessage, setReceverMessage] = useState("");
 
   useEffect(() => {
     socket.emit("add_user", userInfo.id, userInfo);
@@ -65,7 +68,13 @@ const Chat = () => {
   }, []);
 
   useEffect(() => {
-    console.log(receverMessage);
+    if (successMessage) {
+      socket.emit("send_customer_message", fd_messages[fd_messages.length - 1]);
+      dispatch(messageClear());
+    }
+  }, [successMessage]);
+
+  useEffect(() => {
     if (receverMessage) {
       if (
         sellerId === receverMessage.senderId &&
@@ -73,18 +82,15 @@ const Chat = () => {
       ) {
         dispatch(updateMessage(receverMessage));
       } else {
-        toast.success(receverMessage.senderName + "" + "send a message");
+        toast.success(receverMessage.senderName + " " + "send a message");
         dispatch(messageClear());
       }
     }
   }, [receverMessage]);
 
   useEffect(() => {
-    if (successMessage) {
-      socket.emit("send_customer_message", fd_messages[fd_messages.length - 1]);
-      dispatch(messageClear());
-    }
-  }, [successMessage]);
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [fd_messages]);
 
   return (
     <div className="bg-white p-3 rounded-md">
@@ -101,13 +107,13 @@ const Chat = () => {
               <Link
                 to={`/dashboard/chat/${f.fdId}`}
                 key={i}
-                className="flex gap-2 justify-start items-center pl-2 py-[5px]"
+                className={`flex gap-2 justify-start items-center pl-2 py-[5px]`}
               >
                 <div className="w-[30px] h-[30px] rounded-full relative">
                   {activeSeller.some((c) => c.sellerId === f.fdId) && (
                     <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0"></div>
                   )}
-                  <img src="/images/user.png" alt="" />
+                  <img src="http://localhost:3000/images/user.png" alt="" />
                 </div>
                 <span>{f.name}</span>
               </Link>
@@ -122,7 +128,7 @@ const Chat = () => {
                   {activeSeller.some((c) => c.sellerId === currentFd.fdId) && (
                     <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0"></div>
                   )}
-                  <img src="http://localhost:3000/images/user.png" alt="" />
+                  <img src="/images/user.png" alt="" />
                 </div>
                 <span>{currentFd.name}</span>
               </div>
@@ -131,9 +137,13 @@ const Chat = () => {
                   {fd_messages.map((m, i) => {
                     if (currentFd?.fdId !== m.receverId) {
                       return (
-                        <div className="w-full flex gap-2 justify-start items-center text-[14px]">
+                        <div
+                          key={i}
+                          ref={scrollRef}
+                          className="w-full flex gap-2 justify-start items-center text-[14px]"
+                        >
                           <img
-                            className="w-[30px] h-[30px] rounded-full"
+                            className="w-[30px] h-[30px] "
                             src="/images/user.png"
                             alt=""
                           />
@@ -144,9 +154,13 @@ const Chat = () => {
                       );
                     } else {
                       return (
-                        <div className="w-full flex gap-2 justify-end items-center text-[14px]">
+                        <div
+                          key={i}
+                          ref={scrollRef}
+                          className="w-full flex gap-2 justify-end items-center text-[14px]"
+                        >
                           <img
-                            className="w-[30px] h-[30px] rounded-full"
+                            className="w-[30px] h-[30px] "
                             src="/images/user.png"
                             alt=""
                           />
@@ -160,13 +174,13 @@ const Chat = () => {
                 </div>
               </div>
               <div className="flex p-2 justify-between items-center w-full">
-                <div className="w-[40px] h-[40px] border p-2 justify-center items-center flex rounded-full ">
+                <div className="w-[40px] h-[40px] border p-2 justify-center items-center flex rounded-full">
                   <label className="cursor-pointer" htmlFor="">
                     <AiOutlinePlus />
                   </label>
-                  <input className="hidden" type="text" />
+                  <input className="hidden" type="file" />
                 </div>
-                <div className="border h-[40px] p-0 ml-2 w-[calc(100%-90px)] rounded-full relative flex">
+                <div className="border h-[40px] p-0 ml-2 w-[calc(100%-90px)] rounded-full relative">
                   <input
                     value={text}
                     onChange={(e) => setText(e.target.value)}
@@ -188,7 +202,7 @@ const Chat = () => {
               </div>
             </div>
           ) : (
-            <div className="w-full h-full flex justify-center items-center text-lg font-bold text-slate-600">
+            <div className="w-full h-full flex justify-center items-center text-lg ont-bold text-slate-600">
               <span>select seller</span>
             </div>
           )}
