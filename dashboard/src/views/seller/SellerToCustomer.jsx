@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { FaList } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
 import { BsEmojiSmile } from "react-icons/bs";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { get_customers, messageClear } from "../../store/Reducers/chatReducer";
 
 const SellerToCustomer = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { customerId } = useParams();
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    dispatch(get_customers(userInfo._id));
+  }, [dispatch]);
 
   return (
     <div className="px-2 lg:px-7 py-5">
