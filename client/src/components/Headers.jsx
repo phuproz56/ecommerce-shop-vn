@@ -130,10 +130,10 @@ const Headers = () => {
             <div className="md-lg:w-full w-3/12 md-lg:pt-4">
               <div className="flex justify-between items-center">
                 <Link to="/">
-                  <img src="/images/logo.png" alt="logo" />
+                  <img src="/images/vnshop.jpg" alt="logo" />
                 </Link>
                 <div
-                  className="flex justify-center items-center w-[30px] h-[30px] bg-white text-slate-600 border border-slate-600 rounded-sm cursor-pointer lg:hidden md-lg:flex xl:hidden hidden"
+                  className=" justify-center items-center w-[30px] h-[30px] bg-white text-slate-600 border border-slate-600 rounded-sm cursor-pointer lg:hidden md-lg:flex xl:hidden hidden"
                   onClick={() => setshowSlidebar(false)}
                 >
                   <span>
@@ -247,7 +247,7 @@ const Headers = () => {
         >
           <div className="flex justify-start flex-col gap-6">
             <Link to="/">
-              <img src="/images/logo.png" alt="logo" />
+              <img src="/images/vnshop.jpg" alt="logo" />
             </Link>
             <div className="flex justify-start items-center gap-10">
               <div

@@ -27,7 +27,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
       >
         <div className="h-[70px] flex justify-center items-center">
           <Link to="/" className="w-[180px] h-[50px]">
-            <img className="w-full h-full" src="/images/logo.png" alt="" />
+            <img className="w-full h-full" src="/images/vnshop.jpg" alt="" />
           </Link>
         </div>
         <div className="px-[16px]">

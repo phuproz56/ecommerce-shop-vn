@@ -53,7 +53,7 @@ function AdminLogin() {
             <div className="w-[180px] h-[50px]">
               <img
                 className="w-full h-full"
-                src="/images/logo.png"
+                src="/images/vnshop.jpg"
                 alt="image"
               />
             </div>
