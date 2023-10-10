@@ -40,8 +40,8 @@ const addUser = (customerId, socketId, userInfo) => {
 };
 
 const addSeller = (sellerId, socketId, userInfo) => {
-  const checkSeller = allSeller.some((u) => u.sellerId === sellerId);
-  if (!checkSeller) {
+  const chaeckSeller = allSeller.some((u) => u.sellerId === sellerId);
+  if (!chaeckSeller) {
     allSeller.push({
       sellerId,
       socketId,
@@ -53,7 +53,6 @@ const addSeller = (sellerId, socketId, userInfo) => {
 const findCustomer = (customerId) => {
   return allCustomer.find((c) => c.customerId === customerId);
 };
-
 const findSeller = (sellerId) => {
   return allSeller.find((c) => c.sellerId === sellerId);
 };
@@ -65,6 +64,12 @@ const remove = (socketId) => {
 
 let admin = {};
 
+const removeAdmin = (socketId) => {
+  if (admin.socketId === socketId) {
+    admin = {};
+  }
+};
+
 io.on("connection", (soc) => {
   console.log("socket server is connected...");
 
@@ -73,20 +78,21 @@ io.on("connection", (soc) => {
     io.emit("activeSeller", allSeller);
     io.emit("activeCustomer", allCustomer);
   });
+  soc.on("add_seller", (sellerId, userInfo) => {
+    addSeller(sellerId, soc.id, userInfo);
+    io.emit("activeSeller", allSeller);
+    io.emit("activeCustomer", allCustomer);
+    io.emit("activeAdmin", { status: true });
+  });
 
   soc.on("add_admin", (adminInfo) => {
     delete adminInfo.email;
     admin = adminInfo;
     admin.socketId = soc.id;
     io.emit("activeSeller", allSeller);
+    io.emit("activeAdmin", { status: true });
   });
-
-  soc.on("add_seller", (sellerId, userInfo) => {
-    addSeller(sellerId, soc.id, userInfo);
-    io.emit("activeSeller", allSeller);
-    io.emit("activeCustomer", allCustomer);
-  });
-
+  
   soc.on("send_seller_message", (msg) => {
     const customer = findCustomer(msg.receverId);
     if (customer !== undefined) {
@@ -101,9 +107,24 @@ io.on("connection", (soc) => {
     }
   });
 
+  soc.on("send_message_admin_to_seller", (msg) => {
+    const seller = findSeller(msg.receverId);
+    if (seller !== undefined) {
+      soc.to(seller.socketId).emit("receved_admin_message", msg);
+    }
+  });
+
+  soc.on("send_message_seller_to_admin", (msg) => {
+    if (admin.socketId) {
+      soc.to(admin.socketId).emit("receved_seller_message", msg);
+    }
+  });
+
   soc.on("disconnect", () => {
-    console.log("user disconnect!");
+    console.log("user disconnect");
     remove(soc.id);
+    removeAdmin(soc.id);
+    io.emit("activeAdmin", { status: false });
     io.emit("activeSeller", allSeller);
     io.emit("activeCustomer", allCustomer);
   });

@@ -1,10 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { socket } from "../utils/utils";
 import { useSelector, useDispatch } from "react-redux";
-import { updateCustomer, updateSellers } from "../store/Reducers/chatReducer";
+import {
+  updateCustomer,
+  updateSellers,
+  activeStatus_update,
+} from "../store/Reducers/chatReducer";
 
 function MainLayout() {
   const dispatch = useDispatch();
@@ -25,6 +30,9 @@ function MainLayout() {
     });
     socket.on("activeSeller", (sellers) => {
       dispatch(updateSellers(sellers));
+    });
+    socket.on("activeAdmin", (data) => {
+      dispatch(activeStatus_update(data));
     });
   }, []);
 
