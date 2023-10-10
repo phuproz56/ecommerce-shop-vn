@@ -1,5 +1,4 @@
 import { lazy } from "react";
-const Home = lazy(() => import("../../views/Home"));
 const SellerDashboard = lazy(() =>
   import("../../views/seller/SellerDashboard")
 );
@@ -17,9 +16,8 @@ const SellerToCustomer = lazy(() =>
 const Profile = lazy(() => import("../../views/seller/Profile"));
 const EditProduct = lazy(() => import("../../views/seller/EditProduct"));
 const OrderDetails = lazy(() => import("../../views/seller/OrderDetails"));
-const Deactive = lazy(() => import("../../views/Deactive"));
 const Pending = lazy(() => import("../../views/Pending"));
-
+const Deactive = lazy(() => import("../../views/Deactive"));
 export const sellerRoutes = [
   {
     path: "/seller/account-pending",
@@ -31,12 +29,14 @@ export const sellerRoutes = [
     element: <Deactive />,
     ability: "seller",
   },
+
   {
     path: "/seller/dashboard",
     element: <SellerDashboard />,
     role: "seller",
     status: "active",
   },
+
   {
     path: "/seller/dashboard/add-product",
     element: <AddProduct />,
@@ -55,6 +55,7 @@ export const sellerRoutes = [
     role: "seller",
     status: "active",
   },
+
   {
     path: "/seller/dashboard/discount-products",
     element: <DiscountProducts />,

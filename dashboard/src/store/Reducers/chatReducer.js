@@ -48,6 +48,21 @@ export const send_message = createAsyncThunk(
   }
 );
 
+export const get_sellers = createAsyncThunk(
+  "chat/get_sellers",
+  async (customerId, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(`/chat/admin/get-sellers/`, {
+        withCredentials: true,
+      });
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const chatReducer = createSlice({
   name: "chat",
   initialState: {
@@ -63,6 +78,7 @@ export const chatReducer = createSlice({
     seller_admin_message: [],
     currentSeller: {},
     currentCustomer: {},
+    sellers: [],
   },
   reducers: {
     messageClear: (state, _) => {
@@ -74,6 +90,9 @@ export const chatReducer = createSlice({
     },
     updateCustomer: (state, { payload }) => {
       state.activeCustomer = payload;
+    },
+    updateSellers: (state, { payload }) => {
+      state.activeSeller = payload;
     },
   },
   extraReducers: {
@@ -99,8 +118,11 @@ export const chatReducer = createSlice({
       state.messages = [...state.messages, payload.message];
       state.successMessage = " message send success";
     },
+    [get_sellers.fulfilled]: (state, { payload }) => {
+      state.sellers = payload.sellers;
+    },
   },
 });
-export const { messageClear, updateMessage, updateCustomer } =
+export const { messageClear, updateMessage, updateCustomer, updateSellers } =
   chatReducer.actions;
 export default chatReducer.reducer;

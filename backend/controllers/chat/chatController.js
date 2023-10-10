@@ -247,14 +247,14 @@ class chatController {
       const data = await sellerCustomerModel.findOne({ myId: senderId });
       let myFriends = data.myFriends;
       let index = myFriends.findIndex((f) => f.fdId === receverId);
-      
+
       while (index > 0) {
         let temp = myFriends[index];
         myFriends[index] = myFriends[index - 1];
         myFriends[index - 1] = temp;
         index--;
       }
-      
+
       await sellerCustomerModel.updateOne(
         {
           myId: senderId,
@@ -263,7 +263,7 @@ class chatController {
           myFriends,
         }
       );
-      
+
       const data1 = await sellerCustomerModel.findOne({ myId: receverId });
       let myFriends1 = data1.myFriends;
       let index1 = myFriends1.findIndex((f) => f.fdId === senderId);
@@ -285,6 +285,15 @@ class chatController {
       );
 
       responseReturn(res, 201, { message });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  get_sellers = async (req, res) => {
+    try {
+      const sellers = await sellerModel.find({});
+      responseReturn(res, 200, { sellers });
     } catch (error) {
       console.log(error);
     }

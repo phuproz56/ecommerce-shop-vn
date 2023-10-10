@@ -46,6 +46,7 @@ const Headers = () => {
     }
   };
 
+
   return (
     <div className="w-full bg-white">
       <div className="header-top bg-[#eeeeee] md-lg:hidden">
@@ -83,13 +84,14 @@ const Headers = () => {
                   className="flex group cursor-pointer text-slate-800 text-sm
                 justify-center items-center gap-1 relative after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px]
                 after:absolute before:absolute before:h-[18px] before:bg-[#afafaf] before:w-[1px] before:-left-[20px]"
+                  
                 >
                   <img src="/images/language.png" alt="" />
                   <span>
                     <MdOutlineKeyboardArrowDown />
                   </span>
                   <ul className="absolute invisible transition-all-to-12 rounded-sm duration-200 text-white p-2 w-[100px] flex flex-col gap-3 group-hover:visible group-hover:top-6 group-hover:bg-black z-10">
-                    <li>VietNam</li>
+                    <li>Vietnamese</li>
                     <li>English</li>
                   </ul>
                 </div>

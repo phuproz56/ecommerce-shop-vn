@@ -25,4 +25,10 @@ router.post(
   chatController.seller_message_add
 );
 
+router.get(
+  "/chat/admin/get-sellers",
+  authMiddleware,
+  chatController.get_sellers
+);
+
 module.exports = router;

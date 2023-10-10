@@ -34,13 +34,13 @@ const Header = ({ showSidebar, setShowSidebar }) => {
               {userInfo.role === "admin" ? (
                 <img
                   className="w-[45px] h-[45px] rounded-full overflow-hidden"
-                  src="http://localhost:3000/images/admin.jpg"
+                  src="/images/admin.jpg"
                   alt=""
                 />
               ) : (
                 <img
                   className="w-[45px] h-[45px] rounded-full overflow-hidden"
-                  src="http://localhost:3000/images/seller.png"
+                  src="/images/seller.png"
                   alt=""
                 />
               )}

@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { FaList } from "react-icons/fa";
-import { Link } from "react-router-dom";
-
+import { Link, useParams } from "react-router-dom";
 import { BsEmojiSmile } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { get_sellers, updateSellers } from "../../store/Reducers/chatReducer";
 
 const ChatSeller = () => {
+  const { sellerId } = useParams();
+  const dispatch = useDispatch();
+  const { sellers, activeSeller } = useSelector((state) => state.chat);
   const [show, setShow] = useState(false);
 
+  useEffect(() => {
+    dispatch(get_sellers(sellers));
+  }, []);
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-[#283046] px-4 py-4 rounded-md h-[calc(100vh-140px)]">
@@ -25,18 +32,21 @@ const ChatSeller = () => {
                   <IoMdClose />
                 </span>
               </div>
-              {[1, 2, 3, 4, 5, 2, 3, 4, 5, , 43].map((s, i) => (
+              {sellers.map((s, i) => (
                 <Link
                   key={i}
                   to={`/admin/dashboard/chat-sellers/${s._id}`}
-                  className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 rounded-sm py-2 rounded-sm cursor-pointer`}
+                  className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 rounded-sm py-2 cursor-pointer`}
                 >
                   <div className="relative">
                     <img
                       className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
                       src={s.image}
-                      alt=""
+                      alt="image_sellers"
                     />
+                    {activeSeller.some((a) => a.sellerId === s._id) && (
+                      <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+                    )}
                   </div>
                   <div className="flex justify-center items-start flex-col w-full">
                     <div className="flex justify-between items-center w-full">
@@ -49,17 +59,20 @@ const ChatSeller = () => {
           </div>
           <div className="w-full md:w-[calc(100%-200px)] md:pl-4">
             <div className="flex justify-between items-center">
-              <div className="flex justify-start items-center gap-3">
-                <div className="relative">
-                  <img
-                    className="w-[42px] h-[42px] border-green-500 border-2 max-w-[38px] p-[2px] rounded-full"
-                    src="http://localhost:3000/images/admin.jpg"
-                    alt=""
-                  />
-                  <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+              {sellerId && (
+                <div className="flex justify-start items-center gap-3">
+                  <div className="relative">
+                    <img
+                      className="w-[42px] h-[42px] border-green-500 border-2 max-w-[38px] p-[2px] rounded-full"
+                      src="/admin.jpg"
+                      alt=""
+                    />
+
+                    <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+                  </div>
+                  <span className="text-white">dgd</span>
                 </div>
-                <span className="text-white">dgd</span>
-              </div>
+              )}
 
               <div
                 onClick={() => setShow(!show)}

@@ -63,13 +63,22 @@ const remove = (socketId) => {
   allSeller = allSeller.filter((c) => c.socketId !== socketId);
 };
 
+let admin = {};
+
 io.on("connection", (soc) => {
   console.log("socket server is connected...");
 
   soc.on("add_user", (customerId, userInfo) => {
     addUser(customerId, soc.id, userInfo);
-    io.emit('activeSeller', allSeller);
+    io.emit("activeSeller", allSeller);
     io.emit("activeCustomer", allCustomer);
+  });
+
+  soc.on("add_admin", (adminInfo) => {
+    delete adminInfo.email;
+    admin = adminInfo;
+    admin.socketId = soc.id;
+    io.emit("activeSeller", allSeller);
   });
 
   soc.on("add_seller", (sellerId, userInfo) => {
