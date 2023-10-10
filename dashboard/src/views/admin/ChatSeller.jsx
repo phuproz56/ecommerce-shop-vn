@@ -110,14 +110,14 @@ const ChatSeller = () => {
                 <Link
                   key={i}
                   to={`/admin/dashboard/chat-sellers/${s._id}`}
-                  className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 rounded-sm py-2 rounded-sm cursor-pointer ${
+                  className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 rounded-sm py-2 cursor-pointer ${
                     sellerId === s._id ? "bg-slate-700" : ""
                   }`}
                 >
                   <div className="relative">
                     <img
                       className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full"
-                      src={s?.image}
+                      src={`${s.image ? s.image : "/images/seller.png"}`}
                       alt=""
                     />
                     {activeSellers.some((a) => a.sellerId === s._id) && (
@@ -139,11 +139,21 @@ const ChatSeller = () => {
                 <div className="flex justify-start items-center gap-3">
                   <div className="relative">
                     <img
-                      className="w-[42px] h-[42px] border-green-500 border-2 max-w-[38px] p-[2px] rounded-full"
-                      src={currentSeller?.image}
+                      className={`w-[42px] h-[42px] ${
+                        activeSellers.some((a) => a.sellerId === sellerId)
+                          ? "border-green-500"
+                          : ""
+                      }  border-2 max-w-[38px] p-[2px] rounded-full`}
+                      src={`${
+                        currentSeller.image
+                          ? currentSeller.image
+                          : "/images/seller.png"
+                      }`}
                       alt=""
                     />
-                    <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+                    {activeSellers.some((a) => a.sellerId === sellerId) && (
+                      <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
+                    )}
                   </div>
                   <span className="text-white">{currentSeller?.name}</span>
                 </div>
@@ -164,14 +174,19 @@ const ChatSeller = () => {
                     if (m.senderId === sellerId) {
                       return (
                         <div
+                          key={i}
                           ref={scrollRef}
                           className="w-full flex justify-start items-center"
                         >
                           <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
                             <div>
                               <img
-                                className="w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]"
-                                src="/images/admin.jpg"
+                                className="w-[38px] h-[38px] border-2 border-green-500 rounded-full max-w-[38px] p-[3px]"
+                                src={`${
+                                  currentSeller.image
+                                    ? currentSeller.image
+                                    : "/images/seller.png"
+                                }`}
                                 alt=""
                               />
                             </div>
@@ -184,6 +199,7 @@ const ChatSeller = () => {
                     } else {
                       return (
                         <div
+                          key={i}
                           ref={scrollRef}
                           className="w-full flex justify-end items-center"
                         >
