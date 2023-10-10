@@ -87,6 +87,7 @@ const SellerToCustomer = () => {
       }
     }
   }, [receverMessage]);
+  
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);

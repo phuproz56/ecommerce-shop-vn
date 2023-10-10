@@ -1,20 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { FaList } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { BsEmojiSmile } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { get_sellers, updateSellers } from "../../store/Reducers/chatReducer";
+import {
+  get_sellers,
+  send_message_seller_admin,
+  messageClear,
+} from "../../store/Reducers/chatReducer";
 
 const ChatSeller = () => {
   const { sellerId } = useParams();
   const dispatch = useDispatch();
-  const { sellers, activeSeller } = useSelector((state) => state.chat);
+  const { userInfo } = useSelector((state) => state.auth);
+  const { sellers, activeSeller, messages, seller_admin_message } = useSelector(
+    (state) => state.chat
+  );
   const [show, setShow] = useState(false);
 
+  const scrollRef = useRef();
+  const [text, setText] = useState("");
+
   useEffect(() => {
-    dispatch(get_sellers(sellers));
+    dispatch(get_sellers());
   }, []);
+
+  const send = (e) => {
+    e.preventDefault();
+    dispatch(
+      send_message_seller_admin({
+        senderId: userInfo.id,
+        receverId: sellerId,
+        message: text,
+        senderName: "VN-Shop Support",
+      })
+    );
+    setText("");
+  };
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-[#283046] px-4 py-4 rounded-md h-[calc(100vh-140px)]">
@@ -84,15 +112,74 @@ const ChatSeller = () => {
               </div>
             </div>
             <div className="py-4">
-              <div className="bg-slate-800 h-[calc(100vh-290px)] rounded-md p-3 overflow-y-auto"></div>
+              <div className="bg-slate-800 h-[calc(100vh-290px)] rounded-md p-3 overflow-y-auto">
+                {sellerId ? (
+                  seller_admin_message.map((m, i) => {
+                    if (m.senderId === sellerId) {
+                      return (
+                        <div
+                          ref={scrollRef}
+                          className="w-full flex justify-start items-center"
+                        >
+                          <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
+                            <div>
+                              <img
+                                className="w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]"
+                                src="/images/admin.jpg"
+                                alt=""
+                              />
+                            </div>
+                            <div className="flex justify-center items-start flex-col w-full bg-orange-500 shadow-lg shadow-orange-500/50 text-white py-1 px-2 rounded-sm">
+                              <span>{m.message}</span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div
+                          ref={scrollRef}
+                          className="w-full flex justify-end items-center"
+                        >
+                          <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
+                            <div className="flex justify-center items-start flex-col w-full bg-blue-500 shadow-lg shadow-blue-500/50 text-white py-1 px-2 rounded-sm">
+                              <span>{m.message}</span>
+                            </div>
+                            <div>
+                              <img
+                                className="w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]"
+                                src="/images/admin.jpg"
+                                alt=""
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                  })
+                ) : (
+                  <div className="w-full h-full flex justify-center items-center flex-col gap-2 text-white">
+                    <span>
+                      <BsEmojiSmile />
+                    </span>
+                    <span>Select seller</span>
+                  </div>
+                )}
+              </div>
             </div>
-            <form className="flex gap-3">
+            <form onSubmit={send} className="flex gap-3">
               <input
+              onChange={(e) => setText(e.target.value)}
+                value={text}
+                readOnly={sellerId ? false : true}
                 className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]"
                 type="text"
                 placeholder="input your message"
               />
-              <button className="shadow-lg bg-cyan-500 hover:shadow-cyan-500/50 text-semibold w-[75px] h-[35px] rounded-md text-white flex justify-center items-center">
+              <button
+                disabled={sellerId ? false : true}
+                className="shadow-lg bg-cyan-500 hover:shadow-cyan-500/50 text-semibold w-[75px] h-[35px] rounded-md text-white flex justify-center items-center"
+              >
                 Send
               </button>
             </form>
