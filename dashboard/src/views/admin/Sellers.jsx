@@ -1,6 +1,5 @@
-/* eslint-disable jsx-a11y/scope */
 import React, { useEffect, useState } from "react";
-import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -77,59 +76,59 @@ const Sellers = () => {
             <tbody className="text-sm font-normal">
               {sellers.map((d, i) => (
                 <tr key={i}>
-                  <td
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     {i + 1}
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <img
                       className="w-[45px] h-[45px]"
                       src={d.image ? d.image : "/images/seller.png"}
-                      alt=""
+                      alt="img_seller"
                     />
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <span>{d.name}</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <span>{d.shopInfo?.shopName}</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <span>{d.status}</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <span>{d.email}</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <span>{d.shopInfo?.division}</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <span>{d.shopInfo?.district}</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
@@ -141,7 +140,7 @@ const Sellers = () => {
                         <FaEye />
                       </Link>
                     </div>
-                  </td>
+                  </th>
                 </tr>
               ))}
             </tbody>

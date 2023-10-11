@@ -12,9 +12,9 @@ const DeactiveSellers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
-  const [show, setShow] = useState(false);
+  //   const [show, setShow] = useState(false);
 
-  const { sellers, totalSellers } = useSelector((state) => state.seller);
+  const { sellers, totalSeller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -152,12 +152,12 @@ const DeactiveSellers = () => {
             </tbody>
           </table>
         </div>
-        {totalSellers <= parPage ? (
+        {totalSeller <= parPage ? (
           <div className="w-full flex justify-end mt-4 bottom-4 right-4">
             <Pagination
               pageNumber={currentPage}
               setPageNumber={setCurrentPage}
-              totalItem={totalSellers}
+              totalItem={totalSeller}
               parPage={parPage}
               showItem={4}
             />

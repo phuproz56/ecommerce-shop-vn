@@ -22,8 +22,14 @@ import {
 } from "../store/reducers/homeReducer";
 
 const Shops = () => {
-  const { categorys, products, totalProduct, latest_products, priceRange,parPage } =
-    useSelector((state) => state.home);
+  const {
+    categorys,
+    products,
+    totalProduct,
+    latest_products,
+    priceRange,
+    parPage,
+  } = useSelector((state) => state.home);
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(1);
   const [styles, setStyles] = useState("grid");
@@ -92,8 +98,9 @@ const Shops = () => {
 
   return (
     <div>
+      <img src="" alt="" />
       <Headers />
-      <section className="bg-[url('http://localhost:3000/images/banner/shop.gif')] h-[220px] mt-6 bg-cover bg-no-reqeat relative bg-left">
+      <section className='bg-[url("http://localhost:3000/images/banner/shop.gif")] h-[220px] mt-6 bg-cover bg-no-reqeat relative bg-left'>
         <div className="absolute left-0 top-0 h-full w-full mx-auto bg-[#2422228a]">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
             <div className="flex flex-col justify-center gap-1 items-center h-full w-full text-white">

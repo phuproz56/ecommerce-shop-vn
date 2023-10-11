@@ -113,7 +113,7 @@ const Chat = () => {
                   {activeSeller.some((c) => c.sellerId === f.fdId) && (
                     <div className="w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0"></div>
                   )}
-                  <img src="http://localhost:3000/images/user.png" alt="" />
+                  <img src="/images/user.png" alt="" />
                 </div>
                 <span>{f.name}</span>
               </Link>

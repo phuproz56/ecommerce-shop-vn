@@ -42,7 +42,7 @@ const Banner = () => {
                   >
                     <img
                       className="w-full h-[400px]"
-                      src={`http://localhost:3000/images/banner/${img}.jpg`}
+                      src={`/images/banner/${img}.jpg`}
                       alt=""
                     />
                   </Link>

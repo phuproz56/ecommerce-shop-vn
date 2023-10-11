@@ -2,7 +2,6 @@ const sellerModel = require("../../models/sellerModel");
 const { responseReturn } = require("../../utils/response");
 class sellerController {
   get_seller_request = async (req, res) => {
-    console.log(req.query);
     const { page, searchValue, parPage } = req.query;
     const skipPage = parseInt(parPage) * (parseInt(page) - 1);
     try {
@@ -130,7 +129,7 @@ class sellerController {
       console.log("active seller get " + error.message);
     }
   };
-  
+
 }
 
 module.exports = new sellerController();

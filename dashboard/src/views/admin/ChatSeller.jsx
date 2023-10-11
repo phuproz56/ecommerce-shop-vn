@@ -81,7 +81,7 @@ const ChatSeller = () => {
         toast.success(recevedMessage.senderName + " send a message");
       }
     }
-  }, [recevedMessage]);
+  }, [recevedMessage, dispatch]);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
