@@ -27,7 +27,6 @@ export const get_seller = createAsyncThunk(
         withCredentials: true,
       });
       return fulfillWithValue(data);
-      
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

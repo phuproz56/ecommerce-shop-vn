@@ -8,10 +8,12 @@ router.get(
   sellerController.get_seller_request
 );
 
+router.get("/get-sellers", authMiddleware, sellerController.get_active_sellers);
+
 router.get(
-  "/get-sellers",
+  "/get-deactive-sellers",
   authMiddleware,
-  sellerController.get_active_sellers
+  sellerController.get_deactive_sellers
 );
 
 router.get(
@@ -20,9 +22,9 @@ router.get(
   sellerController.get_seller
 );
 router.post(
-    "/seller-status-update",
-    authMiddleware,
-    sellerController.seller_status_update
-  );
+  "/seller-status-update",
+  authMiddleware,
+  sellerController.seller_status_update
+);
 
 module.exports = router;
