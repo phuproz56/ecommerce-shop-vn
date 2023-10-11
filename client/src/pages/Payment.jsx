@@ -31,7 +31,7 @@ const Payment = () => {
                       <span className="text-slate-600">Stripe</span>
                     </div>
                   </div>
-                  <div
+                  {/* <div
                     onClick={() => setPaymentMethod("bkash")}
                     className={`w-[20%] border-r cursor-pointer py-8 px-12 ${
                       paymentMethod === "bkash" ? "bg-white" : "bg-slate-100"
@@ -58,28 +58,28 @@ const Payment = () => {
                       />
                       <span className="text-slate-600">Nogot</span>
                     </div>
-                  </div>
+                  </div>*/}
                   <div
-                    onClick={() => setPaymentMethod("roket")}
+                    onClick={() => setPaymentMethod("now")}
                     className={`w-[20%] border-r cursor-pointer py-8 px-12 ${
-                      paymentMethod === "roket" ? "bg-white" : "bg-slate-100"
+                      paymentMethod === "now" ? "bg-white" : "bg-slate-100"
                     }`}
                   >
                     <div className="flex flex-col gap-[3px] justify-center items-center">
                       <img
-                        src="/images/payment/roket.png"
+                        src="/images/payment/paynow.jpg"
                         alt="roket"
                       />
-                      <span className="text-slate-600">Roket</span>
+                      <span className="text-slate-600">Shipping Now</span>
                     </div>
                   </div>
-                </div>
+                </div> 
                 {paymentMethod === "stripe" && (
                   <div>
                     <Stripe orderId={orderId} price={price} />
                   </div>
                 )}
-                {paymentMethod === "bkash" && (
+                {/* {paymentMethod === "bkash" && (
                   <div className="w-full px-4 py-8 bg-white shadow-sm">
                     <button className="px-10 py-[6px] rounded-sm hover:shadow-wrange-500/20 hover:shadow-lg bg-orange-500 text-white">
                       Pay Now
@@ -92,14 +92,14 @@ const Payment = () => {
                       Pay Now
                     </button>
                   </div>
-                )}
-                {paymentMethod === "roket" && (
+                )}*/}
+                {paymentMethod === "now" && (
                   <div className="w-full px-4 py-8 bg-white shadow-sm">
                     <button className="px-10 py-[6px] rounded-sm hover:shadow-wrange-500/20 hover:shadow-lg bg-orange-500 text-white">
                       Pay Now
                     </button>
                   </div>
-                )}
+                )} 
               </div>
             </div>
             <div className="w-5/12 md:w-full">
