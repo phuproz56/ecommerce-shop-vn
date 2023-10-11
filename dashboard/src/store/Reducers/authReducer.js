@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import jwt from "jwt-decode";
 import api from "../../api/api";
+
 export const admin_login = createAsyncThunk(
   "auth/admin_login",
   async (info, { rejectWithValue, fulfillWithValue }) => {
@@ -30,6 +31,7 @@ export const seller_login = createAsyncThunk(
     }
   }
 );
+
 export const logout = createAsyncThunk(
   "auth/logout",
   async ({ navigate, role }, { rejectWithValue, fulfillWithValue }) => {

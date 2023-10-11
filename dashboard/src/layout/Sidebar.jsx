@@ -1,10 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getNavs } from "../navigation";
+import { getNavs } from "../navigation/index";
+import { logout, messageClear } from "../store/Reducers/authReducer";
 import { BiLogInCircle } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import logo from "../assets/logo.png";
 
-function Sidebar({ showSidebar, setShowSidebar }) {
+const Sidebar = ({ showSidebar, setShowSidebar }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { role } = useSelector((state) => state.auth);
   const { pathname } = useLocation();
   const [allNav, setAllNav] = useState([]);
@@ -12,6 +19,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
     const navs = getNavs(role);
     setAllNav(navs);
   }, [role]);
+
   return (
     <div>
       <div
@@ -27,7 +35,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
       >
         <div className="h-[70px] flex justify-center items-center">
           <Link to="/" className="w-[180px] h-[50px]">
-            <img className="w-full h-full" src="/images/vnshop.jpg" alt="" />
+            <img className="w-full h-full" src={logo} alt="" />
           </Link>
         </div>
         <div className="px-[16px]">
@@ -38,9 +46,9 @@ function Sidebar({ showSidebar, setShowSidebar }) {
                   to={n.path}
                   className={`${
                     pathname === n.path
-                      ? "bg-slate-600 shadow-indigo-500/30 text-white duration-500"
+                      ? "bg-slate-600 shadow-indigo-500/30 text-white duration-500 "
                       : "text-[#d0d2d6] font-normal duration-200"
-                  } px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-[12px] hover:pl-4 transition-all w-full mb-1`}
+                  } px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-[12px] hover:pl-4 transition-all w-full mb-1 `}
                 >
                   <span>{n.icon}</span>
                   <span>{n.title}</span>
@@ -49,8 +57,8 @@ function Sidebar({ showSidebar, setShowSidebar }) {
             ))}
             <li>
               <button
-                className="text-[#d0d2d6] font-normal duration-200
-                   px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-[12px] hover:pl-4 transition-all w-full mb-1"
+                onClick={() => dispatch(logout({ navigate, role }))}
+                className="text-[#d0d2d6] font-normal duration-200 px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-[12px] hover:pl-4 transition-all w-full mb-1 "
               >
                 <span>
                   <BiLogInCircle />
@@ -63,6 +71,6 @@ function Sidebar({ showSidebar, setShowSidebar }) {
       </div>
     </div>
   );
-}
+};
 
 export default Sidebar;
