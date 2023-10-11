@@ -9,6 +9,12 @@ router.get(
 );
 
 router.get(
+  "/get-sellers",
+  authMiddleware,
+  sellerController.get_active_sellers
+);
+
+router.get(
   "/get-seller/:sellerId",
   authMiddleware,
   sellerController.get_seller
