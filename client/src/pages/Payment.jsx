@@ -24,10 +24,7 @@ const Payment = () => {
                     }`}
                   >
                     <div className="flex flex-col gap-[3px] justify-center items-center">
-                      <img
-                        src="/images/payment/stripe.png"
-                        alt="stripe"
-                      />
+                      <img src="/images/payment/stripe.png" alt="stripe" />
                       <span className="text-slate-600">Stripe</span>
                     </div>
                   </div>
@@ -66,14 +63,11 @@ const Payment = () => {
                     }`}
                   >
                     <div className="flex flex-col gap-[3px] justify-center items-center">
-                      <img
-                        src="/images/payment/paynow.jpg"
-                        alt="roket"
-                      />
+                      <img src="/images/payment/paynow.jpg" alt="roket" />
                       <span className="text-slate-600">Shipping Now</span>
                     </div>
                   </div>
-                </div> 
+                </div>
                 {paymentMethod === "stripe" && (
                   <div>
                     <Stripe orderId={orderId} price={price} />
@@ -99,7 +93,7 @@ const Payment = () => {
                       Pay Now
                     </button>
                   </div>
-                )} 
+                )}
               </div>
             </div>
             <div className="w-5/12 md:w-full">

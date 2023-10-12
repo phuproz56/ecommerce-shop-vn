@@ -103,7 +103,7 @@ const Shipping = () => {
                               type="text"
                               className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
                               name="address"
-                              placeholder="address"
+                              placeholder="address" 
                               id="address"
                             />
                           </div>
@@ -192,7 +192,7 @@ const Shipping = () => {
                           Home
                         </span>
                         <span className="text-slate-600 text-sm">
-                          {state.address} {state.province} {state.city}{" "}
+                           {state.address} {state.city} {state.province} {" "}
                           {state.area}
                         </span>
                         <span

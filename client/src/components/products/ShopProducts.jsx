@@ -30,7 +30,7 @@ const ShopProducts = ({ styles, products }) => {
       navigate("/login");
     }
   };
-  
+
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
@@ -101,7 +101,7 @@ const ShopProducts = ({ styles, products }) => {
                 <FaEye />
               </Link>
               <li
-                onClick={add_card(u._id)}
+                onClick={() => add_card(u._id)}
                 className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all"
               >
                 <AiOutlineShoppingCart />

@@ -172,6 +172,16 @@ class productController {
       }
     });
   };
+
+  delete_product = async (req, res) => {
+    const { productId } = req.params;
+    try {
+      await productModel.findByIdAndDelete(productId);
+      responseReturn(res, 200, { message: "delete success" });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 }
 
 module.exports = new productController();

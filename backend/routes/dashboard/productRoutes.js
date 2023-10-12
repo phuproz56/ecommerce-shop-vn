@@ -20,4 +20,10 @@ router.post(
   productController.product_image_update
 );
 
+router.delete(
+  "/product-delete/:productId",
+  authMiddleware,
+  productController.delete_product
+);
+
 module.exports = router;

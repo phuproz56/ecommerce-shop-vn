@@ -5,14 +5,22 @@ import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { useSelector, useDispatch } from "react-redux";
-import { get_products } from "../../store/Reducers/productReducer";
+import {
+  get_products,
+  delete_product,
+  messageClear,
+} from "../../store/Reducers/productReducer";
+import toast from "react-hot-toast";
+
 const Products = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
 
-  const { products, totalProduct } = useSelector((state) => state.product);
+  const { products, totalProduct, successMessage } = useSelector(
+    (state) => state.product
+  );
   useEffect(() => {
     const obj = {
       parPage: parseInt(parPage),
@@ -21,6 +29,18 @@ const Products = () => {
     };
     dispatch(get_products(obj));
   }, [searchValue, currentPage, parPage]);
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage]);
+
+  const deleteProduct = (id) => {
+    dispatch(dispatch(delete_product(id)));
+  };
+
   return (
     <div className="px-2 lg:px-7 pt-5 ">
       <div className="w-full p-4  bg-[#283046] rounded-md">
@@ -135,7 +155,10 @@ const Products = () => {
                       <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
                         <FaEye />
                       </Link>
-                      <button className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50">
+                      <button
+                        onClick={() => deleteProduct(d._id)}
+                        className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50"
+                      >
                         <FaTrash />
                       </button>
                     </div>
@@ -146,7 +169,7 @@ const Products = () => {
           </table>
         </div>
         <div className="w-full flex justify-end mt-4 bottom-4 right-4">
-          <Pagination 
+          <Pagination
             pageNumber={currentPage}
             setPageNumber={setCurrentPage}
             totalItem={totalProduct}
