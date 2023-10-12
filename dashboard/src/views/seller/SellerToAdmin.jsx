@@ -17,10 +17,12 @@ const SellerToAdmin = () => {
   const { seller_admin_message, successMessage, activeAdmin } = useSelector(
     (state) => state.chat
   );
+  
   const { userInfo } = useSelector((state) => state.auth);
   useEffect(() => {
     dispatch(get_seller_message());
   }, []);
+
   const send = (e) => {
     e.preventDefault();
     dispatch(
@@ -125,8 +127,8 @@ const SellerToAdmin = () => {
             </div>
             <form onSubmit={send} className="flex gap-3">
               <input
-                value={text}
                 onChange={(e) => setText(e.target.value)}
+                value={text}
                 className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]"
                 type="text"
                 placeholder="input your message"

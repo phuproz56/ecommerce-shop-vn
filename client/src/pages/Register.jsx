@@ -8,7 +8,7 @@ import { AiOutlineGoogle } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { customer_register, messageClear } from "../store/reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {

@@ -6,7 +6,7 @@ import { getNavs } from "../navigation/index";
 import { logout, messageClear } from "../store/Reducers/authReducer";
 import { BiLogInCircle } from "react-icons/bi";
 import { useDispatch } from "react-redux";
-import logo from "../assets/logo.png";
+import logo from "../assets/vnshop.jpg";
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const dispatch = useDispatch();

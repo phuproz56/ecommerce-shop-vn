@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Search from "../components/Search";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
@@ -64,13 +65,13 @@ const Products = () => {
             <tbody>
               {products.map((d, i) => (
                 <tr key={i}>
-                  <td
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     {i + 1}
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
@@ -79,32 +80,32 @@ const Products = () => {
                       src={d.images[0]}
                       alt=""
                     />
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <span>{d?.name?.slice(0, 16)}...</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <span>{d.category}</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <span>{d.brand}</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <span>${d.price}</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
@@ -113,14 +114,14 @@ const Products = () => {
                     ) : (
                       <span>{d.discount}%</span>
                     )}
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <span>{d.stock}</span>
-                  </td>
-                  <td
+                  </th>
+                  <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
@@ -138,14 +139,14 @@ const Products = () => {
                         <FaTrash />
                       </button>
                     </div>
-                  </td>
+                  </th>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         <div className="w-full flex justify-end mt-4 bottom-4 right-4">
-          <Pagination
+          <Pagination 
             pageNumber={currentPage}
             setPageNumber={setCurrentPage}
             totalItem={totalProduct}

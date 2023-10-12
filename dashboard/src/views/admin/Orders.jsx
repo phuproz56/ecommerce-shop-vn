@@ -3,7 +3,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { useSelector, useDispatch } from "react-redux";
-// import { get_admin_orders } from '../../store/Reducers/OrderReducer'
+import { get_admin_orders } from "../../store/Reducers/OrderReducer";
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -12,14 +12,17 @@ const Orders = () => {
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
   const [show, setShow] = useState("");
+  const { myOrders, totalOrder } = useSelector((state) => state.order);
 
-  // useEffect(() => {
-  //     dispatch(get_admin_orders({
-  //         parPage: parseInt(parPage),
-  //         page: parseInt(currentPage),
-  //         searchValue
-  //     }))
-  // }, [parPage,currentPage,searchValue])
+  useEffect(() => {
+    dispatch(
+      get_admin_orders({
+        parPage: parseInt(parPage),
+        page: parseInt(currentPage),
+        searchValue,
+      })
+    );
+  }, [parPage, currentPage, searchValue]);
 
   return (
     <div className="px-2 lg:px-7 pt-5">
@@ -54,15 +57,15 @@ const Orders = () => {
               </div>
             </div>
 
-            {[1, 2, 3, 4, 5].map((o, i) => (
-              <div className="text-[#d0d2d6]">
+            {myOrders.map((o, i) => (
+              <div key={i} className="text-[#d0d2d6]">
                 <div className="flex justify-between items-start border-b border-slate-700">
                   <div className="py-4 w-[25%] font-medium whitespace-nowrap">
-                    123
+                    {o._id}
                   </div>
-                  <div className="py-4 w-[13%]">$123</div>
-                  <div className="py-4 w-[18%]">123</div>
-                  <div className="py-4 w-[18%]">123</div>
+                  <div className="py-4 w-[13%]">${o.price}</div>
+                  <div className="py-4 w-[18%]">{o.payment_status}</div>
+                  <div className="py-4 w-[18%]">{o.delivery_status}</div>
                   <div className="py-4 w-[18%]">
                     <Link to={`/admin/dashboard/order/details/${o._id}`}>
                       view
@@ -77,19 +80,19 @@ const Orders = () => {
                 </div>
                 <div
                   className={
-                    show === 123
+                    show === o._id
                       ? "block border-b border-slate-700 bg-slate-800"
                       : "hidden"
                   }
                 >
-                  {[1, 2, 3, 4, 5].map((so, i) => (
+                  {o.suborder.map((so, i) => (
                     <div className="flex justify-start items-start border-b border-slate-700">
                       <div className="py-4 w-[25%] font-medium whitespace-nowrap pl-3">
-                        123
+                        {so._id}
                       </div>
-                      <div className="py-4 w-[13%]">$123</div>
-                      <div className="py-4 w-[18%]">123</div>
-                      <div className="py-4 w-[18%]">123</div>
+                      <div className="py-4 w-[13%]">${so.price}</div>
+                      <div className="py-4 w-[18%]">{so.payment_status}</div>
+                      <div className="py-4 w-[18%]">{so.delivery_status}</div>
                     </div>
                   ))}
                 </div>
@@ -106,7 +109,6 @@ const Orders = () => {
             showItem={4}
           />
         </div>
-       
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-concat */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-sparse-arrays */
 import React, { useEffect, useState } from "react";

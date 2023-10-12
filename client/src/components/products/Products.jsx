@@ -3,8 +3,8 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { Link } from "react-router-dom";
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
+import Ratings from "../Ratings";
 const Products = ({ title, products }) => {
-  
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -62,7 +62,7 @@ const Products = ({ title, products }) => {
         {products.map((p, i) => {
           return (
             <div key={i} className="flex flex-col justify-start gap-2 pb-1">
-              {p.map((pl,j) => (
+              {p.map((pl, j) => (
                 <Link key={j} className="flex justify-start items-start" to="#">
                   <img
                     className="w-[110px] h-[110px]"
@@ -72,6 +72,7 @@ const Products = ({ title, products }) => {
                   <div className="px-3 flex justify-start items-start gap-1 flex-col text-slate-600">
                     <h2>{pl.name}</h2>
                     <span className="text-lg font-bold">{pl.price}$</span>
+                    <div className="flex">{<Ratings ratings={pl.rating} />}</div>
                   </div>
                 </Link>
               ))}

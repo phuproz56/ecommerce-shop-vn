@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -19,7 +20,7 @@ const Sellers = () => {
       searchValue,
     };
     dispatch(get_active_sellers(obj));
-  }, [currentPage, dispatch, parPage, searchValue]);
+  }, [currentPage, parPage, searchValue]);
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4  bg-[#283046] rounded-md">

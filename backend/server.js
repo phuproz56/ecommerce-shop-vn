@@ -92,7 +92,7 @@ io.on("connection", (soc) => {
     io.emit("activeSeller", allSeller);
     io.emit("activeAdmin", { status: true });
   });
-  
+
   soc.on("send_seller_message", (msg) => {
     const customer = findCustomer(msg.receverId);
     if (customer !== undefined) {
