@@ -27,9 +27,10 @@ const Headers = () => {
   const [categoryShow, setCategoryShow] = useState(true);
   const { pathname } = useLocation();
   const [showSlidebar, setshowSlidebar] = useState(true);
-  const { card_product_count } = useSelector((state) => state.card);
+  const { card_product_count, wishlist_count } = useSelector(
+    (state) => state.card
+  );
   const user = 0;
-  const wishlist = 4;
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
@@ -46,6 +47,13 @@ const Headers = () => {
     }
   };
 
+  const redirect_wishlist_page = () => {
+    if (userInfo) {
+      navigate(`/dashboard/my-wishlist`);
+    } else {
+      navigate("/login");
+    }
+  };
 
   return (
     <div className="w-full bg-white">
@@ -84,7 +92,6 @@ const Headers = () => {
                   className="flex group cursor-pointer text-slate-800 text-sm
                 justify-center items-center gap-1 relative after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px]
                 after:absolute before:absolute before:h-[18px] before:bg-[#afafaf] before:w-[1px] before:-left-[20px]"
-                  
                 >
                   <img src="/images/language.png" alt="" />
                   <span>
@@ -203,15 +210,20 @@ const Headers = () => {
                 </ul>
                 <div className="flex md-lg:hidden justify-center items-center gap-5">
                   <div className="flex justify-center gap-5">
-                    <div className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]">
+                    <div
+                      onClick={redirect_wishlist_page}
+                      className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
+                    >
                       <Link to="/dashboard/my-wishlist">
                         <span className="text-xl text-red-500">
                           <AiFillHeart />
                         </span>
                       </Link>
-                      <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
-                        {wishlist}
-                      </div>
+                      {wishlist_count !== 0 && (
+                        <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                          {wishlist_count}
+                        </div>
+                      )}
                     </div>
                     <div
                       onClick={redirect_card_page}
@@ -377,7 +389,7 @@ const Headers = () => {
             <div className="bg-white relative">
               <div
                 onClick={() => setCategoryShow(!categoryShow)}
-                className="h-[50px] bg-violet-400 text-white flex justify-center md-lg:justify-between md-lg:px-6 items-center gap-3 font-bold text-md cursor-pointer"
+                className="h-[50px] bg-red-300 text-white flex justify-center md-lg:justify-between md-lg:px-6 items-center gap-3 font-bold text-md cursor-pointer"
               >
                 <div className="flex justify-center items-center gap-3">
                   <span>
@@ -446,7 +458,7 @@ const Headers = () => {
                   />
                   <button
                     onClick={search}
-                    className="bg-violet-400 right-0 absolute px-8 h-full font-semibold uppercase text-white"
+                    className="bg-red-300 right-0 absolute px-8 h-full font-semibold uppercase text-white"
                   >
                     Search
                   </button>

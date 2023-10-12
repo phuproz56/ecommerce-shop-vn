@@ -1,10 +1,62 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { FaEye } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Ratings from "../Ratings";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  add_to_wishlist,
+  messageClear,
+  add_to_card,
+} from "../../store/reducers/cardReducer";
+import toast from "react-hot-toast";
 
 const ShopProducts = ({ styles, products }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
+  const { successMessage, errorMessage } = useSelector((state) => state.card);
+
+  const add_card = (id) => {
+    if (userInfo) {
+      dispatch(
+        add_to_card({
+          userId: userInfo.id,
+          quantity: 1,
+          productId: id,
+        })
+      );
+    } else {
+      navigate("/login");
+    }
+  };
+  
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [dispatch, errorMessage, successMessage]);
+
+  const add_wishlist = (pro) => {
+    dispatch(
+      add_to_wishlist({
+        userId: userInfo.id,
+        productId: pro._id,
+        name: pro.name,
+        price: pro.price,
+        image: pro.images[0],
+        discount: pro.discount,
+        rating: pro.rating,
+        slug: pro.slug,
+      })
+    );
+  };
+
   return (
     <div
       className={`w-full grid ${
@@ -35,16 +87,23 @@ const ShopProducts = ({ styles, products }) => {
               alt="img"
             />
             <ul className="flex transition-all duration-700 -bottom-10 justify-center items-center gap-2 absolute w-full group-hover:bottom-3">
-              <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all">
+              <li
+                onClick={() => add_wishlist(u)}
+                className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all"
+              >
                 <AiFillHeart />
               </li>
               <Link
-                to={`/product/details/`}
+                to={`/product/details/${u.slug}`}
+                target="_blank"
                 className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all"
               >
                 <FaEye />
               </Link>
-              <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all">
+              <li
+                onClick={add_card(u._id)}
+                className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all"
+              >
                 <AiOutlineShoppingCart />
               </li>
             </ul>

@@ -4,13 +4,32 @@ import Footer from "../components/Footer";
 import { FaList } from "react-icons/fa";
 import { RxDashboard } from "react-icons/rx";
 import { RiProductHuntLine } from "react-icons/ri";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { BsChat, BsHeart } from "react-icons/bs";
 import { TfiLock } from "react-icons/tfi";
 import { BiLogInCircle } from "react-icons/bi";
+import api from "../api/api";
+import { useDispatch } from "react-redux";
+import { user_reset } from "../store/reducers/authReducer";
+import { reset_count } from "../store/reducers/cardReducer";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [filterShow, setFilterShow] = useState(false);
+
+  const logout = async () => {
+    try {
+      const { data } = await api.get("/customer/logout");
+
+      localStorage.removeItem("customerToken");
+      dispatch(user_reset());
+      dispatch(reset_count());
+      navigate("/login");
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
   return (
     <div>
       <Headers />
@@ -73,7 +92,10 @@ const Dashboard = () => {
                     Change Password
                   </Link>
                 </li>
-                <li className="flex justify-start items-center gap-2 py-2">
+                <li
+                  onClick={logout}
+                  className="flex justify-start items-center gap-2 py-2"
+                >
                   <span className="text-xl">
                     <BiLogInCircle />
                   </span>

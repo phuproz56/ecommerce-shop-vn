@@ -119,11 +119,16 @@ export const cardReducer = createSlice({
     successMessage: "",
     shipping_fee: 0,
     outofstock_products: [],
+    shopIn4: {},
   },
   reducers: {
     messageClear: (state, _) => {
       state.errorMessage = "";
       state.successMessage = "";
+    },
+    reset_count: (state, _) => {
+      state.card_product_count = 0;
+      state.wishlist_count = 0;
     },
   },
   extraReducers: {
@@ -141,6 +146,7 @@ export const cardReducer = createSlice({
       state.shipping_fee = payload.shipping_fee;
       state.outofstock_products = payload.outOfStockProduct;
       state.buy_product_item = payload.buy_product_item;
+      state.shopIn4 = payload.shopInfo;
     },
     [delete_card_product.fulfilled]: (state, { payload }) => {
       state.successMessage = payload.message;
@@ -173,5 +179,5 @@ export const cardReducer = createSlice({
   },
 });
 
-export const { messageClear } = cardReducer.actions;
+export const { messageClear, reset_count } = cardReducer.actions;
 export default cardReducer.reducer;

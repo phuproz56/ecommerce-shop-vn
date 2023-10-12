@@ -34,7 +34,7 @@ const Banner = () => {
                 showDots={true}
                 responsive={responsive}
               >
-                {[1, 2, 3, 4, 5, 6, 7].map((img, i) => (
+                {[1, 2, 3, 4, 5, 6].map((img, i) => (
                   <Link
                     className="lg-md:h-[440px] h-auto w-full block"
                     key={i}

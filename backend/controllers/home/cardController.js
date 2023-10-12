@@ -1,6 +1,7 @@
 const { responseReturn } = require("../../utils/response");
 const cardModel = require("../../models/cardModel");
 const wishlistModel = require("../../models/wishlistModel");
+const sellerModel = require("../../models/sellerModel");
 
 const {
   mongo: { ObjectId },
@@ -134,6 +135,9 @@ class cardController {
           }
         }
       }
+      const { sellerId } = req.params;
+      const shopInfo = await sellerModel.find({ sellerId });
+
       responseReturn(res, 200, {
         card_products: p,
         price: calculatePrice,
@@ -141,6 +145,7 @@ class cardController {
         shipping_fee: 2 * p.length,
         outOfStockProduct,
         buy_product_item,
+        shopInfo,
       });
     } catch (error) {
       console.log(error.message);
