@@ -193,11 +193,11 @@ const Details = () => {
         <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
           <div className="flex justify-start items-center text-md text-slate-600 w-full">
             <Link to="/">Home</Link>
-            <span className="pt-2">
+            <span className="pt-1">
               <MdOutlineKeyboardArrowRight />
             </span>
             <Link to="/">{product.category}</Link>
-            <span className="pt-2">
+            <span className="pt-1">
               <MdOutlineKeyboardArrowRight />
             </span>
             <span>{product.name}</span>

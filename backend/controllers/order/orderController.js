@@ -6,6 +6,7 @@ const { responseReturn } = require("../../utils/response");
 const {
   mongo: { ObjectId },
 } = require("mongoose");
+const { response } = require("express");
 class orderController {
   paymentCheck = async (id) => {
     try {
@@ -194,7 +195,6 @@ class orderController {
           .skip(skipPage)
           .limit(parPage)
           .sort({ createdAt: -1 });
-        
 
         const totalOrder = await customerOrder.aggregate([
           {
@@ -211,6 +211,100 @@ class orderController {
       }
     } catch (error) {
       console.log(error.message);
+    }
+  };
+
+  get_admin_order = async (req, res) => {
+    const { orderId } = req.params;
+    try {
+      const order = await customerOrder.aggregate([
+        {
+          $match: { _id: new ObjectId(orderId) },
+        },
+        {
+          $lookup: {
+            from: "authororders",
+            localField: "_id",
+            foreignField: "orderId",
+            as: "suborder",
+          },
+        },
+      ]);
+      responseReturn(res, 200, { order: order[0] });
+    } catch (error) {
+      console.log("get admin order" + error.message);
+    }
+  };
+
+  admin_order_status_update = async (req, res) => {
+    const { orderId } = req.params;
+    const { status } = req.body;
+    try {
+      await customerOrder.findByIdAndUpdate(orderId, {
+        delivery_status: status,
+      });
+      responseReturn(res, 200, { message: "order status change success!" });
+    } catch (error) {
+      console.log("get admin order status error : " + error.message);
+      responseReturn(res, 500, { message: "internal server error" });
+    }
+  };
+
+  get_seller_orders = async (req, res) => {
+    const { sellerId } = req.params;
+    let { page, parPage, searchValue } = req.query;
+    page = parseInt(page);
+    parPage = parseInt(parPage);
+
+    const skipPage = parPage * (page - 1);
+
+    try {
+      if (searchValue) {
+      } else {
+        const orders = await authOrderModel
+          .find({
+            sellerId,
+          })
+          .skip(skipPage)
+          .limit(parPage)
+          .sort({ createdAt: -1 });
+        const totalOrder = await authOrderModel
+          .find({
+            sellerId,
+          })
+          .countDocuments();
+        responseReturn(res, 200, { orders, totalOrder });
+      }
+    } catch (error) {
+      console.log("get seller order error " + error.message);
+      responseReturn(res, 500, { message: "internal server error" });
+    }
+  };
+
+  get_seller_order = async (req, res) => {
+    const { orderId } = req.params;
+
+    try {
+      const order = await authOrderModel.findById(orderId);
+
+      responseReturn(res, 200, { order });
+    } catch (error) {
+      console.log("get admin order " + error.message);
+    }
+  };
+
+  seller_order_status_update = async (req, res) => {
+    const { orderId } = req.params;
+    const { status } = req.body;
+
+    try {
+      await authOrderModel.findByIdAndUpdate(orderId, {
+        delivery_status: status,
+      });
+      responseReturn(res, 200, { message: "order status change success" });
+    } catch (error) {
+      console.log("get admin order status error " + error.message);
+      responseReturn(res, 500, { message: "internal server error" });
     }
   };
 }

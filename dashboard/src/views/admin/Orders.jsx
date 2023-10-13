@@ -88,7 +88,7 @@ const Orders = () => {
                   }
                 >
                   {o.suborder.map((so, i) => (
-                    <div className="flex justify-start items-start border-b border-slate-700">
+                    <div key={i} className="flex justify-start items-start border-b border-slate-700">
                       <div className="py-4 w-[25%] font-medium whitespace-nowrap pl-3">
                         {so._id}
                       </div>
@@ -102,15 +102,19 @@ const Orders = () => {
             ))}
           </div>
         </div>
-        <div className="w-full flex justify-end mt-4 bottom-4 right-4">
-          <Pagination
-            pageNumber={currentPage}
-            setPageNumber={setCurrentPage}
-            totalItem={10}
-            parPage={parPage}
-            showItem={4}
-          />
-        </div>
+        {totalOrder <= parPage ? (
+          ""
+        ) : (
+          <div className="w-full flex justify-end mt-4 bottom-4 right-4">
+            <Pagination
+              pageNumber={currentPage}
+              setPageNumber={setCurrentPage}
+              totalItem={totalOrder}
+              parPage={parPage}
+              showItem={4}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
