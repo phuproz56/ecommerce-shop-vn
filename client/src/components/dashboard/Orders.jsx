@@ -23,19 +23,18 @@ const Orders = () => {
 
   const redirect = (ord) => {
     let items = 0;
-    for(let i = 0; i < ord.length; i++){
-      items = ord.products[i].quantity + items
+    for (let i = 0; i < ord.length; i++) {
+      items = ord.products[i].quantity + items;
     }
-    navigate('/payment',{
+    navigate("/payment", {
       state: {
         price: ord.price,
         items,
         orderId: ord._id,
-        
-      }
-    })
+      },
+    });
   };
-  
+
   return (
     <div className="bg-white p-4 rounded-md">
       <div className="flex justify-between items-center">
@@ -78,48 +77,50 @@ const Orders = () => {
             </thead>
             <tbody>
               {myOrders.map((o, i) => (
-                  <tr key={i} className="bg-white border-b">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium whitespace-nowrap"
-                    >
-                      {o._id}
-                    </th>
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium whitespace-nowrap"
-                    >
-                      ${o.price}
-                    </th>
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium whitespace-nowrap"
-                    >
-                      {o.payment_status}
-                    </th>
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium whitespace-nowrap"
-                    >
-                      {o.delivery_status}
-                    </th>
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium whitespace-nowrap"
-                    >
-                      <Link to={`/dashboard/order/details/${o._id}`}>
-                        <span className="bg-green-100 text-green-800 text-sm font-normal mr-2 px-2.5 py-[1px] rounded">
-                          View
-                        </span>
-                      </Link>
+                <tr key={i} className="bg-white border-b">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium whitespace-nowrap"
+                  >
+                    {o._id}
+                  </th>
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium whitespace-nowrap"
+                  >
+                    ${o.price}
+                  </th>
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium whitespace-nowrap"
+                  >
+                    {o.payment_status}
+                  </th>
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium whitespace-nowrap"
+                  >
+                    {o.delivery_status}
+                  </th>
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium whitespace-nowrap"
+                  >
+                    <Link to={`/dashboard/order/details/${o._id}`}>
+                      <span className="bg-green-100 text-green-800 text-sm font-normal mr-2 px-2.5 py-[1px] rounded">
+                        View
+                      </span>
+                    </Link>
+                    {o.payment_status !== "paid" && (
                       <span
                         onClick={() => redirect(o)}
                         className="bg-green-100 text-green-800 text-sm font-normal mr-2 px-2.5 py-[1px] rounded cursor-pointer"
                       >
                         Pay Now
                       </span>
-                    </th>
-                  </tr>
+                    )}
+                  </th>
+                </tr>
               ))}
             </tbody>
           </table>

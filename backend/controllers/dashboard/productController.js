@@ -101,18 +101,22 @@ class productController {
     const { productId } = req.params;
     try {
       const product = await productModel.findById(productId);
+
       responseReturn(res, 200, { product });
     } catch (error) {
       console.log(error.message);
     }
   };
+
   product_update = async (req, res) => {
     let { name, description, discount, price, brand, productId, stock } =
       req.body;
     name = name.trim();
     const slug = name.split(" ").join("-");
+    const p = await productModel.findById(productId);
+    const  version  = p.__v;
     try {
-      await productModel.findByIdAndUpdate(productId, {
+      const product = await productModel.findByIdAndUpdate(productId, {
         name,
         description,
         discount,
@@ -121,13 +125,14 @@ class productController {
         productId,
         stock,
         slug,
+        __v: version + 1,
       });
-      const product = await productModel.findById(productId);
       responseReturn(res, 200, { product, message: "product update success" });
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
     }
   };
+
   product_image_update = async (req, res) => {
     const form = formidable({ multiples: true });
 
