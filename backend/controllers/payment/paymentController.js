@@ -71,6 +71,8 @@ class paymentController {
       responseReturn(res, 500, { message: error.message });
     }
   };
+
+  
 }
 
 module.exports = new paymentController();

@@ -28,34 +28,6 @@ const Payment = () => {
                       <span className="text-slate-600">Stripe</span>
                     </div>
                   </div>
-                  {/* <div
-                    onClick={() => setPaymentMethod("bkash")}
-                    className={`w-[20%] border-r cursor-pointer py-8 px-12 ${
-                      paymentMethod === "bkash" ? "bg-white" : "bg-slate-100"
-                    }`}
-                  >
-                    <div className="flex flex-col gap-[3px] justify-center items-center">
-                      <img
-                        src="/images/payment/bkash.png"
-                        alt="bkash"
-                      />
-                      <span className="text-slate-600">Bkash</span>
-                    </div>
-                  </div>
-                  <div
-                    onClick={() => setPaymentMethod("nogot")}
-                    className={`w-[20%] border-r cursor-pointer py-8 px-12 ${
-                      paymentMethod === "nogot" ? "bg-white" : "bg-slate-100"
-                    }`}
-                  >
-                    <div className="flex flex-col gap-[3px] justify-center items-center">
-                      <img
-                        src="/images/payment/nogot.png"
-                        alt="nogot"
-                      />
-                      <span className="text-slate-600">Nogot</span>
-                    </div>
-                  </div>*/}
                   <div
                     onClick={() => setPaymentMethod("now")}
                     className={`w-[20%] border-r cursor-pointer py-8 px-12 ${
@@ -73,20 +45,6 @@ const Payment = () => {
                     <Stripe orderId={orderId} price={price} />
                   </div>
                 )}
-                {/* {paymentMethod === "bkash" && (
-                  <div className="w-full px-4 py-8 bg-white shadow-sm">
-                    <button className="px-10 py-[6px] rounded-sm hover:shadow-wrange-500/20 hover:shadow-lg bg-orange-500 text-white">
-                      Pay Now
-                    </button>
-                  </div>
-                )}
-                {paymentMethod === "nogot" && (
-                  <div className="w-full px-4 py-8 bg-white shadow-sm">
-                    <button className="px-10 py-[6px] rounded-sm hover:shadow-wrange-500/20 hover:shadow-lg bg-orange-500 text-white">
-                      Pay Now
-                    </button>
-                  </div>
-                )}*/}
                 {paymentMethod === "now" && (
                   <div className="w-full px-4 py-8 bg-white shadow-sm">
                     <button className="px-10 py-[6px] rounded-sm hover:shadow-wrange-500/20 hover:shadow-lg bg-orange-500 text-white">

@@ -6,7 +6,10 @@ const { responseReturn } = require("../../utils/response");
 const {
   mongo: { ObjectId },
 } = require("mongoose");
-const { response } = require("express");
+const stripe = require("stripe")(
+  "sk_test_51MqGyrCjGE1sIBd8i6byK4tUcFdrm141PuxTM48TU0FPrsGqN5QhIDt0f29GCULwIbtH4EeoDT3rfGPzOicRV1Q800KHV90bxS"
+);
+
 class orderController {
   paymentCheck = async (id) => {
     try {
@@ -305,6 +308,22 @@ class orderController {
     } catch (error) {
       console.log("get admin order status error " + error.message);
       responseReturn(res, 500, { message: "internal server error" });
+    }
+  };
+
+  create_payment = async (req, res) => {
+    const { price } = req.body;
+    try {
+      const payment = await stripe.paymentIntents.create({
+        amount: price * 100,
+        currency: "usd",
+        automatic_payment_methods: {
+          enabled: true,
+        },
+      });
+      responseReturn(res, 200, { clientSecret: payment.client_secret });
+    } catch (error) {
+      console.log(error.message);
     }
   };
 }
