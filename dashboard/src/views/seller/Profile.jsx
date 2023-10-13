@@ -11,6 +11,7 @@ import {
 } from "../../store/Reducers/authReducer";
 import toast from "react-hot-toast";
 import { overrideStyle } from "../../utils/utils";
+import { create_stripe_connect_account } from "../../store/Reducers/sellerReducer";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ const Profile = () => {
       messageClear();
     }
   }, [successMessage]);
+
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full flex flex-wrap">
@@ -120,14 +122,14 @@ const Profile = () => {
                   <span>Payment Account : </span>
                   <p>
                     {userInfo.payment === "active" ? (
-                      <span className="bg-red-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded ">
+                      <span className="bg-green-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded ">
                         {userInfo.payment}
                       </span>
                     ) : (
                       <span
-                        //onClick={() =>
-                          // dispatch(create_stripe_connect_account())
-                        //}
+                        onClick={() =>
+                          dispatch(create_stripe_connect_account())
+                        }
                         className="bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded "
                       >
                         click active

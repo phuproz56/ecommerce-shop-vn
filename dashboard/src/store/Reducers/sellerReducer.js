@@ -95,7 +95,7 @@ export const create_stripe_connect_account = createAsyncThunk(
       window.location.href = url;
       // return fulfillWithValue(data)
     } catch (error) {
-      //return rejectWithValue(error.response.data)
+      // return rejectWithValue(error.response.data)
     }
   }
 );

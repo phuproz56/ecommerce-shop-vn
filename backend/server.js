@@ -135,6 +135,8 @@ app.use(cookieParser());
 
 app.use("/api", require("./routes/chatRoutes"));
 
+app.use("/api", require("./routes/paymentRoutes"));
+
 // HOME route
 app.use("/api/home/", require("./routes/home/homeRoutes"));
 app.use("/api", require("./routes/home/customerAuthRoutes"));
