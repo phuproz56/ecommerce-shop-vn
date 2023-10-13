@@ -1,5 +1,15 @@
-import React, { forwardRef } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { forwardRef, useEffect, useState } from "react";
 import { FixedSizeList as List } from "react-window";
+import toast from "react-hot-toast";
+import moment from "moment";
+
+import { useSelector, useDispatch } from "react-redux";
+import {
+  get_payment_request,
+  confirm_payment_request,
+  messageClear,
+} from "../../store/Reducers/PaymentReducer";
 
 function handleOnWheel({ deltaY }) {
   console.log("handleOnWheel", deltaY);
@@ -10,20 +20,54 @@ const outerElementType = forwardRef((props, ref) => (
 ));
 
 const PaymentRequest = () => {
+  const dispatch = useDispatch();
+  const { successMessage, errorMessage, loader, pendingwithdraws } =
+    useSelector((state) => state.payment);
+
+  useEffect(() => {
+    dispatch(get_payment_request());
+  }, []);
+  const [paymentId, setPaymentId] = useState("");
+  const confirm_request = (id) => {
+    setPaymentId(id);
+    dispatch(confirm_payment_request(id));
+  };
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [errorMessage, successMessage]);
+
   const Row = ({ index, style }) => {
     return (
       <div style={style} className="flex text-sm">
         <div className="w-[25%] p-2 whitespace-nowrap">{index + 1}</div>
-        <div className="w-[25%] p-2 whitespace-nowrap">123</div>
+        <div className="w-[25%] p-2 whitespace-nowrap">
+          ${pendingwithdraws[index]?.amount}
+        </div>
         <div className="w-[25%] p-2 whitespace-nowrap">
           <span className="py-[1px] px-[5px] bg-slate-700 text-blue-500 rounded-md text-xs">
-            123
+            {pendingwithdraws[index]?.status}
           </span>
         </div>
-        <div className="w-[25%] p-2 whitespace-nowrap">123</div>
         <div className="w-[25%] p-2 whitespace-nowrap">
-          <button className="bg-indigo-500 shadow-lg hover:shadow-indigo-500/50 px-3 py-[2px] cursor-pointer text-white rounded-sm text-sm">
-            comfirm
+          {moment(pendingwithdraws[index]?.createdAt).format("LL")}
+        </div>
+        <div className="w-[25%] p-2 whitespace-nowrap">
+          <button
+            disabled={loader}
+            onClick={() => confirm_request(pendingwithdraws[index]?._id)}
+            className="bg-indigo-500 shadow-lg hover:shadow-indigo-500/50 px-3 py-[2px] cursor-pointer text-white rounded-sm text-sm"
+          >
+            {loader && paymentId === pendingwithdraws[index]?._id
+              ? "loading.."
+              : "Confirm"}
           </button>
         </div>
       </div>
@@ -47,7 +91,7 @@ const PaymentRequest = () => {
                 style={{ minWidth: "340px", overflowX: "hidden" }}
                 className="List"
                 height={350}
-                itemCount={522}
+                itemCount={pendingwithdraws.length}
                 itemSize={35}
                 outerElementType={outerElementType}
               >

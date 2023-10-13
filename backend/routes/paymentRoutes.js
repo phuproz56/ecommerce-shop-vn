@@ -12,5 +12,22 @@ router.put(
   authMiddleware,
   paymentController.active_stripe_connect_account
 );
+router.get(
+  "/payment/seller-payment-details/:sellerId",
+  authMiddleware,
+  paymentController.get_seller_paymemt_details
+);
+
+router.post(
+  "/payment/withdrawal-request",
+  authMiddleware,
+  paymentController.withdrawal_request
+);
+
+router.get(
+  "/payment/request",
+  authMiddleware,
+  paymentController.get_payment_request
+);
 
 module.exports = router;

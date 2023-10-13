@@ -3,11 +3,13 @@ const { v4: uuidv4 } = require("uuid");
 const stripe = require("stripe")(
   "sk_test_51MqGyrCjGE1sIBd8i6byK4tUcFdrm141PuxTM48TU0FPrsGqN5QhIDt0f29GCULwIbtH4EeoDT3rfGPzOicRV1Q800KHV90bxS"
 );
+const withdrawRequest = require("../../models/withdrawRequest");
 const sellerModel = require("../../models/sellerModel");
 const { responseReturn } = require("../../utils/response");
 const {
   mongo: { ObjectId },
 } = require("mongoose");
+const sellerWallet = require("../../models/sellerWallet");
 
 class paymentController {
   create_stripe_connect_account = async (req, res) => {
@@ -72,7 +74,99 @@ class paymentController {
     }
   };
 
-  
+  sunAmount = (data) => {
+    let sum = 0;
+
+    for (let i = 0; i < data.length; i++) {
+      sum = sum + data[i].amount;
+    }
+    return sum;
+  };
+
+  get_seller_paymemt_details = async (req, res) => {
+    const { sellerId } = req.params;
+    try {
+      const payments = await sellerWallet.find({ sellerId });
+
+      const pendingWithdraws = await withdrawRequest.find({
+        $and: [
+          {
+            sellerId: {
+              $eq: sellerId,
+            },
+          },
+          {
+            status: {
+              $eq: "pending",
+            },
+          },
+        ],
+      });
+
+      const successWithdraws = await withdrawRequest.find({
+        $and: [
+          {
+            sellerId: {
+              $eq: sellerId,
+            },
+          },
+          {
+            status: {
+              $eq: "success",
+            },
+          },
+        ],
+      });
+
+      const pendingAmount = this.sunAmount(pendingWithdraws);
+      const withdrawAmount = this.sunAmount(successWithdraws);
+      const totalAmount = this.sunAmount(payments);
+
+      let availableAmount = 0;
+
+      if (totalAmount > 0) {
+        availableAmount = totalAmount - (pendingAmount + withdrawAmount);
+      }
+      responseReturn(res, 200, {
+        totalAmount,
+        pendingAmount,
+        withdrawAmount,
+        availableAmount,
+        successWithdraws,
+        pendingWithdraws,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  withdrawal_request = async (req, res) => {
+    const { amount, sellerId } = req.body;
+    console.log(sellerId);
+    try {
+      const withdrawal = await withdrawRequest.create({
+        sellerId,
+        amount: parseInt(amount),
+      });
+      responseReturn(res, 200, {
+        withdrawal,
+        message: "withdrowal request send",
+      });
+    } catch (error) {
+      responseReturn(res, 500, { message: error.message });
+    }
+  };
+
+  get_payment_request = async (req, res) => {
+    try {
+      const withdrawalRequest = await withdrawRequest.find({
+        status: "pending",
+      });
+      responseReturn(res, 200, { withdrawalRequest });
+    } catch (error) {
+      responseReturn(res, 500, { message: "Internal server error" });
+    }
+  };
 }
 
 module.exports = new paymentController();
