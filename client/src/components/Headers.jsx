@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GrMail } from "react-icons/gr";
 import { IoIosCall } from "react-icons/io";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
@@ -18,9 +18,14 @@ import {
   AiFillShopping,
 } from "react-icons/ai";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  get_card_products,
+  get_wishlist_products,
+} from "../store/reducers/cardReducer";
 
 const Headers = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
   const { categorys } = useSelector((state) => state.home);
@@ -39,21 +44,28 @@ const Headers = () => {
     navigate(`/product/search?category=${category}&&value=${searchValue}`);
   };
 
-  const redirect_card_page = () => {
-    if (userInfo) {
-      navigate(`/cart`);
-    } else {
-      navigate("/login");
-    }
-  };
+  // const redirect_card_page = () => {
+  //   if (userInfo) {
+  //     navigate(`/cart`);
+  //   } else {
+  //     navigate("/login");
+  //   }
+  // };
 
-  const redirect_wishlist_page = () => {
+  // const redirect_wishlist_page = () => {
+  //   if (userInfo) {
+  //     navigate(`/dashboard/my-wishlist`);
+  //   } else {
+  //     navigate("/login");
+  //   }
+  // };
+
+  useEffect(() => {
     if (userInfo) {
-      navigate(`/dashboard/my-wishlist`);
-    } else {
-      navigate("/login");
+      dispatch(get_card_products(userInfo.id));
+      dispatch(get_wishlist_products(userInfo.id));
     }
-  };
+  }, [dispatch, userInfo]);
 
   return (
     <div className="w-full bg-white">
@@ -65,11 +77,27 @@ const Headers = () => {
                 className="flex relative justify-center items-center gap-2 text-sm
               after:absolute after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px]"
               >
+                <p>
+                  You want to sell?{" "}
+                  <Link
+                    className="text-blue-500"
+                    target="_blank"
+                    to="http://localhost:3001/login"
+                  >
+                    Seller Page
+                  </Link>
+                </p>
+              </li>
+              <li
+                className="flex relative justify-center items-center gap-2 text-sm
+              after:absolute after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px]"
+              >
                 <span>
                   <GrMail />
                 </span>
                 <span>phuproz348@gmail.com</span>
               </li>
+
               <span>Welcome to Shop-VN</span>
             </ul>
             <div>
@@ -211,7 +239,9 @@ const Headers = () => {
                 <div className="flex md-lg:hidden justify-center items-center gap-5">
                   <div className="flex justify-center gap-5">
                     <div
-                      onClick={redirect_wishlist_page}
+                      onClick={() =>
+                        navigate(userInfo ? "/dashboard/my-wishlist" : "/login")
+                      }
                       className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
                     >
                       <Link to="/dashboard/my-wishlist">
@@ -226,7 +256,7 @@ const Headers = () => {
                       )}
                     </div>
                     <div
-                      onClick={redirect_card_page}
+                      onClick={() => navigate(userInfo ? "/cart" : "/login")}
                       className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
                     >
                       <span className="text-xl text-orange-500">

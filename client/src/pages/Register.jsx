@@ -130,13 +130,17 @@ const Register = () => {
                   </Link>
                 </p>
               </div>
+              <div className="text-center text-slate-600 pt-1">
+                <p>
+                  You want to sell?  {" "}
+                  <Link className="text-blue-500" target="_blank" to="http://localhost:3001/login">
+                    Seller Page
+                  </Link>
+                </p>
+              </div>
             </div>
             <div className="w-full h-full py-4 pr-4">
-              <img
-                className="w-full h-[95%]"
-                src="/images/login.jpg"
-                alt=""
-              />
+              <img className="w-full h-[95%]" src="/images/login.jpg" alt="" />
             </div>
           </div>
         </div>

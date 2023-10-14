@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import Headers from "../components/Headers";
 import Footer from "../components/Footer";
@@ -12,6 +13,7 @@ import api from "../api/api";
 import { useDispatch } from "react-redux";
 import { user_reset } from "../store/reducers/authReducer";
 import { reset_count } from "../store/reducers/cardReducer";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -21,10 +23,10 @@ const Dashboard = () => {
   const logout = async () => {
     try {
       const { data } = await api.get("/customer/logout");
-
       localStorage.removeItem("customerToken");
       dispatch(user_reset());
       dispatch(reset_count());
+      toast.success("logout success!!");
       navigate("/login");
     } catch (error) {
       console.log(error.response.data);
@@ -94,7 +96,7 @@ const Dashboard = () => {
                 </li>
                 <li
                   onClick={logout}
-                  className="flex justify-start items-center gap-2 py-2"
+                  className="flex justify-start items-center gap-2 py-2 cursor-pointer"
                 >
                   <span className="text-xl">
                     <BiLogInCircle />
