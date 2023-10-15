@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getNavs } from "../navigation/index";
-import { logout, messageClear } from "../store/Reducers/authReducer";
+import { logout } from "../store/Reducers/authReducer";
 import { BiLogInCircle } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import logo from "../assets/vnshop.jpg";

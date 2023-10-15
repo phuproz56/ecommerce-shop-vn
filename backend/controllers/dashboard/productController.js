@@ -99,10 +99,13 @@ class productController {
 
   product_get = async (req, res) => {
     const { productId } = req.params;
+    let updateDate = {
+      updatedAt: new Date(),
+    }
     try {
       const product = await productModel.findById(productId);
 
-      responseReturn(res, 200, { product });
+      responseReturn(res, 200, { product, updateDate });
     } catch (error) {
       console.log(error.message);
     }

@@ -8,6 +8,7 @@ import { FiUsers } from "react-icons/fi";
 import { CiChat1 } from "react-icons/ci";
 import { BsCurrencyDollar, BsChat } from "react-icons/bs";
 import { RiProductHuntLine } from "react-icons/ri";
+import { MdProductionQuantityLimits } from "react-icons/md";
 export const allNav = [
   {
     id: 1,
@@ -95,34 +96,41 @@ export const allNav = [
   },
   {
     id: 13,
+    title: "Log Product",
+    icon: <MdProductionQuantityLimits />,
+    role: "seller",
+    path: "/seller/dashboard/log-product",
+  },
+  {
+    id: 14,
     title: "Orders",
     icon: <AiOutlineShoppingCart />,
     role: "seller",
     path: "/seller/dashboard/orders",
   },
   {
-    id: 14,
+    id: 15,
     title: "Payments",
     icon: <BsCurrencyDollar />,
     role: "seller",
     path: "/seller/dashboard/payments",
   },
   {
-    id: 15,
+    id: 16,
     title: "Chat Customer",
     icon: <BsChat />,
     role: "seller",
     path: "/seller/dashboard/chat-customer",
   },
   {
-    id: 16,
+    id: 17,
     title: "Chat Support",
     icon: <CiChat1 />,
     role: "seller",
     path: "/seller/dashboard/chat-support",
   },
   {
-    id: 17,
+    id: 18,
     title: "Profile",
     icon: <FiUsers />,
     role: "seller",

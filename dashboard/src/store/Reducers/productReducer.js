@@ -104,6 +104,8 @@ export const productReducer = createSlice({
     products: [],
     product: "",
     totalProduct: 0,
+    warehouse: 0,
+    updateDate: {},
   },
   reducers: {
     messageClear: (state, _) => {
@@ -129,6 +131,7 @@ export const productReducer = createSlice({
     },
     [get_product.fulfilled]: (state, { payload }) => {
       state.product = payload.product;
+      state.updateDate = payload.updateDate;
     },
     [update_product.pending]: (state, _) => {
       state.loader = true;
