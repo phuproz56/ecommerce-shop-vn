@@ -49,28 +49,28 @@ const Sellers = () => {
                   No
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Image
+                  hình ảnh
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Name
+                  tên
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Shop Name
+                  tên shop
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Payment Status
+                  tài khoản ngân hàng
                 </th>
                 <th scope="col" className="py-3 px-4">
                   Email
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Devision
+                  phân công
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  District
+                  địa chỉ
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Action
+                  hành động
                 </th>
               </tr>
             </thead>
@@ -103,7 +103,11 @@ const Sellers = () => {
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
-                    <span>{d.shopInfo?.shopName}</span>
+                    <span>
+                      {d.shopInfo?.shopName
+                        ? d.shopInfo?.shopName
+                        : "(chưa điền)"}
+                    </span>
                   </th>
                   <th
                     scope="row"
@@ -121,13 +125,21 @@ const Sellers = () => {
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
-                    <span>{d.shopInfo?.division}</span>
+                    <span>
+                      {d.shopInfo?.division
+                        ? d.shopInfo?.division
+                        : "(chưa điền)"}
+                    </span>
                   </th>
                   <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
-                    <span>{d.shopInfo?.district}</span>
+                    <span>
+                      {d.shopInfo?.district
+                        ? d.shopInfo?.district
+                        : "(chưa điền)"}
+                    </span>
                   </th>
                   <th
                     scope="row"

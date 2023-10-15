@@ -103,7 +103,7 @@ const SellerToCustomer = () => {
           >
             <div className="w-full h-[calc(100vh-177px)] bg-[#252b3b] md:bg-transparent overflow-y-auto">
               <div className="flex text-xl justify-between items-center p-4 md:p-0 md:px-3 md:pb-3 text-white">
-                <h2>Customers</h2>
+                <h2>Người mua</h2>
                 <span
                   onClick={() => setShow(!show)}
                   className="block cursor-pointer md:hidden"
@@ -219,7 +219,7 @@ const SellerToCustomer = () => {
                     <span>
                       <BsEmojiSmile />
                     </span>
-                    <span>Select Customer</span>
+                    <span>Chọn người mua muốn chat</span>
                   </div>
                 )}
               </div>

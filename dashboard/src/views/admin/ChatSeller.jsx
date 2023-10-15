@@ -224,7 +224,7 @@ const ChatSeller = () => {
                     <span>
                       <BsEmojiSmile />
                     </span>
-                    <span>Select seller</span>
+                    <span>chọn người bán muốn chat</span>
                   </div>
                 )}
               </div>
@@ -242,7 +242,7 @@ const ChatSeller = () => {
                 disabled={sellerId ? false : true}
                 className="shadow-lg bg-cyan-500 hover:shadow-cyan-500/50 text-semibold w-[75px] h-[35px] rounded-md text-white flex justify-center items-center"
               >
-                Send
+                gửi
               </button>
             </form>
           </div>

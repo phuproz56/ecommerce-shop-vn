@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Search from "../components/Search";
-import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { useSelector, useDispatch } from "react-redux";
@@ -54,31 +54,31 @@ const Products = () => {
             <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
               <tr>
                 <th scope="col" className="py-3 px-4">
-                  No
+                  TT
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Image
+                  Hình Ảnh
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Name
+                  Tên
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Category
+                  Thể Loại
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Brand
+                  Thương Hiệu
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Price
+                  Giá 
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Discount
+                  Giảm Giá
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Stock
+                  SL
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Action
+                  hoạt động
                 </th>
               </tr>
             </thead>
@@ -152,9 +152,7 @@ const Products = () => {
                       >
                         <FaEdit />
                       </Link>
-                      <Link className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
-                        <FaEye />
-                      </Link>
+                      
                       <button
                         onClick={() => deleteProduct(d._id)}
                         className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50"

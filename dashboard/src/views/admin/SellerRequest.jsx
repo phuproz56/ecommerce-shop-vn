@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -38,19 +40,19 @@ const SellerRequest = () => {
                   No
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Name
+                  tên
                 </th>
                 <th scope="col" className="py-3 px-4">
                   Email
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Payment Status
+                  tài khoản ngân hàng
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Status
+                  trạng thái xét duyệt
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Action
+                  hành động
                 </th>
               </tr>
             </thead>

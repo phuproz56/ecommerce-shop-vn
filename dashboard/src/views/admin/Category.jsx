@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/scope */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { PropagateLoader } from "react-spinners";
@@ -98,13 +100,13 @@ const Category = () => {
                       No
                     </th>
                     <th scope="col" className="py-3 px-4">
-                      Image
+                      hình ảnh
                     </th>
                     <th scope="col" className="py-3 px-4">
-                      Name
+                      tên
                     </th>
                     <th scope="col" className="py-3 px-4">
-                      Action
+                      hoạt động
                     </th>
                   </tr>
                 </thead>
@@ -182,7 +184,7 @@ const Category = () => {
               </div>
               <form onSubmit={add_category}>
                 <div className="flex flex-col w-full gap-1 mb-3">
-                  <label htmlFor="name">Category name</label>
+                  <label htmlFor="name">tên loại sản phẩm</label>
                   <input
                     value={state.name}
                     onChange={(e) =>
@@ -202,13 +204,13 @@ const Category = () => {
                     htmlFor="image"
                   >
                     {imageShow ? (
-                      <img className="w-full h-full" src={imageShow} />
+                      <img className="w-full h-full" src={imageShow} alt='imageshow' />
                     ) : (
                       <>
                         <span>
                           <BsImage />
                         </span>
-                        <span>select Image</span>
+                        <span>chọn hình ảnh</span>
                       </>
                     )}
                   </label>

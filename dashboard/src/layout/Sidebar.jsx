@@ -63,7 +63,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 <span>
                   <BiLogInCircle />
                 </span>
-                <span>Logout</span>
+                <span>Đăng Xuất</span>
               </button>
             </li>
           </ul>

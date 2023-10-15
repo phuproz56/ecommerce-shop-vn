@@ -103,7 +103,7 @@ const Profile = () => {
                   <FaEdit />
                 </span>
                 <div className="flex gap-2">
-                  <span>Name : </span>
+                  <span>Tên : </span>
                   <span>{userInfo.name}</span>
                 </div>
                 <div className="flex gap-2">
@@ -111,15 +111,15 @@ const Profile = () => {
                   <span>{userInfo.email}</span>
                 </div>
                 <div className="flex gap-2">
-                  <span>Role : </span>
+                  <span>Vai trò : </span>
                   <span>{userInfo.role}</span>
                 </div>
                 <div className="flex gap-2">
-                  <span>Status : </span>
+                  <span>Trạng thái : </span>
                   <span>{userInfo.status}</span>
                 </div>
                 <div className="flex gap-2">
-                  <span>Payment Account : </span>
+                  <span>Ngân hàng: </span>
                   <p>
                     {userInfo.payment === "active" ? (
                       <span className="bg-green-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded ">
@@ -143,7 +143,7 @@ const Profile = () => {
               {!userInfo?.shopInfo ? (
                 <form onSubmit={add}>
                   <div className="flex flex-col w-full gap-1 mb-3">
-                    <label htmlFor="Shop">Shop Name</label>
+                    <label htmlFor="Shop">Tên Shop </label>
                     <input
                       value={state.shopName}
                       onChange={inputHandle}
@@ -155,7 +155,7 @@ const Profile = () => {
                     />
                   </div>
                   <div className="flex flex-col w-full gap-1">
-                    <label htmlFor="div">Division</label>
+                    <label htmlFor="div">Người bán</label>
                     <input
                       value={state.division}
                       onChange={inputHandle}
@@ -167,7 +167,7 @@ const Profile = () => {
                     />
                   </div>
                   <div className="flex flex-col w-full gap-1 mb-3">
-                    <label htmlFor="district">District</label>
+                    <label htmlFor="district">Địa chỉ 1</label>
                     <input
                       value={state.district}
                       onChange={inputHandle}
@@ -179,7 +179,7 @@ const Profile = () => {
                     />
                   </div>
                   <div className="flex flex-col w-full gap-1 mb-3">
-                    <label htmlFor="sub">Sub District</label>
+                    <label htmlFor="sub">Địa chỉ 2</label>
                     <input
                       value={state.sub_district}
                       onChange={inputHandle}
@@ -210,19 +210,19 @@ const Profile = () => {
                     <FaEdit />
                   </span>
                   <div className="flex gap-2">
-                    <span>Shop Name : </span>
+                    <span>Tên Shop : </span>
                     <span>{userInfo.shopInfo?.shopName}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span>Division : </span>
+                    <span>Người bán : </span>
                     <span>{userInfo.shopInfo?.division}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span>District : </span>
+                    <span>Địa chỉ 1 : </span>
                     <span>{userInfo.shopInfo?.district}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span>Sub District : </span>
+                    <span>Địa chỉ 2 : </span>
                     <span>{userInfo.shopInfo?.sub_district}</span>
                   </div>
                 </div>
@@ -234,7 +234,7 @@ const Profile = () => {
           <div className="w-full pl-0 md:pl-7 mt-6 md:mt-0  ">
             <div className="bg-[#283046] rounded-md text-[#d0d2d6] p-4">
               <h1 className="text-[#d0d2d6] text-lg mb-3 font-semibold">
-                Change Password
+                Đổi mật khẩu
               </h1>
               <form>
                 <div className="flex flex-col w-full gap-1 mb-3">
@@ -248,7 +248,7 @@ const Profile = () => {
                   />
                 </div>
                 <div className="flex flex-col w-full gap-1">
-                  <label htmlFor="o_password">Old Password</label>
+                  <label htmlFor="o_password">Mật khẩu cũ</label>
                   <input
                     className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
                     type="password"
@@ -258,7 +258,7 @@ const Profile = () => {
                   />
                 </div>
                 <div className="flex flex-col w-full gap-1">
-                  <label htmlFor="n_password">New Password</label>
+                  <label htmlFor="n_password">Mật khẩu mới</label>
                   <input
                     className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
                     type="password"

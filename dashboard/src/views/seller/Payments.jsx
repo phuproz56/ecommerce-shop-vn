@@ -104,7 +104,7 @@ const Payments = () => {
         <div className="flex justify-between items-center p-5 bg-[#283046] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#d0d2d6]">
             <h2 className="text-lg font-bold">${totalAmount}</h2>
-            <span className="text-sm font-normal">Total Sales</span>
+            <span className="text-sm font-normal">Tổng thu nhập</span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-[#28c76f1f] flex justify-center items-center text-xl">
             <BsCurrencyDollar className="text-[#28c76f] shadow-lg" />
@@ -113,7 +113,7 @@ const Payments = () => {
         <div className="flex justify-between items-center p-5 bg-[#283046] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#d0d2d6]">
             <h2 className="text-lg font-bold">${availableAmount}</h2>
-            <span className="text-sm font-normal">Avaiable Amount</span>
+            <span className="text-sm font-normal">Số tiền khả dụng</span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-[#e000e81f] flex justify-center items-center text-xl">
             <BsCurrencyDollar className="text-[#cd00e8] shadow-lg" />
@@ -122,7 +122,7 @@ const Payments = () => {
         <div className="flex justify-between items-center p-5 bg-[#283046] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#d0d2d6]">
             <h2 className="text-lg font-bold">${withdrawAmount}</h2>
-            <span className="text-sm font-normal">Withdrawal Amount</span>
+            <span className="text-sm font-normal">Số tiền rút </span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-[#00cfe81f] flex justify-center items-center text-xl">
             <BsCurrencyDollar className="text-[#00cfe8] shadow-lg" />
@@ -131,7 +131,7 @@ const Payments = () => {
         <div className="flex justify-between items-center p-5 bg-[#283046] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#d0d2d6]">
             <h2 className="text-lg font-bold">${pendingAmount}</h2>
-            <span className="text-sm font-normal">Pending amount</span>
+            <span className="text-sm font-normal">Số tiền chờ xét duyệt</span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-[#7367f01f] flex justify-center items-center text-xl">
             <BsCurrencyDollar className="text-[#7367f0] shadow-lg" />
@@ -140,7 +140,7 @@ const Payments = () => {
       </div>
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 pb-4">
         <div className="bg-[#283046]  text-[#d0d2d6] rounded-md p-5">
-          <h2 className="text-lg">Send withdrawal Request</h2>
+          <h2 className="text-lg">Gửi yêu cầu rút tiền</h2>
           <div className="py-5">
             <form onSubmit={sendRequest}>
               <div className="flex gap-3 flex-wrap">
@@ -157,19 +157,19 @@ const Payments = () => {
                   disabled={loader}
                   className="bg-indigo-500 hover:shadow-indigo-500/50 hover:shadow-lg text-white rounded-sm px-4 py-2 text-sm "
                 >
-                  {loader ? "Loading...." : "Submit"}
+                  {loader ? "Loading...." : "Xác nhận"}
                 </button>
               </div>
             </form>
           </div>
           <div>
-            <h2 className="text-lg pb-4">Pending withdrawal request</h2>
+            <h2 className="text-lg pb-4">Yêu cầu rút tiền đang chờ xử lý</h2>
             <div className="w-full overflow-x-auto">
               <div className="flex bg-[#161d31] uppercase text-xs min-w-[340px]">
                 <div className="w-[25%] p-2">No</div>
-                <div className="w-[25%] p-2">Amount</div>
-                <div className="w-[25%] p-2">status</div>
-                <div className="w-[25%] p-2">date</div>
+                <div className="w-[25%] p-2">số tiền</div>
+                <div className="w-[25%] p-2">trạng thái</div>
+                <div className="w-[25%] p-2">ngày</div>
               </div>
               {
                 <List
@@ -192,9 +192,9 @@ const Payments = () => {
             <div className="w-full overflow-x-auto">
               <div className="flex bg-[#161d31] uppercase text-xs min-w-[340px]">
                 <div className="w-[25%] p-2">No</div>
-                <div className="w-[25%] p-2">Amount</div>
-                <div className="w-[25%] p-2">status</div>
-                <div className="w-[25%] p-2">date</div>
+                <div className="w-[25%] p-2">số tiền</div>
+                <div className="w-[25%] p-2">trạng thái</div>
+                <div className="w-[25%] p-2">ngày</div>
               </div>
               {
                 <List

@@ -127,14 +127,14 @@ const EditProduct = () => {
             className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-sm px-7 py-2 my-2 "
             to="/seller/dashboard/products"
           >
-            Products
+            Tất Cả Sản Phẩm
           </Link>
         </div>
         <div>
           <form onSubmit={update}>
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="name">Product name</label>
+                <label htmlFor="name">Tên Sản Phẩm</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
@@ -146,7 +146,7 @@ const EditProduct = () => {
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="brand">Product brand</label>
+                <label htmlFor="brand">Thương Hiệu</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
@@ -160,7 +160,7 @@ const EditProduct = () => {
             </div>
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1 relative">
-                <label htmlFor="category">Category</label>
+                <label htmlFor="category">Loại Sản Phẩm</label>
                 <input
                   readOnly
                   onClick={() => setCateShow(!cateShow)}
@@ -208,7 +208,7 @@ const EditProduct = () => {
                 </div>
               </div>
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="stock">Stock</label>
+                <label htmlFor="stock">Số Lượng</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
@@ -224,7 +224,7 @@ const EditProduct = () => {
 
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="price">Price</label>
+                <label htmlFor="price">Giá</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
@@ -236,7 +236,7 @@ const EditProduct = () => {
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="discount">Discount</label>
+                <label htmlFor="discount">Giảm Giá</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={inputHandle}
@@ -249,7 +249,7 @@ const EditProduct = () => {
               </div>
             </div>
             <div className="flex flex-col w-full gap-1 text-[#d0d2d6] mb-5">
-              <label htmlFor="description">Description</label>
+              <label htmlFor="description">Giới Thiệu</label>
               <textarea
                 rows={4}
                 className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"

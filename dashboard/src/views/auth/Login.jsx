@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { AiOutlineGithub, AiOutlineGooglePlus } from "react-icons/ai";
 import { CiTwitter } from "react-icons/ci";
@@ -43,9 +44,9 @@ function Login() {
     <div className="min-w-screen min-h-screen bg-[#161d31] flex justify-center items-center">
       <div className="w-[350px] text-[#d0d2d6] p-2">
         <div className="bg-[#283046] p-4 rounded-md">
-          <h2 className="text-xl mb-3">Welcome to e-commerce</h2>
-          <p className="text-sm mb-3">
-            Please signin to your account and start your bussiness
+          <h2 className="text-xl mb-3">CHÀO MỪNG ĐẾN VỚI SHOP-VN</h2>
+          <p className="text-sm mb-3 items-center justify-center">
+            Vui lòng đăng nhập vào tài khoản của bạn và bắt đầu kinh doanh
           </p>
           <form onSubmit={submit}>
             <div className="flex flex-col w-full gap-1 mb-3">
@@ -86,14 +87,14 @@ function Login() {
             </button>
             <div className="flex items-center mb-3 gap-3 justify-center">
               <p>
-                Already have an account ?{" "}
-                <Link to="/register">Signup here</Link>
+                Bạn chưa từng có tài khoản ?{" "}
+                <Link to="/register" className="text-green-500 ">Đăng ký ngay</Link>
               </p>
             </div>
             <div className="w-full flex justify-center items-center mb-3">
               <div className="w-[45%] bg-slate-700 h-[1px]"></div>
               <div className="w-[10%] flex justify-center items-center">
-                <span className="pb-1">Or</span>
+                <span className="pb-1">Hoặc</span>
               </div>
               <div className="w-[45%] bg-slate-700 h-[1px]"></div>
             </div>

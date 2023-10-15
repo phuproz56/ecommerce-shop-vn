@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineGooglePlus, AiOutlineGithub } from "react-icons/ai";
@@ -50,9 +51,9 @@ const Register = () => {
     <div className="min-w-screen min-h-screen bg-[#161d31] flex justify-center items-center">
       <div className="w-[350px] text-[#d0d2d6] p-2">
         <div className="bg-[#283046] p-4 rounded-md">
-          <h2 className="text-xl mb-3">Welcome to e-commerce</h2>
+          <h2 className="text-xl mb-3">CHÀO MỪNG ĐẾN VỚI SHOP-VN</h2>
           <p className="text-sm mb-3">
-            Please register to your account and start your bussiness
+            Vui lòng đăng nhập vào tài khoản của bạn và bắt đầu kinh doanh
           </p>
           <form onSubmit={submit}>
             <div className="flex flex-col w-full gap-1 mb-3">
@@ -103,7 +104,7 @@ const Register = () => {
                 required
               />
               <label htmlFor="checkbox">
-                I agree to privacy policy & terms
+                Tôi đồng ý với chính sách và điều khoản về quyền riêng tư
               </label>
             </div>
             <button
@@ -118,13 +119,13 @@ const Register = () => {
             </button>
             <div className="flex items-center mb-3 gap-3 justify-center">
               <p>
-                Already have an account ? <Link to="/login">Signin here</Link>
+                Bạn đã có tài khoản ? <Link to="/login" className="text-green-500">Đăng nhập ngay</Link>
               </p>
             </div>
             <div className="w-full flex justify-center items-center mb-3">
               <div className="w-[45%] bg-slate-700 h-[1px]"></div>
               <div className="w-[10%] flex justify-center items-center">
-                <span className="pb-1">Or</span>
+                <span className="pb-1">Hoặc</span>
               </div>
               <div className="w-[45%] bg-slate-700 h-[1px]"></div>
             </div>

@@ -42,22 +42,22 @@ const LogProduct = () => {
             <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
               <tr>
                 <th scope="col" className="py-3 px-4">
-                  No
+                  tt
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Image
+                  hình ảnh
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Name
+                  tên
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Price
+                  giá
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Stock
+                  số lượng
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Action
+                  hoạt động 
                 </th>
               </tr>
             </thead>

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/scope */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import Search from "../components/Search";
@@ -39,22 +39,22 @@ const Orders = () => {
             <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
               <tr>
                 <th scope="col" className="py-3 px-4">
-                  Order Id
+                  đơn hàng Id
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Price
+                  giá
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Payment Status
+                  trạng thái mua
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Order Status
+                  trạng thái đơn hàng
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Date
+                  ngày
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Action
+                  hoạt động
                 </th>
               </tr>
             </thead>

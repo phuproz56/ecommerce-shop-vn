@@ -49,22 +49,22 @@ const SellerDetails = () => {
                 {seller?.image ? (
                   <img
                     className="w-full h-[230px]"
-                    src="http://localhost:3000/images/admin.jpg"
+                    src="http://localhost:3001/images/admin.jpg"
                     alt=""
                   />
                 ) : (
-                  <span>Image not uploaded</span>
+                  <span>chưa upload ảnh đại diện</span>
                 )}
               </div>
             </div>
             <div className="w-4/12">
               <div className="px-0 md:px-5 py-2">
                 <div className="py-2 text-lg">
-                  <h2>Basic Info</h2>
+                  <h2>Thông tin căn bản</h2>
                 </div>
                 <div className="flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md">
                   <div className="flex gap-2">
-                    <span>Name : </span>
+                    <span>tên : </span>
                     <span>{seller?.name}</span>
                   </div>
                   <div className="flex gap-2">
@@ -72,15 +72,15 @@ const SellerDetails = () => {
                     <span>{seller?.email}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span>Role : </span>
+                    <span>vai trò : </span>
                     <span>{seller?.role}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span>Status : </span>
+                    <span>trạng thái : </span>
                     <span>{seller?.status}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span>Payment Account : </span>
+                    <span>tài khoản ngân hàng: </span>
                     <span>{seller?.payment}</span>
                   </div>
                 </div>
@@ -89,23 +89,23 @@ const SellerDetails = () => {
             <div className="w-4/12">
               <div className="px-0 md:px-5 py-2">
                 <div className="py-2 text-lg">
-                  <h2>Address</h2>
+                  <h2>Địa chỉ</h2>
                 </div>
                 <div className="flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md">
                   <div className="flex gap-2">
-                    <span>Shop Name : </span>
+                    <span>Tên shop : </span>
                     <span>{seller?.shopInfo?.shopName}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span>Division : </span>
+                    <span>Phân công : </span>
                     <span>{seller?.shopInfo?.division}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span>District : </span>
+                    <span>Địa chỉ 1 : </span>
                     <span>{seller?.shopInfo?.district}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span>Sub-District : </span>
+                    <span>Địa chỉ 2 : </span>
                     <span>{seller?.shopInfo?.sub_district}</span>
                   </div>
                 </div>
@@ -123,12 +123,12 @@ const SellerDetails = () => {
                   required
                   id=""
                 >
-                  <option value="">--select status--</option>
+                  <option value="">--Chọn trạng thái--</option>
                   <option value="active">Active</option>
                   <option value="deactive">Deactive</option>
                 </select>
                 <button className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 w-[170px] ">
-                  Submit
+                  Xác Nhận
                 </button>
               </div>
             </form>

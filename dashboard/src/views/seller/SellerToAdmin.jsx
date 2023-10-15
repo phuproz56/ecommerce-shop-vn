@@ -17,7 +17,7 @@ const SellerToAdmin = () => {
   const { seller_admin_message, successMessage, activeAdmin } = useSelector(
     (state) => state.chat
   );
-  
+
   const { userInfo } = useSelector((state) => state.auth);
   useEffect(() => {
     dispatch(get_seller_message());
@@ -73,7 +73,7 @@ const SellerToAdmin = () => {
                     <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0"></div>
                   )}
                 </div>
-                <h2 className="text-base text-white font-semibold">Support</h2>
+                <h2 className="text-base text-white font-semibold">Admin</h2>
               </div>
             </div>
             <div className="py-4">
