@@ -1,7 +1,10 @@
 const formidable = require("formidable");
 const cloudinary = require("cloudinary").v2;
 const productModel = require("../../models/productModel");
+const logProductModel = require("../../models/logProduct");
 const { responseReturn } = require("../../utils/response");
+const moment = require("moment");
+
 class productController {
   add_product = async (req, res) => {
     const { id } = req;
@@ -101,7 +104,7 @@ class productController {
     const { productId } = req.params;
     let updateDate = {
       updatedAt: new Date(),
-    }
+    };
     try {
       const product = await productModel.findById(productId);
 
@@ -117,7 +120,7 @@ class productController {
     name = name.trim();
     const slug = name.split(" ").join("-");
     const p = await productModel.findById(productId);
-    const  version  = p.__v;
+    const version = p.__v;
     try {
       const product = await productModel.findByIdAndUpdate(productId, {
         name,
@@ -186,6 +189,51 @@ class productController {
     try {
       await productModel.findByIdAndDelete(productId);
       responseReturn(res, 200, { message: "delete success" });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  logproduct_update = async (req, res) => {
+    const { productId, fullname, stock, price, note } = req.body;
+    try {
+      await logProductModel.create({
+        productId,
+        fullname: fullname.trim(),
+        stock: parseInt(stock),
+        price: parseInt(price),
+        note: note.trim(),
+        date: moment(Date.now()).format("LL"),
+      });
+      let add_warehouse = 0;
+      let update_price = 0;
+
+      const log = await logProductModel.find({ productId });
+
+      update_price = update_price + log.price;
+
+      for (let i = 0; i < log.length; i++) {
+        add_warehouse = add_warehouse + log[i].stock;
+        update_price = log[i].price;
+      }
+
+      await productModel.findByIdAndUpdate(productId, {
+        stock: add_warehouse,
+        price: update_price,
+      });
+
+      responseReturn(res, 200, { message: "Lập phiếu thành công!!" });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  get_logproduct = async (req, res) => {
+    const productId = req.params.productId;
+    try {
+      const logProduct = await logProductModel.find({ productId: productId });
+      console.log(logProduct);
+      responseReturn(res, 200, { logProduct });
     } catch (error) {
       console.log(error.message);
     }

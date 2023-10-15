@@ -28,12 +28,12 @@ const EditProduct = () => {
     );
   }, [dispatch]);
   const [state, setState] = useState({
-    name: product.name || "", 
-    description: product.description || "", 
-    discount: product.discount || "", 
-    price: product.price || "", 
-    brand: product.brand || "", 
-    stock: product.stock || "", 
+    name: product.name || "",
+    description: product.description || "",
+    discount: product.discount || "",
+    price: product.price || "",
+    brand: product.brand || "",
+    stock: product.stock || "",
   });
   const inputHandle = (e) => {
     setState({

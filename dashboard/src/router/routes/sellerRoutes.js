@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import LogProduct from "../../views/seller/LogProduct";
 import LogProductDetail from "../../views/seller/LogProductDetail";
+import LogProductSeeDetail from "../../views/seller/LogProductSeeDetail";
 const SellerDashboard = lazy(() =>
   import("../../views/seller/SellerDashboard")
 );
@@ -73,6 +74,12 @@ export const sellerRoutes = [
   {
     path: "/seller/dashboard/log-product-detail/:productId",
     element: <LogProductDetail />,
+    role: "seller",
+    status: "active",
+  },
+  {
+    path: "/seller/dashboard/log-product-see-detail/:productId",
+    element: <LogProductSeeDetail />,
     role: "seller",
     status: "active",
   },

@@ -95,6 +95,34 @@ export const delete_product = createAsyncThunk(
   }
 );
 
+export const update_logproduct = createAsyncThunk(
+  "product/update_logproduct",
+  async (logProduct, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/logproduct-update", logProduct, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_logproduct = createAsyncThunk(
+  "product/get_logproduct",
+  async (productId, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(`/logproduct-get/${productId}`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return console.log(error.message);
+    }
+  }
+);
+
 export const productReducer = createSlice({
   name: "product",
   initialState: {
@@ -104,8 +132,7 @@ export const productReducer = createSlice({
     products: [],
     product: "",
     totalProduct: 0,
-    warehouse: 0,
-    updateDate: {},
+    logProduct: [],
   },
   reducers: {
     messageClear: (state, _) => {
@@ -151,6 +178,12 @@ export const productReducer = createSlice({
     },
     [delete_product.fulfilled]: (state, { payload }) => {
       state.successMessage = payload.message;
+    },
+    [update_logproduct.fulfilled]: (state, { payload }) => {
+      state.successMessage = payload.message;
+    },
+    [get_logproduct.fulfilled]: (state, { payload }) => {
+      state.logProduct = payload.logProduct;
     },
   },
 });

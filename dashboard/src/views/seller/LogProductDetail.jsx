@@ -1,96 +1,91 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { PropagateLoader } from "react-spinners";
-import toast from "react-hot-toast";
-import { get_category } from "../../store/Reducers/categoryReducer";
 import {
   get_product,
   messageClear,
-  update_product,
+  update_logproduct,
 } from "../../store/Reducers/productReducer";
 import { overrideStyle } from "../../utils/utils";
-import moment from "moment";
+import toast from "react-hot-toast";
+
 const LogProductDetail = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
-  const {
-    product,
-    loader,
-    errorMessage,
-    successMessage,
-    warehouse,
-    updateDate,
-  } = useSelector((state) => state.product);
-  useEffect(() => {
-    dispatch(
-      get_category({
-        searchValue: "",
-        parPage: "",
-        page: "",
-      })
-    );
-  }, [dispatch]);
-  const [state, setState] = useState({
-    price: product.price || "",
-    stock: product.stock || "",
-  });
-  const inputHandle = (e) => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const { product, loader, successMessage } = useSelector(
+    (state) => state.product
+  );
+  const [fullname, setFullname] = useState("");
+  const [stock, setStock] = useState();
+  const [note, setNote] = useState("");
+  const [price, setPrice] = useState();
 
   useEffect(() => {
     dispatch(get_product(productId));
   }, [dispatch, productId]);
 
-  useEffect(() => {
-    setState({
-      price: product.price,
-      stock: product.stock,
-    });
-  }, [product]);
+  const update = (e) => {
+    e.preventDefault();
+    const obj = {
+      fullname: fullname,
+      stock: stock,
+      price: price,
+      note: note,
+      productId: product._id,
+    };
+    dispatch(update_logproduct(obj));
+  };
 
   useEffect(() => {
-    if (errorMessage) {
-      toast.error(errorMessage);
-      dispatch(messageClear());
-    }
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
     }
-  }, [successMessage, errorMessage, dispatch]);
-
-  const update = (e) => {
-    e.preventDefault();
-    const obj = {
-      price: state.price,
-      stock: state.stock,
-      productId: productId,
-    };
-    dispatch(update_product(obj));
-  };
-  const date = moment(updateDate).format('LL');
-  console.log(date);
+  }, [dispatch, successMessage]);
 
   return (
     <div className="px-2 lg:px-7 pt-5 ">
       <div className="w-full p-4  bg-[#283046] rounded-md">
         <div className="flex justify-between items-center pb-4">
-          <h1 className="text-[#d0d2d6] text-xl font-semibold">Warehouse</h1>
+          <h1 className="text-[#d0d2d6] text-xl font-semibold">Phiếu nhập hàng</h1>
         </div>
         <div>
           <form onSubmit={update}>
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="price">Price</label>
+                <label htmlFor="price">Người lập phiếu</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
-                  onChange={inputHandle}
-                  value={state.price}
+                  onChange={(e) => setFullname(e.target.value)}
+                  value={fullname}
+                  type="text"
+                  placeholder="name"
+                  name="name"
+                  id="name"
+                />
+              </div>
+              <div className="flex flex-col w-full gap-1">
+                <label htmlFor="stock">Thêm số lượng hàng</label>
+                <input
+                  className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
+                  onChange={(e) => setStock(e.target.value)}
+                  value={stock}
+                  type="number"
+                  min="0"
+                  placeholder="Add to stock"
+                  name="stock"
+                  id="stock"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
+              <div className="flex flex-col w-full gap-1">
+                <label htmlFor="price">Thay đổi giá bán</label>
+                <input
+                  className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
+                  onChange={(e) => setPrice(e.target.value)}
+                  value={price}
                   type="number"
                   placeholder="price"
                   name="price"
@@ -98,16 +93,15 @@ const LogProductDetail = () => {
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="stock">Stock</label>
+                <label htmlFor="stock">Ghi chú</label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
-                  onChange={inputHandle}
-                  value={state.warehouse}
-                  type="number"
-                  min="0"
-                  placeholder="Add to stock"
-                  name="stock"
-                  id="stock"
+                  onChange={(e) => setNote(e.target.value)}
+                  value={note}
+                  type="text"
+                  placeholder="Note to text"
+                  name="note"
+                  id="note"
                 />
               </div>
             </div>
@@ -119,7 +113,7 @@ const LogProductDetail = () => {
                 {loader ? (
                   <PropagateLoader color="#fff" cssOverride={overrideStyle} />
                 ) : (
-                  "Update product"
+                  "Lập phiếu"
                 )}
               </button>
             </div>

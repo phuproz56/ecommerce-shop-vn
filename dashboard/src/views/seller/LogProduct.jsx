@@ -6,20 +6,18 @@ import Pagination from "../Pagination";
 import { useSelector, useDispatch } from "react-redux";
 import {
   get_products,
-  messageClear,
 } from "../../store/Reducers/productReducer";
-import { FaWarehouse } from "react-icons/fa";
-import toast from "react-hot-toast";
+import { FaWarehouse, FaEye } from "react-icons/fa";
+
 
 const LogProduct = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
+  
 
-  const { products, totalProduct } = useSelector(
-    (state) => state.product
-  );
+  const { products, totalProduct } = useSelector((state) => state.product);
   useEffect(() => {
     const obj = {
       parPage: parseInt(parPage),
@@ -28,7 +26,6 @@ const LogProduct = () => {
     };
     dispatch(get_products(obj));
   }, [searchValue, currentPage, parPage]);
-
 
 
 
@@ -112,7 +109,14 @@ const LogProduct = () => {
                       >
                         <FaWarehouse />
                       </Link>
+                      <Link
+                        to={`/seller/dashboard/log-product-see-detail/${d._id}`}
+                        className="p-[10px] bg-yellow-300 text-white rounded hover:shadow-lg hover:shadow-yellow-500/50"
+                      >
+                        <FaEye />
+                      </Link>
                     </div>
+                    
                   </th>
                 </tr>
               ))}

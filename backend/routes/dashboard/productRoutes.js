@@ -26,4 +26,16 @@ router.delete(
   productController.delete_product
 );
 
+router.post(
+  "/logproduct-update",
+  authMiddleware,
+  productController.logproduct_update
+);
+
+router.get(
+  "/logproduct-get/:productId",
+  authMiddleware,
+  productController.get_logproduct
+);
+
 module.exports = router;
