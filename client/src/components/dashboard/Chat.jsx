@@ -104,7 +104,7 @@ const Chat = () => {
             <span>
               <AiOutlineMessage />
             </span>
-            <span>Message</span>
+            <span>Tin Nhắn</span>
           </div>
           <div className="w-full flex flex-col text-slate-600 py-4 h-[400px] pr-3">
             {my_friends.map((f, i) => (
@@ -214,7 +214,7 @@ const Chat = () => {
             </div>
           ) : (
             <div onClick={()=>setShow(!show)} className="w-full h-[400px] flex justify-center items-center text-lg ont-bold text-slate-600">
-              <span className="cursor-pointer">select seller</span>
+              <span className="cursor-pointer">Chọn Người Bán Muốn Chat</span>
             </div>
           )}
         </div>

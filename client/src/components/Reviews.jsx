@@ -78,7 +78,7 @@ const Reviews = ({ product }) => {
           <div className="flex text-4xl">
             <Ratings ratings={product.rating} />
           </div>
-          <p className="text-sm text-slate-600">{totalReview} Reviews</p>
+          <p className="text-sm text-slate-600">{totalReview} Đánh Giá</p>
         </div>
         <div className="flex gap-2 flex-col py-4">
           <div className="flex justify-start items-center gap-5">
@@ -192,7 +192,7 @@ const Reviews = ({ product }) => {
         </div>
       </div>
       <h2 className="text-slate-600 text-xl font-bold py-5">
-        Products Reviews {totalReview}
+        Lượt Đánh Giá Sản Phẩm: {totalReview}
       </h2>
       <div className="flex flex-col gap-8 pb-10 pt-4">
         {reviews.map((r, i) => (

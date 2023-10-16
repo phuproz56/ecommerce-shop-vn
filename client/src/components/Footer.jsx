@@ -37,8 +37,8 @@ const Footer = () => {
               alt="logo"
             />
             <ul className="flex flex-col gap-2 text-slate-600">
-              <li>Address : Can Tho</li>
-              <li>Phone : (+84) 123456789</li>
+              <li>Địa Chỉ : Can Tho</li>
+              <li>SĐT : (+84) 123456789</li>
               <li>Email : phuproz348@gmail.com</li>
             </ul>
           </div>
@@ -50,36 +50,30 @@ const Footer = () => {
               <div className="flex justify-between gap-[80px] lg:gap-[40px]">
                 <ul className="flex flex-col gap-2 text-slate-600 text-sm">
                   <li>
-                    <Link>About Us</Link>
+                    <Link>Về Chúng Tôi</Link>
                   </li>
                   <li>
-                    <Link>About our Shop</Link>
+                    <Link>Về Cửa Hàng</Link>
                   </li>
                   <li>
-                    <Link>Delivery Information</Link>
+                    <Link>Thông Tin Giao Hàng</Link>
                   </li>
                   <li>
-                    <Link>Privacy Policy</Link>
-                  </li>
-                  <li>
-                    <Link>Blogs</Link>
+                    <Link>Chính Sách Bảo Mật</Link>
                   </li>
                 </ul>
                 <ul className="flex flex-col gap-2 text-slate-600 text-sm">
                   <li>
-                    <Link>About Us</Link>
+                    <Link>Về Chúng Tôi</Link>
                   </li>
                   <li>
-                    <Link>About our Shop</Link>
+                    <Link>Về Cửa Hàng</Link>
                   </li>
                   <li>
-                    <Link>Delivery Information</Link>
+                    <Link>Thông Tin Giao Hàng</Link>
                   </li>
                   <li>
-                    <Link>Privacy Policy</Link>
-                  </li>
-                  <li>
-                    <Link>Blogs</Link>
+                    <Link>Chính Sách Bảo Mật</Link>
                   </li>
                 </ul>
               </div>
@@ -88,9 +82,10 @@ const Footer = () => {
         </div>
         <div className="w-4/12 lg:w-full lg:mt-6">
           <div className="w-full flex flex-col justify-start gap-5">
-            <h2 className="font-bold text-lg mb-2">Join Our</h2>
+            <h2 className="font-bold text-lg mb-2">Tham Gia Với Chúng Tôi</h2>
             <span>
-              Get Email updates about our latest and shop specials offers
+              Nhận thông tin cập nhật qua Email về các ưu đãi đặc biệt và mới
+              nhất của cửa hàng chúng tôi
             </span>
             <div className="h-[50px] w-full bg-white border relative">
               <input
@@ -99,7 +94,7 @@ const Footer = () => {
                 type="text"
               />
               <button className="h-full absolute right-0 bg-indigo-500 text-white uppercase px-4 font-bold text-sm">
-                Subscribe
+                đăng ký
               </button>
             </div>
             <ul className="flex justify-start items-center gap-3">

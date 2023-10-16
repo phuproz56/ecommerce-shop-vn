@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import Headers from "../components/Headers";
 import Footer from "../components/Footer";
 import FadeLoader from "react-spinners/FadeLoader";
-import { FaFacebookF } from "react-icons/fa";
-import { AiOutlineGoogle } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { customer_register, messageClear } from "../store/reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -60,12 +58,12 @@ const Register = () => {
           <div className="grid grid-cols-2 w-[60%] mx-auto bg-white rounded-md">
             <div className="px-8 py-8">
               <h2 className="text-center w-full text-xl text-slate-600 font-bold">
-                Register
+                Đăng Ký
               </h2>
               <div>
                 <form onSubmit={register} className="text-slate-600" action="">
                   <div className="flex flex-col gap-1 mb-2">
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="name">Tên</label>
                     <input
                       onChange={inputHandle}
                       value={state.name}
@@ -101,10 +99,10 @@ const Register = () => {
                     />
                   </div>
                   <button className="px-8 w-full py-2 bg-purple-500 shadow-lg hover:shadow-indigo-500/30 text-white rounded-md">
-                    Register
+                    Đăng Ký
                   </button>
                 </form>
-                <div className="flex justify-center items-center py-2">
+                {/* <div className="flex justify-center items-center py-2">
                   <div className="h-[1px] bg-slate-300 w-[95%]"></div>
                   <span className="px-3 text-slate-600">Or</span>
                   <div className="h-[1px] bg-slate-300 w-[95%]"></div>
@@ -120,21 +118,25 @@ const Register = () => {
                     <AiOutlineGoogle />
                   </span>
                   <span>Login with Google</span>
-                </button>
+                </button> */}
               </div>
               <div className="text-center text-slate-600 pt-1">
                 <p>
-                  You have an account ?{" "}
+                  Bạn Đã Có Tài Khoản ?{" "}
                   <Link className="text-blue-500" to="/login">
-                    Login
+                    Đăng Nhập Ngay
                   </Link>
                 </p>
               </div>
               <div className="text-center text-slate-600 pt-1">
                 <p>
-                  You want to sell?  {" "}
-                  <Link className="text-blue-500" target="_blank" to="http://localhost:3001/login">
-                    Seller Page
+                  Bạn Muốn Bán Hàng ?{" "}
+                  <Link
+                    className="text-blue-500"
+                    target="_blank"
+                    to="http://localhost:3001/login"
+                  >
+                    Kênh Người Bán
                   </Link>
                 </p>
               </div>

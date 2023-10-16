@@ -278,14 +278,17 @@ const SearchProducts = () => {
                 </div>
               </div>
               <div className="py-5 flex flex-col gap-4 md:hidden">
-                <Products title="Latest Products" products={latest_products} />
+                <Products
+                  title="Sản Phẩm Mới Nhất"
+                  products={latest_products}
+                />
               </div>
             </div>
             <div className="w-9/12 md-lg:w-8/12 md:w-full">
               <div className="pl-8 md:pl-0">
                 <div className="py-4 bg-white mb-10 px-3 rounded-md flex justify-between items-start border">
                   <h2 className="text-lg font-medium text-slate-600">
-                    {totalProduct} Products
+                    {totalProduct} Sản Phẩm
                   </h2>
                   <div className="flex justify-center items-center gap-3">
                     <select
@@ -294,9 +297,9 @@ const SearchProducts = () => {
                       name=""
                       id=""
                     >
-                      <option value="">Sort By</option>
-                      <option value="low-to-high">Low to High Price</option>
-                      <option value="high-to-low">High to Low Price</option>
+                      <option value="">Sắp Xếp Từ</option>
+                      <option value="low-to-high">Giá Thấp đến Cao</option>
+                      <option value="high-to-low">Giá Cao đến Thấp</option>
                     </select>
                     <div className="flex justify-center items-start gap-4 md-lg:hidden">
                       <div

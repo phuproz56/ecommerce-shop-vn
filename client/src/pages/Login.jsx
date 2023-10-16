@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from "react";
 import Headers from "../components/Headers";
 import Footer from "../components/Footer";
-import { FaFacebookF } from "react-icons/fa";
-import { AiOutlineGoogle } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { customer_login, messageClear } from "../store/reducers/authReducer";
@@ -58,7 +56,7 @@ const Login = () => {
           <div className="grid grid-cols-2 w-[60%] mx-auto bg-white rounded-md">
             <div className="px-8 py-8">
               <h2 className="text-center w-full text-xl text-slate-600 font-bold">
-                Login
+                Đăng Nhập
               </h2>
               <div>
                 <form onSubmit={login} className="text-slate-600" action="">
@@ -90,39 +88,18 @@ const Login = () => {
                     Login
                   </button>
                 </form>
-                <div className="flex justify-center items-center py-2">
-                  <div className="h-[1px] bg-slate-300 w-[95%]"></div>
-                  <span className="px-3 text-slate-600">Or</span>
-                  <div className="h-[1px] bg-slate-300 w-[95%]"></div>
-                </div>
-                <button className="px-8 w-full py-2 bg-indigo-500 shadow hover:shadow-indigo-500/30 text-white rounded-md flex justify-center items-center gap-2 mb-3">
-                  <span>
-                    <FaFacebookF />
-                  </span>
-                  <span>Login with Facebook</span>
-                </button>
-                <button className="px-8 w-full py-2 bg-orange-500 shadow hover:shadow-indigo-500/30 text-white rounded-md flex justify-center items-center gap-2 mb-3">
-                  <span>
-                    <AiOutlineGoogle />
-                  </span>
-                  <span>Login with Google</span>
-                </button>
               </div>
               <div className="text-center text-slate-600 pt-1">
                 <p>
-                  You do not have account ?{" "}
+                  Bạn Chưa Có Tài Khoản ?{" "}
                   <Link className="text-blue-500" to="/register">
-                    Register
+                    Đăng Ký Ngay
                   </Link>
                 </p>
               </div>
             </div>
             <div className="w-full h-full py-4 pr-4">
-              <img
-                className="w-full h-[95%]"
-                src="/images/login.jpg"
-                alt=""
-              />
+              <img className="w-full h-[95%]" src="/images/login.jpg" alt="" />
             </div>
           </div>
         </div>

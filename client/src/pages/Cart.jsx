@@ -85,7 +85,7 @@ const Cart = () => {
                 <span className="pt-2">
                   <MdOutlineKeyboardArrowRight />
                 </span>
-                <span>Cart</span>
+                <span>Giỏ Hàng</span>
               </div>
             </div>
           </div>
@@ -100,7 +100,7 @@ const Cart = () => {
                   <div className="flex flex-col gap-3">
                     <div className="bg-white p-4">
                       <h2 className="text-md text-green-500">
-                        Stock Products {card_products.length}
+                        Số lượng sản phẩm trong giỏ hàng: {card_product_count}
                       </h2>
                     </div>
                     {card_products.map((p, i) => (
@@ -125,7 +125,7 @@ const Cart = () => {
                                     {pt.productInfo.name}
                                   </h2>
                                   <span className="text-sm">
-                                    Brand : {pt.productInfo.brand}
+                                    Thương hiệu : {pt.productInfo.brand}
                                   </span>
                                 </div>
                               </div>
@@ -174,7 +174,7 @@ const Cart = () => {
                                   }
                                   className="px-5 py-[3px] bg-red-500 text-white"
                                 >
-                                  Delete
+                                  Xóa
                                 </button>
                               </div>
                             </div>
@@ -186,7 +186,7 @@ const Cart = () => {
                       <div className="flex flex-col gap-3">
                         <div className="bg-white p-4">
                           <h2 className="text-md text-red-500 font-semibold">
-                            Out of Stock {outofstock_products.length}
+                            Hết Hàng {outofstock_products.length}
                           </h2>
                         </div>
                         <div className="bg-white p-4">
@@ -204,7 +204,7 @@ const Cart = () => {
                                       {p.products[0].name}
                                     </h2>
                                     <span className="text-sm">
-                                      Brand : {p.products[0].brand}
+                                      Thương hiệu : {p.products[0].brand}
                                     </span>
                                   </div>
                                 </div>
@@ -253,7 +253,7 @@ const Cart = () => {
                                     }
                                     className="px-5 py-[3px] bg-red-500 text-white"
                                   >
-                                    Delete
+                                    Xóa
                                   </button>
                                 </div>
                               </div>
@@ -269,27 +269,27 @@ const Cart = () => {
                 <div className="pl-3 md-lg:pl-0 md-lg:mt-5">
                   {card_products.length > 0 && (
                     <div className="bg-white p-3 text-slate-600 flex flex-col gap-3">
-                      <h2 className="text-xl font-bold">Order Sumary</h2>
+                      <h2 className="text-xl font-bold">TỔNG SỐ TIỀN</h2>
                       <div className="flex justify-between  items-center">
-                        <span>{buy_product_item} Items</span>
+                        <span>{buy_product_item} SẢN PHẨM</span>
                         <span>${price}</span>
                       </div>
                       <div className="flex justify-between  items-center">
-                        <span>Shiping Fee</span>
+                        <span>PHÍ VẬN CHUYỂN</span>
                         <span>${shipping_fee}</span>
                       </div>
                       <div className="flex gap-2">
                         <input
                           className="w-full px-3 py-2 border border-slate-200 outline-0 focus:border-green-500"
                           type="text"
-                          placeholder="Input Voucher Coupon"
+                          placeholder="nhập voucher của bạn"
                         />
-                        <button className="px-5 py-[1px] bg-blue-500 text-white rounded-sm uppercase text-sm">
-                          Apply
+                        <button className="px-4 py-[1px]  bg-blue-500 text-white rounded-sm uppercase text-sm">
+                          apply
                         </button>
                       </div>
                       <div className="flex justify-between  items-center">
-                        <span>Total</span>
+                        <span>TỔNG</span>
                         <span className="text-lg text-orange-500">
                           ${price + shipping_fee}
                         </span>
@@ -298,7 +298,7 @@ const Cart = () => {
                         onClick={redirect}
                         className="px-5 py-[6px] rounded-sm hover:shadow-orange-500/20 hover:shadow-lg bg-orange-500 text-sm text-white uppercase"
                       >
-                        Proceed to checkout {buy_product_item}
+                       tiến hành thanh toán {buy_product_item} sản phẩm
                       </button>
                     </div>
                   )}

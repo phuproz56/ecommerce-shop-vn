@@ -38,7 +38,7 @@ const Details = () => {
   const { errorMessage, successMessage } = useSelector((state) => state.card);
 
   const location = useLocation();
-  
+
   useEffect(() => {
     window.scrollTo({
       top: 400,
@@ -192,7 +192,7 @@ const Details = () => {
       <div className="bg-slate-100 py-5 mb-5 ">
         <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
           <div className="flex justify-start items-center text-md text-slate-600 w-full">
-            <Link to="/">Home</Link>
+            <Link to="/">Trang Chủ</Link>
             <span className="pt-1">
               <MdOutlineKeyboardArrowRight />
             </span>
@@ -223,7 +223,7 @@ const Details = () => {
                     transitionDuration={500}
                     responsive={responsive}
                   >
-                    {product.images.map((img,i) => {
+                    {product.images.map((img, i) => {
                       return (
                         <div key={i} onClick={() => setImage(img)}>
                           <img
@@ -246,7 +246,7 @@ const Details = () => {
                 <div className="flex text-xl">
                   <Ratings ratings={product.rating}></Ratings>
                 </div>
-                <span className="text-green-500">(23 reviews)</span>
+                <span className="text-green-500">(23 Đánh Giá)</span>
               </div>
               <div className="text-2xl text-red-500 font-bold flex gap-3">
                 {product.discount ? (
@@ -289,7 +289,7 @@ const Details = () => {
                         onClick={add_card}
                         className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white"
                       >
-                        Add to cart
+                        Thêm Vào Giỏ Hàng
                       </button>
                     </div>
                   </>
@@ -307,17 +307,17 @@ const Details = () => {
                 </div>
               </div>
               <div className="flex py-5 gap-5">
-                <div className="w-[150px] text-black font-bold text-xl flex flex-col gap-5">
-                  <span>Availiably</span>
-                  <span>Share on</span>
+                <div className="w-[200px] text-black font-bold text-xl flex flex-col gap-5">
+                  <span>Sản phẩm có sẵn</span>
+                  <span>Chia sẻ</span>
                 </div>
                 <div className="flex flex-col gap-5">
                   <span
                     className={`text-${product.stock ? "green" : "red"}-500`}
                   >
                     {product.stock
-                      ? `In Stock(${product.stock})`
-                      : "Out of Stock"}
+                      ? `Tồn kho (${product.stock})`
+                      : "Hết hàng"}
                   </span>
                   <ul className="flex justify-start items-center gap-3">
                     <li>
@@ -361,13 +361,16 @@ const Details = () => {
                     onClick={buy}
                     className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white"
                   >
-                    Buy now
+                    Mua ngay
                   </button>
                 ) : (
                   ""
                 )}
-                <Link to={`/dashboard/chat/${product.sellerId}`} className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-orange-500/40 bg-orange-500 text-white block">
-                  Chat with Seller
+                <Link
+                  to={`/dashboard/chat/${product.sellerId}`}
+                  className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-orange-500/40 bg-orange-500 text-white block"
+                >
+                  Chat với Người Bán
                 </Link>
               </div>
             </div>
@@ -388,7 +391,7 @@ const Details = () => {
                         : "bg-slate-200 text-slate-700"
                     } rounded-sm`}
                   >
-                    Reviews
+                    Đánh Giá
                   </button>
                   <button
                     onClick={() => setState("description")}
@@ -398,7 +401,7 @@ const Details = () => {
                         : "bg-slate-200 text-slate-700"
                     } rounded-sm`}
                   >
-                    Description
+                    Giới Thiệu SP
                   </button>
                 </div>
                 <div>
@@ -413,10 +416,10 @@ const Details = () => {
             <div className="w-[28%] md-lg:w-full">
               <div className="pl-4 md-lg:pl-0">
                 <div className="px-3 py-2 text-slate-600 bg-slate-200">
-                  <h2> From {product.shopName}</h2>
+                  <h2> Từ {product.shopName}</h2>
                 </div>
                 <div className="flex flex-col gap-5 mt-3 border p-3">
-                  {moreProducts.map((p,i) => {
+                  {moreProducts.map((p, i) => {
                     return (
                       <Link
                         to={`/product/details/${p.slug}`}
@@ -457,7 +460,7 @@ const Details = () => {
       <section>
         <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
           <h2 className="text-2xl py-8-text text-slate-600">
-            Related Products
+            Những sảm phẩm tương tự
           </h2>
           <div>
             <Swiper

@@ -41,7 +41,7 @@ const Index = () => {
           </div>
           <div className="flex flex-col justify-start items-start text-slate-600">
             <h2 className="text-3xl font-bold">{totalOrder}</h2>
-            <span>Orders</span>
+            <span>Tổng Đơn Hàng</span>
           </div>
         </div>
         <div className="flex justify-center items-center p-5 bg-white rounded-md gap-5">
@@ -52,7 +52,7 @@ const Index = () => {
           </div>
           <div className="flex flex-col justify-start items-start text-slate-600">
             <h2 className="text-3xl font-bold">{pendingOrder}</h2>
-            <span>Pending Orders</span>
+            <span>Đơn Hàng Chưa Xét Duyệt</span>
           </div>
         </div>
         <div className="flex justify-center items-center p-5 bg-white rounded-md gap-5">
@@ -63,31 +63,31 @@ const Index = () => {
           </div>
           <div className="flex flex-col justify-start items-start text-slate-600">
             <h2 className="text-3xl font-bold">{cancelledOrder}</h2>
-            <span>Cancelled Orders</span>
+            <span>Đơn Hàng Đã Hủy</span>
           </div>
         </div>
       </div>
       <div className="bg-white p-5 mt-5 rounded-md">
-        <h2 className="text-lg font-semibold text-slate-600">Recent Orders</h2>
+        <h2 className="text-lg font-semibold text-slate-600">Những đơn đặt hàng gần đây</h2>
         <div className="pt-4 ">
           <div className="relative overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-500">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                   <th className="px-6 py-3" scope="col">
-                    Order Id
+                    Đơn Hàng Id
                   </th>
                   <th className="px-6 py-3" scope="col">
-                    Price
+                    Giá
                   </th>
                   <th className="px-6 py-3" scope="col">
-                    Payment status
+                    Trạng Thái Thanh Toán
                   </th>
                   <th className="px-6 py-3" scope="col">
-                    Order status
+                    Trạng Thái Đơn Hàng
                   </th>
                   <th className="px-6 py-3" scope="col">
-                    Action
+                    Hành Động
                   </th>
                 </tr>
               </thead>
@@ -124,14 +124,14 @@ const Index = () => {
                     >
                       <Link to={`/dashboard/order/details/${o._id}`}>
                         <span className="bg-green-100 text-green-800 text-sm font-normal mr-2 px-2.5 py-[1px] rounded">
-                          View
+                          Xem
                         </span>
                       </Link>
                       <span
                         onClick={() => redirect(o)}
                         className="bg-green-100 text-green-800 text-sm font-normal mr-2 px-2.5 py-[1px] rounded cursor-pointer"
                       >
-                        Pay Now
+                        Mua Ngay
                       </span>
                     </th>
                   </tr>

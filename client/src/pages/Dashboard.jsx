@@ -67,7 +67,7 @@ const Dashboard = () => {
                     <RiProductHuntLine />
                   </span>
                   <Link to="/dashboard/my-orders" className="block">
-                    My Orders
+                    Đơn Hàng của tôi
                   </Link>
                 </li>
                 <li className="flex justify-start items-center gap-2 py-2">
@@ -75,7 +75,7 @@ const Dashboard = () => {
                     <BsHeart />
                   </span>
                   <Link to="/dashboard/my-wishlist" className="block">
-                    Wishlist
+                    Yêu Thích
                   </Link>
                 </li>
                 <li className="flex justify-start items-center gap-2 py-2">
@@ -91,7 +91,7 @@ const Dashboard = () => {
                     <TfiLock />
                   </span>
                   <Link to="/dashboard/change-password" className="block">
-                    Change Password
+                    Thay đổi mật khẩu
                   </Link>
                 </li>
                 <li
@@ -102,7 +102,7 @@ const Dashboard = () => {
                     <BiLogInCircle />
                   </span>
                   <Link to="/dashboard" className="block">
-                    Logout
+                    Đăng xuất
                   </Link>
                 </li>
               </ul>

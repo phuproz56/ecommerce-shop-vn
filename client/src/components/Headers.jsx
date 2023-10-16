@@ -78,13 +78,13 @@ const Headers = () => {
               after:absolute after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px]"
               >
                 <p>
-                  You want to sell?{" "}
+                  Bạn muốn bán hàng?{" "}
                   <Link
                     className="text-blue-500"
                     target="_blank"
                     to="http://localhost:3001/login"
                   >
-                    Seller Page
+                    Kênh Người Bán
                   </Link>
                 </p>
               </li>
@@ -98,21 +98,21 @@ const Headers = () => {
                 <span>phuproz348@gmail.com</span>
               </li>
 
-              <span>Welcome to Shop-VN</span>
+              <span>Chào mừng đến với Shop-VN</span>
             </ul>
             <div>
               <div className="flex justify-center items-center gap-10">
-                <div className="flex justify-center items-center gap-4">
-                  <a href="#">
+                <div className="flex justify-center items-center gap-4 ">
+                  <a href="#" className="hover:text-green-500">
                     <FaFacebookF />
                   </a>
-                  <a href="#">
+                  <a href="#" className="hover:text-green-500">
                     <AiOutlineTwitter />
                   </a>
-                  <a href="#">
+                  <a href="#" className="hover:text-green-500">
                     <FaLinkedinIn />
                   </a>
-                  <a href="#">
+                  <a href="#" className="hover:text-green-500">
                     <AiFillGithub />
                   </a>
                 </div>
@@ -121,7 +121,7 @@ const Headers = () => {
                 justify-center items-center gap-1 relative after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px]
                 after:absolute before:absolute before:h-[18px] before:bg-[#afafaf] before:w-[1px] before:-left-[20px]"
                 >
-                  <img src="/images/language.png" alt="" />
+                  <img src="/images/vietnam.png" alt="" />
                   <span>
                     <MdOutlineKeyboardArrowDown />
                   </span>
@@ -148,7 +148,7 @@ const Headers = () => {
                     <span>
                       <FaLock />
                     </span>
-                    <span>Login</span>
+                    <span>Đăng nhập</span>
                   </Link>
                 )}
               </div>
@@ -187,7 +187,7 @@ const Headers = () => {
                         pathname === "/" ? "text-[#7fad39]" : "text-slate-600"
                       }`}
                     >
-                      Home
+                      Trang Chủ
                     </Link>
                   </li>
                   <li>
@@ -199,18 +199,7 @@ const Headers = () => {
                           : "text-slate-600"
                       }`}
                     >
-                      Shop
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className={`p-2 block ${
-                        pathname === "/blog"
-                          ? "text-[#7fad39]"
-                          : "text-slate-600"
-                      }`}
-                    >
-                      Blog
+                      Cửa Hàng
                     </Link>
                   </li>
                   <li>
@@ -221,7 +210,7 @@ const Headers = () => {
                           : "text-slate-600"
                       }`}
                     >
-                      About
+                      Về Chúng tôi
                     </Link>
                   </li>
                   <li>
@@ -232,7 +221,7 @@ const Headers = () => {
                           : "text-slate-600"
                       }`}
                     >
-                      Contact
+                      liên hệ
                     </Link>
                   </li>
                 </ul>
@@ -321,7 +310,7 @@ const Headers = () => {
                   <span>
                     <FaLock />
                   </span>
-                  <span>Login</span>
+                  <span>Đăng Nhập</span>
                 </div>
               )}
             </div>{" "}
@@ -332,7 +321,7 @@ const Headers = () => {
                     pathname === "/" ? "text-[#7fad39]" : "text-slate-600"
                   }`}
                 >
-                  Home
+                  Trang Chủ
                 </Link>
               </li>
               <li>
@@ -341,16 +330,7 @@ const Headers = () => {
                     pathname === "/shop" ? "text-[#7fad39]" : "text-slate-600"
                   }`}
                 >
-                  Shop
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className={`py-2 block ${
-                    pathname === "/blog" ? "text-[#7fad39]" : "text-slate-600"
-                  }`}
-                >
-                  Blog
+                  Cửa Hàng
                 </Link>
               </li>
               <li>
@@ -359,7 +339,7 @@ const Headers = () => {
                     pathname === "/about" ? "text-[#7fad39]" : "text-slate-600"
                   }`}
                 >
-                  About
+                  Về Chúng tôi
                 </Link>
               </li>
               <li>
@@ -370,7 +350,7 @@ const Headers = () => {
                       : "text-slate-600"
                   }`}
                 >
-                  Contact
+                  liên hệ
                 </Link>
               </li>
             </ul>
@@ -398,7 +378,7 @@ const Headers = () => {
                 <h2 className="text-sm font-medium text-slate-700">
                   +1234567890
                 </h2>
-                <span className="text-xs">support 24/7 time</span>
+                <span className="text-xs">hỗ trợ 24/7 time</span>
               </div>
             </div>
             <ul className="flex flex-col justify-start items-start gap-3 text-[#1c1c1c]">
@@ -425,7 +405,7 @@ const Headers = () => {
                   <span>
                     <FaList />
                   </span>
-                  <span>All Category</span>
+                  <span>DANH MỤC SẢN PHẨM</span>
                 </div>
                 <span className="pt-1">
                   <MdOutlineKeyboardArrowDown />
@@ -472,7 +452,7 @@ const Headers = () => {
                       name=""
                       id=""
                     >
-                      <option value="">Select category</option>
+                      <option value="">Chọn Danh Mục</option>
                       {categorys.map((c, i) => (
                         <option key={i} value={c.name}>
                           {c.name}
@@ -484,13 +464,13 @@ const Headers = () => {
                     className="w-full relative bg-transparent text-slate-500 outline-0 px-3 h-full"
                     onChange={(e) => setSearchValue(e.target.value)}
                     type="text"
-                    placeholder="what do you need?"
+                    placeholder="Bạn đang tìm gì ?"
                   />
                   <button
                     onClick={search}
                     className="bg-red-300 right-0 absolute px-8 h-full font-semibold uppercase text-white"
                   >
-                    Search
+                    TÌM KIẾM
                   </button>
                 </div>
               </div>

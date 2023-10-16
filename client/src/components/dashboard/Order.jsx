@@ -17,12 +17,12 @@ const Order = () => {
   return (
     <div className="bg-white p-5">
       <h2 className="text-slate-600 font-semibold">
-        #{myOrder._id}, <span>{myOrder.date}</span>
+        Mã đơn hàng: #{myOrder._id}, <span>{myOrder.date}</span>
       </h2>
       <div className="grid grid-cols-2 gap-3">
         <div className="flex flex-col gap-1">
           <h2 className="text-slate-600 font-semibold">
-            Deliver to: {myOrder.shippingInfo?.name}
+            Chuyển Đến: {myOrder.shippingInfo?.name}
           </h2>
           <p>
             <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
@@ -38,9 +38,9 @@ const Order = () => {
           </p>
         </div>
         <div className="text-slate-600">
-          <h2>Price: ${myOrder.price} inclue shipping fee</h2>
+          <h2>Price: ${myOrder.price} Đã bao gồm phí ship</h2>
           <p>
-            Payment status:{" "}
+            Trạng thái thanh toán:{" "}
             <span
               className={`py-[1px] text-xs px-3 ${
                 myOrder.payment_status === "paid"
@@ -52,7 +52,7 @@ const Order = () => {
             </span>
           </p>
           <p>
-            Order status:{" "}
+            Trạng thái đơn hàng:{" "}
             <span
               className={`py-[1px] text-xs px-3 ${
                 myOrder.payment_status === "paid"
@@ -66,7 +66,7 @@ const Order = () => {
         </div>
       </div>
       <div className="mt-3">
-        <h2 className="text-slate-600 text-lg pb-2">Products</h2>
+        <h2 className="text-slate-600 text-lg pb-2">Sản phẩm</h2>
         <div className="flex gap-5 flex-col">
           {myOrder.products?.map((p, i) => (
             <div key={i}>
@@ -80,8 +80,8 @@ const Order = () => {
                   <div className="flex text-sm flex-col justify-start items-start">
                     <Link>{p.name}</Link>
                     <p>
-                      <span>Brand: {p.brand}</span>
-                      <span>Quantity: {p.quantity}</span>
+                      <span>Thương hiệu: {p.brand}</span>
+                      <span className="pl-[7px]">Số lượng: {p.quantity}</span>
                     </p>
                   </div>
                 </div>

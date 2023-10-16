@@ -5,7 +5,7 @@ import Stripe from "../components/Stripe";
 import { useLocation } from "react-router-dom";
 const Payment = () => {
   const {
-    state: { price, items, orderId },
+    state: { price, orderId },
   } = useLocation();
   const [paymentMethod, setPaymentMethod] = useState("stripe");
   return (
@@ -19,7 +19,7 @@ const Payment = () => {
                 <div className="flex flex-wrap">
                   <div
                     onClick={() => setPaymentMethod("stripe")}
-                    className={`w-[20%] border-r cursor-pointer py-8 px-12 ${
+                    className={`w-[30%] border-r cursor-pointer py-8 px-12 ${
                       paymentMethod === "stripe" ? "bg-white" : "bg-slate-100"
                     }`}
                   >
@@ -30,13 +30,13 @@ const Payment = () => {
                   </div>
                   <div
                     onClick={() => setPaymentMethod("now")}
-                    className={`w-[20%] border-r cursor-pointer py-8 px-12 ${
+                    className={`w-[30%] border-r cursor-pointer py-8 px-12 ${
                       paymentMethod === "now" ? "bg-white" : "bg-slate-100"
                     }`}
                   >
                     <div className="flex flex-col gap-[3px] justify-center items-center">
                       <img src="/images/payment/paynow.jpg" alt="roket" />
-                      <span className="text-slate-600">Shipping Now</span>
+                      <span className="text-slate-600">Thanh toán sau khi nhận hàng</span>
                     </div>
                   </div>
                 </div>
@@ -48,7 +48,7 @@ const Payment = () => {
                 {paymentMethod === "now" && (
                   <div className="w-full px-4 py-8 bg-white shadow-sm">
                     <button className="px-10 py-[6px] rounded-sm hover:shadow-wrange-500/20 hover:shadow-lg bg-orange-500 text-white">
-                      Pay Now
+                      Mua Ngay
                     </button>
                   </div>
                 )}
@@ -57,13 +57,13 @@ const Payment = () => {
             <div className="w-5/12 md:w-full">
               <div className="pl-2 md:pl-0 md:mb-0">
                 <div className="bg-white shadow p-5 text-slate-600 flex flex-col gap-3">
-                  <h2>Order Summary</h2>
+                  <h2>Hóa Đơn</h2>
                   <div className="flex justify-between items-center">
-                    <span>{items} items and shipping fee included</span>
+                    <span> sản phẩm và phí vận chuyển đã áp dụng</span>
                     <span>${price}</span>
                   </div>
                   <div className="flex justify-between items-center font-semibold">
-                    <span>Total Amount</span>
+                    <span>Tổng số tiền cần thanh toán</span>
                     <span className="text-lg text-orange-500">${price}</span>
                   </div>
                 </div>

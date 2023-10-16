@@ -36,16 +36,16 @@ const Home = () => {
         <div className="w-[85%] flex flex-wrap mx-auto">
           <div className="grid w-full grid-cols-3 md-lg:grid-cols-2 md:grid-cols-1 gap-7">
             <div className="overflow-hidden">
-              <Products title="Latest Product" products={latest_products} />
+              <Products title="Sản phẩm mới nhất" products={latest_products} />
             </div>
             <div className="overflow-hidden">
               <Products
-                title="Top Rated Product"
+                title="SP đánh giá cao nhất"
                 products={topRated_products}
               />
             </div>
             <div className="overflow-hidden">
-              <Products title="Discount Product" products={discount_products} />
+              <Products title="SP giảm giá cao nhất" products={discount_products} />
             </div>
           </div>
         </div>
