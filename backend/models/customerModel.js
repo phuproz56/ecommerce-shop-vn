@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const customerSchema = new Schema(
   {
@@ -22,5 +23,6 @@ const customerSchema = new Schema(
   },
   { timestamps: true }
 );
+
 
 module.exports = model("customers", customerSchema);

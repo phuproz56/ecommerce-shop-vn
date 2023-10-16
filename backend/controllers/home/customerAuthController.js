@@ -74,6 +74,29 @@ class customerAuthController {
     });
     responseReturn(res, 200, { message: "Logout success" });
   };
+
+  change_password = async (req, res) => {
+    const { oldPassword, newPassword } = req.body;
+
+    try {
+      const user = await customerModel.findById(req.id).select("+password");
+
+      const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+
+      if (!isPasswordValid) {
+        responseReturn(res, 401, { message: "Mật khẩu hiện tại không đúng" });
+      }
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
+      await user.save();
+
+      responseReturn(res, 200, {
+        message: "Mật khẩu đã được thay đổi thành công",
+      });
+    } catch (error) {
+      console.log(error.message)
+    }
+  };
 }
 
 module.exports = new customerAuthController();
