@@ -21,6 +21,7 @@ import ChangePassword from "./components/dashboard/ChangePassword";
 import Order from "./components/dashboard/Order";
 import Chat from "./components/dashboard/Chat";
 import ConfirmOrder from "./pages/ConfirmOrder";
+import Address from "./components/dashboard/Address";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -44,6 +45,7 @@ function App() {
         <Route path="/dashboard" element={<ProtectUser />}>
           <Route path="" element={<Dashboard />}>
             <Route path="" element={<Index />} />
+            <Route path="address" element={<Address />} />
             <Route path="my-orders" element={<Orders />} />
             <Route path="my-wishlist" element={<Wishlist />} />
             <Route path="order/details/:orderId" element={<Order />} />

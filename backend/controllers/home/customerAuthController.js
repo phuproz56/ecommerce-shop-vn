@@ -52,6 +52,8 @@ class customerAuthController {
             name: customer.name,
             email: customer.email,
             method: customer.method,
+            phoneNumber: customer.phoneNumber,
+            addresses: customer.addresses,
           });
           res.cookie("customerToken", token, {
             expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -94,7 +96,89 @@ class customerAuthController {
         message: "Mật khẩu đã được thay đổi thành công",
       });
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
+    }
+  };
+
+  updateUserAddress = async (req, res) => {
+    const { addressType } = req.body;
+    try {
+      const userInfo = await customerModel.findById(req.id);
+
+      const sameTypeAddress = userInfo.addresses.find(
+        (address) => address.addressType === addressType
+      );
+
+      if (sameTypeAddress) {
+        responseReturn(res, 404, {
+          message: `Địa chỉ ${addressType} Đã tồn tại!! `,
+        });
+        return;
+      } else {
+        console.log("Thêm thành công!");
+      }
+
+      const existsAddress = userInfo.addresses.find(
+        (address) => address._id === req.body._id
+      );
+
+      if (existsAddress) {
+        Object.assign(existsAddress, req.body);
+      } else {
+        userInfo.addresses.push(req.body);
+      }
+
+      const token = await createToken({
+        id: userInfo.id,
+        name: userInfo.name,
+        email: userInfo.email,
+        method: userInfo.method,
+        phoneNumber: userInfo.phoneNumber,
+        addresses: userInfo.addresses,
+      });
+      res.cookie("customerToken", token, {
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      });
+
+      userInfo.save();
+
+      responseReturn(res, 201, { message: "Thêm địa chỉ thành công!", token });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  deleteUserAddress = async (req, res) => {
+    const addressId = req.params.id;
+    const userId = req.id;
+
+    try {
+      await customerModel.updateOne(
+        {
+          _id: userId,
+        },
+        { $pull: { addresses: { _id: addressId } } }
+      );
+
+      const userInfo = await customerModel.findById(userId);
+
+      const token = await createToken({
+        id: userInfo.id,
+        name: userInfo.name,
+        email: userInfo.email,
+        method: userInfo.method,
+        phoneNumber: userInfo.phoneNumber,
+        addresses: userInfo.addresses,
+      });
+      res.cookie("customerToken", token, {
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      });
+
+      userInfo.save();
+
+      responseReturn(res, 201, { message: "Xoá thành công!", token });
+    } catch (error) {
+      console.log(error.message);
     }
   };
 }

@@ -16,4 +16,18 @@ router.put(
   customerAuthController.change_password
 );
 
+router.put(
+  "/customer/update-address/",
+  isCustomer,
+  customerAuthController.updateUserAddress
+);
+
+router.delete(
+  "/customer/delete-address/:id",
+  isCustomer,
+  customerAuthController.deleteUserAddress
+);
+
+
+
 module.exports = router;

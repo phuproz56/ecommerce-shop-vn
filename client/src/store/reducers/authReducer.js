@@ -32,7 +32,7 @@ export const change_password = createAsyncThunk(
   "auth/change_password",
   async (
     { oldPassword, newPassword },
-    { fulfillWithValue,rejectWithValue }
+    { fulfillWithValue, rejectWithValue }
   ) => {
     try {
       const { data } = await api.put("/customer/change-password/", {
@@ -40,6 +40,40 @@ export const change_password = createAsyncThunk(
         newPassword,
       });
 
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const updateUserAddress = createAsyncThunk(
+  "auth/updatetUserAddress",
+  async (
+    { country, city, address1, addressType },
+    { rejectWithValue, fulfillWithValue }
+  ) => {
+    try {
+      const { data } = await api.put("/customer/update-address/", {
+        country,
+        city,
+        address1,
+        addressType,
+      });
+      localStorage.setItem("customerToken", data.token);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const deleteUserAddress = createAsyncThunk(
+  "auth/deleteUserAddress",
+  async (id, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.delete(`/customer/delete-address/${id}`);
+      localStorage.setItem("customerToken", data.token);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -63,7 +97,9 @@ export const authReducer = createSlice({
     userInfo: decodeToken(localStorage.getItem("customerToken")),
     errorMessage: "",
     successMessage: "",
+    user: {},
   },
+
   reducers: {
     messageClear: (state, _) => {
       state.errorMessage = "";
@@ -105,9 +141,20 @@ export const authReducer = createSlice({
     },
     [change_password.rejected]: (state, { payload }) => {
       state.errorMessage = payload.message;
-      
     },
-
+    [updateUserAddress.fulfilled]: (state, { payload }) => {
+      const userInfo = decodeToken(payload.token);
+      state.userInfo = userInfo;
+      state.successMessage = payload.message;
+    },
+    [updateUserAddress.rejected]: (state, { payload }) => {
+      state.errorMessage = payload.message;
+    },
+    [deleteUserAddress.fulfilled]: (state, { payload }) => {
+      const userInfo = decodeToken(payload.token);
+      state.userInfo = userInfo;
+      state.successMessage = payload.message;
+    },
   },
 });
 

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Headers from "../components/Headers";
 import Footer from "../components/Footer";
 import { FaList } from "react-icons/fa";
+import { FaAddressBook } from "react-icons/fa6";
 import { RxDashboard } from "react-icons/rx";
 import { RiProductHuntLine } from "react-icons/ri";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -60,6 +61,14 @@ const Dashboard = () => {
                   </span>
                   <Link to="/dashboard" className="block">
                     Dashboard
+                  </Link>
+                </li>
+                <li className="flex justify-start items-center gap-2 py-2">
+                  <span className="text-xl">
+                    <FaAddressBook />
+                  </span>
+                  <Link to="/dashboard/address" className="block">
+                    Địa Chỉ
                   </Link>
                 </li>
                 <li className="flex justify-start items-center gap-2 py-2">
