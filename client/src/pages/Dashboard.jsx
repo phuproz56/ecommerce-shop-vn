@@ -14,6 +14,7 @@ import api from "../api/api";
 import { useDispatch } from "react-redux";
 import { user_reset } from "../store/reducers/authReducer";
 import { reset_count } from "../store/reducers/cardReducer";
+import { ImProfile } from "react-icons/im";
 import toast from "react-hot-toast";
 
 const Dashboard = () => {
@@ -93,6 +94,14 @@ const Dashboard = () => {
                   </span>
                   <Link to="/dashboard/chat" className="block">
                     Chat
+                  </Link>
+                </li>
+                <li className="flex justify-start items-center gap-2 py-2">
+                  <span className="text-xl">
+                    <ImProfile />
+                  </span>
+                  <Link to="/dashboard/profile" className="block">
+                    Thông tin
                   </Link>
                 </li>
                 <li className="flex justify-start items-center gap-2 py-2">

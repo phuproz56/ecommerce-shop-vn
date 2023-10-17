@@ -24,6 +24,9 @@ const customerSchema = new Schema(
         country: {
           type: String,
         },
+        city: {
+          type: String,
+        },
         address1: {
           type: String,
         },
@@ -39,5 +42,9 @@ const customerSchema = new Schema(
   },
   { timestamps: true }
 );
+
+customerSchema.methods.comparePassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 module.exports = model("customers", customerSchema);

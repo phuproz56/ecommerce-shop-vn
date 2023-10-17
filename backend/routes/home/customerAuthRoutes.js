@@ -28,6 +28,12 @@ router.delete(
   customerAuthController.deleteUserAddress
 );
 
+router.put(
+  "/customer/update-profile/",
+  isCustomer,
+  customerAuthController.updateUserProfile
+);
+
 
 
 module.exports = router;

@@ -22,6 +22,7 @@ import Order from "./components/dashboard/Order";
 import Chat from "./components/dashboard/Chat";
 import ConfirmOrder from "./pages/ConfirmOrder";
 import Address from "./components/dashboard/Address";
+import Profile from "./components/dashboard/Profile";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -50,6 +51,7 @@ function App() {
             <Route path="my-wishlist" element={<Wishlist />} />
             <Route path="order/details/:orderId" element={<Order />} />
             <Route path="change-password" element={<ChangePassword />} />
+            <Route path="profile" element={<Profile />} />
             <Route path="chat" element={<Chat />} />
             <Route path="chat/:sellerId" element={<Chat />} />
           </Route>

@@ -131,8 +131,8 @@ const Address = () => {
                         State.getStatesOfCountry(country).map((item) => (
                           <option
                             className="block pb-2"
-                            key={item.isoCode}
-                            value={item.isoCode}
+                            key={item.name}
+                            value={item.name}
                           >
                             {item.name}
                           </option>
@@ -198,7 +198,7 @@ const Address = () => {
           Địa chỉ của tôi
         </h1>
         <div
-          className="w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !rounded-md"
+          className="w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer"
           onClick={() => setOpen(true)}
         >
           <span className="text-[#fff]">Thêm địa chỉ mới</span>

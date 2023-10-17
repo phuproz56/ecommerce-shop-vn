@@ -114,8 +114,6 @@ class customerAuthController {
           message: `Địa chỉ ${addressType} Đã tồn tại!! `,
         });
         return;
-      } else {
-        console.log("Thêm thành công!");
       }
 
       const existsAddress = userInfo.addresses.find(
@@ -177,6 +175,52 @@ class customerAuthController {
       userInfo.save();
 
       responseReturn(res, 201, { message: "Xoá thành công!", token });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  updateUserProfile = async (req, res) => {
+    const { email, password, phoneNumber, name } = req.body;
+    try {
+      const userInfo = await customerModel
+        .findOne({ email })
+        .select("+password");
+      if (!userInfo) {
+        responseReturn(res, 404, { message: "Không tìm thấy người dùng này!" });
+        return;
+      }
+      const isPasswordValid = await bcrypt.compare(password, userInfo.password);
+
+      if (!isPasswordValid) {
+        responseReturn(res, 404, {
+          message: "Vui lòng cung cấp thông tin chính xác!",
+        });
+        return;
+      }
+
+      userInfo.name = name;
+      userInfo.email = email;
+      userInfo.phoneNumber = phoneNumber;
+
+      const token = await createToken({
+        id: userInfo.id,
+        name: userInfo.name,
+        email: userInfo.email,
+        method: userInfo.method,
+        phoneNumber: userInfo.phoneNumber,
+        addresses: userInfo.addresses,
+      });
+      res.cookie("customerToken", token, {
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      });
+
+      await userInfo.save();
+
+      responseReturn(res, 201, {
+        message: "Cập nhật profile thành công!!",
+        token,
+      });
     } catch (error) {
       console.log(error.message);
     }

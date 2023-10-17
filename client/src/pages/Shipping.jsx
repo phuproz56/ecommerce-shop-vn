@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { orderReducer, place_order } from "../store/reducers/orderReducer";
-
+import { Country, State } from "country-state-city";
 const Shipping = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -15,34 +15,47 @@ const Shipping = () => {
     state: { products, price, shipping_fee, items },
   } = useLocation();
   const [res, setRes] = useState(false);
-  const [state, setState] = useState({
-    name: "",
-    address: "",
-    phone: "",
-    province: "",
-    city: "",
-    area: "",
-  });
-  const inputHandle = (e) => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
-  };
+  // const [state, setState] = useState({
+  //   name: "",
+  //   address1: "",
+  //   phoneNumber: "",
+  //   city: "",
+  //   country: "",
+  // });
+
+  const [country, setCountry] = useState("VN");
+  const [city, setCity] = useState("");
+  const [address1, setAddress1] = useState("");
+  const [user, setUser] = useState(false);
+
   const save = (e) => {
     e.preventDefault();
-    const { name, address, phone, province, city, area } = state;
-    if (name && address && phone && province && city && area) {
+    const data = {
+      name: userInfo.name,
+      address1: address1,
+      city: city,
+      country: country,
+      phoneNumber: userInfo.phoneNumber,
+    };
+    // const { name, address1, phoneNumber, city, country } = state;
+    if (data) {
       setRes(true);
     }
   };
   const placeOrder = () => {
+    const data = {
+      name: userInfo.name,
+      address1: address1,
+      city: city,
+      country: country,
+      phoneNumber: userInfo.phoneNumber,
+    };
     dispatch(
       place_order({
         price,
         products,
         shipping_fee,
-        shippingInfo: state,
+        shippingInfo: data,
         userId: userInfo.id,
         navigate,
         items,
@@ -79,6 +92,152 @@ const Shipping = () => {
                     Thông tin vận chuyển
                   </h2>
                   {!res && (
+                    <div className="w-full 800px:w-[95%] bg-white rounded-md p-5 pb-8">
+                      <h5 className="text-[18px] font-[500]">
+                        Thông tin giao hàng
+                      </h5>
+                      <br />
+                      <form onSubmit={save}>
+                        <div className="w-full flex pb-3">
+                          <div className="w-[50%]">
+                            <label className="block pb-2">
+                              Tên khách hàng:
+                            </label>
+                            <input
+                              type="text"
+                              value={userInfo && userInfo.name}
+                              required
+                              className={`border p-1 rounded-[5px] !w-[95%]`}
+                            />
+                          </div>
+                          <div className="w-[50%]">
+                            <label className="block pb-2">Email:</label>
+                            <input
+                              type="email"
+                              value={userInfo && userInfo.email}
+                              required
+                              className={`w-full border p-1 rounded-[5px]`}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="w-full flex pb-3">
+                          <div className="w-[50%]">
+                            <label className="block pb-2">
+                              Số điện thoại: +(84)
+                            </label>
+                            <input
+                              type="number"
+                              required
+                              value={userInfo && userInfo.phoneNumber}
+                              className={`border p-1 rounded-[5px] !w-[95%]`}
+                            />
+                          </div>
+
+                          <div className="w-[50%]">
+                            <label className="block pb-2">
+                              Tỉnh, thành phố:
+                            </label>
+                            <select
+                              className="w-[95%] border h-[40px] rounded-[5px]"
+                              value={city}
+                              onChange={(e) => setCity(e.target.value)}
+                            >
+                              <option className="block pb-2" value="">
+                                Chọn tỉnh, thành phố
+                              </option>
+                              {State &&
+                                State.getStatesOfCountry(country).map(
+                                  (item) => (
+                                    <option
+                                      key={item.name}
+                                      value={item.name}
+                                    >
+                                      {item.name}
+                                    </option>
+                                  )
+                                )}
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="w-full flex pb-3">
+                          <div className="w-[50%]">
+                            <label className="block pb-2">Khu vực:</label>
+                            <select
+                              className="w-[95%] border h-[40px] rounded-[5px]"
+                              value={country}
+                              onChange={(e) => setCountry(e.target.value)}
+                            >
+                              <option className="block pb-2" value="">
+                                Chọn khu vực
+                              </option>
+                              {Country &&
+                                Country.getAllCountries().map((item) => (
+                                  <option
+                                    key={item.isoCode}
+                                    value={item.isoCode}
+                                  >
+                                    {item.name}
+                                  </option>
+                                ))}
+                            </select>
+                          </div>
+                        </div>
+                        <div className="w-full flex pb-3">
+                          <div className="w-[50%]">
+                            <label className="block pb-2">Địa chỉ:</label>
+                            <input
+                              type="address"
+                              required
+                              value={address1}
+                              onChange={(e) => setAddress1(e.target.value)}
+                              className={`border p-1 rounded-[5px] !w-[95%]`}
+                            />
+                          </div>
+                        </div>
+
+                        <div></div>
+                        <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600 ">
+                          <div className="flex flex-col gap-1 mt-3 w-full">
+                            <button className="ml-[100px] mr-[100px] px-3 py-[6px] rounded-sm hover:shadow-indigo-500/20 hover: shadow-lg bg-indigo-500 text-white">
+                              Lưu
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                      <h5
+                        className="text-[18px] cursor-pointer inline-block"
+                        onClick={() => setUser(!user)}
+                      >
+                        Chọn địa chỉ mà bạn đã lưu:{" "}
+                        <h5 className="text-[#027df0fd]">
+                          (Nhấn vào đây để chọn)
+                        </h5>
+                      </h5>
+                      {user && (
+                        <div>
+                          {userInfo &&
+                            userInfo.addresses.map((item, index) => (
+                              <div key={index} className="w-full flex mt-1">
+                                <input
+                                  type="checkbox"
+                                  className="mr-3"
+                                  value={item.addressType}
+                                  onClick={() =>
+                                    setAddress1(item.address1) ||
+                                    setCountry(item.country) ||
+                                    setCity(item.city)
+                                  }
+                                />
+                                <h2>{item.addressType}</h2>
+                              </div>
+                            ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {/* {!res && (
                     <>
                       <form onSubmit={save} action="">
                         <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600 ">
@@ -171,19 +330,19 @@ const Shipping = () => {
                         </div>
                       </form>
                     </>
-                  )}
+                  )}*/}
+
                   {res && (
                     <div className="flex flex-col gap-1">
                       <h2 className="text-slate-600 font-semibold pb-2">
-                        Giao hàng đến {state.name}
+                        Giao hàng đến {userInfo.name}
                       </h2>
                       <p>
                         <span className="bg-blue-200 text-blue-800 text-xs font-medium mr-2 px-3 py-1 rounded">
                           Home
                         </span>
                         <span className="text-slate-600 text-sm">
-                          {state.address} {state.city} {state.province}{" "}
-                          {state.area}
+                          {address1} {city} {country}{" "}
                         </span>
                         <span
                           onClick={() => setRes(false)}
@@ -196,6 +355,7 @@ const Shipping = () => {
                     </div>
                   )}
                 </div>
+
                 {products.map((p, i) => (
                   <div key={i} className="flex bg-white p-4 flex-col gap-2">
                     <div className="flex justify-start items-center ">
