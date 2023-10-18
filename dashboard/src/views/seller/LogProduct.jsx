@@ -4,18 +4,14 @@ import Search from "../components/Search";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  get_products,
-} from "../../store/Reducers/productReducer";
+import { get_products } from "../../store/Reducers/productReducer";
 import { FaWarehouse, FaEye } from "react-icons/fa";
-
 
 const LogProduct = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
-  
 
   const { products, totalProduct } = useSelector((state) => state.product);
   useEffect(() => {
@@ -26,8 +22,6 @@ const LogProduct = () => {
     };
     dispatch(get_products(obj));
   }, [searchValue, currentPage, parPage]);
-
-
 
   return (
     <div className="px-2 lg:px-7 pt-5 ">
@@ -57,7 +51,7 @@ const LogProduct = () => {
                   số lượng
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  hoạt động 
+                  hoạt động
                 </th>
               </tr>
             </thead>
@@ -116,22 +110,25 @@ const LogProduct = () => {
                         <FaEye />
                       </Link>
                     </div>
-                    
                   </th>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <div className="w-full flex justify-end mt-4 bottom-4 right-4">
-          <Pagination
-            pageNumber={currentPage}
-            setPageNumber={setCurrentPage}
-            totalItem={totalProduct}
-            parPage={parPage}
-            showItem={4}
-          />
-        </div>
+        {totalProduct <= parPage ? (
+          ""
+        ) : (
+          <div className="w-full flex justify-end mt-4 bottom-4 right-4">
+            <Pagination
+              pageNumber={currentPage}
+              setPageNumber={setCurrentPage}
+              totalItem={totalProduct}
+              parPage={parPage}
+              showItem={totalProduct - parPage - 1}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

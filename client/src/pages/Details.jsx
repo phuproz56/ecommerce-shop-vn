@@ -31,7 +31,7 @@ const Details = () => {
   const { slug } = useParams();
   const [image, setImage] = useState("");
   const [state, setState] = useState("reviews");
-  const { product, relatedProducts, moreProducts } = useSelector(
+  const { product, relatedProducts, moreProducts, totalReview } = useSelector(
     (state) => state.home
   );
   const { userInfo } = useSelector((state) => state.auth);
@@ -246,7 +246,7 @@ const Details = () => {
                 <div className="flex text-xl">
                   <Ratings ratings={product.rating}></Ratings>
                 </div>
-                <span className="text-green-500">(23 Đánh Giá)</span>
+                <span className="text-green-500">({totalReview} Đánh Giá)</span>
               </div>
               <div className="text-2xl text-red-500 font-bold flex gap-3">
                 {product.discount ? (
@@ -287,7 +287,7 @@ const Details = () => {
                     <div>
                       <button
                         onClick={add_card}
-                        className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white"
+                        className="px-5 py-1 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white"
                       >
                         Thêm Vào Giỏ Hàng
                       </button>
@@ -299,10 +299,10 @@ const Details = () => {
                 <div>
                   <div
                     onClick={add_wishlist}
-                    className={`h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white
+                    className={`px-5 py-1 h-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white
                   `}
                   >
-                    <AiFillHeart />
+                    Thêm Vào Yêu Thích
                   </div>
                 </div>
               </div>
@@ -315,9 +315,7 @@ const Details = () => {
                   <span
                     className={`text-${product.stock ? "green" : "red"}-500`}
                   >
-                    {product.stock
-                      ? `Tồn kho (${product.stock})`
-                      : "Hết hàng"}
+                    {product.stock ? `Tồn kho (${product.stock})` : "Hết hàng"}
                   </span>
                   <ul className="flex justify-start items-center gap-3">
                     <li>

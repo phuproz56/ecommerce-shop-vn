@@ -111,14 +111,20 @@ export const update_logproduct = createAsyncThunk(
 
 export const get_logproduct = createAsyncThunk(
   "product/get_logproduct",
-  async (productId, { rejectWithValue, fulfillWithValue }) => {
+  async (
+    { parPage, page, searchValue, productId },
+    { rejectWithValue, fulfillWithValue }
+  ) => {
     try {
-      const { data } = await api.get(`/logproduct-get/${productId}`, {
-        withCredentials: true,
-      });
+      const { data } = await api.get(
+        `/logproduct-get/${productId}?page=${page}&searchValue=${searchValue}&parPage=${parPage}`,
+        {
+          withCredentials: true,
+        }
+      );
       return fulfillWithValue(data);
     } catch (error) {
-      return console.log(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -133,6 +139,7 @@ export const productReducer = createSlice({
     product: "",
     totalProduct: 0,
     logProduct: [],
+    totallogProduct: 0,
   },
   reducers: {
     messageClear: (state, _) => {
@@ -184,6 +191,7 @@ export const productReducer = createSlice({
     },
     [get_logproduct.fulfilled]: (state, { payload }) => {
       state.logProduct = payload.logProduct;
+      state.totallogProduct = payload.totallogProduct;
     },
   },
 });

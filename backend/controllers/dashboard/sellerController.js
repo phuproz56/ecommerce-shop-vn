@@ -39,7 +39,7 @@ class sellerController {
       });
       responseReturn(res, 200, {
         seller,
-        message: "seller status update success!",
+        message: "cập nhật trạng thái người bán thành công!",
       });
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
@@ -129,7 +129,6 @@ class sellerController {
       console.log("active seller get " + error.message);
     }
   };
-
 }
 
 module.exports = new sellerController();

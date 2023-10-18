@@ -55,7 +55,7 @@ class productController {
           images: allImageUrl,
           brand: brand.trim(),
         });
-        responseReturn(res, 201, { message: "product add success" });
+        responseReturn(res, 201, { message: "Thêm sản phẩm thành công!" });
       } catch (error) {
         responseReturn(res, 500, { error: error.message });
       }
@@ -133,7 +133,10 @@ class productController {
         slug,
         __v: version + 1,
       });
-      responseReturn(res, 200, { product, message: "product update success" });
+      responseReturn(res, 200, {
+        product,
+        message: "Update sản phẩm thành công!",
+      });
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
     }
@@ -172,10 +175,10 @@ class productController {
             const product = await productModel.findById(productId);
             responseReturn(res, 200, {
               product,
-              message: "product image update success",
+              message: "Update hình ảnh sản phẩm thành công!",
             });
           } else {
-            responseReturn(res, 404, { error: "image upload failed" });
+            responseReturn(res, 404, { error: "Upload hình ảnh thất bại!" });
           }
         } catch (error) {
           responseReturn(res, 404, { error: error.message });
@@ -188,7 +191,7 @@ class productController {
     const { productId } = req.params;
     try {
       await productModel.findByIdAndDelete(productId);
-      responseReturn(res, 200, { message: "delete success" });
+      responseReturn(res, 200, { message: "Xóa SP thành công!" });
     } catch (error) {
       console.log(error.message);
     }
@@ -205,6 +208,11 @@ class productController {
         note: note.trim(),
         date: moment(Date.now()).format("LL"),
       });
+
+      const product = await productModel.findById(productId);
+
+      let stock_product = product.stock;
+
       let add_warehouse = 0;
       let update_price = 0;
 
@@ -213,9 +221,10 @@ class productController {
       update_price = update_price + log.price;
 
       for (let i = 0; i < log.length; i++) {
-        add_warehouse = add_warehouse + log[i].stock;
+        add_warehouse = log[i].stock;
         update_price = log[i].price;
       }
+      add_warehouse = add_warehouse + stock_product;
 
       await productModel.findByIdAndUpdate(productId, {
         stock: add_warehouse,
@@ -230,10 +239,42 @@ class productController {
 
   get_logproduct = async (req, res) => {
     const productId = req.params.productId;
+    let { page, parPage, searchValue } = req.query;
+    page = parseInt(page);
+    parPage = parseInt(parPage);
+
+    const skipPage = parPage * (page - 1);
     try {
-      const logProduct = await logProductModel.find({ productId: productId });
-      console.log(logProduct);
-      responseReturn(res, 200, { logProduct });
+      if (searchValue) {
+        console.log(searchValue);
+        const logProduct = await logProductModel
+          .find({
+            $text: { $search: searchValue },
+            productId: productId,
+          })
+          .skip(skipPage)
+          .limit(parPage)
+          .sort({ createdAt: -1 });
+
+        const totallogProduct = await logProductModel
+          .find({
+            $text: { $search: searchValue },
+            productId: productId,
+          })
+          .countDocuments();
+
+        responseReturn(res, 200, { totallogProduct, logProduct });
+      } else {
+        const logProduct = await logProductModel
+          .find({ productId: productId })
+          .skip(skipPage)
+          .limit(parPage)
+          .sort({ createdAt: -1 });
+        const totallogProduct = await logProductModel
+          .find({ productId: productId })
+          .countDocuments();
+        responseReturn(res, 200, { totallogProduct, logProduct });
+      }
     } catch (error) {
       console.log(error.message);
     }

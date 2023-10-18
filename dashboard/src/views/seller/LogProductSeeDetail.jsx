@@ -1,33 +1,51 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   get_logproduct,
   get_product,
 } from "../../store/Reducers/productReducer";
 import { useParams } from "react-router-dom";
+import Pagination from "../Pagination";
+import Search from "../components/Search";
 
 const LogProductSeeDetail = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchValue, setSearchValue] = useState("");
+  const [parPage, setParPage] = useState(5);
   const { productId } = useParams();
   const dispatch = useDispatch();
-  const { logProduct } = useSelector((state) => state.product);
-  console.log(logProduct);
+  const { logProduct, totallogProduct } = useSelector((state) => state.product);
 
   useEffect(() => {
     dispatch(get_product(productId));
-    dispatch(get_logproduct(productId));
-  }, [dispatch, productId]);
+    dispatch(
+      get_logproduct({
+        parPage: parseInt(parPage),
+        page: parseInt(currentPage),
+        searchValue,
+        productId,
+      })
+    );
+  }, [currentPage, dispatch, parPage, productId, searchValue]);
+  console.log(currentPage, parPage, productId, searchValue);
   return (
     <div className="px-2 lg:px-7 pt-5 ">
       <div className="w-full p-4  bg-[#283046] rounded-md ">
+        <Search
+          setParPage={setParPage}
+          setSearchValue={setSearchValue}
+          searchValue={searchValue}
+        />
         <div className="flex justify-between items-center pb-4">
           <h1 className="text-[#d0d2d6] font-semibold text-2xl">
             Chi tiết phiếu nhập hàng
           </h1>
         </div>
-        {logProduct.length ? (
+        {totallogProduct ? (
           logProduct.map((u, i) => (
             <div key={i} className="flex flex-col w-full gap-1">
               <div className="text-white">-------------------------</div>
+
               <div className="text-white">
                 <p>id phiếu: {u._id}</p>
               </div>
@@ -51,6 +69,20 @@ const LogProductSeeDetail = () => {
         ) : (
           <div className="flex justify-between items-center text-2xl text-red-500">
             <p>Chưa có ai lập phiếu! </p>
+          </div>
+        )}
+
+        {totallogProduct <= parPage ? (
+          ""
+        ) : (
+          <div className="w-full flex justify-end mt-4 bottom-4 right-4">
+            <Pagination
+              pageNumber={currentPage}
+              setPageNumber={setCurrentPage}
+              totalItem={totallogProduct}
+              parPage={parPage}
+              showItem={totallogProduct - parPage - 1}
+            />
           </div>
         )}
       </div>

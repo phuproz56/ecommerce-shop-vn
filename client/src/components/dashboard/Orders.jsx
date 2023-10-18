@@ -1,25 +1,27 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { get_orders } from "../../store/reducers/orderReducer";
 import { useDispatch, useSelector } from "react-redux";
+import Pagination from "../Pagination";
 
 const Orders = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
-  const { myOrders } = useSelector((state) => state.order);
+  const { myOrders, totalOrders } = useSelector((state) => state.order);
   const [state, setState] = useState("all");
-
+  console.log(totalOrders);
+  const [pageNumber, setPageNumber] = useState(1);
   useEffect(() => {
     dispatch(
       get_orders({
+        pageNumber,
         status: state,
         customerId: userInfo.id,
       })
     );
-  }, [dispatch, state]);
+  }, [dispatch, pageNumber, state, userInfo.id]);
 
   const redirect = (ord) => {
     let items = 0;
@@ -124,6 +126,17 @@ const Orders = () => {
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="flex justify-end pt-4">
+          {totalOrders >= 5 && (
+            <Pagination
+              pageNumber={pageNumber}
+              setPageNumber={setPageNumber}
+              totalItem={totalOrders}
+              parPage={5}
+              showItem={Math.round(totalOrders / 5)}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -22,12 +22,15 @@ class authControllers {
           res.cookie("accessToken", token, {
             exprires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
           });
-          responseReturn(res, 200, { token, message: "Login success!" });
+          responseReturn(res, 200, {
+            token,
+            message: "Đăng nhập thành công!!!",
+          });
         } else {
-          responseReturn(res, 400, { error: "password wrong!" });
+          responseReturn(res, 400, { error: "password sai!!" });
         }
       } else {
-        responseReturn(res, 400, { error: "email not found" });
+        responseReturn(res, 400, { error: "email không tìm thấy!!!" });
       }
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
@@ -48,12 +51,12 @@ class authControllers {
           res.cookie("accessToken", token, {
             exprires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
           });
-          responseReturn(res, 200, { token, message: "Login success!" });
+          responseReturn(res, 200, { token, message: "Đăng nhập thành công!" });
         } else {
-          responseReturn(res, 400, { error: "password wrong!" });
+          responseReturn(res, 400, { error: "password sai!" });
         }
       } else {
-        responseReturn(res, 400, { error: "email not found" });
+        responseReturn(res, 400, { error: "email không tìm thấy!!" });
       }
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
@@ -65,7 +68,7 @@ class authControllers {
     try {
       const getUser = await sellerModel.findOne({ email });
       if (getUser) {
-        responseReturn(res, 404, { error: "Email already exit" });
+        responseReturn(res, 404, { error: "Email đã tồn tại!" });
       } else {
         const seller = await sellerModel.create({
           name,
@@ -85,10 +88,10 @@ class authControllers {
           exprires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         });
 
-        responseReturn(res, 201, { token, message: "register success" });
+        responseReturn(res, 201, { token, message: "Đăng ký thành công!" });
       }
     } catch (error) {
-      responseReturn(res, 500, { error: "Internal server error" });
+      responseReturn(res, 500, { error: "Lỗi Máy chủ!" });
     }
   };
 
@@ -103,7 +106,7 @@ class authControllers {
         responseReturn(res, 200, { userInfo: seller });
       }
     } catch (error) {
-      responseReturn(res, 500, { error: "Internal server error" });
+      responseReturn(res, 500, { error: "Lỗi Máy chủ!" });
     }
   };
 
@@ -128,11 +131,11 @@ class authControllers {
           });
           const userInfo = await sellerModel.findById(id);
           responseReturn(res, 201, {
-            message: "image upload success",
+            message: "Đăng ảnh thành công!!",
             userInfo,
           });
         } else {
-          responseReturn(res, 404, { error: "image upload failed" });
+          responseReturn(res, 404, { error: "Lỗi khi Đăng ảnh!" });
         }
       } catch (error) {
         responseReturn(res, 500, { error: error.message });
@@ -154,7 +157,7 @@ class authControllers {
       });
       const userInfo = await sellerModel.findById(id);
       responseReturn(res, 201, {
-        message: "Update info success!!",
+        message: "Cập nhật thông tin thành công!!",
         userInfo,
       });
     } catch (error) {
@@ -168,7 +171,7 @@ class authControllers {
         expires: new Date(Date.now()),
         httpOnly: true,
       });
-      responseReturn(res, 200, { message: "logout success" });
+      responseReturn(res, 200, { message: "Đăng xuất thành công!" });
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
     }

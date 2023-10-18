@@ -26,7 +26,7 @@ class cardController {
       });
       if (product) {
         responseReturn(res, 404, {
-          error: "Product already added to card",
+          error: "Sản phẩm đã được thêm vào giỏ hàng!",
         });
       } else {
         const product = await cardModel.create({
@@ -35,7 +35,7 @@ class cardController {
           quantity,
         });
         responseReturn(res, 201, {
-          message: "Add to card success",
+          message: "Thêm vào giỏ hàng thành công!",
           product,
         });
       }
@@ -157,7 +157,7 @@ class cardController {
     try {
       await cardModel.findByIdAndDelete(card_id);
       responseReturn(res, 200, {
-        message: "success",
+        message: "Xóa thành công!",
       });
     } catch (error) {
       console.log(error.message);
@@ -173,7 +173,7 @@ class cardController {
         quantity: quantity + 1,
       });
       responseReturn(res, 200, {
-        message: "success",
+        message: "Thành công!",
       });
     } catch (error) {
       console.log(error.message);
@@ -189,7 +189,7 @@ class cardController {
         quantity: quantity - 1,
       });
       responseReturn(res, 200, {
-        message: "success",
+        message: "Thành công!",
       });
     } catch (error) {
       console.log(error.message);
@@ -201,10 +201,10 @@ class cardController {
     try {
       const product = await wishlistModel.findOne({ slug });
       if (product) {
-        responseReturn(res, 404, { error: "Already added!" });
+        responseReturn(res, 404, { error: "Đã thêm!" });
       } else {
         await wishlistModel.create(req.body);
-        responseReturn(res, 201, { message: "add to wishlist success!" });
+        responseReturn(res, 201, { message: "thêm vào yêu thích thành công!" });
       }
     } catch (error) {
       console.log(error.message);
@@ -226,7 +226,7 @@ class cardController {
     try {
       await wishlistModel.findByIdAndDelete(wishlistId);
       responseReturn(res, 200, {
-        message: "delete wishlist success!",
+        message: "xóa yêu thích thành công!",
         wishlistId,
       });
     } catch (error) {

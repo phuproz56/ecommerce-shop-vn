@@ -8,7 +8,7 @@ class categoryController {
     const form = formidable();
     form.parse(req, async (err, fields, files) => {
       if (err) {
-        responseReturn(res, 404, { error: "something error" });
+        responseReturn(res, 404, { error: "không tìm thấy..." });
       } else {
         let { name } = fields;
         let { image } = files;
@@ -35,13 +35,13 @@ class categoryController {
             });
             responseReturn(res, 201, {
               category,
-              message: "category add success",
+              message: "Thêm danh mục thành công!",
             });
           } else {
-            responseReturn(res, 404, { error: "Image upload failed" });
+            responseReturn(res, 404, { error: "Upload hình ảnh thất bại!!" });
           }
         } catch (error) {
-          responseReturn(res, 500, { error: "Internal server error" });
+          responseReturn(res, 500, { error: "Lỗi server!" });
         }
       }
     });

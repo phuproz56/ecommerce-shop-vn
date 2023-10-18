@@ -213,7 +213,7 @@ const Reviews = ({ product }) => {
               pageNumber={pageNumber}
               setPageNumber={setPageNumber}
               totalItem={totalReview}
-              perPage={perPage}
+              parPage={5}
               showItem={Math.round(totalReview / 5)}
             />
           )}

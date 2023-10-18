@@ -26,11 +26,11 @@ const Order = () => {
           </h2>
           <p>
             <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
-              Home:{" "}
+              Địa chỉ:{" "}
             </span>
             <span>
-              {myOrder.shippingInfo?.address} {myOrder.shippingInfo?.province}{" "}
-              {myOrder.shippingInfo?.city} {myOrder.shippingInfo?.area}{" "}
+              {myOrder.shippingInfo?.address} {myOrder.shippingInfo?.country}{" "}
+              {myOrder.shippingInfo?.city} {myOrder.shippingInfo?.address1}{" "}
             </span>
           </p>
           <p className="text-slate-600 text-sm font-semibold">

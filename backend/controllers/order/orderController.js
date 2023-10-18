@@ -3,6 +3,7 @@ const customerOrder = require("../../models/customerOrder");
 const cardModel = require("../../models/cardModel");
 const myShopWallet = require("../../models/myShopWallet");
 const sellerWallet = require("../../models/sellerWallet");
+const productModel = require("../../models/productModel");
 const moment = require("moment");
 const { responseReturn } = require("../../utils/response");
 const {
@@ -37,6 +38,7 @@ class orderController {
 
   place_order = async (req, res) => {
     const { price, products, shipping_fee, shippingInfo, userId } = req.body;
+
     let authorOrderData = [];
     let cardId = [];
     const tempDate = moment(Date.now()).format("LLL");
@@ -65,6 +67,16 @@ class orderController {
         payment_status: "unpaid",
         date: tempDate,
       });
+
+      for (let i = 0; i < customerOrderProduct.length; i++) {
+        const id = customerOrderProduct[i]._id;
+        console.log(customerOrderProduct[i].stock);
+        const product = await productModel.findByIdAndUpdate(id, {
+          stock:
+            customerOrderProduct[i].stock - customerOrderProduct[i].quantity,
+        });
+      }
+
       for (let i = 0; i < products.length; i++) {
         const pro = products[i].products;
         const pri = products[i].price;
@@ -73,6 +85,7 @@ class orderController {
         for (let j = 0; j < pro.length; j++) {
           let tempPro = pro[j].productInfo;
           tempPro.quantity = pro[j].quantity;
+
           storePro.push(tempPro);
         }
 
@@ -82,7 +95,7 @@ class orderController {
           products: storePro,
           price: pri,
           payment_status: "unpaid",
-          shippingInfo: "WELCOME TO SHOP-VN",
+          shippingInfo: shippingInfo.city,
           delivery_status: "pending",
           date: tempDate,
         });
@@ -96,7 +109,7 @@ class orderController {
       }, 15000);
 
       responseReturn(res, 201, {
-        message: "order place success",
+        message: "đặt hàng thành công!",
         orderId: order.id,
       });
     } catch (error) {
@@ -143,21 +156,37 @@ class orderController {
 
   get_orders = async (req, res) => {
     const { customerId, status } = req.params;
-
+    let { pageNumber } = req.query;
+    pageNumber = parseInt(pageNumber);
+    const limit = 5;
+    const skipPage = limit * (pageNumber - 1);
     try {
       let orders = [];
       if (status !== "all") {
-        orders = await customerOrder.find({
-          customerId: new ObjectId(customerId),
-          delivery_status: status,
-        });
+        orders = await customerOrder
+          .find({
+            customerId: new ObjectId(customerId),
+            delivery_status: status,
+          })
+          .skip(skipPage)
+          .limit(limit)
+          .sort({ createdAt: -1 });
       } else {
-        orders = await customerOrder.find({
-          customerId: new ObjectId(customerId),
-        });
+        orders = await customerOrder
+          .find({
+            customerId: new ObjectId(customerId),
+          })
+          .skip(skipPage)
+          .limit(limit)
+          .sort({ createdAt: -1 });
       }
+      const order = await customerOrder.find({
+        customerId: new ObjectId(customerId),
+      });
+
       responseReturn(res, 200, {
         orders,
+        totalOrders: order.length,
       });
     } catch (error) {
       console.log(error.message);
@@ -248,10 +277,12 @@ class orderController {
       await customerOrder.findByIdAndUpdate(orderId, {
         delivery_status: status,
       });
-      responseReturn(res, 200, { message: "order status change success!" });
+      responseReturn(res, 200, {
+        message: "thay đổi trạng thái đơn hàng thành công!",
+      });
     } catch (error) {
       console.log("get admin order status error : " + error.message);
-      responseReturn(res, 500, { message: "internal server error" });
+      responseReturn(res, 500, { message: "lỗi máy chủ!" });
     }
   };
 
@@ -282,7 +313,7 @@ class orderController {
       }
     } catch (error) {
       console.log("get seller order error " + error.message);
-      responseReturn(res, 500, { message: "internal server error" });
+      responseReturn(res, 500, { message: "lỗi máy chủ !" });
     }
   };
 
@@ -306,10 +337,12 @@ class orderController {
       await authOrderModel.findByIdAndUpdate(orderId, {
         delivery_status: status,
       });
-      responseReturn(res, 200, { message: "order status change success" });
+      responseReturn(res, 200, {
+        message: "thay đổi trạng thái đơn hàng thành công!",
+      });
     } catch (error) {
       console.log("get admin order status error " + error.message);
-      responseReturn(res, 500, { message: "internal server error" });
+      responseReturn(res, 500, { message: "Lỗi máy chủ!" });
     }
   };
 
@@ -368,7 +401,7 @@ class orderController {
         });
       }
 
-      responseReturn(res, 200, { message: "success" });
+      responseReturn(res, 200, { message: "Thành công!" });
     } catch (error) {
       console.log(error.message);
     }

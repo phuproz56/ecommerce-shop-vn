@@ -30,4 +30,17 @@ const logProductSchema = new Schema(
   { timestamps: true }
 );
 
+logProductSchema.index(
+  {
+    fullname: "text",
+    note: "text",
+  },
+  {
+    weights: {
+      fullname: 5,
+      note: 4,
+    },
+  }
+);
+
 module.exports = model("logproducts", logProductSchema);

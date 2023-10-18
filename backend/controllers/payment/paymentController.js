@@ -65,9 +65,11 @@ class paymentController {
         await sellerModel.findByIdAndUpdate(id, {
           payment: "active",
         });
-        responseReturn(res, 200, { message: "payment active" });
+        responseReturn(res, 200, { message: "Thanh toán đã kính hoạt!" });
       } else {
-        responseReturn(res, 404, { message: "payment active failed" });
+        responseReturn(res, 404, {
+          message: "Thanh toán kích hoạt thất bại!!!",
+        });
       }
     } catch (error) {
       responseReturn(res, 500, { message: error.message });
@@ -150,7 +152,7 @@ class paymentController {
       });
       responseReturn(res, 200, {
         withdrawal,
-        message: "withdrowal request send",
+        message: "Đã gửi yêu cầu rút tiền!",
       });
     } catch (error) {
       responseReturn(res, 500, { message: error.message });
@@ -164,7 +166,7 @@ class paymentController {
       });
       responseReturn(res, 200, { withdrawalRequest });
     } catch (error) {
-      responseReturn(res, 500, { message: "Internal server error" });
+      responseReturn(res, 500, { message: "Lỗi máy chủ!" });
     }
   };
 }

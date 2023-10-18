@@ -5,7 +5,11 @@ import Footer from "../components/Footer";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { orderReducer, place_order } from "../store/reducers/orderReducer";
+import {
+  orderReducer,
+  place_order,
+  update_product,
+} from "../store/reducers/orderReducer";
 import { Country, State } from "country-state-city";
 const Shipping = () => {
   const navigate = useNavigate();
@@ -15,18 +19,14 @@ const Shipping = () => {
     state: { products, price, shipping_fee, items },
   } = useLocation();
   const [res, setRes] = useState(false);
-  // const [state, setState] = useState({
-  //   name: "",
-  //   address1: "",
-  //   phoneNumber: "",
-  //   city: "",
-  //   country: "",
-  // });
+
+  // console.log(products[0].products.productInfo)
 
   const [country, setCountry] = useState("VN");
   const [city, setCity] = useState("");
   const [address1, setAddress1] = useState("");
   const [user, setUser] = useState(false);
+
 
   const save = (e) => {
     e.preventDefault();
@@ -37,7 +37,6 @@ const Shipping = () => {
       country: country,
       phoneNumber: userInfo.phoneNumber,
     };
-    // const { name, address1, phoneNumber, city, country } = state;
     if (data) {
       setRes(true);
     }
@@ -61,6 +60,7 @@ const Shipping = () => {
         items,
       })
     );
+
   };
 
   return (
@@ -149,10 +149,7 @@ const Shipping = () => {
                               {State &&
                                 State.getStatesOfCountry(country).map(
                                   (item) => (
-                                    <option
-                                      key={item.name}
-                                      value={item.name}
-                                    >
+                                    <option key={item.name} value={item.name}>
                                       {item.name}
                                     </option>
                                   )
@@ -237,100 +234,6 @@ const Shipping = () => {
                       )}
                     </div>
                   )}
-                  {/* {!res && (
-                    <>
-                      <form onSubmit={save} action="">
-                        <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600 ">
-                          <div className="flex flex-col gap-1 mb-2 w-full">
-                            <label htmlFor="name">Tên của bạn</label>
-                            <input
-                              onChange={inputHandle}
-                              value={state.name}
-                              type="text"
-                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
-                              name="name"
-                              placeholder="name"
-                              id="name"
-                            />
-                          </div>
-                          <div className="flex flex-col gap-1 mb-2 w-full">
-                            <label htmlFor="address">Địa chỉ hiện tại</label>
-                            <input
-                              onChange={inputHandle}
-                              value={state.address}
-                              type="text"
-                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
-                              name="address"
-                              placeholder="address"
-                              id="address"
-                            />
-                          </div>
-                        </div>
-                        <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600 ">
-                          <div className="flex flex-col gap-1 mb-2 w-full">
-                            <label htmlFor="phone">số điện thoại của bạn</label>
-                            <input
-                              onChange={inputHandle}
-                              value={state.phone}
-                              type="text"
-                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
-                              name="phone"
-                              placeholder="phone"
-                              id="phone"
-                            />
-                          </div>
-                          <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600 ">
-                            <div className="flex flex-col gap-1 mb-2 w-full">
-                              <label htmlFor="province">Tỉnh</label>
-                              <input
-                                onChange={inputHandle}
-                                value={state.province}
-                                type="text"
-                                className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
-                                name="province"
-                                placeholder="province"
-                                id="province"
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600 ">
-                          <div className="flex flex-col gap-1 mb-2 w-full">
-                            <label htmlFor="city">Thành Phố</label>
-                            <input
-                              onChange={inputHandle}
-                              value={state.city}
-                              type="text"
-                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
-                              name="city"
-                              placeholder="city"
-                              id="city"
-                            />
-                          </div>
-                          <div className="flex flex-col gap-1 mb-2 w-full">
-                            <label htmlFor="area">Huyện</label>
-                            <input
-                              onChange={inputHandle}
-                              value={state.area}
-                              type="text"
-                              className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
-                              name="area"
-                              placeholder="area"
-                              id="area"
-                            />
-                          </div>
-                        </div>
-                        <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600 ">
-                          <div className="flex flex-col gap-1 mt-3 w-full">
-                            <button className="ml-[100px] mr-[100px] px-3 py-[6px] rounded-sm hover:shadow-indigo-500/20 hover: shadow-lg bg-indigo-500 text-white">
-                              Lưu
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-                    </>
-                  )}*/}
 
                   {res && (
                     <div className="flex flex-col gap-1">
@@ -351,7 +254,7 @@ const Shipping = () => {
                           thay đổi
                         </span>
                       </p>
-                      <p>Email to phuproz348@gmail.com</p>
+                      <p>Email to {userInfo.email}</p>
                     </div>
                   )}
                 </div>

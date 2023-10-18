@@ -204,7 +204,7 @@ class homeControllers {
       });
 
       responseReturn(res, 201, {
-        message: "Review Success",
+        message: "Đánh giá thành công!",
       });
     } catch (error) {
       console.log(error);

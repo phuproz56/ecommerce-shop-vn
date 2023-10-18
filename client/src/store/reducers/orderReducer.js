@@ -4,6 +4,7 @@ import api from "../../api/api";
 export const place_order = createAsyncThunk(
   "order/place_order",
   async ({
+    totalProducts,
     price,
     products,
     shipping_fee,
@@ -14,6 +15,7 @@ export const place_order = createAsyncThunk(
   }) => {
     try {
       const { data } = await api.post("/home/order/place-order", {
+        totalProducts,
         price,
         products,
         shipping_fee,
@@ -38,10 +40,13 @@ export const place_order = createAsyncThunk(
 
 export const get_orders = createAsyncThunk(
   "order/get_orders",
-  async ({ customerId, status }, { rejectWithValue, fulfillWithValue }) => {
+  async (
+    { customerId, status, pageNumber },
+    { rejectWithValue, fulfillWithValue }
+  ) => {
     try {
       const { data } = await api.get(
-        `/home/customer/get-orders/${customerId}/${status}`
+        `/home/customer/get-orders/${customerId}/${status}?pageNumber=${pageNumber}`
       );
       return fulfillWithValue(data);
     } catch (error) {
@@ -53,7 +58,7 @@ export const get_orders = createAsyncThunk(
 
 export const get_order = createAsyncThunk(
   "order/get_order",
-  async ( orderId , { rejectWithValue, fulfillWithValue }) => {
+  async (orderId, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.get(`/home/customer/get-order/${orderId}`);
       return fulfillWithValue(data);
@@ -70,6 +75,7 @@ export const orderReducer = createSlice({
     errorMessage: "",
     successMessage: "",
     myOrder: {},
+    totalOrders: 0,
   },
   reducers: {
     messageClear: (state, _) => {
@@ -80,6 +86,7 @@ export const orderReducer = createSlice({
   extraReducers: {
     [get_orders.fulfilled]: (state, { payload }) => {
       state.myOrders = payload.orders;
+      state.totalOrders = payload.totalOrders;
     },
     [get_order.fulfilled]: (state, { payload }) => {
       state.myOrder = payload.order;
