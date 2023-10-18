@@ -1,13 +1,54 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import Headers from "../components/Headers";
 import Footer from "../components/Footer";
 import Stripe from "../components/Stripe";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import FadeLoader from "react-spinners/FadeLoader";
+import success from "../assets/success.png";
+import { useDispatch, useSelector } from "react-redux";
+import { get_order } from "../store/reducers/orderReducer";
+
 const Payment = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     state: { price, orderId },
   } = useLocation();
+  const { myOrder } = useSelector((state) => state.order);
+
   const [paymentMethod, setPaymentMethod] = useState("stripe");
+  const [loader, setLoader] = useState(true);
+  const [message, setMessage] = useState(null);
+
+  useEffect(() => {
+    dispatch(get_order(orderId));
+  }, [dispatch, orderId]);
+
+  const update_payment = async () => {
+    const orderId = myOrder._id;
+
+    if (orderId) {
+      try {
+        await axios.get(`http://localhost:5000/api/order/confirm/${orderId}`);
+        setLoader(false);
+        localStorage.removeItem("orderId");
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (message === "succeeded") {
+      update_payment();
+      setTimeout(() => {
+        navigate("/dashboard/my-orders");
+      }, 3000);
+    }
+  }, [message]);
+  console.log(message);
   return (
     <div>
       <Headers />
@@ -36,7 +77,9 @@ const Payment = () => {
                   >
                     <div className="flex flex-col gap-[3px] justify-center items-center">
                       <img src="/images/payment/paynow.jpg" alt="roket" />
-                      <span className="text-slate-600">Thanh toán sau khi nhận hàng</span>
+                      <span className="text-slate-600">
+                        Thanh toán sau khi nhận hàng
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -45,11 +88,41 @@ const Payment = () => {
                     <Stripe orderId={orderId} price={price} />
                   </div>
                 )}
+
                 {paymentMethod === "now" && (
-                  <div className="w-full px-4 py-8 bg-white shadow-sm">
-                    <button className="px-10 py-[6px] rounded-sm hover:shadow-wrange-500/20 hover:shadow-lg bg-orange-500 text-white">
+                  <div
+                    onClick={() => setMessage("succeeded")}
+                    className="w-full px-4 py-8 bg-white shadow-sm"
+                  >
+                    <button
+                      className={`${
+                        message === "succeeded" && "hidden"
+                      } px-10 py-[6px] rounded-sm hover:shadow-wrange-500/20 hover:shadow-lg bg-orange-500 text-white`}
+                    >
                       Mua Ngay
                     </button>
+                    {message === "succeeded" ? (
+                      loader ? (
+                        <FadeLoader />
+                      ) : (
+                        <div className="flex flex-col gap-3 justify-center items-center">
+                          <h1 className="">Mua thành công!</h1>
+                          <img
+                            className="flex flex-col w-[20px] justify-center items-center"
+                            src={success}
+                            alt="success logo"
+                          />
+                          <Link
+                            className="px-5 py-2 bg-green-500 rounded-sm text-white flex flex-col justify-center items-center"
+                            to="/dashboard/my-orders"
+                          >
+                            Quay lại trang chủ
+                          </Link>
+                        </div>
+                      )
+                    ) : (
+                      <FadeLoader />
+                    )}
                   </div>
                 )}
               </div>
@@ -72,6 +145,7 @@ const Payment = () => {
           </div>
         </div>
       </section>
+
       <Footer />
     </div>
   );

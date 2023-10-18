@@ -87,7 +87,7 @@ const ConfirmOrder = () => {
           <FadeLoader />
         ) : (
           <>
-            <img src={success} alt="error logo" />
+            <img src={success} alt="success logo" />
             <Link
               className="px-5 py-2 bg-green-500 rounded-sm text-white"
               to="/dashboard/my-orders"

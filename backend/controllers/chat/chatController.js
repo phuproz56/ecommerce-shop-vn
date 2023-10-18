@@ -13,7 +13,7 @@ class chatController {
       if (sellerId !== "") {
         const seller = await sellerModel.findById(sellerId);
         const user = await customerModel.findById(userId);
-        console.log(seller);
+
 
         const checkSeller = await sellerCustomerModel.findOne({
           $and: [

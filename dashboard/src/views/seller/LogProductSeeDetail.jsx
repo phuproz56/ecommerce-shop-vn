@@ -27,7 +27,7 @@ const LogProductSeeDetail = () => {
       })
     );
   }, [currentPage, dispatch, parPage, productId, searchValue]);
-  console.log(currentPage, parPage, productId, searchValue);
+
   return (
     <div className="px-2 lg:px-7 pt-5 ">
       <div className="w-full p-4  bg-[#283046] rounded-md ">

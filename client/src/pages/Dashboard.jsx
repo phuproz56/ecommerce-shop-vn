@@ -37,7 +37,7 @@ const Dashboard = () => {
   return (
     <div>
       <Headers />
-      <div className="bg-slate-200 mt-5">
+      <div className="bg-slate-200 mt-5 ">
         <div className="w-[90%] mx-auto pt-5 md-lg:block hidden">
           <div>
             <button
@@ -49,7 +49,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="h-full mx-auto">
-          <div className="py-5 flex md-lg:w-[90%] mx-auto relative">
+          <div className="py-5 flex md-lg:w-[90%] mx-auto relative ">
             <div
               className={`rounded-md z-50 md-lg:absolute ${
                 filterShow ? "-left-4" : "-left-[360px]"

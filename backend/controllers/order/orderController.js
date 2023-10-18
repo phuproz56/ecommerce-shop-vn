@@ -68,14 +68,13 @@ class orderController {
         date: tempDate,
       });
 
-      for (let i = 0; i < customerOrderProduct.length; i++) {
-        const id = customerOrderProduct[i]._id;
-        console.log(customerOrderProduct[i].stock);
-        const product = await productModel.findByIdAndUpdate(id, {
-          stock:
-            customerOrderProduct[i].stock - customerOrderProduct[i].quantity,
-        });
-      }
+      // for (let i = 0; i < customerOrderProduct.length; i++) {
+      //   const id = customerOrderProduct[i]._id;
+      //   const product = await productModel.findByIdAndUpdate(id, {
+      //     stock:
+      //       customerOrderProduct[i].stock - customerOrderProduct[i].quantity,
+      //   });
+      // }
 
       for (let i = 0; i < products.length; i++) {
         const pro = products[i].products;
@@ -101,9 +100,13 @@ class orderController {
         });
       }
       await authOrderModel.insertMany(authorOrderData);
+
       for (let k = 0; k < cardId.length; k++) {
         await cardModel.findByIdAndDelete(cardId[k]);
       }
+
+      // console.log(this.paymentCheck(order.id))
+
       setTimeout(() => {
         this.paymentCheck(order.id);
       }, 15000);
@@ -398,6 +401,15 @@ class orderController {
           amount: auOrder[i].price,
           manth: splitTime[0],
           year: splitTime[2],
+        });
+      }
+      const customerOrderProduct = cuOrder.products;
+      
+      for (let i = 0; i < customerOrderProduct.length; i++) {
+        const id = customerOrderProduct[i]._id;
+        const product = await productModel.findByIdAndUpdate(id, {
+          stock:
+            customerOrderProduct[i].stock - customerOrderProduct[i].quantity,
         });
       }
 

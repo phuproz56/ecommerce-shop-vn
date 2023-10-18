@@ -18,17 +18,16 @@ const Index = () => {
 
   const redirect = (ord) => {
     let items = 0;
-    for(let i = 0; i < ord.length; i++){
-      items = ord.products[i].quantity + items
+    for (let i = 0; i < ord.length; i++) {
+      items = ord.products[i].quantity + items;
     }
-    navigate('/payment',{
+    navigate("/payment", {
       state: {
         price: ord.price,
         items,
         orderId: ord._id,
-        
-      }
-    })
+      },
+    });
   };
   return (
     <div>
@@ -68,7 +67,9 @@ const Index = () => {
         </div>
       </div>
       <div className="bg-white p-5 mt-5 rounded-md">
-        <h2 className="text-lg font-semibold text-slate-600">Những đơn đặt hàng gần đây</h2>
+        <h2 className="text-lg font-semibold text-slate-600">
+          Những đơn đặt hàng gần đây
+        </h2>
         <div className="pt-4 ">
           <div className="relative overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-500">
@@ -127,12 +128,14 @@ const Index = () => {
                           Xem
                         </span>
                       </Link>
-                      <span
-                        onClick={() => redirect(o)}
-                        className="bg-green-100 text-green-800 text-sm font-normal mr-2 px-2.5 py-[1px] rounded cursor-pointer"
-                      >
-                        Mua Ngay
-                      </span>
+                      {o.payment_status !== "paid" && (
+                        <span
+                          onClick={() => redirect(o)}
+                          className="bg-green-100 text-green-800 text-sm font-normal mr-2 px-2.5 py-[1px] rounded cursor-pointer"
+                        >
+                          Mua Ngay
+                        </span>
+                      )}
                     </th>
                   </tr>
                 ))}

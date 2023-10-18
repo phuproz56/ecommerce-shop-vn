@@ -206,7 +206,7 @@ class productController {
         stock: parseInt(stock),
         price: parseInt(price),
         note: note.trim(),
-        date: moment(Date.now()).format("LL"),
+        date: moment(Date.now()).format("LLL"),
       });
 
       const product = await productModel.findById(productId);
