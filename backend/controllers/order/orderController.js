@@ -159,30 +159,16 @@ class orderController {
 
   get_orders = async (req, res) => {
     const { customerId, status } = req.params;
-    let { pageNumber } = req.query;
-    pageNumber = parseInt(pageNumber);
-    const limit = 5;
-    const skipPage = limit * (pageNumber - 1);
+    
     try {
       let orders = [];
-      if (status !== "all") {
+      
         orders = await customerOrder
           .find({
             customerId: new ObjectId(customerId),
-            delivery_status: status,
+            payment_status: status,
           })
-          .skip(skipPage)
-          .limit(limit)
-          .sort({ createdAt: -1 });
-      } else {
-        orders = await customerOrder
-          .find({
-            customerId: new ObjectId(customerId),
-          })
-          .skip(skipPage)
-          .limit(limit)
-          .sort({ createdAt: -1 });
-      }
+
       const order = await customerOrder.find({
         customerId: new ObjectId(customerId),
       });
@@ -195,6 +181,22 @@ class orderController {
       console.log(error.message);
     }
   };
+
+  // get_orders_pending = async (req, res) => {
+  //   const { customerId, status } = req.params;
+  //   try {
+  //     const orders = await customerOrder.find({
+  //       customerId: new ObjectId(customerId),
+  //       payment_status: status,
+  //     });
+  //     console.log(orders);
+  //     responseReturn(res, 200, {
+  //       orders,
+  //     });
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
   get_order = async (req, res) => {
     const { orderId } = req.params;
@@ -340,6 +342,7 @@ class orderController {
       await authOrderModel.findByIdAndUpdate(orderId, {
         delivery_status: status,
       });
+
       responseReturn(res, 200, {
         message: "thay đổi trạng thái đơn hàng thành công!",
       });
@@ -404,7 +407,7 @@ class orderController {
         });
       }
       const customerOrderProduct = cuOrder.products;
-      
+
       for (let i = 0; i < customerOrderProduct.length; i++) {
         const id = customerOrderProduct[i]._id;
         const product = await productModel.findByIdAndUpdate(id, {

@@ -23,6 +23,10 @@ import Chat from "./components/dashboard/Chat";
 import ConfirmOrder from "./pages/ConfirmOrder";
 import Address from "./components/dashboard/Address";
 import Profile from "./components/dashboard/Profile";
+import Event from "./pages/Event";
+import Tatca from "./components/dashboard/orders/Tatca";
+import Chothanhtoan from "./components/dashboard/orders/Chothanhtoan";
+
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -38,6 +42,7 @@ function App() {
         <Route path="/product?" element={<CategoryShops />} />
         <Route path="/product/search?" element={<SearchProducts />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/event" element={<Event />} />
         <Route path="/order/confirm?" element={<ConfirmOrder />} />
         <Route path="/shipping" element={<Shipping />} />
         <Route path="/payment" element={<Payment />} />
@@ -48,6 +53,14 @@ function App() {
             <Route path="" element={<Index />} />
             <Route path="address" element={<Address />} />
             <Route path="my-orders" element={<Orders />} />
+
+            <Route path="my-orders/tatca" element={<Tatca />} />
+            <Route path="my-orders/chothanhtoan" element={<Chothanhtoan />} />
+            <Route path="my-orders/vanchuyen" element={<Chothanhtoan />} />
+            <Route path="my-orders/danggiao" element={<Chothanhtoan />} />
+            <Route path="my-orders/hoanthanh" element={<Chothanhtoan />} />
+            <Route path="my-orders/dahuy" element={<Chothanhtoan />} />
+
             <Route path="my-wishlist" element={<Wishlist />} />
             <Route path="order/details/:orderId" element={<Order />} />
             <Route path="change-password" element={<ChangePassword />} />

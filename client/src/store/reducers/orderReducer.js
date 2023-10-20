@@ -41,12 +41,12 @@ export const place_order = createAsyncThunk(
 export const get_orders = createAsyncThunk(
   "order/get_orders",
   async (
-    { customerId, status, pageNumber },
+    { customerId, status },
     { rejectWithValue, fulfillWithValue }
   ) => {
     try {
       const { data } = await api.get(
-        `/home/customer/get-orders/${customerId}/${status}?pageNumber=${pageNumber}`
+        `/home/customer/get-orders/${customerId}/${status}`
       );
       return fulfillWithValue(data);
     } catch (error) {
@@ -67,6 +67,21 @@ export const get_order = createAsyncThunk(
     }
   }
 );
+
+// export const get_orders_pending = createAsyncThunk(
+//   "order/get_orders_pending",
+//   async ({ customerId, status }, { rejectWithValue, fulfillWithValue }) => {
+//     try {
+//       const { data } = await api.get(
+//         `/home/customer/get-orders-pending/${customerId}/${status}`
+//       );
+//       return fulfillWithValue(data);
+//     } catch (error) {
+//       console.log(error.message)
+//       // return rejectWithValue(error.response);
+//     }
+//   }
+// );
 
 export const orderReducer = createSlice({
   name: "order",
@@ -91,6 +106,7 @@ export const orderReducer = createSlice({
     [get_order.fulfilled]: (state, { payload }) => {
       state.myOrder = payload.order;
     },
+   
   },
 });
 

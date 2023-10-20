@@ -204,6 +204,18 @@ const Headers = () => {
                   </li>
                   <li>
                     <Link
+                      to="/event"
+                      className={`p-2 block ${
+                        pathname === "/shops"
+                          ? "text-[#7fad39]"
+                          : "text-slate-600"
+                      }`}
+                    >
+                      Sự Kiện Khuyến Mãi
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       className={`p-2 block ${
                         pathname === "/about"
                           ? "text-[#7fad39]"
@@ -331,6 +343,16 @@ const Headers = () => {
                   }`}
                 >
                   Cửa Hàng
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/shops"
+                  className={`p-2 block ${
+                    pathname === "/event" ? "text-[#7fad39]" : "text-slate-600"
+                  }`}
+                >
+                  Sự Kiện Khuyến Mãi
                 </Link>
               </li>
               <li>

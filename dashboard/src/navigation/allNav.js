@@ -89,7 +89,7 @@ export const allNav = [
   },
   {
     id: 12,
-    title: "Phiếu Giảm Giá",
+    title: "Sự Kiện, Khuyến Mãi",
     icon: <RiProductHuntLine />,
     role: "seller",
     path: "/seller/dashboard/discount-products",

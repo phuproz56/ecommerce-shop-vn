@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import Headers from "../components/Headers";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,17 @@ import {
 import toast from "react-hot-toast";
 
 const Cart = () => {
+
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 200,
+      left: 400,
+      behavior: "smooth",
+    });
+  }, [location]);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);

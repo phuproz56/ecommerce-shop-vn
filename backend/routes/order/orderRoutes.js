@@ -12,6 +12,10 @@ router.get(
   "/home/customer/get-orders/:customerId/:status",
   orderController.get_orders
 );
+// router.get(
+//   "/home/customer/get-orders-pending/:customerId/:status",
+//   orderController.get_orders_pending
+// );
 router.get("/home/customer/get-order/:orderId", orderController.get_order);
 router.post("/order/create-payment", orderController.create_payment);
 router.get("/order/confirm/:orderId", orderController.order_confirm);

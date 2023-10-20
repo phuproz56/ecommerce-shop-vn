@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Headers from "../components/Headers";
 import Footer from "../components/Footer";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -12,6 +12,15 @@ import {
 } from "../store/reducers/orderReducer";
 import { Country, State } from "country-state-city";
 const Shipping = () => {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo({
+      top: 400,
+      left: 400,
+      behavior: "smooth",
+    });
+  }, [location]);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
@@ -20,13 +29,10 @@ const Shipping = () => {
   } = useLocation();
   const [res, setRes] = useState(false);
 
-  // console.log(products[0].products.productInfo)
-
   const [country, setCountry] = useState("VN");
   const [city, setCity] = useState("");
   const [address1, setAddress1] = useState("");
   const [user, setUser] = useState(false);
-
 
   const save = (e) => {
     e.preventDefault();
@@ -60,7 +66,6 @@ const Shipping = () => {
         items,
       })
     );
-
   };
 
   return (

@@ -144,6 +144,7 @@ const Details = () => {
 
   const buy = () => {
     let price = 0;
+    
     if (product.discount !== 0) {
       price =
         product.price - Math.floor((product.price * product.discount) / 100);
