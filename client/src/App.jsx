@@ -25,7 +25,11 @@ import Address from "./components/dashboard/Address";
 import Profile from "./components/dashboard/Profile";
 import Event from "./pages/Event";
 import Tatca from "./components/dashboard/orders/Tatca";
-import Chothanhtoan from "./components/dashboard/orders/Chothanhtoan";
+import Vanchuyen from "./components/dashboard/orders/Vanchuyen";
+import Choxuly from "./components/dashboard/orders/Choxuly";
+import Dahuy from "./components/dashboard/orders/Dahuy";
+import Danggiao from "./components/dashboard/orders/Danggiao";
+import Hoanthanh from "./components/dashboard/orders/Hoanthanh";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,17 +56,14 @@ function App() {
           <Route path="" element={<Dashboard />}>
             <Route path="" element={<Index />} />
             <Route path="address" element={<Address />} />
-            <Route path="my-orders" element={<Orders />}>
+            <Route path="my-orders" element={<Orders />} />
 
-              <Route path="" element={<Orders />}/>
-              <Route path="" element={<Tatca />} />
-              <Route path="my-orders/tatca" element={<Tatca />} />
-              <Route path="my-orders/chothanhtoan" element={<Chothanhtoan />} />
-              <Route path="my-orders/vanchuyen" element={<Chothanhtoan />} />
-              <Route path="my-orders/danggiao" element={<Chothanhtoan />} />
-              <Route path="my-orders/hoanthanh" element={<Chothanhtoan />} />
-              <Route path="my-orders/dahuy" element={<Chothanhtoan />} />
-            </Route>
+            <Route key={1} path="tatca" element={<Tatca />} />
+            <Route key={2} path="choxuly" element={<Choxuly />} />
+            <Route key={3} path="vanchuyen" element={<Vanchuyen />} />
+            <Route key={4} path="danggiao" element={<Danggiao />} />
+            <Route key={5} path="hoanthanh" element={<Hoanthanh />} />
+            <Route key={6} path="dahuy" element={<Dahuy />} />
 
             <Route path="my-wishlist" element={<Wishlist />} />
             <Route path="order/details/:orderId" element={<Order />} />

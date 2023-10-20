@@ -76,7 +76,7 @@ const Dashboard = () => {
                   <span className="text-xl">
                     <RiProductHuntLine />
                   </span>
-                  <Link to="/dashboard/my-orders" className="block">
+                  <Link to="/dashboard/tatca" className="block">
                     Đơn Hàng của tôi
                   </Link>
                 </li>

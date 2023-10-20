@@ -6,33 +6,14 @@ import { get_orders } from "../../../store/reducers/orderReducer";
 import { useDispatch, useSelector } from "react-redux";
 const Chothanhtoan = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { myOrders } = useSelector((state) => state.order);
   const { userInfo } = useSelector((state) => state.auth);
   const [state, setState] = useState("unpaid");
-
-  const myOrder1 = [];
-
-  // useEffect(() => {
-  //   if (myOrders) {
-  //     myOrders.forEach(order => {
-  //       if (order.payment_status === "unpaid") {
-  //         setState("Đang chờ thanh toán");
-  //         myOrder1.push(order);
-  //       }
-  //     });
-  //   }
-  // }, [myOrders]);
-
-  // console.log(myOrder1);
 
   useEffect(() => {
     dispatch(get_orders({ customerId: userInfo.id, status: state }));
     setState('Đang chờ thanh toán!')
   }, [dispatch, state, userInfo.id]);
-
-
-
 
   return (
     <div>

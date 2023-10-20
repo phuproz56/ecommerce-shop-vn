@@ -1,50 +1,44 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import Orders from "../Orders";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { get_orders } from "../../../store/reducers/orderReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { get_all_orders } from "../../../store/reducers/orderReducer";
-
-const Tatca = () => {
+const Choxuly = () => {
   const dispatch = useDispatch();
-  const { allOrders } = useSelector((state) => state.order);
+  const { myOrders } = useSelector((state) => state.order);
   const { userInfo } = useSelector((state) => state.auth);
-  const [state, setState] = useState();
+  const [state, setState] = useState("pending");
 
   useEffect(() => {
-    dispatch(get_all_orders({ customerId: userInfo.id }));
-  }, [userInfo.id]);
+    if (state === "pending") {
+      dispatch(get_orders({ customerId: userInfo.id, status: state }));
+    }
+  }, [state, userInfo.id]);
 
   return (
     <div>
-      <Orders key={1} />
-      {allOrders.length ? (
+      <Orders />
+      {myOrders? (
         <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
           <div className="flex justify-between items-center w-full">
             <ul>
-              {allOrders.map((u, i) => (
+              {myOrders.map((u, i) => (
                 <li key={i} className="mt-3 border border-slate-300 rounded-md">
                   <div className="flex flex-col justify-between items-center w-full ">
-                    <div className="p-5 flex flex-col justify-items-center pl-3">
+                    <div className="p-5 flex flex-col justify-items-center">
                       <h2 className="text-slate-600 font-semibold">
                         Đã mua vào ngày: <span>{u.date}</span>{" "}
                         <div className="text-end">
                           <Link to={``} className="pl-[100px] text-green-500">
-                            {u.delivery_status === "cancelled" ? "Đã Hủy" : ""}
-                            {u.delivery_status === "pending"
-                              ? "Đang Xử Lý Đơn Hàng"
-                              : ""}
-                            {u.delivery_status === "processing"
-                              ? "Đã Đã Xử Lý"
-                              : ""}
+                            {state === "pending" ? "Đang Xử Lý Đơn Hàng" : ""}
                           </Link>
                           {u.delivery_status === "complete" ? (
-                            setState("complete") && (
-                              <b className="border-l-2 text-red-400 uppercase ml-4">
-                                {" "}
-                                hoàn thành
-                              </b>
-                            )
+                            <b className="border-l-2 text-red-400 uppercase ml-4">
+                              {" "}
+                              hoàn thành
+                            </b>
                           ) : (
                             <b className="border-l-2 text-red-400 uppercase ml-4">
                               {" "}
@@ -112,32 +106,6 @@ const Tatca = () => {
                                       <p>{p.price}</p>
                                       <p>-{p.discount}%</p>
                                     </div>
-                                    <div className="pt-2 flex items-center">
-                                      <Link
-                                        className={`rounded-md text-white bg-red-500 m-2 p-2 ${
-                                          state === "complete" ? "" : "hidden"
-                                        }`}
-                                        to={`/product/details/${p.slug}`}
-                                      >
-                                        Đánh Giá
-                                      </Link>
-                                      <Link
-                                        className={`rounded-md text-white bg-red-500 m-2 p-2 ${
-                                          state === "complete" ? "" : "hidden"
-                                        }`}
-                                        to={`/dashboard/chat/${p.sellerId}`}
-                                      >
-                                        Liên hệ người bán
-                                      </Link>
-                                      <button
-                                        // onClick={buyagain}
-                                        className={`rounded-md text-white bg-red-500 m-2 p-2 ${
-                                          state === "complete" ? "" : "hidden"
-                                        }`}
-                                      >
-                                        Mua lại
-                                      </button>
-                                    </div>
                                   </div>
                                 </div>
                               </li>
@@ -165,4 +133,4 @@ const Tatca = () => {
   );
 };
 
-export default Tatca;
+export default Choxuly;

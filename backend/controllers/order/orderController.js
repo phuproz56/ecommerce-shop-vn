@@ -159,44 +159,34 @@ class orderController {
 
   get_orders = async (req, res) => {
     const { customerId, status } = req.params;
-    
     try {
-      let orders = [];
-      
-        orders = await customerOrder
-          .find({
-            customerId: new ObjectId(customerId),
-            payment_status: status,
-          })
-
-      const order = await customerOrder.find({
+      const orders = await customerOrder.find({
         customerId: new ObjectId(customerId),
+        delivery_status: status,
       });
 
       responseReturn(res, 200, {
         orders,
-        totalOrders: order.length,
       });
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  // get_orders_pending = async (req, res) => {
-  //   const { customerId, status } = req.params;
-  //   try {
-  //     const orders = await customerOrder.find({
-  //       customerId: new ObjectId(customerId),
-  //       payment_status: status,
-  //     });
-  //     console.log(orders);
-  //     responseReturn(res, 200, {
-  //       orders,
-  //     });
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
+  get_all_orders = async (req, res) => {
+    const { customerId } = req.params;
+    try {
+      const orders = await customerOrder.find({
+        customerId: new ObjectId(customerId),
+      });
+      // console.log(orders)
+      responseReturn(res, 200, {
+        orders,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   get_order = async (req, res) => {
     const { orderId } = req.params;

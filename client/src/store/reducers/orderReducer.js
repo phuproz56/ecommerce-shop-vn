@@ -40,10 +40,7 @@ export const place_order = createAsyncThunk(
 
 export const get_orders = createAsyncThunk(
   "order/get_orders",
-  async (
-    { customerId, status },
-    { rejectWithValue, fulfillWithValue }
-  ) => {
+  async ({ customerId, status }, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.get(
         `/home/customer/get-orders/${customerId}/${status}`
@@ -68,20 +65,20 @@ export const get_order = createAsyncThunk(
   }
 );
 
-// export const get_orders_pending = createAsyncThunk(
-//   "order/get_orders_pending",
-//   async ({ customerId, status }, { rejectWithValue, fulfillWithValue }) => {
-//     try {
-//       const { data } = await api.get(
-//         `/home/customer/get-orders-pending/${customerId}/${status}`
-//       );
-//       return fulfillWithValue(data);
-//     } catch (error) {
-//       console.log(error.message)
-//       // return rejectWithValue(error.response);
-//     }
-//   }
-// );
+export const get_all_orders = createAsyncThunk(
+  "order/get_all_orders",
+  async ({ customerId }, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/home/customer/get-all-orders/${customerId}`
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.response);
+      return rejectWithValue(error.response);
+    }
+  }
+);
 
 export const orderReducer = createSlice({
   name: "order",
@@ -91,6 +88,8 @@ export const orderReducer = createSlice({
     successMessage: "",
     myOrder: {},
     totalOrders: 0,
+    allOrders: [],
+    cancelledOrders: [],
   },
   reducers: {
     messageClear: (state, _) => {
@@ -101,12 +100,14 @@ export const orderReducer = createSlice({
   extraReducers: {
     [get_orders.fulfilled]: (state, { payload }) => {
       state.myOrders = payload.orders;
-      state.totalOrders = payload.totalOrders;
+      state.cancelledOrders = payload.orders;
     },
     [get_order.fulfilled]: (state, { payload }) => {
       state.myOrder = payload.order;
     },
-   
+    [get_all_orders.fulfilled]: (state, { payload }) => {
+      state.allOrders = payload.orders;
+    },
   },
 });
 
