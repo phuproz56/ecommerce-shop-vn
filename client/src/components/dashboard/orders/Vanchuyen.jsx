@@ -33,17 +33,13 @@ const VanChuyen = () => {
                           <Link to={``} className="pl-[100px] text-green-500">
                             {state}
                           </Link>
-                          {u.delivery_status === "complete" ? (
+                          {u.delivery_status === "complete" && (
                             <b className="border-l-2 text-red-400 uppercase ml-4">
                               {" "}
                               hoàn thành
                             </b>
-                          ) : (
-                            <b className="border-l-2 text-red-400 uppercase ml-4">
-                              {" "}
-                              Chưa hoàn thành
-                            </b>
-                          )}
+                          ) 
+                          }
                         </div>
                       </h2>
 

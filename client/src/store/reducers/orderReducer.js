@@ -80,6 +80,21 @@ export const get_all_orders = createAsyncThunk(
   }
 );
 
+export const huy_order = createAsyncThunk(
+  "order/huy_order",
+  async ({ orderId }, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.put(
+        `/home/customer/huy-order/${orderId}`
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.response);
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
 export const orderReducer = createSlice({
   name: "order",
   initialState: {
@@ -107,6 +122,9 @@ export const orderReducer = createSlice({
     },
     [get_all_orders.fulfilled]: (state, { payload }) => {
       state.allOrders = payload.orders;
+    },
+    [huy_order.fulfilled]: (state, { payload }) => {
+      state.successMessage = payload.message;
     },
   },
 });

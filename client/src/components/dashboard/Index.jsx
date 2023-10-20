@@ -87,9 +87,9 @@ const Index = () => {
                   <th className="px-6 py-3" scope="col">
                     Trạng Thái Đơn Hàng
                   </th>
-                  <th className="px-6 py-3" scope="col">
+                  {/* <th className="px-6 py-3" scope="col">
                     Hành Động
-                  </th>
+                  </th> */}
                 </tr>
               </thead>
               <tbody>
@@ -111,15 +111,34 @@ const Index = () => {
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-nowrap"
                     >
-                      {o.payment_status}
+                       {o.payment_status === "unpaid"
+                        ? "Chưa Thanh Toán"
+                        : ""}
+                        {o.payment_status === "paid"
+                        ? "Đã Thanh Toán"
+                        : ""}
                     </th>
                     <th
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-nowrap"
                     >
-                      {o.delivery_status}
+                      {o.delivery_status === "pending"
+                        ? "Đang Xử Lý Đơn Hàng"
+                        : ""}
+                         {o.delivery_status === "processing"
+                        ? "Đã Xử Lý Đơn Hàng"
+                        : ""}
+                         {o.delivery_status === "cancelled"
+                        ? "Đã Hủy"
+                        : ""}
+                        {o.delivery_status === "vanchuyen"
+                        ? "Đang Vận Chuyển"
+                        : ""}
+                        {o.delivery_status === "danggiao"
+                        ? "Đơn Hàng Đang Giao"
+                        : ""}
                     </th>
-                    <th
+                    {/* <th
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-nowrap"
                     >
@@ -136,7 +155,7 @@ const Index = () => {
                           Mua Ngay
                         </span>
                       )}
-                    </th>
+                    </th> */}
                   </tr>
                 ))}
               </tbody>

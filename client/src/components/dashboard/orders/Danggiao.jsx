@@ -23,28 +23,23 @@ const Danggiao = () => {
       {myOrders.length ? (
         <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
           <div className="flex justify-between items-center w-full">
-            <ul>
+            <ul className="w-full">
               {myOrders.map((u, i) => (
                 <li key={i} className="mt-3 border border-slate-300 rounded-md">
-                  <div className="flex flex-col justify-between items-center w-full ">
-                    <div className="p-5 flex flex-col justify-items-center">
+                  <div className="flex flex-col w-full ">
+                    <div className="p-5 flex flex-col">
                       <h2 className="text-slate-600 font-semibold">
                         Đã mua vào ngày: <span>{u.date}</span>{" "}
                         <div className="text-end">
                           <Link to={``} className="pl-[100px] text-green-500">
                             {state}
                           </Link>
-                          {u.delivery_status === "complete" ? (
+                          {u.delivery_status === "complete" && (
                             <b className="border-l-2 text-red-400 uppercase ml-4">
                               {" "}
                               hoàn thành
                             </b>
-                          ) : (
-                            <b className="border-l-2 text-red-400 uppercase ml-4">
-                              {" "}
-                              Chưa hoàn thành
-                            </b>
-                          )}
+                          ) }
                         </div>
                       </h2>
 

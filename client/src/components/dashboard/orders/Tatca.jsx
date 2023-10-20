@@ -19,38 +19,33 @@ const Tatca = () => {
     <div>
       <Orders key={1} />
       {allOrders.length ? (
-        <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
-          <div className="flex justify-between items-center w-full">
-            <ul>
+        <div className="bg-white p-4 rounded-md w-full mt-5">
+          <div className="flex w-full">
+            <ul className="w-full">
               {allOrders.map((u, i) => (
-                <li key={i} className="mt-3 border border-slate-300 rounded-md">
-                  <div className="flex flex-col justify-between items-center w-full ">
+                <li key={i} className="mt-3 border border-slate-300 rounded-md w-full">
+                  <div className="flex flex-col w-full ">
                     <div className="p-5 flex flex-col justify-items-center pl-3">
                       <h2 className="text-slate-600 font-semibold">
                         Đã mua vào ngày: <span>{u.date}</span>{" "}
                         <div className="text-end">
                           <Link to={``} className="pl-[100px] text-green-500">
-                            {u.delivery_status === "cancelled" ? "Đã Hủy" : ""}
+                            {u.delivery_status === "cancelled" ? <p className="uppercase text-red-500">đã hủy</p> : ""}
                             {u.delivery_status === "pending"
                               ? "Đang Xử Lý Đơn Hàng"
                               : ""}
                             {u.delivery_status === "processing"
-                              ? "Đã Đã Xử Lý"
+                              ? "Đã Được Xử Lý"
                               : ""}
                           </Link>
-                          {u.delivery_status === "complete" ? (
+                          {u.delivery_status === "complete" && (
                             setState("complete") && (
                               <b className="border-l-2 text-red-400 uppercase ml-4">
                                 {" "}
                                 hoàn thành
                               </b>
                             )
-                          ) : (
-                            <b className="border-l-2 text-red-400 uppercase ml-4">
-                              {" "}
-                              Chưa hoàn thành
-                            </b>
-                          )}
+                          ) }
                         </div>
                       </h2>
 

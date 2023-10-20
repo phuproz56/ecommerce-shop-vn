@@ -173,6 +173,18 @@ class orderController {
     }
   };
 
+  huy_order = async (req, res) => {
+    const { orderId } = req.params;
+    try {
+      await customerOrder.findByIdAndUpdate(orderId, {
+        delivery_status: "cancelled",
+      });
+      responseReturn(res, 200, { message: "Hủy Thành Công!" });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   get_all_orders = async (req, res) => {
     const { customerId } = req.params;
     try {
