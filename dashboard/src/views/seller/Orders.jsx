@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import Search from "../components/Search";
 import { useSelector, useDispatch } from "react-redux";
-import { get_seller_orders } from "../../store/Reducers/OrderReducer";
+import { get_seller_orders, get_admin_orders } from "../../store/Reducers/OrderReducer";
 const Orders = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,12 +16,19 @@ const Orders = () => {
   const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    // dispatch(
+    //   get_seller_orders({
+    //     parPage: parseInt(parPage),
+    //     page: parseInt(currentPage),
+    //     searchValue,
+    //     sellerId: userInfo._id,
+    //   })
+    // );
     dispatch(
-      get_seller_orders({
+      get_admin_orders({
         parPage: parseInt(parPage),
         page: parseInt(currentPage),
         searchValue,
-        sellerId: userInfo._id,
       })
     );
   }, [parPage, currentPage, searchValue]);

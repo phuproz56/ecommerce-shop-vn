@@ -339,11 +339,16 @@ class orderController {
   seller_order_status_update = async (req, res) => {
     const { orderId } = req.params;
     const { status } = req.body;
-
+    console.log(orderId, status);
     try {
-      await authOrderModel.findByIdAndUpdate(orderId, {
+      // await authOrderModel.findByIdAndUpdate(orderId, {
+      //   delivery_status: status,
+      // });
+      await customerOrder.findByIdAndUpdate(orderId, {
         delivery_status: status,
       });
+      // const o = await customerOrder.findById(orderId);
+      // console.log(o)
 
       responseReturn(res, 200, {
         message: "thay đổi trạng thái đơn hàng thành công!",

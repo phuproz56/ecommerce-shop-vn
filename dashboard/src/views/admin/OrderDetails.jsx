@@ -81,7 +81,8 @@ const OrderDetails = () => {
                   <p>
                     <span className="text-sm">
                       {order?.shippingInfo?.address} {order?.shippingInfo?.city}{" "}
-                      {order?.shippingInfo?.province} {order?.shippingInfo?.area}
+                      {order?.shippingInfo?.province}{" "}
+                      {order?.shippingInfo?.area}
                     </span>
                   </p>
                 </div>
@@ -94,7 +95,7 @@ const OrderDetails = () => {
                   <div className="text-[#d0d2d6]">
                     {order?.products &&
                       order.products.map((p, i) => (
-                        <div key={i+20} className="flex gap-3 text-md">
+                        <div key={i + 20} className="flex gap-3 text-md">
                           <img
                             className="w-[45px] h-[45px]"
                             src={p.images[0]}

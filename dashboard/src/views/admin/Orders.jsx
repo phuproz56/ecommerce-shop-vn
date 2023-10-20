@@ -88,7 +88,10 @@ const Orders = () => {
                   }
                 >
                   {o.suborder.map((so, i) => (
-                    <div key={i} className="flex justify-start items-start border-b border-slate-700">
+                    <div
+                      key={i}
+                      className="flex justify-start items-start border-b border-slate-700"
+                    >
                       <div className="py-4 w-[25%] font-medium whitespace-nowrap pl-3">
                         {so._id}
                       </div>

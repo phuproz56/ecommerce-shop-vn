@@ -31,15 +31,14 @@ const VanChuyen = () => {
                         Đã mua vào ngày: <span>{u.date}</span>{" "}
                         <div className="text-end">
                           <Link to={``} className="pl-[100px] text-green-500">
-                            {state}
+                          {state === "shipping" ? "Đang Vận Chuyển Đơn Hàng" : ""}
                           </Link>
                           {u.delivery_status === "complete" && (
                             <b className="border-l-2 text-red-400 uppercase ml-4">
                               {" "}
                               hoàn thành
                             </b>
-                          ) 
-                          }
+                          )}
                         </div>
                       </h2>
 
@@ -101,7 +100,6 @@ const VanChuyen = () => {
                                       <p>{p.price}</p>
                                       <p>-{p.discount}%</p>
                                     </div>
-                                    
                                   </div>
                                 </div>
                               </li>

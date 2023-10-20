@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import Orders from "../Orders";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -13,24 +12,31 @@ const Tatca = () => {
 
   useEffect(() => {
     dispatch(get_all_orders({ customerId: userInfo.id }));
-  }, [userInfo.id]);
+  }, [userInfo.id, dispatch]);
 
   return (
     <div>
-      <Orders key={1} />
+      <Orders />
       {allOrders.length ? (
         <div className="bg-white p-4 rounded-md w-full mt-5">
           <div className="flex w-full">
             <ul className="w-full">
               {allOrders.map((u, i) => (
-                <li key={i} className="mt-3 border border-slate-300 rounded-md w-full">
+                <li
+                  key={i}
+                  className="mt-3 border border-slate-300 rounded-md w-full"
+                >
                   <div className="flex flex-col w-full ">
                     <div className="p-5 flex flex-col justify-items-center pl-3">
                       <h2 className="text-slate-600 font-semibold">
                         Đã mua vào ngày: <span>{u.date}</span>{" "}
                         <div className="text-end">
                           <Link to={``} className="pl-[100px] text-green-500">
-                            {u.delivery_status === "cancelled" ? <p className="uppercase text-red-500">đã hủy</p> : ""}
+                            {u.delivery_status === "cancelled" ? (
+                              <p className="uppercase text-red-500">đã hủy</p>
+                            ) : (
+                              ""
+                            )}
                             {u.delivery_status === "pending"
                               ? "Đang Xử Lý Đơn Hàng"
                               : ""}
@@ -38,14 +44,13 @@ const Tatca = () => {
                               ? "Đã Được Xử Lý"
                               : ""}
                           </Link>
-                          {u.delivery_status === "complete" && (
-                            setState("complete") && (
+                          {u.delivery_status === "complete" ?
+                             (
                               <b className="border-l-2 text-red-400 uppercase ml-4">
                                 {" "}
                                 hoàn thành
                               </b>
-                            )
-                          ) }
+                            ) : ""}
                         </div>
                       </h2>
 
@@ -110,7 +115,7 @@ const Tatca = () => {
                                     <div className="pt-2 flex items-center">
                                       <Link
                                         className={`rounded-md text-white bg-red-500 m-2 p-2 ${
-                                          state === "complete" ? "" : "hidden"
+                                          state === "complete1" ? "" : "hidden"
                                         }`}
                                         to={`/product/details/${p.slug}`}
                                       >

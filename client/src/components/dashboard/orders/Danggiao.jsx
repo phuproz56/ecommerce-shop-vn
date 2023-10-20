@@ -32,7 +32,7 @@ const Danggiao = () => {
                         Đã mua vào ngày: <span>{u.date}</span>{" "}
                         <div className="text-end">
                           <Link to={``} className="pl-[100px] text-green-500">
-                            {state}
+                          {state === "danggiao" ? "Chuẩn Bị Nhận Hàng" : ""}
                           </Link>
                           {u.delivery_status === "complete" && (
                             <b className="border-l-2 text-red-400 uppercase ml-4">

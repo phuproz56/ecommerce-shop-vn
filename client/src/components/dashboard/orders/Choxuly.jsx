@@ -37,7 +37,7 @@ const Choxuly = () => {
   return (
     <div>
       <Orders />
-      {myOrders ? (
+      {myOrders.length ? (
         <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
           <div className="flex justify-between items-center w-full">
             <ul className="w-full">
