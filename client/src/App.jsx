@@ -52,14 +52,17 @@ function App() {
           <Route path="" element={<Dashboard />}>
             <Route path="" element={<Index />} />
             <Route path="address" element={<Address />} />
-            <Route path="my-orders" element={<Orders />} />
+            <Route path="my-orders" element={<Orders />}>
 
-            <Route path="my-orders/tatca" element={<Tatca />} />
-            <Route path="my-orders/chothanhtoan" element={<Chothanhtoan />} />
-            <Route path="my-orders/vanchuyen" element={<Chothanhtoan />} />
-            <Route path="my-orders/danggiao" element={<Chothanhtoan />} />
-            <Route path="my-orders/hoanthanh" element={<Chothanhtoan />} />
-            <Route path="my-orders/dahuy" element={<Chothanhtoan />} />
+              <Route path="" element={<Orders />}/>
+              <Route path="" element={<Tatca />} />
+              <Route path="my-orders/tatca" element={<Tatca />} />
+              <Route path="my-orders/chothanhtoan" element={<Chothanhtoan />} />
+              <Route path="my-orders/vanchuyen" element={<Chothanhtoan />} />
+              <Route path="my-orders/danggiao" element={<Chothanhtoan />} />
+              <Route path="my-orders/hoanthanh" element={<Chothanhtoan />} />
+              <Route path="my-orders/dahuy" element={<Chothanhtoan />} />
+            </Route>
 
             <Route path="my-wishlist" element={<Wishlist />} />
             <Route path="order/details/:orderId" element={<Order />} />
