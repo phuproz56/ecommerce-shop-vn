@@ -8,13 +8,19 @@ const Tatca = () => {
   const dispatch = useDispatch();
   const { allOrders } = useSelector((state) => state.order);
   const { userInfo } = useSelector((state) => state.auth);
-  const [state] = useState();
+  const [state, setState] = useState();
 
   useEffect(() => {
     if (userInfo && userInfo.id) {
       dispatch(get_all_orders({ customerId: userInfo.id }));
     }
   }, [userInfo, dispatch]);
+
+  for (let i = 0; i < allOrders.length; i++) {
+    if (allOrders[i].delivery_status === "Đã Giao Hàng") {
+      setState("complete");
+    } 
+  }
 
   return (
     <div>
@@ -36,13 +42,11 @@ const Tatca = () => {
                           <Link to={``} className="pl-[100px] text-green-500">
                             {u.delivery_status}
                           </Link>
-                          {u.delivery_status === "Đã Giao Hàng" ? (
+                          {u.delivery_status === "Đã Giao Hàng" &&  (
                             <b className="border-l-2 text-red-400 uppercase ml-4">
                               hoàn thành
                             </b>
-                          ) : (
-                            ""
-                          )}
+                          ) }
                         </div>
                       </h2>
 
@@ -107,7 +111,7 @@ const Tatca = () => {
                                     <div className="pt-2 flex items-center">
                                       <Link
                                         className={`rounded-md text-white bg-red-500 m-2 p-2 ${
-                                          state === "complete1" ? "" : "hidden"
+                                          state === "complete" ? "" : "hidden"
                                         }`}
                                         to={`/product/details/${p.slug}`}
                                       >
