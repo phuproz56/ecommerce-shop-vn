@@ -17,6 +17,21 @@ export const admin_login = createAsyncThunk(
   }
 );
 
+export const nvadmin_login = createAsyncThunk(
+  "auth/nvadmin_login",
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/nvadmin-login", info, {
+        withCredentials: true,
+      });
+      localStorage.setItem("accessToken", data.token);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const seller_login = createAsyncThunk(
   "auth/seller_login",
   async (info, { rejectWithValue, fulfillWithValue }) => {
@@ -66,6 +81,21 @@ export const seller_register = createAsyncThunk(
   }
 );
 
+export const nvadmin_register = createAsyncThunk(
+  "auth/nvadmin_register",
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/nvadmin-register", info, {
+        withCredentials: true,
+      });
+      localStorage.setItem("accessToken1", data.token);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const profile_image_upload = createAsyncThunk(
   "auth/profile_image_upload",
   async (image, { rejectWithValue, fulfillWithValue }) => {
@@ -106,6 +136,18 @@ export const get_user_info = createAsyncThunk(
   }
 );
 
+export const get_nvadmin = createAsyncThunk(
+  "auth/get_nvadmin",
+  async (_, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get("/get-nvadmin", { withCredentials: true });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const returnRole = (token) => {
   if (token) {
     const decodeToken = jwt(token);
@@ -121,6 +163,22 @@ const returnRole = (token) => {
   }
 };
 
+const returnRole1 = (token) => {
+  if (token) {
+    const decodeToken = jwt(token);
+    const expireTime = new Date(decodeToken.exp * 1000);
+    if (new Date() > expireTime) {
+      localStorage.removeItem("accessToken1");
+      return "";
+    } else {
+      return decodeToken.role;
+    }
+  } else {
+    return "";
+  }
+};
+
+
 export const authReducer = createSlice({
   name: "auth",
   initialState: {
@@ -129,7 +187,10 @@ export const authReducer = createSlice({
     loader: false,
     userInfo: "",
     role: returnRole(localStorage.getItem("accessToken")),
+    role1: returnRole1(localStorage.getItem("accessToken1")),
     token: localStorage.getItem("accessToken"),
+    token1: localStorage.getItem("accessToken1"),
+    nvAdmin: []
   },
   reducers: {
     messageClear: (state, _) => {
@@ -138,6 +199,7 @@ export const authReducer = createSlice({
     },
   },
   extraReducers: {
+    //------------- admin
     [admin_login.pending]: (state, _) => {
       state.loader = true;
     },
@@ -151,9 +213,42 @@ export const authReducer = createSlice({
       state.token = payload.token;
       state.role = returnRole(payload.token);
     },
+
+    //---------------- nhan vien
+    // [nvadmin_login.pending]: (state, _) => {
+    //   state.loader = true;
+    // },
+    // [nvadmin_login.rejected]: (state, { payload }) => {
+    //   state.loader = false;
+    //   state.errorMessage = payload.error;
+    // },
+    // [nvadmin_login.fulfilled]: (state, { payload }) => {
+    //   state.loader = false;
+    //   state.successMessage = payload.message;
+    //   state.token = payload.token;
+    //   state.role = returnRole(payload.token);
+    // },
+    [nvadmin_register.pending]: (state, _) => {
+      state.loader = true;
+    },
+    [nvadmin_register.rejected]: (state, { payload }) => {
+      state.loader = false;
+      state.errorMessage = payload.error;
+    },
+    [nvadmin_register.fulfilled]: (state, { payload }) => {
+      state.loader = false;
+      state.nvAdmin = payload.nvAmin;
+      state.successMessage = payload.message;
+      // state.token1 = payload.token;
+      // state.role1 = returnRole1(payload.token);
+    },
+    // ---------------------
+
+    // seller
     [seller_login.pending]: (state, _) => {
       state.loader = true;
     },
+
     [seller_login.rejected]: (state, { payload }) => {
       state.loader = false;
       state.errorMessage = payload.error;
@@ -181,6 +276,10 @@ export const authReducer = createSlice({
       state.loader = false;
       state.userInfo = payload.userInfo;
       state.role = payload.userInfo.role;
+    },
+    [get_nvadmin.fulfilled]: (state, { payload }) => {
+      state.loader = false;
+      state.nvAdmin = payload.userInfo;
     },
     [profile_image_upload.pending]: (state, _) => {
       state.loader = true;

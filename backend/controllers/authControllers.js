@@ -1,4 +1,5 @@
 const adminModel = require("../models/adminModel");
+const nvadminModel = require("../models/nhanvienAdminModel");
 const sellerModel = require("../models/sellerModel");
 const sellerCustomerModel = require("../models/chat/sellerCustomerModel");
 const bcrypt = require("bcrypt");
@@ -18,6 +19,35 @@ class authControllers {
           const token = await createToken({
             id: admin.id,
             role: admin.role,
+          });
+          res.cookie("accessToken", token, {
+            exprires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          });
+          responseReturn(res, 200, {
+            token,
+            message: "Đăng nhập thành công!!!",
+          });
+        } else {
+          responseReturn(res, 400, { error: "password sai!!" });
+        }
+      } else {
+        responseReturn(res, 400, { error: "email không tìm thấy!!!" });
+      }
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
+
+  nvadmin_login = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+      const nvadmin = await nvadminModel.findOne({ email }).select("+password");
+      if (nvadmin) {
+        const match = await bcrypt.compare(password, nvadmin.password);
+        if (match) {
+          const token = await createToken({
+            id: nvadmin.id,
+            role: nvadmin.role,
           });
           res.cookie("accessToken", token, {
             exprires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -95,6 +125,45 @@ class authControllers {
     }
   };
 
+  nvadmin_register = async (req, res) => {
+    const { name, email, password } = req.body;
+
+    try {
+      const getNvAdmin = await nvadminModel.findOne({ email });
+
+      if (getNvAdmin) {
+        responseReturn(res, 404, { error: "Email đã tồn tại!" });
+      } else {
+        const nvAdmin = await nvadminModel.create({
+          name,
+          email,
+          password: await bcrypt.hash(password, 10),
+          method: "menualy",
+        });
+        nvAdmin.save();
+        // const a =await nvadminModel.create({
+        //   myId: nvAdmin.id,
+        // });
+        // const token = await createToken({
+        //   id: nvAdmin.id,
+        //   role: nvAdmin.role,
+        // });
+        // console.log(token)
+        // res.cookie("accessToken1", token, {
+        //   exprires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        // });
+
+        responseReturn(res, 201, {
+          nvAdmin,
+          message: "Tạo Tài Khoản Nhân Viên Thành Công!",
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
+      responseReturn(res, 500, { error: "Lỗi Máy chủ!" });
+    }
+  };
+
   getUser = async (req, res) => {
     const { id, role } = req;
     try {
@@ -105,6 +174,16 @@ class authControllers {
         const seller = await sellerModel.findById(id);
         responseReturn(res, 200, { userInfo: seller });
       }
+    } catch (error) {
+      responseReturn(res, 500, { error: "Lỗi Máy chủ!" });
+    }
+  };
+
+  getNvAdmin = async (req, res) => {
+    const { id } = req;
+    try {
+      const nvadmin = await nvadminModel.findById(id);
+      responseReturn(res, 200, { userInfo: nvadmin });
     } catch (error) {
       responseReturn(res, 500, { error: "Lỗi Máy chủ!" });
     }

@@ -6,13 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   messageClear,
   seller_order_status_update,
-  admin_order_status_update,
   get_admin_order,
 } from "../../store/Reducers/OrderReducer";
 const OrderDetails = () => {
   const { orderId } = useParams();
   const dispatch = useDispatch();
-console.log(orderId)
+  console.log(orderId);
   const { order, errorMessage, successMessage } = useSelector(
     (state) => state.order
   );

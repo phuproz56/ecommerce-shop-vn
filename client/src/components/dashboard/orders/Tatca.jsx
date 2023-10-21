@@ -1,14 +1,17 @@
 import Orders from "../Orders";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { get_all_orders } from "../../../store/reducers/orderReducer";
-
+import {
+  get_all_orders,
+  huy_order,
+  messageClear,
+} from "../../../store/reducers/orderReducer";
+import toast from "react-hot-toast";
 const Tatca = () => {
   const dispatch = useDispatch();
-  const { allOrders } = useSelector((state) => state.order);
+  const { allOrders, successMessage } = useSelector((state) => state.order);
   const { userInfo } = useSelector((state) => state.auth);
-  const [state, setState] = useState();
 
   useEffect(() => {
     if (userInfo && userInfo.id) {
@@ -16,18 +19,20 @@ const Tatca = () => {
     }
   }, [userInfo, dispatch]);
 
+  const huydonhang = (id) => {
+    dispatch(huy_order({ orderId: id }));
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  };
+
   useEffect(() => {
-    let isComplete = false;
-    for (let i = 0; i < allOrders.length; i++) {
-      if (allOrders[i].delivery_status === "Đã Giao Hàng") {
-        isComplete = true;
-        break;
-      }
+    if (successMessage) {
+      toast.success(successMessage);
+      messageClear();
     }
-    if (isComplete) {
-      setState("complete");
-    }
-  }, [allOrders]);
+  }, [successMessage]);
 
   return (
     <div>
@@ -118,32 +123,28 @@ const Tatca = () => {
                                       <p>{p.price}</p>
                                       <p>-{p.discount}%</p>
                                     </div>
-                                    <div className="pt-2 flex items-center">
-                                      <Link
-                                        className={`rounded-md text-white bg-red-500 m-2 p-2 ${
-                                          state === "complete" ? "" : "hidden"
-                                        }`}
-                                        to={`/product/details/${p.slug}`}
-                                      >
-                                        Đánh Giá
-                                      </Link>
-                                      <Link
-                                        className={`rounded-md text-white bg-red-500 m-2 p-2 ${
-                                          state === "complete" ? "" : "hidden"
-                                        }`}
-                                        to={`/dashboard/chat/${p.sellerId}`}
-                                      >
-                                        Liên hệ người bán
-                                      </Link>
-                                      <button
-                                        // onClick={buyagain}
-                                        className={`rounded-md text-white bg-red-500 m-2 p-2 ${
-                                          state === "complete" ? "" : "hidden"
-                                        }`}
-                                      >
-                                        Mua lại
-                                      </button>
-                                    </div>
+                                    {u.delivery_status === "Đã Giao Hàng" && (
+                                      <div className="pt-2 flex items-center">
+                                        <Link
+                                          className={`rounded-md text-white bg-red-500 m-2 p-2 `}
+                                          to={`/product/details/${p.slug}`}
+                                        >
+                                          Đánh Giá
+                                        </Link>
+                                        <Link
+                                          className={`border border-slate-500 rounded-md   m-2 p-2 `}
+                                          to={`/dashboard/chat/${p.sellerId}`}
+                                        >
+                                          Liên hệ người bán
+                                        </Link>
+                                        <button
+                                          // onClick={buyagain}
+                                          className={`border border-slate-500 rounded-md  m-2 p-2 `}
+                                        >
+                                          Mua lại
+                                        </button>
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               </li>
@@ -153,6 +154,17 @@ const Tatca = () => {
                       </div>
                     </div>
                   </div>
+                  {(u.delivery_status === "Hủy" ||
+                  u.delivery_status === "Đã Giao Hàng" || u.delivery_status === "Đang Giao Hàng" ) ? (
+                    ""
+                  ) : (
+                    <button
+                      onClick={() => huydonhang(u._id)}
+                      className={`rounded-md text-white bg-red-500 m-2 p-2`}
+                    >
+                      Hủy Đơn Hàng
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>

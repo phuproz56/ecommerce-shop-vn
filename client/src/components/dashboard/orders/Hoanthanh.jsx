@@ -31,14 +31,14 @@ const Hoanthanh = () => {
                         Đã mua vào ngày: <span>{u.date}</span>{" "}
                         <div className="text-end">
                           <Link to={``} className="pl-[100px] text-green-500">
-                          {state === "complete" ? "Đơn Hàng Đã Được Giao Thành Công" : ""}
+                            {u.delivery_status}
                           </Link>
-                          {u.delivery_status === "complete" && (
+                          {u.delivery_status === "Đã Giao Hàng" && (
                             <b className="border-l-2 text-red-400 uppercase ml-4">
                               {" "}
-                              hoàn thành
+                               hoàn thành
                             </b>
-                          ) }
+                          )}
                         </div>
                       </h2>
 

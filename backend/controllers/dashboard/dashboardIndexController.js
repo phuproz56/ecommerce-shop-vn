@@ -55,7 +55,7 @@ module.exports.get_seller_dashboard_data = async (req, res) => {
           },
           {
             delivery_status: {
-              $eq: "pending",
+              $eq: "Chưa Xử Lí",
             },
           },
         ],

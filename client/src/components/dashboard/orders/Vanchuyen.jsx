@@ -3,11 +3,16 @@
 import Orders from "../Orders";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { get_orders } from "../../../store/reducers/orderReducer";
+import {
+  get_orders,
+  huy_order,
+  messageClear,
+} from "../../../store/reducers/orderReducer";
 import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 const VanChuyen = () => {
   const dispatch = useDispatch();
-  const { myOrders } = useSelector((state) => state.order);
+  const { myOrders, successMessage } = useSelector((state) => state.order);
   const { userInfo } = useSelector((state) => state.auth);
   const [state, setState] = useState("Vận Chuyển");
 
@@ -16,17 +21,31 @@ const VanChuyen = () => {
       dispatch(get_orders({ customerId: userInfo.id, status: state }));
     }
   }, [state, userInfo.id]);
+  const huydonhang = (id) => {
+    dispatch(huy_order({ orderId: id }));
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  };
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      messageClear();
+    }
+  }, [successMessage]);
+
   return (
     <div>
       <Orders />
       {myOrders.length ? (
         <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
           <div className="flex justify-between items-center w-full">
-            <ul>
+            <ul className="w-full">
               {myOrders.map((u, i) => (
                 <li key={i} className="mt-3 border border-slate-300 rounded-md">
-                  <div className="flex flex-col justify-between items-center w-full ">
-                    <div className="p-5 flex flex-col justify-items-center">
+                  <div className="flex flex-col w-full ">
+                    <div className="p-5 flex flex-col">
                       <h2 className="text-slate-600 font-semibold">
                         Đã mua vào ngày: <span>{u.date}</span>{" "}
                         <div className="text-end">
@@ -111,6 +130,12 @@ const VanChuyen = () => {
                       </div>
                     </div>
                   </div>
+                  <button
+                    onClick={() => huydonhang(u._id)}
+                    className={`rounded-md text-white bg-red-500 m-2 p-2`}
+                  >
+                    Hủy Đơn Hàng
+                  </button>
                 </li>
               ))}
             </ul>

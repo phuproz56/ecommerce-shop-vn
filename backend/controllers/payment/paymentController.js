@@ -99,7 +99,7 @@ class paymentController {
           },
           {
             status: {
-              $eq: "pending",
+              $eq: "Chưa Xử Lí",
             },
           },
         ],
@@ -162,7 +162,7 @@ class paymentController {
   get_payment_request = async (req, res) => {
     try {
       const withdrawalRequest = await withdrawRequest.find({
-        status: "pending",
+        status: "Chưa Xử Lí",
       });
       responseReturn(res, 200, { withdrawalRequest });
     } catch (error) {

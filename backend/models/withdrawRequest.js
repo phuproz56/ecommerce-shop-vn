@@ -12,7 +12,7 @@ const withdrawSchema = new Schema(
     },
     status: {
       type: String,
-      default: "pending",
+      default: "Chưa Xử Lí",
     },
   },
   { timestamps: true }

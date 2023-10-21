@@ -17,7 +17,7 @@ const Payment = () => {
     state: { price, orderId },
   } = useLocation();
   const { myOrder } = useSelector((state) => state.order);
-
+  const location = useLocation();
   const [paymentMethod, setPaymentMethod] = useState("stripe");
   const [loader, setLoader] = useState(true);
   const [message, setMessage] = useState(null);
@@ -39,6 +39,14 @@ const Payment = () => {
       }
     }
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 50,
+      left: 400,
+      behavior: "smooth",
+    });
+  }, [location]);
 
   useEffect(() => {
     if (message === "succeeded") {

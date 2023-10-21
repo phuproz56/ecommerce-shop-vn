@@ -2,9 +2,13 @@ const router = require("express").Router();
 const authControllers = require("../controllers/authControllers");
 const { authMiddleware } = require("../middlewares/authMiddleware");
 
-
 router.post("/admin-login", authControllers.admin_login);
+
+router.post("/nvadmin-login", authControllers.nvadmin_login);
+router.post("/nvadmin-register", authControllers.nvadmin_register);
+
 router.get("/get-user", authMiddleware, authControllers.getUser);
+router.get("/get-nvadmin", authMiddleware, authControllers.getNvAdmin);
 router.post("/seller-register", authControllers.seller_register);
 router.post("/seller-login", authControllers.seller_login);
 router.post(
@@ -18,7 +22,5 @@ router.post(
   authControllers.profile_info_add
 );
 router.get("/logout", authMiddleware, authControllers.logout);
-
-
 
 module.exports = router;

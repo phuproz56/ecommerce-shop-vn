@@ -19,14 +19,14 @@ class orderController {
       const order = await customerOrder.findById(id);
       if (order.payment_status === "unpaid") {
         await customerOrder.findByIdAndUpdate(id, {
-          delivery_status: "cancelled",
+          delivery_status: "Hủy",
         });
         await authOrderModel.updateMany(
           {
             orderId: id,
           },
           {
-            delivery_status: "cancelled",
+            delivery_status: "Hủy",
           }
         );
       }
@@ -63,18 +63,10 @@ class orderController {
         shippingInfo,
         products: customerOrderProduct,
         price: price + shipping_fee,
-        delivery_status: "pending",
+        delivery_status: "Chưa Xử Lí",
         payment_status: "unpaid",
         date: tempDate,
       });
-
-      // for (let i = 0; i < customerOrderProduct.length; i++) {
-      //   const id = customerOrderProduct[i]._id;
-      //   const product = await productModel.findByIdAndUpdate(id, {
-      //     stock:
-      //       customerOrderProduct[i].stock - customerOrderProduct[i].quantity,
-      //   });
-      // }
 
       for (let i = 0; i < products.length; i++) {
         const pro = products[i].products;
@@ -95,7 +87,7 @@ class orderController {
           price: pri,
           payment_status: "unpaid",
           shippingInfo: shippingInfo.city,
-          delivery_status: "pending",
+          delivery_status: "Chưa Xử Lí",
           date: tempDate,
         });
       }
@@ -132,7 +124,7 @@ class orderController {
       const pendingOrder = await customerOrder
         .find({
           customerId: new ObjectId(userId),
-          delivery_status: "pending",
+          delivery_status: "Chưa Xử Lí",
         })
         .countDocuments();
       const totalOrder = await customerOrder
@@ -143,7 +135,7 @@ class orderController {
       const cancelledOrder = await customerOrder
         .find({
           customerId: new ObjectId(userId),
-          delivery_status: "cancelled",
+          delivery_status: "Hủy",
         })
         .countDocuments();
       responseReturn(res, 200, {
@@ -177,8 +169,18 @@ class orderController {
     const { orderId } = req.params;
     try {
       await customerOrder.findByIdAndUpdate(orderId, {
-        delivery_status: "cancelled",
+        delivery_status: "Hủy",
       });
+      const cuOrder = await customerOrder.findById(orderId);
+
+      const customerOrderProduct = cuOrder.products;
+
+      for (let i = 0; i < customerOrderProduct.length; i++) {
+        const id = customerOrderProduct[i]._id;
+        await productModel.findByIdAndUpdate(id, {
+          stock: customerOrderProduct[i].stock,
+        });
+      }
       responseReturn(res, 200, { message: "Hủy Thành Công!" });
     } catch (error) {
       console.log(error.message);
@@ -293,6 +295,7 @@ class orderController {
       await customerOrder.findByIdAndUpdate(orderId, {
         delivery_status: status,
       });
+
       responseReturn(res, 200, {
         message: "thay đổi trạng thái đơn hàng thành công!",
       });
@@ -350,14 +353,21 @@ class orderController {
     const { status } = req.body;
     console.log(orderId, status);
     try {
-      // await authOrderModel.findByIdAndUpdate(orderId, {
-      //   delivery_status: status,
-      // });
       await customerOrder.findByIdAndUpdate(orderId, {
         delivery_status: status,
       });
-      // const o = await customerOrder.findById(orderId);
-      // console.log(o)
+      if (status === "Hủy") {
+
+        const cuOrder = await customerOrder.findById(orderId);
+
+        const customerOrderProduct = cuOrder.products;
+        for (let i = 0; i < customerOrderProduct.length; i++) {
+          const id = customerOrderProduct[i]._id;
+          await productModel.findByIdAndUpdate(id, {
+            stock: customerOrderProduct[i].stock,
+          });
+        }
+      }
 
       responseReturn(res, 200, {
         message: "thay đổi trạng thái đơn hàng thành công!",
@@ -389,13 +399,13 @@ class orderController {
     try {
       await customerOrder.findByIdAndUpdate(orderId, {
         payment_status: "paid",
-        delivery_status: "pending",
+        delivery_status: "Chưa Xử Lí",
       });
       await authOrderModel.updateMany(
         { orderId: new ObjectId(orderId) },
         {
           payment_status: "paid",
-          delivery_status: "pending",
+          delivery_status: "Chưa Xử Lí",
         }
       );
       const cuOrder = await customerOrder.findById(orderId);
@@ -426,7 +436,8 @@ class orderController {
 
       for (let i = 0; i < customerOrderProduct.length; i++) {
         const id = customerOrderProduct[i]._id;
-        const product = await productModel.findByIdAndUpdate(id, {
+
+        await productModel.findByIdAndUpdate(id, {
           stock:
             customerOrderProduct[i].stock - customerOrderProduct[i].quantity,
         });

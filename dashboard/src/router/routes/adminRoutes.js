@@ -1,4 +1,6 @@
 import { lazy } from "react";
+import RegisterNvAdmin from "../../views/admin/RegisterNvAdmin";
+import DsNhanvien from "../../views/admin/DsNhanvien";
 const SellerDetails = lazy(() => import("../../views/admin/SellerDetail"));
 const DeactiveSellers = lazy(() => import("../../views/admin/DeactiveSellers"));
 const SellerRequest = lazy(() => import("../../views/admin/SellerRequest"));
@@ -64,5 +66,30 @@ export const adminRoutes = [
     path: "admin/dashboard/order/details/:orderId",
     element: <OrderDetails />,
     role: "admin",
+  },
+  {
+    path: "/admin/dashboard/register-nvadmin",
+    element: <RegisterNvAdmin />,
+    role: "admin",
+  },
+  {
+    path: "/admin/dashboard/ds-nhanvien",
+    element: <DsNhanvien />,
+    role: "admin",
+  },
+  {
+    path: "admin/dashboard",
+    element: <AdminDashboard />,
+    role: "nhanvien_admin",
+  },
+  {
+    path: "admin/dashboard/orders",
+    element: <Orders />,
+    role: "nhanvien_admin",
+  },
+  {
+    path: "admin/dashboard/category",
+    element: <Category />,
+    role: "nhanvien_admin",
   },
 ];

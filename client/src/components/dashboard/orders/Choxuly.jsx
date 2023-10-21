@@ -24,10 +24,12 @@ const Choxuly = () => {
 
   const huydonhang = (id) => {
     dispatch(huy_order({ orderId: id }));
+
     setTimeout(() => {
       window.location.reload();
     }, 2000);
   };
+
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);

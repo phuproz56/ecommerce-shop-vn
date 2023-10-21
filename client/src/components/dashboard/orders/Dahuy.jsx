@@ -30,7 +30,7 @@ const Dahuy = () => {
                         Đã mua vào ngày: <span>{u.date}</span>{" "}
                         <div className="text-end">
                           <Link to={``} className="pl-[100px] text-red-500 uppercase">
-                          {state === 'cancelled' ? 'Đã Hủy' : ''}
+                          {u.delivery_status}
                           </Link>
                           
                         </div>
