@@ -16,11 +16,18 @@ const Tatca = () => {
     }
   }, [userInfo, dispatch]);
 
-  for (let i = 0; i < allOrders.length; i++) {
-    if (allOrders[i].delivery_status === "Đã Giao Hàng") {
+  useEffect(() => {
+    let isComplete = false;
+    for (let i = 0; i < allOrders.length; i++) {
+      if (allOrders[i].delivery_status === "Đã Giao Hàng") {
+        isComplete = true;
+        break;
+      }
+    }
+    if (isComplete) {
       setState("complete");
-    } 
-  }
+    }
+  }, [allOrders]);
 
   return (
     <div>
@@ -31,7 +38,7 @@ const Tatca = () => {
             <ul className="w-full">
               {allOrders.map((u, i) => (
                 <li
-                  key={i}
+                  key={`${u.id}_${i}`}
                   className="mt-3 border border-slate-300 rounded-md w-full"
                 >
                   <div className="flex flex-col w-full ">
@@ -42,11 +49,11 @@ const Tatca = () => {
                           <Link to={``} className="pl-[100px] text-green-500">
                             {u.delivery_status}
                           </Link>
-                          {u.delivery_status === "Đã Giao Hàng" &&  (
+                          {u.delivery_status === "Đã Giao Hàng" && (
                             <b className="border-l-2 text-red-400 uppercase ml-4">
                               hoàn thành
                             </b>
-                          ) }
+                          )}
                         </div>
                       </h2>
 
@@ -78,8 +85,11 @@ const Tatca = () => {
                         <div className="flex gap-5 ">
                           <ul>
                             {u.products?.map((p, i) => (
-                              <li>
-                                <div className="flex flex-col w-full" key={i}>
+                              <li key={`${u.id}_${i}`}>
+                                <div
+                                  className="flex flex-col w-full"
+                                  key={`${u.id}_${i}`}
+                                >
                                   <div className="flex gap-5 justify-start items-center text-slate-600">
                                     <div className="flex gap-2">
                                       <img
