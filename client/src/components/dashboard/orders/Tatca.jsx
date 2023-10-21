@@ -8,7 +8,7 @@ const Tatca = () => {
   const dispatch = useDispatch();
   const { allOrders } = useSelector((state) => state.order);
   const { userInfo } = useSelector((state) => state.auth);
-  const [state, setState] = useState();
+  const [state] = useState();
 
   useEffect(() => {
     if (userInfo && userInfo.id) {

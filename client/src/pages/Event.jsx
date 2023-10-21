@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import Headers from "../components/Headers";
 import Footer from "../components/Footer";
 import { useState } from "react";
-import axios from "axios";
 
 const Event = ({ data }) => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -54,7 +53,7 @@ const Event = ({ data }) => {
   return (
     <div>
       <Headers />
-      <div>
+      <div style={{ alignItems: "center" }}>
         {timerComponents.length ? (
           timerComponents
         ) : (

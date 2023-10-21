@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { get_dashboard_index_data } from "../../store/reducers/dashboardReducer";
 
 const Index = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
   const { totalOrder, cancelledOrder, pendingOrder, recentOrders } =
     useSelector((state) => state.dashboard);
@@ -16,19 +16,19 @@ const Index = () => {
     dispatch(get_dashboard_index_data(userInfo.id));
   }, [dispatch]);
 
-  const redirect = (ord) => {
-    let items = 0;
-    for (let i = 0; i < ord.length; i++) {
-      items = ord.products[i].quantity + items;
-    }
-    navigate("/payment", {
-      state: {
-        price: ord.price,
-        items,
-        orderId: ord._id,
-      },
-    });
-  };
+  // const redirect = (ord) => {
+  //   let items = 0;
+  //   for (let i = 0; i < ord.length; i++) {
+  //     items = ord.products[i].quantity + items;
+  //   }
+  //   navigate("/payment", {
+  //     state: {
+  //       price: ord.price,
+  //       items,
+  //       orderId: ord._id,
+  //     },
+  //   });
+  // };
   return (
     <div>
       <div className="grid grid-cols-3 md:grid-cols-1 gap-5">
@@ -111,12 +111,8 @@ const Index = () => {
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-nowrap"
                     >
-                       {o.payment_status === "unpaid"
-                        ? "Chưa Thanh Toán"
-                        : ""}
-                        {o.payment_status === "paid"
-                        ? "Đã Thanh Toán"
-                        : ""}
+                      {o.payment_status === "unpaid" ? "Chưa Thanh Toán" : ""}
+                      {o.payment_status === "paid" ? "Đã Thanh Toán" : ""}
                     </th>
                     <th
                       scope="row"
@@ -125,21 +121,17 @@ const Index = () => {
                       {o.delivery_status === "pending"
                         ? "Đang Xử Lý Đơn Hàng"
                         : ""}
-                         {o.delivery_status === "processing"
+                      {o.delivery_status === "processing"
                         ? "Đã Xử Lý Đơn Hàng"
                         : ""}
-                         {o.delivery_status === "cancelled"
-                        ? "Đã Hủy"
-                        : ""}
-                        {o.delivery_status === "vanchuyen"
+                      {o.delivery_status === "cancelled" ? "Đã Hủy" : ""}
+                      {o.delivery_status === "vanchuyen"
                         ? "Đang Vận Chuyển"
                         : ""}
-                        {o.delivery_status === "danggiao"
+                      {o.delivery_status === "danggiao"
                         ? "Đơn Hàng Đang Giao"
                         : ""}
-                        {o.delivery_status === "complete"
-                        ? "Hoàn Thành"
-                        : ""}
+                      {o.delivery_status === "complete" ? "Hoàn Thành" : ""}
                     </th>
                     {/* <th
                       scope="row"
