@@ -11,10 +11,10 @@ const Tatca = () => {
   const [state, setState] = useState();
 
   useEffect(() => {
-    dispatch(get_all_orders({ customerId: userInfo.id }));
-  }, [userInfo.id, dispatch]);
-
-
+    if (userInfo && userInfo.id) {
+      dispatch(get_all_orders({ customerId: userInfo.id }));
+    }
+  }, [userInfo, dispatch]);
 
   return (
     <div>
@@ -36,13 +36,13 @@ const Tatca = () => {
                           <Link to={``} className="pl-[100px] text-green-500">
                             {u.delivery_status}
                           </Link>
-                          {u.delivery_status === "Đã Giao Hàng" ?
-                             (
-                              <b className="border-l-2 text-red-400 uppercase ml-4">
-                                
-                                hoàn thành
-                              </b>
-                            ) : ""}
+                          {u.delivery_status === "Đã Giao Hàng" ? (
+                            <b className="border-l-2 text-red-400 uppercase ml-4">
+                              hoàn thành
+                            </b>
+                          ) : (
+                            ""
+                          )}
                         </div>
                       </h2>
 
