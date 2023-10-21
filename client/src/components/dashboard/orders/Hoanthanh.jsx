@@ -9,10 +9,10 @@ const Hoanthanh = () => {
   const dispatch = useDispatch();
   const { myOrders } = useSelector((state) => state.order);
   const { userInfo } = useSelector((state) => state.auth);
-  const [state, setState] = useState("complete");
+  const [state, setState] = useState("Đã Giao Hàng");
 
   useEffect(() => {
-    if (state === "complete") {
+    if (state === "Đã Giao Hàng") {
       dispatch(get_orders({ customerId: userInfo.id, status: state }));
     }
   }, [state, userInfo.id]);

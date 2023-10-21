@@ -9,7 +9,7 @@ const Dahuy = () => {
   const dispatch = useDispatch();
   const { cancelledOrders } = useSelector((state) => state.order);
   const { userInfo } = useSelector((state) => state.auth);
-  const [state, setState] = useState("cancelled");
+  const [state, setState] = useState("Hủy");
 
   useEffect(() => {
     dispatch(get_orders({ customerId: userInfo.id, status: state }));

@@ -9,10 +9,10 @@ const Danggiao = () => {
   const dispatch = useDispatch();
   const { myOrders } = useSelector((state) => state.order);
   const { userInfo } = useSelector((state) => state.auth);
-  const [state, setState] = useState("danggiao");
+  const [state, setState] = useState("Đang Giao Hàng");
 
   useEffect(() => {
-    if (state === "danggiao") {
+    if (state === "Đang Giao Hàng") {
       dispatch(get_orders({ customerId: userInfo.id, status: state }));
     }
   }, [state, userInfo.id]);
@@ -32,14 +32,14 @@ const Danggiao = () => {
                         Đã mua vào ngày: <span>{u.date}</span>{" "}
                         <div className="text-end">
                           <Link to={``} className="pl-[100px] text-green-500">
-                          {state === "danggiao" ? "Chuẩn Bị Nhận Hàng" : ""}
+                            {state === "Đang Giao Hàng" ? "Chuẩn Bị Nhận Hàng" : ""}
                           </Link>
                           {u.delivery_status === "complete" && (
                             <b className="border-l-2 text-red-400 uppercase ml-4">
                               {" "}
                               hoàn thành
                             </b>
-                          ) }
+                          )}
                         </div>
                       </h2>
 

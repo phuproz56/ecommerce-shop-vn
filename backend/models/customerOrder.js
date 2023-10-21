@@ -34,4 +34,9 @@ const customerOrder = new Schema(
   { timestamps: true }
 );
 
+customerOrder.index({
+  "shippingInfo.name": "regex",
+  delivery_status: "regex",
+});
+
 module.exports = model("customerOrders", customerOrder);

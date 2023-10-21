@@ -12,6 +12,7 @@ export const get_admin_orders = createAsyncThunk(
         `/admin/orders?page=${page}&searchValue=${searchValue}&parPage=${parPage}`,
         { withCredentials: true }
       );
+      console.log(data)
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

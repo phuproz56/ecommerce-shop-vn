@@ -6,24 +6,15 @@ import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import Search from "../components/Search";
 import { useSelector, useDispatch } from "react-redux";
-import { get_seller_orders, get_admin_orders } from "../../store/Reducers/OrderReducer";
+import { get_admin_orders } from "../../store/Reducers/OrderReducer";
 const Orders = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
   const { myOrders, totalOrder } = useSelector((state) => state.order);
-  const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    // dispatch(
-    //   get_seller_orders({
-    //     parPage: parseInt(parPage),
-    //     page: parseInt(currentPage),
-    //     searchValue,
-    //     sellerId: userInfo._id,
-    //   })
-    // );
     dispatch(
       get_admin_orders({
         parPage: parseInt(parPage),
@@ -46,19 +37,19 @@ const Orders = () => {
             <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
               <tr>
                 <th scope="col" className="py-3 px-4">
-                  đơn hàng Id
+                  Tên người mua
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  giá
+                  Địa chỉ giao hàng
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  trạng thái mua
+                  Số điện thoại
                 </th>
                 <th scope="col" className="py-3 px-4">
                   trạng thái đơn hàng
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  ngày
+                  ngày mua
                 </th>
                 <th scope="col" className="py-3 px-4">
                   hoạt động
@@ -72,19 +63,19 @@ const Orders = () => {
                     scope="row"
                     className="py-3 px-4 font-medium whitespace-nowrap"
                   >
-                    #{d._id}
+                    {d.shippingInfo.name}
                   </td>
                   <td
                     scope="row"
                     className="py-3 px-4 font-medium whitespace-nowrap"
                   >
-                    ${d.price}
+                    {d.shippingInfo.address1}
                   </td>
                   <td
                     scope="row"
                     className="py-3 px-4 font-medium whitespace-nowrap"
                   >
-                    <span>{d.payment_status}</span>
+                    <span>{d.shippingInfo.phoneNumber}</span>
                   </td>
                   <td
                     scope="row"

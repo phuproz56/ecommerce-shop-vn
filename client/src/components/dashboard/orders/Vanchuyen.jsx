@@ -9,10 +9,10 @@ const VanChuyen = () => {
   const dispatch = useDispatch();
   const { myOrders } = useSelector((state) => state.order);
   const { userInfo } = useSelector((state) => state.auth);
-  const [state, setState] = useState("shipping");
+  const [state, setState] = useState("Vận Chuyển");
 
   useEffect(() => {
-    if (state === "shipping") {
+    if (state === "Vận Chuyển") {
       dispatch(get_orders({ customerId: userInfo.id, status: state }));
     }
   }, [state, userInfo.id]);
@@ -31,7 +31,9 @@ const VanChuyen = () => {
                         Đã mua vào ngày: <span>{u.date}</span>{" "}
                         <div className="text-end">
                           <Link to={``} className="pl-[100px] text-green-500">
-                          {state === "shipping" ? "Đang Vận Chuyển Đơn Hàng" : ""}
+                            {state === "Vận Chuyển"
+                              ? "Đang Vận Chuyển Đơn Hàng"
+                              : ""}
                           </Link>
                           {u.delivery_status === "complete" && (
                             <b className="border-l-2 text-red-400 uppercase ml-4">

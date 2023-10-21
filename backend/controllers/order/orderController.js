@@ -216,11 +216,18 @@ class orderController {
     let { page, parPage, searchValue } = req.query;
     page = parseInt(page);
     parPage = parseInt(parPage);
-
     const skipPage = parPage * (page - 1);
-
     try {
       if (searchValue) {
+        const orders = await customerOrder
+          .find({
+            delivery_status: { $regex: searchValue },
+            // "shippingInfo.name": { $regex: searchValue },
+          })
+          .skip(skipPage)
+          .limit(parPage)
+          .sort({ createdAt: 1 });
+        responseReturn(res, 200, { orders });
       } else {
         const orders = await customerOrder
           .aggregate([
@@ -235,7 +242,9 @@ class orderController {
           ])
           .skip(skipPage)
           .limit(parPage)
-          .sort({ createdAt: -1 });
+          .sort({
+            updatedAt: -1,
+          });
 
         const totalOrder = await customerOrder.aggregate([
           {

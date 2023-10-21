@@ -14,10 +14,10 @@ const Choxuly = () => {
   const dispatch = useDispatch();
   const { myOrders, successMessage } = useSelector((state) => state.order);
   const { userInfo } = useSelector((state) => state.auth);
-  const [state, setState] = useState("pending");
+  const [state, setState] = useState("Chưa Xử Lí");
 
   useEffect(() => {
-    if (state === "pending") {
+    if (state === "Chưa Xử Lí") {
       dispatch(get_orders({ customerId: userInfo.id, status: state }));
     }
   }, [state, userInfo.id]);
@@ -56,7 +56,7 @@ const Choxuly = () => {
                               {" "}
                               hoàn thành
                             </b>
-                          ) }
+                          )}
                         </div>
                       </h2>
 

@@ -137,6 +137,9 @@ const Index = () => {
                         {o.delivery_status === "danggiao"
                         ? "Đơn Hàng Đang Giao"
                         : ""}
+                        {o.delivery_status === "complete"
+                        ? "Hoàn Thành"
+                        : ""}
                     </th>
                     {/* <th
                       scope="row"

@@ -246,7 +246,6 @@ class productController {
     const skipPage = parPage * (page - 1);
     try {
       if (searchValue) {
-        console.log(searchValue);
         const logProduct = await logProductModel
           .find({
             $text: { $search: searchValue },

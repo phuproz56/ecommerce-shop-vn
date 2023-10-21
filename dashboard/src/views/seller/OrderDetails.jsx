@@ -61,12 +61,12 @@ console.log(orderId)
             id=""
             className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
           >
-            <option value="pending">Chưa Xử Lí</option>
-            <option value="processing">Đã Xử Lí</option>
-            <option value="shipping">Vận Chuyển</option>
-            <option value="danggiao">Đang Giao Hàng</option>
-            <option value="complete">Đã Giao Hàng</option>
-            <option value="cancelled">Hủy</option>
+            <option value="Chưa Xử Lí">Chưa Xử Lí</option>
+            <option value="Đã Xử Lí">Đã Xử Lí</option>
+            <option value="Vận Chuyển">Vận Chuyển</option>
+            <option value="Đang Giao Hàng">Đang Giao Hàng</option>
+            <option value="Đã Giao Hàng">Đã Giao Hàng</option>
+            <option value="Hủy">Hủy</option>
           </select>
         </div>
         <div className="p-4">

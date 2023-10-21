@@ -14,6 +14,8 @@ const Tatca = () => {
     dispatch(get_all_orders({ customerId: userInfo.id }));
   }, [userInfo.id, dispatch]);
 
+
+
   return (
     <div>
       <Orders />
@@ -32,22 +34,12 @@ const Tatca = () => {
                         Đã mua vào ngày: <span>{u.date}</span>{" "}
                         <div className="text-end">
                           <Link to={``} className="pl-[100px] text-green-500">
-                            {u.delivery_status === "cancelled" ? (
-                              <p className="uppercase text-red-500">đã hủy</p>
-                            ) : (
-                              ""
-                            )}
-                            {u.delivery_status === "pending"
-                              ? "Đang Xử Lý Đơn Hàng"
-                              : ""}
-                            {u.delivery_status === "processing"
-                              ? "Đã Được Xử Lý"
-                              : ""}
+                            {u.delivery_status}
                           </Link>
-                          {u.delivery_status === "complete" ?
+                          {u.delivery_status === "Đã Giao Hàng" ?
                              (
                               <b className="border-l-2 text-red-400 uppercase ml-4">
-                                {" "}
+                                
                                 hoàn thành
                               </b>
                             ) : ""}

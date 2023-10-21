@@ -52,7 +52,7 @@ const Orders = () => {
                 <div className="py-3 w-[13%]">giá </div>
                 <div className="py-3 w-[18%]">trạng thái thanh toán</div>
                 <div className="py-3 w-[18%]">trạng thái đơn hàng</div>
-                <div className="py-3 w-[18%]">Action</div>
+                {/* <div className="py-3 w-[18%]">Action</div> */}
                 <div className="py-3 w-[8%]">
                   <MdKeyboardArrowDown />
                 </div>
@@ -68,11 +68,11 @@ const Orders = () => {
                   <div className="py-4 w-[13%]">${o.price}</div>
                   <div className="py-4 w-[18%]">{o.payment_status}</div>
                   <div className="py-4 w-[18%]">{o.delivery_status}</div>
-                  <div className="py-4 w-[18%]">
+                  {/* <div className="py-4 w-[18%]">
                     <Link to={`/admin/dashboard/order/details/${o._id}`}>
                       xem
                     </Link>
-                  </div>
+                  </div> */}
                   <div
                     onClick={(e) => setShow(o._id)}
                     className="py-4 cursor-pointer w-[8%]"
