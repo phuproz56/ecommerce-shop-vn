@@ -77,19 +77,5 @@ export const adminRoutes = [
     element: <DsNhanvien />,
     role: "admin",
   },
-  {
-    path: "admin/dashboard",
-    element: <AdminDashboard />,
-    role: "nhanvien_admin",
-  },
-  {
-    path: "admin/dashboard/orders",
-    element: <Orders />,
-    role: "nhanvien_admin",
-  },
-  {
-    path: "admin/dashboard/category",
-    element: <Category />,
-    role: "nhanvien_admin",
-  },
+ 
 ];

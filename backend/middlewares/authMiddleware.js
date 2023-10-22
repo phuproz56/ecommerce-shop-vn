@@ -3,6 +3,7 @@ const User = require("../models/customerModel");
 
 module.exports.authMiddleware = async (req, res, next) => {
   const { accessToken } = req.cookies;
+  // console.log(accessToken)
   if (!accessToken) {
     return res.status(401).json({ error: "Vui lòng đăng nhập để tiếp tục" });
   } else {

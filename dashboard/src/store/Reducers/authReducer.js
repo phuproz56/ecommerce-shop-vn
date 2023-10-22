@@ -129,7 +129,9 @@ export const get_user_info = createAsyncThunk(
   async (_, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.get("/get-user", { withCredentials: true });
+
       return fulfillWithValue(data);
+      
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -221,8 +223,6 @@ export const authReducer = createSlice({
       state.loader = false;
       state.nvAdmin = payload.nvAmin;
       state.successMessage = payload.message;
-      // state.token1 = payload.token;
-      // state.role1 = returnRole1(payload.token);
     },
     // ---------------------
 

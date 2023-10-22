@@ -25,6 +25,7 @@ function NhanvienAdminLogin() {
   const submit = (e) => {
     e.preventDefault();
     dispatch(nvadmin_login(state));
+
   };
   const overrideStyle = {
     display: "flex",
@@ -42,6 +43,7 @@ function NhanvienAdminLogin() {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
+      navigate("/");
     }
   }, [errorMessage, successMessage, dispatch, navigate]);
   return (

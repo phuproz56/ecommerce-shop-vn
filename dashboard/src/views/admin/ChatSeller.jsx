@@ -17,6 +17,7 @@ import { socket } from "../../utils/utils";
 
 const ChatSeller = () => {
   const scrollRef = useRef();
+  const { userInfo } = useSelector((state) => state.auth);
 
   const { sellerId } = useParams();
   const dispatch = useDispatch();
@@ -109,7 +110,9 @@ const ChatSeller = () => {
               {sellers.map((s, i) => (
                 <Link
                   key={i}
-                  to={`/admin/dashboard/chat-sellers/${s._id}`}
+                  to={
+                    userInfo.role === 'admin' ?
+                    `/admin/dashboard/chat-sellers/${s._id}` : `/nhanvien-admin/dashboard/chat-sellers/${s._id}`}
                   className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 rounded-sm py-2 cursor-pointer ${
                     sellerId === s._id ? "bg-slate-700" : ""
                   }`}
@@ -210,7 +213,7 @@ const ChatSeller = () => {
                             <div>
                               <img
                                 className="w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]"
-                                src="/images/admin.jpg"
+                                src={ userInfo.role === 'admin' ? "/images/admin.jpg" : '/images/nhanvien.jpg'}
                                 alt=""
                               />
                             </div>

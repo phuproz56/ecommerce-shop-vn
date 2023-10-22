@@ -43,7 +43,7 @@ class authControllers {
 
     try {
       const nvadmin = await nvadminModel.findOne({ email }).select("+password");
-      console.log(nvadmin.role)
+
       if (nvadmin) {
         const match = await bcrypt.compare(password, nvadmin.password);
         if (match) {
@@ -172,6 +172,9 @@ class authControllers {
     try {
       if (role === "admin") {
         const user = await adminModel.findById(id);
+        responseReturn(res, 200, { userInfo: user });
+      } else if (role === "nhanvien_admin") {
+        const user = await nvadminModel.findById(id);
         responseReturn(res, 200, { userInfo: user });
       } else {
         const seller = await sellerModel.findById(id);

@@ -49,7 +49,7 @@ const SellerDetails = () => {
                 {seller?.image ? (
                   <img
                     className="w-full h-[230px]"
-                    src="http://localhost:3001/images/admin.jpg"
+                    src="/images/admin.jpg"
                     alt=""
                   />
                 ) : (

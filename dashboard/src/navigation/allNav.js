@@ -47,7 +47,7 @@ export const allNav = [
   },
   {
     id: 6,
-    title: "Người Bán Không Hoạt Động",
+    title: "Người Bán Chưa Kích Hoạt",
     icon: <FiUsers />,
     role: "admin",
     path: "/admin/dashboard/deactive-sellers",
@@ -150,4 +150,47 @@ export const allNav = [
     role: "seller",
     path: "/seller/dashboard/profile",
   },
+  {
+    id: 21,
+    title: "Dashboard",
+    icon: <AiFillDashboard />,
+    role: "nhanvien_admin",
+    path: "/nhanvien-admin/dashboard",
+  },
+  {
+    id: 23,
+    title: "Thể Loại",
+    icon: <BiCategory />,
+    role: "nhanvien_admin",
+    path: "/nhanvien-admin/dashboard/category",
+  },
+  {
+    id: 24,
+    title: "Người Bán",
+    icon: <FiUsers />,
+    role: "nhanvien_admin",
+    path: "/nhanvien-admin/dashboard/sellers",
+  },
+  {
+    id: 26,
+    title: "Người Bán Chưa Kích Hoạt",
+    icon: <FiUsers />,
+    role: "nhanvien_admin",
+    path: "/nhanvien-admin/dashboard/deactive-sellers",
+  },
+  {
+    id: 27,
+    title: "Yêu Cầu Người Bán",
+    icon: <BiLoaderCircle />,
+    role: "nhanvien_admin",
+    path: "/nhanvien-admin/dashboard/sellers-request",
+  },
+  {
+    id: 28,
+    title: "Chat Với Người Bán",
+    icon: <CiChat1 />,
+    role: "nhanvien_admin",
+    path: "/nhanvien-admin/dashboard/chat-sellers",
+  },
+  
 ];
