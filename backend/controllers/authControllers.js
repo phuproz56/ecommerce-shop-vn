@@ -141,17 +141,17 @@ class authControllers {
           method: "menualy",
         });
         nvAdmin.save();
-        // const a =await nvadminModel.create({
-        //   myId: nvAdmin.id,
-        // });
-        // const token = await createToken({
-        //   id: nvAdmin.id,
-        //   role: nvAdmin.role,
-        // });
-        // console.log(token)
-        // res.cookie("accessToken1", token, {
-        //   exprires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        // });
+        const a = await nvadminModel.create({
+          myId: nvAdmin.id,
+        });
+        const token = await createToken({
+          id: nvAdmin.id,
+          role: nvAdmin.role,
+        });
+        console.log(token);
+        res.cookie("accessToken1", token, {
+          exprires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        });
 
         responseReturn(res, 201, {
           nvAdmin,

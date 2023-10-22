@@ -88,7 +88,7 @@ export const nvadmin_register = createAsyncThunk(
       const { data } = await api.post("/nvadmin-register", info, {
         withCredentials: true,
       });
-      localStorage.setItem("accessToken1", data.token);
+      // localStorage.setItem("accessToken1", data.token);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -178,7 +178,6 @@ const returnRole1 = (token) => {
   }
 };
 
-
 export const authReducer = createSlice({
   name: "auth",
   initialState: {
@@ -187,10 +186,10 @@ export const authReducer = createSlice({
     loader: false,
     userInfo: "",
     role: returnRole(localStorage.getItem("accessToken")),
-    role1: returnRole1(localStorage.getItem("accessToken1")),
+    // role1: returnRole1(localStorage.getItem("accessToken1")),
     token: localStorage.getItem("accessToken"),
-    token1: localStorage.getItem("accessToken1"),
-    nvAdmin: []
+    // token1: localStorage.getItem("accessToken1"),
+    nvAdmin: [],
   },
   reducers: {
     messageClear: (state, _) => {
