@@ -4,7 +4,7 @@ import { PropagateLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { admin_login, messageClear } from "../../store/Reducers/authReducer";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function AdminLogin() {
   const navigate = useNavigate();
@@ -49,6 +49,9 @@ function AdminLogin() {
     <div className="min-w-screen min-h-screen bg-[#161d31] flex justify-center items-center">
       <div className="w-[350px] text-[#d0d2d6] p-2">
         <div className="bg-[#283046] p-4 rounded-md">
+          <h1 className="text-center uppercase text-lg text-green-400">
+            admin
+          </h1>
           <div className="h-[70px] flex justify-center items-center">
             <div className="w-[180px] h-[50px]">
               <img
@@ -96,6 +99,9 @@ function AdminLogin() {
               )}
             </button>
           </form>
+          <div className="justify-items-center">
+            Bạn là nhân viên? <Link to={'/nhanvien-admin/login'} className="text-green-500">Nhân Viên</Link>
+          </div>
         </div>
       </div>
     </div>

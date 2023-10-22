@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/scope */
@@ -160,19 +161,21 @@ const SellerDashboard = () => {
       <div className="w-full flex flex-wrap mt-7">
         <div className="w-full lg:w-7/12 lg:pr-3">
           <div className="w-full bg-[#283046] p-4 rounded-md">
-            <Chart
-              options={state.options}
-              series={state.series}
-              type="bar"
-              height={350}
-            />
+            <h2 className="text-white">Thống kê theo tháng</h2>
+            <div class="bg-[#283046] rounded-lg shadow-md h-[350px]">
+              <iframe
+                class="w-full h-full"
+                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=65350d57-8afe-46d3-82fe-6fddd28ca39d&maxDataAge=3600&theme=dark&autoRefresh=true"
+                frameborder="0"
+              ></iframe>
+            </div>
           </div>
         </div>
         <div className="w-full lg:w-5/12 lg:pl-4 mt-6 lg:mt-0">
           <div className="w-full bg-[#283046] p-4 rounded-md text-[#d0d2d6]">
             <div className="flex justify-between items-center">
               <h2 className="font-semibold text-lg text-[#d0d2d6] pb-3">
-              Tin nhắn gần đây của khách hàng
+                Tin nhắn gần đây của khách hàng
               </h2>
               <Link
                 to="/seller/dashboard/chat-customer"
@@ -220,6 +223,32 @@ const SellerDashboard = () => {
           </div>
         </div>
       </div>
+      <div className="w-full flex mt-7 text-white">
+        <div className="w-full lg:w-6/12 lg:pr-3">
+          <div className="w-full bg-[#283046] p-4 rounded-md">
+            <h2>Thống kê theo ngày</h2>
+            <div class="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
+              <iframe
+                class="w-full h-full"
+                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=653512a4-c4df-476a-8533-3f3dce2fb8bb&maxDataAge=3600&theme=dark&autoRefresh=true"
+                frameborder="0"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+        <div className="w-full lg:w-6/12 lg:pr-3">
+          <div className="w-full bg-[#283046] p-4 rounded-md">
+            <h2>Thống kê theo ngày</h2>
+            <div class="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
+              <iframe
+                class="w-full h-full"
+                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=65351768-8afe-44a0-8a28-6fddd294071c&maxDataAge=3600&theme=dark&autoRefresh=true"
+                frameborder="0"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="w-full p-4  bg-[#283046] rounded-md mt-6">
         <div className="flex justify-between items-center">
           <h2 className="font-semibold text-lg text-[#d0d2d6] pb-3">
@@ -246,7 +275,7 @@ const SellerDashboard = () => {
                   trạng thái mua
                 </th>
                 <th scope="col" className="py-3 px-4">
-                 trạng thái đơn hàng
+                  trạng thái đơn hàng
                 </th>
                 <th scope="col" className="py-3 px-4">
                   Active
@@ -284,7 +313,10 @@ const SellerDashboard = () => {
                     scope="row"
                     className="py-3 px-4 font-medium whitespace-nowrap"
                   >
-                    <Link className="hover:text-green-400" to={`/seller/dashboard/order/details/${d._id}`}>
+                    <Link
+                      className="hover:text-green-400"
+                      to={`/seller/dashboard/order/details/${d._id}`}
+                    >
                       view
                     </Link>
                   </td>

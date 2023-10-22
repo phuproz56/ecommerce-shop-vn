@@ -4,7 +4,7 @@ import { PropagateLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { nvadmin_login, messageClear } from "../../store/Reducers/authReducer";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function NhanvienAdminLogin() {
   const navigate = useNavigate();
@@ -25,7 +25,6 @@ function NhanvienAdminLogin() {
   const submit = (e) => {
     e.preventDefault();
     dispatch(nvadmin_login(state));
-
   };
   const overrideStyle = {
     display: "flex",
@@ -99,6 +98,9 @@ function NhanvienAdminLogin() {
                 "Login"
               )}
             </button>
+            <div className="justify-items-center">
+            Quay lại trang admin? <Link to={'/admin/login'} className="text-green-500">Admin</Link>
+          </div>
           </form>
         </div>
       </div>

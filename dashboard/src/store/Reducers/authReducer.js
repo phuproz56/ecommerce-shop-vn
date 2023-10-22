@@ -55,7 +55,10 @@ export const logout = createAsyncThunk(
       localStorage.removeItem("accessToken");
       if (role === "admin") {
         navigate("/admin/login");
-      } else {
+      } else if(role === 'nhanvien_admin'){
+        navigate("/nhanvien-admin/login");
+      }
+       else {
         navigate("/login");
       }
 
