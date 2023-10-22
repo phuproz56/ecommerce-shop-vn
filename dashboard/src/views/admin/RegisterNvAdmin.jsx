@@ -43,9 +43,9 @@ const RegisterNvAdmin = () => {
   }, [successMessage, errorMessage]);
   return (
     <div className="px-2 lg:px-7 pt-5">
-      <div className="w-full p-4  bg-[#283046] rounded-md">
+      <div className="w-full p-4  bg-[#283046] rounded-md text-white">
         <form onSubmit={submit}>
-          <div className="flex flex-col w-full gap-1 mb-3">
+          <div className="flex flex-col w-full gap-1 mb-3 ">
             <label htmlFor="name">Tên</label>
             <input
               onChange={inputHandle}

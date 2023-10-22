@@ -40,8 +40,10 @@ class authControllers {
 
   nvadmin_login = async (req, res) => {
     const { email, password } = req.body;
+
     try {
       const nvadmin = await nvadminModel.findOne({ email }).select("+password");
+      console.log(nvadmin.role)
       if (nvadmin) {
         const match = await bcrypt.compare(password, nvadmin.password);
         if (match) {
@@ -141,17 +143,18 @@ class authControllers {
           method: "menualy",
         });
         nvAdmin.save();
-        const a = await nvadminModel.create({
-          myId: nvAdmin.id,
-        });
-        const token = await createToken({
-          id: nvAdmin.id,
-          role: nvAdmin.role,
-        });
-        console.log(token);
-        res.cookie("accessToken1", token, {
-          exprires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        });
+
+        // const a = await nvadminModel.create({
+        //   myId: nvAdmin.id,
+        // });
+        // const token = await createToken({
+        //   id: nvAdmin.id,
+        //   role: nvAdmin.role,
+        // });
+        // console.log(token);
+        // res.cookie("accessToken1", token, {
+        //   exprires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        // });
 
         responseReturn(res, 201, {
           nvAdmin,
@@ -180,9 +183,10 @@ class authControllers {
   };
 
   getNvAdmin = async (req, res) => {
-    const { id } = req;
     try {
-      const nvadmin = await nvadminModel.findById(id);
+      const nvadmin = await nvadminModel.find({
+        role: "nhanvien_admin",
+      });
       responseReturn(res, 200, { userInfo: nvadmin });
     } catch (error) {
       responseReturn(res, 500, { error: "Lỗi Máy chủ!" });

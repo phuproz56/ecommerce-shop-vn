@@ -42,15 +42,16 @@ function NhanvienAdminLogin() {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
-      navigate("/");
     }
   }, [errorMessage, successMessage, dispatch, navigate]);
   return (
     <div className="min-w-screen min-h-screen bg-[#161d31] flex justify-center items-center">
       <div className="w-[350px] text-[#d0d2d6] p-2">
-        <div className="bg-[#283046] p-4 rounded-md"><h1 className="text-center uppercase text-lg text-green-400">Nhân viên admin</h1>
+        <div className="bg-[#283046] p-4 rounded-md">
+          <h1 className="text-center uppercase text-lg text-green-400">
+            Nhân viên admin
+          </h1>
           <div className="h-[70px] flex justify-center items-center">
-            
             <div className="w-[180px] h-[50px]">
               <img
                 className="w-full h-full"

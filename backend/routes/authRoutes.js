@@ -5,7 +5,11 @@ const { authMiddleware } = require("../middlewares/authMiddleware");
 router.post("/admin-login", authControllers.admin_login);
 
 router.post("/nvadmin-login", authControllers.nvadmin_login);
-router.post("/nvadmin-register", authControllers.nvadmin_register);
+router.post(
+  "/nvadmin-register",
+  authMiddleware,
+  authControllers.nvadmin_register
+);
 
 router.get("/get-user", authMiddleware, authControllers.getUser);
 router.get("/get-nvadmin", authMiddleware, authControllers.getNvAdmin);
