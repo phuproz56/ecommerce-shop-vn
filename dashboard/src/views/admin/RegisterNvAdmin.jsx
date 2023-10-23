@@ -92,7 +92,7 @@ const RegisterNvAdmin = () => {
             {loader ? (
               <PropagateLoader color="#fff" cssOverride={overrideStyle} />
             ) : (
-              "Sign up"
+              "Đăng Ký"
             )}
           </button>
         </form>

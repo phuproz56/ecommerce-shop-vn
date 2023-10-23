@@ -84,9 +84,7 @@ export const huy_order = createAsyncThunk(
   "order/huy_order",
   async ({ orderId }, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.put(
-        `/home/customer/huy-order/${orderId}`
-      );
+      const { data } = await api.put(`/home/customer/huy-order/${orderId}`);
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.response);

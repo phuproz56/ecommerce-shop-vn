@@ -95,7 +95,7 @@ function AdminLogin() {
               {loader ? (
                 <PropagateLoader color="#fff" cssOverride={overrideStyle} />
               ) : (
-                "Login"
+                "Đăng Nhập"
               )}
             </button>
           </form>

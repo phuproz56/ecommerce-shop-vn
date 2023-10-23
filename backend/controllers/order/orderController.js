@@ -351,13 +351,11 @@ class orderController {
   seller_order_status_update = async (req, res) => {
     const { orderId } = req.params;
     const { status } = req.body;
-    console.log(orderId, status);
     try {
       await customerOrder.findByIdAndUpdate(orderId, {
         delivery_status: status,
       });
       if (status === "Hủy") {
-
         const cuOrder = await customerOrder.findById(orderId);
 
         const customerOrderProduct = cuOrder.products;

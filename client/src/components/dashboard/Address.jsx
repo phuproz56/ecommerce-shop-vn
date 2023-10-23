@@ -207,7 +207,7 @@ const Address = () => {
       </div>
       <br />
       {userInfo &&
-        userInfo.addresses.map((item, index) => (
+        userInfo.addresses?.map((item, index) => (
           <div
             className="w-full p-3 bg-white h-min 800px:h-[70px] rounded-md flex items-center px-3 shadow justify-between pr-10 mb-5"
             key={index}
@@ -235,7 +235,7 @@ const Address = () => {
           </div>
         ))}
 
-      {userInfo && userInfo.addresses.length === 0 && (
+      {userInfo && userInfo.addresses?.length === 0 && (
         <h5 className="text-center pt-8 text-[18px]">
           Bạn chưa cập nhật địa chỉ nào!!!
         </h5>

@@ -38,6 +38,7 @@ const Shipping = () => {
     e.preventDefault();
     const data = {
       name: userInfo.name,
+      email: userInfo.email,
       address1: address1,
       city: city,
       country: country,
@@ -50,6 +51,7 @@ const Shipping = () => {
   const placeOrder = () => {
     const data = {
       name: userInfo.name,
+      email: userInfo.email,
       address1: address1,
       city: city,
       country: country,

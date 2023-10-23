@@ -42,7 +42,7 @@ function NhanvienAdminLogin() {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
-      navigate("/");
+      navigate("/nhanvien-admin/dashboard");
     }
   }, [errorMessage, successMessage, dispatch, navigate]);
   return (
@@ -95,7 +95,7 @@ function NhanvienAdminLogin() {
               {loader ? (
                 <PropagateLoader color="#fff" cssOverride={overrideStyle} />
               ) : (
-                "Login"
+                "Đăng Nhập"
               )}
             </button>
             <div className="justify-items-center">
