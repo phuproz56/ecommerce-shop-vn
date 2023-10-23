@@ -11,6 +11,7 @@ import {
   FaLock,
   FaList,
 } from "react-icons/fa";
+import { BiMicrophone } from "react-icons/bi";
 import {
   AiOutlineTwitter,
   AiFillGithub,
@@ -23,6 +24,9 @@ import {
   get_card_products,
   get_wishlist_products,
 } from "../store/reducers/cardReducer";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
 const Headers = () => {
   const dispatch = useDispatch();
@@ -40,26 +44,6 @@ const Headers = () => {
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
 
-  const search = () => {
-    navigate(`/product/search?category=${category}&&value=${searchValue}`);
-  };
-
-  // const redirect_card_page = () => {
-  //   if (userInfo) {
-  //     navigate(`/cart`);
-  //   } else {
-  //     navigate("/login");
-  //   }
-  // };
-
-  // const redirect_wishlist_page = () => {
-  //   if (userInfo) {
-  //     navigate(`/dashboard/my-wishlist`);
-  //   } else {
-  //     navigate("/login");
-  //   }
-  // };
-
   useEffect(() => {
     if (userInfo) {
       dispatch(get_card_products(userInfo.id));
@@ -67,6 +51,24 @@ const Headers = () => {
     }
   }, [dispatch, userInfo]);
 
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
+  useEffect(() => {
+    if (listening) {
+      setSearchValue(transcript);
+    }
+  }, [listening, transcript]);
+
+  const search = () => {
+    navigate(`/product/search?category=${category}&&value=${searchValue}`);
+  };
+
+  console.log(searchValue);
   return (
     <div className="w-full bg-white">
       <div className="header-top bg-[#eeeeee] md-lg:hidden">
@@ -463,14 +465,14 @@ const Headers = () => {
               </div>
             </div>
           </div>
-          <div className="w-9/12 pl-8 md-lg:pl-0 md-lg:w-full">
-            <div className="flex flex-wrap w-full justify-between items-center md-lg:gap-6">
-              <div className="w-8/12 md-lg:w-full">
+          <div className="w-8/12 pl-8 md-lg:pl-0 md-lg:w-full">
+            <div className="flex flex-wrap w-full justify-start items-start">
+              <div className="w-8/12 md-lg:w-9/12">
                 <div className="flex border h-[50px] items-center relative gap-5">
-                  <div className="relative after:absolute after:h-[25px] after:w-[1px] after:bg-[#afafaf] after:-right-[15px] md:hidden">
+                  <div className="relative after:absolute w-6/12 after:h-[25px] after:w-[1px] after:bg-[#afafaf] after:-right-[15px] md:hidden">
                     <select
                       onChange={(e) => setCategory(e.target.value)}
-                      className="w-[150px] text-slate-600 font-semibold bg-transparent px-2 h-full outline-0 border-none"
+                      className="w-full text-slate-600 font-semibold bg-transparent px-2 h-full outline-0 border-none"
                       name=""
                       id=""
                     >
@@ -482,21 +484,53 @@ const Headers = () => {
                       ))}
                     </select>
                   </div>
-                  <input
-                    className="w-full relative bg-transparent text-slate-500 outline-0 px-3 h-full"
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    type="text"
-                    placeholder="Bạn đang tìm gì ?"
-                  />
-                  <button
-                    onClick={search}
-                    className="bg-red-300 right-0 absolute px-8 h-full font-semibold uppercase text-white"
-                  >
-                    TÌM KIẾM
-                  </button>
+
+                  {listening ? (
+                    <div className="flex w-full pr-[20px]">
+                      <input
+                        className="w-full bg-transparent text-slate-500 outline-0 px-3 h-full"
+                        value={transcript}
+                        type="text"
+                        placeholder="Bạn đang tìm gì ?"
+                      />
+                      <div className="flex items-end h-full">
+                        <p
+                          className="flex text-lg cursor-pointer "
+                          onClick={SpeechRecognition.startListening}
+                        >
+                          <BiMicrophone />
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex w-full pr-[20px]">
+                      <input
+                        className="w-full bg-transparent text-slate-500 outline-0 px-3 h-full"
+                        onChange={(e) => setSearchValue(e.target.value)}
+                        type="text"
+                        placeholder="Bạn đang tìm gì ?"
+                      />
+                      <div className="flex items-end h-full">
+                        <p
+                          className="flex text-lg cursor-pointer "
+                          onClick={SpeechRecognition.startListening}
+                        >
+                          <BiMicrophone />
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="w-4/12 block md-lg:hidden pl-2 md-lg:w-full md-lg:pl-0">
+              <div className="flex relative border h-[50px] items-center w-1/12 md-lg:w-3/12">
+                <button
+                  onClick={search}
+                  className="bg-red-300 right-0 px-8 h-full font-semibold uppercase text-white"
+                >
+                  TÌM KIẾM
+                </button>
+              </div>
+              {/* <div className="w-2/12 block md-lg:hidden pl-2 md-lg:w-full md-lg:pl-0">
                 <div className="w-full flex justify-end md-lg:justify-start gap-3 items-center">
                   <div className="w-[48px] h-[48px] rounded-full flex bg-[#f5f5f5] justify-center items-center">
                     <span>
@@ -510,7 +544,7 @@ const Headers = () => {
                     <span className="text-xs">support 24/7 time</span>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
