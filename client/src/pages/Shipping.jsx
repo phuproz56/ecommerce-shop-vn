@@ -37,6 +37,7 @@ const Shipping = () => {
   const save = (e) => {
     e.preventDefault();
     const data = {
+      userId: userInfo.id,
       name: userInfo.name,
       email: userInfo.email,
       address1: address1,
@@ -50,6 +51,7 @@ const Shipping = () => {
   };
   const placeOrder = () => {
     const data = {
+      userId: userInfo.id,
       name: userInfo.name,
       email: userInfo.email,
       address1: address1,
@@ -345,7 +347,7 @@ const Shipping = () => {
                       res ? "bg-orange-500" : "bg-orange-200"
                     }  text-sm text-white uppercase`}
                   >
-                    Place Order
+                    Đặt Hàng
                   </button>
                 </div>
               </div>

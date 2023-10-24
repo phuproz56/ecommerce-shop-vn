@@ -27,6 +27,8 @@ import {
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import loading2 from "react-useanimations/lib/loading2";
+import UseAnimations from "react-useanimations";
 
 const Headers = () => {
   const dispatch = useDispatch();
@@ -208,7 +210,7 @@ const Headers = () => {
                     <Link
                       to="/event"
                       className={`p-2 block ${
-                        pathname === "/shops"
+                        pathname === "/event"
                           ? "text-[#7fad39]"
                           : "text-slate-600"
                       }`}
@@ -498,7 +500,7 @@ const Headers = () => {
                           className="flex text-lg cursor-pointer "
                           onClick={SpeechRecognition.startListening}
                         >
-                          <BiMicrophone />
+                          <UseAnimations animation={loading2} size={20} />
                         </p>
                       </div>
                     </div>
