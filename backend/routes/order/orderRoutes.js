@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const orderController = require("../../controllers/order/orderController");
+const { authMiddleware } = require("../../middlewares/authMiddleware");
 
 // ---- customer ----
 
@@ -9,11 +10,11 @@ router.get(
   orderController.get_customer_dashboard_data
 );
 router.get(
-  "/home/customer/get-orders/:customerId/:status",
+  "/home/customer/get-orders/:status",
   orderController.get_orders
 );
 router.get(
-  "/home/customer/get-all-orders/:customerId",
+  "/home/customer/get-all-orders/",
   orderController.get_all_orders
 );
 router.get("/home/customer/get-order/:orderId", orderController.get_order);
@@ -23,7 +24,10 @@ router.put("/home/customer/huy-order/:orderId", orderController.huy_order);
 
 // --- admin ----
 
-router.get("/admin/orders", orderController.get_admin_orders);
+router.get(
+  "/admin/orders",
+  orderController.get_admin_orders
+);
 router.get("/admin/order/:orderId", orderController.get_admin_order);
 router.put(
   "/admin/order-status/update/:orderId",
@@ -33,9 +37,13 @@ router.put(
 // ---- seller -----
 
 router.get("/seller/orders/:sellerId", orderController.get_seller_orders);
-router.get("/seller/order/:orderId", orderController.get_seller_order);
+router.get(
+  "/seller/order/:_id",
+  authMiddleware,
+  orderController.get_seller_order
+);
 router.put(
-  "/seller/order-status/update/:orderId",
+  "/seller/order-status/update/:_id",
   orderController.seller_order_status_update
 );
 

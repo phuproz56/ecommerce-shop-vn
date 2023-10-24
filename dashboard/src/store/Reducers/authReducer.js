@@ -53,12 +53,12 @@ export const logout = createAsyncThunk(
     try {
       const { data } = await api.get("/logout", { withCredentials: true });
       localStorage.removeItem("accessToken");
+
       if (role === "admin") {
         navigate("/admin/login");
-      } else if(role === 'nhanvien_admin'){
+      } else if (role === "nhanvien_admin") {
         navigate("/nhanvien-admin/login");
-      }
-       else {
+      } else {
         navigate("/login");
       }
 
@@ -134,7 +134,6 @@ export const get_user_info = createAsyncThunk(
       const { data } = await api.get("/get-user", { withCredentials: true });
 
       return fulfillWithValue(data);
-      
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -183,6 +182,9 @@ export const authReducer = createSlice({
     messageClear: (state, _) => {
       state.errorMessage = "";
       state.successMessage = "";
+    },
+    user_reset: (state, _) => {
+      state.userInfo = "";
     },
   },
   extraReducers: {
@@ -284,5 +286,5 @@ export const authReducer = createSlice({
     },
   },
 });
-export const { messageClear } = authReducer.actions;
+export const { messageClear, user_reset } = authReducer.actions;
 export default authReducer.reducer;

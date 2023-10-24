@@ -43,6 +43,9 @@ function AdminLogin() {
       toast.success(successMessage);
       dispatch(messageClear());
       navigate("/");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     }
   }, [errorMessage, successMessage, dispatch, navigate]);
   return (
@@ -100,7 +103,10 @@ function AdminLogin() {
             </button>
           </form>
           <div className="justify-items-center">
-            Bạn là nhân viên? <Link to={'/nhanvien-admin/login'} className="text-green-500">Nhân Viên</Link>
+            Bạn là nhân viên?{" "}
+            <Link to={"/nhanvien-admin/login"} className="text-green-500">
+              Nhân Viên
+            </Link>
           </div>
         </div>
       </div>

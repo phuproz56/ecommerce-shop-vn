@@ -86,7 +86,7 @@ class orderController {
           products: storePro,
           price: pri,
           payment_status: "unpaid",
-          shippingInfo: shippingInfo.city,
+          shippingInfo: shippingInfo,
           delivery_status: "Chưa Xử Lí",
           date: tempDate,
         });
@@ -167,11 +167,12 @@ class orderController {
 
   huy_order = async (req, res) => {
     const { orderId } = req.params;
+    console.log(orderId)
     try {
-      await customerOrder.findByIdAndUpdate(orderId, {
+      await authOrderModel.findByIdAndUpdate(orderId, {
         delivery_status: "Hủy",
       });
-      const cuOrder = await customerOrder.findById(orderId);
+      const cuOrder = await authOrderModel.findById(orderId);
 
       const customerOrderProduct = cuOrder.products;
 
@@ -188,12 +189,24 @@ class orderController {
   };
 
   get_all_orders = async (req, res) => {
-    const { customerId } = req.params;
+    // const { customerId } = req.params;
+
     try {
-      const orders = await customerOrder.find({
-        customerId: new ObjectId(customerId),
-      });
-      // console.log(orders)
+      const orders = await customerOrder.aggregate([
+        {
+          $lookup: {
+            from: "authororders",
+            localField: "_id",
+            foreignField: "orderId",
+            as: "suborder",
+          },
+        },
+      ]);
+
+      // const orders = await authOrderModel.find({
+      //   customerId: orders.shippingInfo.userId,
+      // });
+
       responseReturn(res, 200, {
         orders,
       });
@@ -337,26 +350,29 @@ class orderController {
   };
 
   get_seller_order = async (req, res) => {
-    const { orderId } = req.params;
-
+    const { _id } = req.params;
     try {
-      const order = await authOrderModel.findById(orderId);
+      const order = await authOrderModel.findById({ _id });
 
       responseReturn(res, 200, { order });
     } catch (error) {
-      console.log("get admin order " + error.message);
+      console.log(error.message);
     }
   };
 
   seller_order_status_update = async (req, res) => {
-    const { orderId } = req.params;
+    const { _id } = req.params;
     const { status } = req.body;
+
+
+
     try {
-      await customerOrder.findByIdAndUpdate(orderId, {
+      const a = await authOrderModel.findByIdAndUpdate(_id, {
         delivery_status: status,
       });
+
       if (status === "Hủy") {
-        const cuOrder = await customerOrder.findById(orderId);
+        const cuOrder = await authOrderModel.findById(_id);
 
         const customerOrderProduct = cuOrder.products;
         for (let i = 0; i < customerOrderProduct.length; i++) {

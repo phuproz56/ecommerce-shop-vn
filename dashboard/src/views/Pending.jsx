@@ -2,7 +2,7 @@ import React from 'react'
 
 const Pending = () => {
   return (
-    <div>Pending</div>
+    <div className='text-white text-lg'>Tài Khoản chưa được kích hoạt (Chat với admin để được kích hoạt)</div>
   )
 }
 

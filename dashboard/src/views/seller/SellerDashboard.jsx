@@ -5,15 +5,17 @@
 import React, { useEffect } from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { RiProductHuntLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import Chart from "react-apexcharts";
 import customer from "../../assets/seller.png";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
-import { get_seller_dashboard_index_data } from "../../store/Reducers/dashboardIndexReducer";
+import { get_seller_dashboard_index_data,thongke } from "../../store/Reducers/dashboardIndexReducer";
 const SellerDashboard = () => {
+
+  // const { thongke } = useSelector((state) => state.dashboardIndex);
   const state = {
     series: [
       {
@@ -51,18 +53,18 @@ const SellerDashboard = () => {
       },
       xaxis: {
         categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apl",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5",
+          "T6",
+          "T7",
+          "T8",
+          "T9",
+          "T10",
+          "T11",
+          "T12",
         ],
       },
       legend: {
@@ -73,18 +75,18 @@ const SellerDashboard = () => {
           breakpoint: 565,
           yaxis: {
             categories: [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apl",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec",
+              "T1",
+              "T2",
+              "T3",
+              "T4",
+              "T5",
+              "T6",
+              "T7",
+              "T8",
+              "T9",
+              "T10",
+              "T11",
+              "T12",
             ],
           },
           options: {
@@ -116,6 +118,7 @@ const SellerDashboard = () => {
 
   useEffect(() => {
     dispatch(get_seller_dashboard_index_data());
+    dispatch(thongke());
   }, []);
 
   return (
@@ -163,11 +166,17 @@ const SellerDashboard = () => {
           <div className="w-full bg-[#283046] p-4 rounded-md">
             <h2 className="text-white">Thống kê theo tháng</h2>
             <div class="bg-[#283046] rounded-lg shadow-md h-[350px]">
-              <iframe
+              <Chart
+                options={state.options}
+                series={state.series}
+                type="bar"
+                height={350}
+              />
+              {/* <iframe
                 class="w-full h-full"
                 src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=65350d57-8afe-46d3-82fe-6fddd28ca39d&maxDataAge=3600&theme=dark&autoRefresh=true"
                 frameborder="0"
-              ></iframe>
+              ></iframe> */}
             </div>
           </div>
         </div>
@@ -230,7 +239,7 @@ const SellerDashboard = () => {
             <div class="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
               <iframe
                 class="w-full h-full"
-                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=653512a4-c4df-476a-8533-3f3dce2fb8bb&maxDataAge=3600&theme=dark&autoRefresh=true"
+                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=65350d57-8afe-46d3-82fe-6fddd28ca39d&maxDataAge=60&theme=dark&autoRefresh=true"
                 frameborder="0"
               ></iframe>
             </div>

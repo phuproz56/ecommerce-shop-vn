@@ -42,7 +42,10 @@ function NhanvienAdminLogin() {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
-      navigate("/nhanvien-admin/dashboard");
+      navigate("/");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     }
   }, [errorMessage, successMessage, dispatch, navigate]);
   return (
@@ -99,8 +102,11 @@ function NhanvienAdminLogin() {
               )}
             </button>
             <div className="justify-items-center">
-            Quay lại trang admin? <Link to={'/admin/login'} className="text-green-500">Admin</Link>
-          </div>
+              Quay lại trang admin?{" "}
+              <Link to={"/admin/login"} className="text-green-500">
+                Admin
+              </Link>
+            </div>
           </form>
         </div>
       </div>

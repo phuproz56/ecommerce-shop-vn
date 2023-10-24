@@ -7,10 +7,12 @@ import {
   messageClear,
   seller_order_status_update,
   get_admin_order,
+  get_seller_order,
 } from "../../store/Reducers/OrderReducer";
 
 const OrderDetails = () => {
-  const { orderId } = useParams();
+  // const { userInfo } = useSelector((state) => state.auth);
+  const _id = useParams();
   const dispatch = useDispatch();
 
   const { order, errorMessage, successMessage } = useSelector(
@@ -18,10 +20,12 @@ const OrderDetails = () => {
   );
 
   useEffect(() => {
-    dispatch(get_admin_order(orderId));
-  }, [orderId]);
+    // dispatch(get_admin_order(orderId));
+    dispatch(get_seller_order(_id.orderId));
+  }, [_id]);
 
   const [status, setStatus] = useState("");
+
   useEffect(() => {
     setStatus(order?.delivery_status);
   }, [order]);
@@ -45,8 +49,12 @@ const OrderDetails = () => {
         );
       }
     }
+
     dispatch(
-      seller_order_status_update({ orderId, info: { status: e.target.value } })
+      seller_order_status_update({
+        _id: _id.orderId,
+        info: { status: e.target.value },
+      })
     );
 
     setStatus(e.target.value);

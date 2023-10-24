@@ -132,3 +132,8 @@ module.exports.get_admin_dashboard_data = async (req, res) => {
     console.log("get admin dashboard data error " + error.messages);
   }
 };
+
+module.exports.thongke = async (req, res) => {
+  const { id } = req;
+  console.log(id);
+};
