@@ -170,7 +170,7 @@ const Category = () => {
             <div className="bg-[#283046] h-screen lg:h-auto px-3 py-2 lg:rounded-md text-[#d0d2d6]">
               <div className="flex justify-between items-center mb-4">
                 <h1 className="text-[#d0d2d6] font-semibold text-xl">
-                  Add Category
+                  Thêm loại sản phẩm
                 </h1>
                 <div
                   onClick={() => setShow(false)}

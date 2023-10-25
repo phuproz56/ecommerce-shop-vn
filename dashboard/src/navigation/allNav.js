@@ -17,13 +17,13 @@ export const allNav = [
     role: "admin",
     path: "/admin/dashboard",
   },
-  {
-    id: 2,
-    title: "Đặt Hàng",
-    icon: <AiOutlineShoppingCart />,
-    role: "admin",
-    path: "/admin/dashboard/orders",
-  },
+  // {
+  //   id: 2,
+  //   title: "Đặt Hàng",
+  //   icon: <AiOutlineShoppingCart />,
+  //   role: "admin",
+  //   path: "/admin/dashboard/orders",
+  // },
   {
     id: 3,
     title: "Thể Loại",

@@ -4,7 +4,7 @@ import api from "../../api/api";
 export const get_admin_orders = createAsyncThunk(
   "order/get_admin_orders",
   async (
-    {  parPage, page, searchValue },
+    { parPage, page, searchValue },
     { rejectWithValue, fulfillWithValue }
   ) => {
     try {
@@ -83,7 +83,7 @@ export const admin_order_status_update = createAsyncThunk(
 
 export const seller_order_status_update = createAsyncThunk(
   "order/seller_order_status_update",
-  async ( {_id, info }, { rejectWithValue, fulfillWithValue }) => {
+  async ({ _id, info }, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.put(
         `/seller/order-status/update/${_id}`,

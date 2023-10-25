@@ -43,11 +43,11 @@ const Profile = () => {
       <div className="w-full px-5">
         <form onSubmit={handleSubmit} aria-required={true}>
           <div className="w-full 800px:flex block pb-3">
-            <div className=" w-[100%] 800px:w-[50%]">
+            <div className=" w-[100%] 800px:w-[60%]">
               <label className="block pb-2">Họ và tên (Tên người nhận)</label>
               <input
                 type="text"
-                className={`border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
+                className={`border p-2 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -57,7 +57,7 @@ const Profile = () => {
               <label className="block pb-2">Email</label>
               <input
                 type="text"
-                className={`border p-1 rounded-[5px] !w-[95%] mb-1 800px:mb-0`}
+                className={`border p-2 rounded-[5px] !w-[95%] mb-1 800px:mb-0`}
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -71,7 +71,7 @@ const Profile = () => {
 
               <input
                 type="number"
-                className={`border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
+                className={`border p-2 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
                 required
                 placeholder="+84"
                 value={phoneNumber}
@@ -85,7 +85,7 @@ const Profile = () => {
               </label>
               <input
                 type="password"
-                className={`border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
+                className={`border p-2 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

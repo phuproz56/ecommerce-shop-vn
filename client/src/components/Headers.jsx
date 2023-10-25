@@ -63,7 +63,7 @@ const Headers = () => {
   useEffect(() => {
     if (listening) {
       setSearchValue(transcript);
-    }
+    } 
   }, [listening, transcript]);
 
   const search = () => {

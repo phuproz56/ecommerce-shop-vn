@@ -167,7 +167,7 @@ class orderController {
 
   huy_order = async (req, res) => {
     const { orderId } = req.params;
-    console.log(orderId)
+    console.log(orderId);
     try {
       await authOrderModel.findByIdAndUpdate(orderId, {
         delivery_status: "Hủy",
@@ -321,6 +321,7 @@ class orderController {
   get_seller_orders = async (req, res) => {
     const { sellerId } = req.params;
     let { page, parPage, searchValue } = req.query;
+
     page = parseInt(page);
     parPage = parseInt(parPage);
 
@@ -328,6 +329,15 @@ class orderController {
 
     try {
       if (searchValue) {
+        const orders = await authOrderModel
+          .find({
+            delivery_status: { $regex: searchValue },
+            // "shippingInfo.name": { $regex: searchValue },
+          })
+          .skip(skipPage)
+          .limit(parPage)
+          .sort({ createdAt: 1 });
+        responseReturn(res, 200, { orders });
       } else {
         const orders = await authOrderModel
           .find({
@@ -363,8 +373,6 @@ class orderController {
   seller_order_status_update = async (req, res) => {
     const { _id } = req.params;
     const { status } = req.body;
-
-
 
     try {
       const a = await authOrderModel.findByIdAndUpdate(_id, {
