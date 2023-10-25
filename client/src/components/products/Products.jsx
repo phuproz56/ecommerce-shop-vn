@@ -63,7 +63,11 @@ const Products = ({ title, products }) => {
           return (
             <div key={i} className="flex flex-col justify-start gap-2 pb-1">
               {p.map((pl, j) => (
-                <Link key={j} className="flex justify-start items-start" to="#">
+                <Link
+                  key={j}
+                  className="flex justify-start items-start"
+                  to={`/product/details/${pl.slug}`}
+                >
                   <img
                     className="w-[110px] h-[110px]"
                     src={pl.images[0]}
@@ -72,7 +76,9 @@ const Products = ({ title, products }) => {
                   <div className="px-3 flex justify-start items-start gap-1 flex-col text-slate-600">
                     <h2>{pl.name}</h2>
                     <span className="text-lg font-bold">{pl.price}$</span>
-                    <div className="flex">{<Ratings ratings={pl.rating} />}</div>
+                    <div className="flex">
+                      {<Ratings ratings={pl.rating} />}
+                    </div>
                   </div>
                 </Link>
               ))}

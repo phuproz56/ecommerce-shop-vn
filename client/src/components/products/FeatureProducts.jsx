@@ -80,14 +80,14 @@ const FeatureProducts = ({ products }) => {
               ) : (
                 ""
               )}
-
-              <img
-                key={i}
-                className="sm:w-full w-full h-[240px]"
-                src={c.images[0]}
-                alt="product image"
-              />
-
+              <Link to={`/product/details/${c.slug}`}>
+                <img
+                  key={i}
+                  className="sm:w-full w-full h-[240px]"
+                  src={c.images[0]}
+                  alt="product image"
+                />
+              </Link>
               <ul className="flex transition-all duration-700 -bottom-10 justify-center items-center gap-2 absolute w-full group-hover:bottom-3">
                 <li
                   onClick={() => add_wishlist(c)}
