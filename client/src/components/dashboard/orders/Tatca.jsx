@@ -117,7 +117,6 @@ const Tatca = () => {
                                           </p>
                                           <span>Tên Shop: {p.shopName}</span>
                                         </div>
-                                        
                                       </div>
                                       <div className="pl-4">
                                         <h2 className="text-md text-orange-500">

@@ -9,6 +9,7 @@ import { CiChat1 } from "react-icons/ci";
 import { BsCurrencyDollar, BsChat } from "react-icons/bs";
 import { RiProductHuntLine } from "react-icons/ri";
 import { MdProductionQuantityLimits } from "react-icons/md";
+import { FaShippingFast } from "react-icons/fa";
 export const allNav = [
   {
     id: 1,
@@ -123,6 +124,13 @@ export const allNav = [
     path: "/seller/dashboard/orders",
   },
   {
+    id: 30,
+    title: "Shipper Nhận Đơn",
+    icon: <FaShippingFast />,
+    role: "seller",
+    path: "/seller/dashboard/shipper-comfirm",
+  },
+  {
     id: 17,
     title: "Chuyển Tiền",
     icon: <BsCurrencyDollar />,
@@ -199,5 +207,4 @@ export const allNav = [
     role: "shipper",
     path: "/shipper/dashboard",
   },
-  
 ];

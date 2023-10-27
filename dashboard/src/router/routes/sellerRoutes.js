@@ -21,6 +21,7 @@ const EditProduct = lazy(() => import("../../views/seller/EditProduct"));
 const OrderDetails = lazy(() => import("../../views/seller/OrderDetails"));
 const Pending = lazy(() => import("../../views/Pending"));
 const Deactive = lazy(() => import("../../views/Deactive"));
+const ShipperComfirm = lazy(() => import("../../views/seller/ShipperComfirm"));
 export const sellerRoutes = [
   {
     path: "/seller/account-pending",
@@ -86,6 +87,12 @@ export const sellerRoutes = [
   {
     path: "/seller/dashboard/orders",
     element: <Orders />,
+    role: "seller",
+    visibility: ["active", "deactive"],
+  },
+  {
+    path: "/seller/dashboard/shipper-comfirm",
+    element: <ShipperComfirm />,
     role: "seller",
     visibility: ["active", "deactive"],
   },

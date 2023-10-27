@@ -8,7 +8,7 @@ const authOrder = require("../../models/authOrder");
 const adminSellerMessage = require("../../models/chat/adminSellerMessage");
 const sellerCustomerMessage = require("../../models/chat/sellerCustomerMessage");
 const productModel = require("../../models/productModel");
-
+const moment = require("moment");
 const {
   mongo: { ObjectId },
 } = require("mongoose");
@@ -147,19 +147,19 @@ module.exports.get_shipper_new_order = async (req, res) => {
       },
     ]);
 
+    Total_TimShipper = await authOrder
+      .find({ delivery_status: "Tìm Shipper" })
+      .countDocuments();
+
     Total_VanChuyen = await authOrder
       .find({ delivery_status: "Vận Chuyển" })
       .countDocuments();
 
-    Total_DangGiaoHang = await authOrder
-      .find({ delivery_status: "Đang Giao Hàng" })
-      .countDocuments();
-
     responseReturn(res, 200, {
       orders,
+      Total_TimShipper,
       Total_VanChuyen,
-      Total_DangGiaoHang,
-      Total_Orders: Total_VanChuyen + Total_DangGiaoHang,
+      Total_Orders: Total_VanChuyen + Total_TimShipper,
     });
   } catch (error) {
     console.log(error.message);
@@ -168,4 +168,19 @@ module.exports.get_shipper_new_order = async (req, res) => {
 
 module.exports.thongke = async (req, res) => {
   const { id } = req;
+};
+
+module.exports.comfirm_order_shipper = async (req, res) => {
+  const { orderId } = req.params;
+  const userInfo = req.body;
+  try {
+    const order = await authOrder.findByIdAndUpdate(orderId, {
+      shipperInfo: userInfo,
+      shipper_date: moment(Date.now()).format("LLL"),
+    });
+
+    responseReturn(res, 200, { message: "Nhận Đơn Thành Công!" });
+  } catch (error) {
+    console.log(error.message);
+  }
 };

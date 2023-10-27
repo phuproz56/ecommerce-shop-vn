@@ -9,8 +9,6 @@ const Orders = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const [state, setState] = useState("");
 
-
-
   return (
     <div className="bg-white p-4 rounded-md w-full">
       <div className="flex justify-between items-center w-full">

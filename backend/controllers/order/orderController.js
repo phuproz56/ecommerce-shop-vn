@@ -88,6 +88,7 @@ class orderController {
           payment_status: "unpaid",
           shippingInfo: shippingInfo,
           delivery_status: "Chưa Xử Lí",
+          shipperInfo: {},
           date: tempDate,
         });
       }
@@ -192,16 +193,18 @@ class orderController {
     // const { customerId } = req.params;
 
     try {
-      const orders = await customerOrder.aggregate([
-        {
-          $lookup: {
-            from: "authororders",
-            localField: "_id",
-            foreignField: "orderId",
-            // as: "suborder",
+      const orders = await customerOrder
+        .aggregate([
+          {
+            $lookup: {
+              from: "authororders",
+              localField: "_id",
+              foreignField: "orderId",
+              as: "suborder",
+            },
           },
-        },
-      ]);
+        ])
+        .sort({ createdAt: -1 });
 
       // const orders = await authOrderModel.find({
       //   customerId: orders.shippingInfo.userId,

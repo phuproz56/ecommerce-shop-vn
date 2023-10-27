@@ -30,9 +30,17 @@ const authorSchema = new Schema(
       type: String,
       required: true,
     },
+    shipperInfo: {
+      type: Object,
+      required: true,
+    },
     date: {
       type: String,
       required: true,
+    },
+    shipper_date: {
+      type: String,
+      default: "",
     },
   },
   { timestamps: true }

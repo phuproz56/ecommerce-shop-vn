@@ -33,9 +33,31 @@ export const get_shipper_new_order = createAsyncThunk(
   "dashboardIndex/get_shipper_new_order",
   async (_, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get(`/shipper/get-shipper-new-order`, {
-        withCredentials: true,
-      });
+      const { data } = await api.get(
+        `/shipper/get-shipper-new-order`,
+        {
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const comfirm_order_shipper = createAsyncThunk(
+  "dashboardIndex/comfirm_order_shipper",
+  async ({ orderId, userInfo }, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.put(
+        `/shipper/comfirm-order/${orderId}`,
+        userInfo,
+        {
+          withCredentials: true,
+        }
+      );
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.message);
@@ -72,6 +94,8 @@ export const dashboardIndexReducer = createSlice({
     orders: [],
     Total_VanChuyen: 0,
     Total_Orders: 0,
+    Total_TimShipper: 0,
+
   },
   reducers: {
     messageClear: (state, _) => {
@@ -100,6 +124,10 @@ export const dashboardIndexReducer = createSlice({
       state.orders = payload.orders;
       state.Total_Orders = payload.Total_Orders;
       state.Total_VanChuyen = payload.Total_VanChuyen;
+      state.Total_TimShipper = payload.Total_TimShipper;
+    },
+    [comfirm_order_shipper.fulfilled]: (state, { payload }) => {
+      state.successMessage = payload.message;
     },
   },
 });
