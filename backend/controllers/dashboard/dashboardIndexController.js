@@ -3,6 +3,7 @@ const customerOrder = require("../../models/customerOrder");
 const sellerWallet = require("../../models/sellerWallet");
 const myShopWallet = require("../../models/myShopWallet");
 const sellerModel = require("../../models/sellerModel");
+const authOrder = require("../../models/authOrder");
 
 const adminSellerMessage = require("../../models/chat/adminSellerMessage");
 const sellerCustomerMessage = require("../../models/chat/sellerCustomerMessage");
@@ -133,7 +134,38 @@ module.exports.get_admin_dashboard_data = async (req, res) => {
   }
 };
 
+module.exports.get_shipper_new_order = async (req, res) => {
+  try {
+    const orders = await authOrder.aggregate([
+      {
+        $lookup: {
+          from: "authororders",
+          localField: "_id",
+          foreignField: "orderId",
+          as: "suborder",
+        },
+      },
+    ]);
+
+    Total_VanChuyen = await authOrder
+      .find({ delivery_status: "Vận Chuyển" })
+      .countDocuments();
+
+    Total_DangGiaoHang = await authOrder
+      .find({ delivery_status: "Đang Giao Hàng" })
+      .countDocuments();
+
+    responseReturn(res, 200, {
+      orders,
+      Total_VanChuyen,
+      Total_DangGiaoHang,
+      Total_Orders: Total_VanChuyen + Total_DangGiaoHang,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 module.exports.thongke = async (req, res) => {
   const { id } = req;
-  console.log(id);
 };

@@ -13,6 +13,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const navigate = useNavigate();
 
   const { role } = useSelector((state) => state.auth);
+
   const { pathname } = useLocation();
   const [allNav, setAllNav] = useState([]);
   useEffect(() => {

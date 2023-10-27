@@ -192,5 +192,12 @@ export const allNav = [
     role: "nhanvien_admin",
     path: "/nhanvien-admin/dashboard/chat-sellers",
   },
+  {
+    id: 29,
+    title: "Đơn Hàng",
+    icon: <AiFillDashboard />,
+    role: "shipper",
+    path: "/shipper/dashboard",
+  },
   
 ];

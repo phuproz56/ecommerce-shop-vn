@@ -47,6 +47,21 @@ export const seller_login = createAsyncThunk(
   }
 );
 
+export const shipper_login = createAsyncThunk(
+  "auth/shipper_login",
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/shipper-login", info, {
+        withCredentials: true,
+      });
+      localStorage.setItem("accessToken", data.token);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const logout = createAsyncThunk(
   "auth/logout",
   async ({ navigate, role }, { rejectWithValue, fulfillWithValue }) => {
@@ -58,6 +73,8 @@ export const logout = createAsyncThunk(
         navigate("/admin/login");
       } else if (role === "nhanvien_admin") {
         navigate("/nhanvien-admin/login");
+      } else if (role === "shipper") {
+        navigate("/shipper/login");
       } else {
         navigate("/login");
       }
@@ -84,6 +101,20 @@ export const seller_register = createAsyncThunk(
   }
 );
 
+export const shipper_register = createAsyncThunk(
+  "auth/shipper_register",
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/shipper-register", info, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const nvadmin_register = createAsyncThunk(
   "auth/nvadmin_register",
   async (info, { rejectWithValue, fulfillWithValue }) => {
@@ -91,7 +122,6 @@ export const nvadmin_register = createAsyncThunk(
       const { data } = await api.post("/nvadmin-register", info, {
         withCredentials: true,
       });
-      // localStorage.setItem("accessToken1", data.token);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -152,6 +182,18 @@ export const get_nvadmin = createAsyncThunk(
   }
 );
 
+export const get_shipper = createAsyncThunk(
+  "auth/get_nvadmin",
+  async (_, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get("/get-nvadmin", { withCredentials: true });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const returnRole = (token) => {
   if (token) {
     const decodeToken = jwt(token);
@@ -188,7 +230,7 @@ export const authReducer = createSlice({
     },
   },
   extraReducers: {
-    //------------- admin
+    //------------- admin --------------------
     [admin_login.pending]: (state, _) => {
       state.loader = true;
     },
@@ -203,7 +245,7 @@ export const authReducer = createSlice({
       state.role = returnRole(payload.token);
     },
 
-    //---------------- nhan vien
+    //---------------- nhan vien --------------------
     [nvadmin_login.pending]: (state, _) => {
       state.loader = true;
     },
@@ -231,7 +273,7 @@ export const authReducer = createSlice({
     },
     // ---------------------
 
-    // seller
+    // -------------------- seller --------------------
     [seller_login.pending]: (state, _) => {
       state.loader = true;
     },
@@ -283,6 +325,31 @@ export const authReducer = createSlice({
       state.loader = false;
       state.userInfo = payload.userInfo;
       state.successMessage = payload.message;
+    },
+
+    // -------------------- shipper --------------------
+
+    [shipper_register.pending]: (state, _) => {
+      state.loader = true;
+    },
+    [shipper_register.rejected]: (state, { payload }) => {
+      state.loader = false;
+      state.errorMessage = payload.error;
+    },
+    [shipper_register.fulfilled]: (state, { payload }) => {
+      state.loader = false;
+      state.successMessage = payload.message;
+    },
+
+    [shipper_login.rejected]: (state, { payload }) => {
+      state.loader = false;
+      state.errorMessage = payload.error;
+    },
+    [shipper_login.fulfilled]: (state, { payload }) => {
+      state.loader = false;
+      state.successMessage = payload.message;
+      state.token = payload.token;
+      state.role = returnRole(payload.token);
     },
   },
 });

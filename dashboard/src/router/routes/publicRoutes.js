@@ -1,5 +1,7 @@
 import { lazy } from "react";
 import NhanvienAdminLogin from "../../views/auth/NhanvienAdminLogin";
+import ShipperLogin from "../../views/auth/ShipperLogin";
+import RegisterShipper from "../../views/auth/RegisterShipper";
 // const Success = lazy(() => import("../../views/Success"));
 const Login = lazy(() => import("../../views/auth/Login"));
 const Register = lazy(() => import("../../views/auth/Register"));
@@ -23,6 +25,14 @@ const publicRoutes = [
   {
     path: "/admin/login",
     element: <AdminLogin />,
+  },
+  {
+    path: "/shipper/login",
+    element: <ShipperLogin />,
+  },
+  {
+    path: "/shipper/register",
+    element: <RegisterShipper />,
   },
   {
     path: "/nhanvien-admin/login",

@@ -1,6 +1,7 @@
 const adminModel = require("../models/adminModel");
 const nvadminModel = require("../models/nhanvienAdminModel");
 const sellerModel = require("../models/sellerModel");
+const shipperModel = require("../models/shipperModel");
 const sellerCustomerModel = require("../models/chat/sellerCustomerModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -95,6 +96,34 @@ class authControllers {
     }
   };
 
+  shipper_login = async (req, res) => {
+    const { phoneNumber, password } = req.body;
+    try {
+      const shipper = await shipperModel
+        .findOne({ phoneNumber })
+        .select("+password");
+      if (shipper) {
+        const match = await bcrypt.compare(password, shipper.password);
+        if (match) {
+          const token = await createToken({
+            id: shipper.id,
+            role: shipper.role,
+          });
+          res.cookie("accessToken", token, {
+            exprires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          });
+          responseReturn(res, 200, { token, message: "Đăng nhập thành công!" });
+        } else {
+          responseReturn(res, 400, { error: "password sai!" });
+        }
+      } else {
+        responseReturn(res, 400, { error: "email không tìm thấy!!" });
+      }
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
+
   seller_register = async (req, res) => {
     const { name, email, password } = req.body;
     try {
@@ -121,6 +150,26 @@ class authControllers {
         });
 
         responseReturn(res, 201, { token, message: "Đăng ký thành công!" });
+      }
+    } catch (error) {
+      responseReturn(res, 500, { error: "Lỗi Máy chủ!" });
+    }
+  };
+
+  shipper_register = async (req, res) => {
+    const { name, phoneNumber, password } = req.body;
+    try {
+      const getUser = await shipperModel.findOne({ phoneNumber });
+      if (getUser) {
+        responseReturn(res, 404, { error: "số điện thoại đã tồn tại!" });
+      } else {
+        const shipper = await shipperModel.create({
+          name,
+          phoneNumber,
+          password: await bcrypt.hash(password, 10),
+          method: "menualy",
+        });
+        responseReturn(res, 201, { message: "Đăng ký thành công!" });
       }
     } catch (error) {
       responseReturn(res, 500, { error: "Lỗi Máy chủ!" });
@@ -176,7 +225,12 @@ class authControllers {
       } else if (role === "nhanvien_admin") {
         const user = await nvadminModel.findById(id);
         responseReturn(res, 200, { userInfo: user });
-      } else {
+      }
+      else if (role === "shipper") {
+        const user = await shipperModel.findById(id);
+        responseReturn(res, 200, { userInfo: user });
+      }
+      else {
         const seller = await sellerModel.findById(id);
         responseReturn(res, 200, { userInfo: seller });
       }
