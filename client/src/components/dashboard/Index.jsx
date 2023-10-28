@@ -87,7 +87,7 @@ const Index = () => {
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-nowrap"
                     >
-                      ${o.price}
+                      {o.price} đ
                     </th>
                     <th
                       scope="row"

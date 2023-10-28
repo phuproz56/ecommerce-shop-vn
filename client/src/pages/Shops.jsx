@@ -183,8 +183,8 @@ const Shops = () => {
                 />
                 <div>
                   <span className="text-red-500 font-bold text-lg">
-                    ${Math.floor(state.values[0])} - $
-                    {Math.floor(state.values[1])}
+                    {Math.floor(state.values[0])} đ - 
+                    {Math.floor(state.values[1])} đ
                   </span>
                 </div>
               </div>

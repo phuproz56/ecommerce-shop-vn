@@ -407,8 +407,8 @@ class orderController {
     const { price } = req.body;
     try {
       const payment = await stripe.paymentIntents.create({
-        amount: price * 100,
-        currency: "usd",
+        amount: price,
+        currency: "vnd",
         automatic_payment_methods: {
           enabled: true,
         },

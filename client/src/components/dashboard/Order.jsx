@@ -38,7 +38,7 @@ const Order = () => {
           </p>
         </div>
         <div className="text-slate-600">
-          <h2>Price: ${myOrder.price} Đã bao gồm phí ship</h2>
+          <h2>Price: {myOrder.price} đ Đã bao gồm phí ship</h2>
           <p>
             Trạng thái thanh toán:{" "}
             <span
@@ -87,9 +87,9 @@ const Order = () => {
                 </div>
                 <div className="pl-4">
                   <h2 className="text-md text-orange-500">
-                    ${p.price - Math.floor((p.price * p.discount) / 100)}
+                    {p.price - Math.floor((p.price * p.discount) / 100)} đ
                   </h2>
-                  <p>{p.price}</p>
+                  <p>{p.price} đ</p>
                   <p>-{p.discount}%</p>
                 </div>
               </div>

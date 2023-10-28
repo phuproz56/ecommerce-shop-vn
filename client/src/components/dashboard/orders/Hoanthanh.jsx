@@ -112,13 +112,13 @@ const Hoanthanh = () => {
                                       </div>
                                       <div className="pl-4">
                                         <h2 className="text-md text-orange-500">
-                                          $
+                                          
                                           {p.price -
                                             Math.floor(
                                               (p.price * p.discount) / 100
-                                            )}
+                                            )} đ
                                         </h2>
-                                        <p>{p.price}</p>
+                                        <p>{p.price} đ</p>
                                         <p>-{p.discount}%</p>
                                       </div>
                                       {q.delivery_status === "Đã Giao Hàng" && (

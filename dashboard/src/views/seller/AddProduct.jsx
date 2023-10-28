@@ -344,7 +344,7 @@ const AddProduct = () => {
                 {loader ? (
                   <PropagateLoader color="#fff" cssOverride={overrideStyle} />
                 ) : (
-                  "Add Product"
+                  "Thêm Sản Phẩm"
                 )}
               </button>
             </div>

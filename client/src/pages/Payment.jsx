@@ -52,7 +52,7 @@ const Payment = () => {
     if (message === "succeeded") {
       update_payment();
       setTimeout(() => {
-        navigate("/dashboard/my-orders");
+        navigate("/dashboard/tatca");
       }, 3000);
     }
   }, [message]);
@@ -122,7 +122,7 @@ const Payment = () => {
                           />
                           <Link
                             className="px-5 py-2 bg-green-500 rounded-sm text-white flex flex-col justify-center items-center"
-                            to="/dashboard/my-orders"
+                            to="/dashboard/tatca"
                           >
                             Quay lại trang chủ
                           </Link>
@@ -141,11 +141,11 @@ const Payment = () => {
                   <h2>Hóa Đơn</h2>
                   <div className="flex justify-between items-center">
                     <span> sản phẩm và phí vận chuyển đã áp dụng</span>
-                    <span>${price}</span>
+                    <span>{price} đ</span>
                   </div>
                   <div className="flex justify-between items-center font-semibold">
                     <span>Tổng số tiền cần thanh toán</span>
-                    <span className="text-lg text-orange-500">${price}</span>
+                    <span className="text-lg text-orange-500">{price} đ</span>
                   </div>
                 </div>
               </div>

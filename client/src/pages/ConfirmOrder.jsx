@@ -77,7 +77,7 @@ const ConfirmOrder = () => {
           <img src={error} alt="error logo" />
           <Link
             className="px-5 py-2 bg-green-500 rounded-sm text-white"
-            to="/dashboard/my-orders"
+            to="/dashboard/tatca"
           >
             Quay lại trang chủ
           </Link>
@@ -90,7 +90,7 @@ const ConfirmOrder = () => {
             <img src={success} alt="success logo" />
             <Link
               className="px-5 py-2 bg-green-500 rounded-sm text-white"
-              to="/dashboard/my-orders"
+              to="/dashboard/tatca"
             >
               Quay lại trang chủ
             </Link>

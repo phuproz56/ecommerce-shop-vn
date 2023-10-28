@@ -123,7 +123,7 @@ const Products = () => {
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
-                    <span>${d.price}</span>
+                    <span>{d.price} VNĐ</span>
                   </th>
                   <th
                     scope="row"

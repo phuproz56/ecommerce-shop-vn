@@ -295,15 +295,15 @@ const Shipping = () => {
                         <div className="flex justify-end w-5/12 sm:w-full sm:mt-3 ">
                           <div className="pl-4 sm:pt-0">
                             <h2 className="text-orange-500 text-lg">
-                              $
+                              
                               {pt.productInfo.price -
                                 Math.floor(
                                   pt.productInfo.price * pt.productInfo.discount
                                 ) /
-                                  100}
+                                  100} đ
                             </h2>
                             <p className="line-through">
-                              ${pt.productInfo.price}
+                              {pt.productInfo.price} đ
                             </p>
                             <p>-{pt.productInfo.discount}%</p>
                           </div>
@@ -320,24 +320,24 @@ const Shipping = () => {
                   <h2 className="text-xl font-semibold">HÓA ĐƠN</h2>
                   <div className="flex justify-between  items-center">
                     <span>Tổng Số Tiền</span>
-                    <span className="text-lg text-orange-500">${price}</span>
+                    <span className="text-lg text-orange-500">{price} đ</span>
                   </div>
                   <div className="flex justify-between  items-center">
                     <span>Phí Giao Hàng</span>
                     <span className="text-lg text-orange-500">
-                      ${shipping_fee}
+                      {shipping_fee} đ
                     </span>
                   </div>
                   <div className="flex justify-between  items-center">
                     <span>Tổng Số Tiền Cần Trả</span>
                     <span className="text-lg text-orange-500">
-                      ${price + shipping_fee}
+                      {price + shipping_fee} đ
                     </span>
                   </div>
                   <div className="flex justify-between  items-center">
                     <span>TỔNG</span>
                     <span className="text-lg text-orange-500">
-                      ${price + shipping_fee}
+                      {price + shipping_fee} đ
                     </span>
                   </div>
                   <button

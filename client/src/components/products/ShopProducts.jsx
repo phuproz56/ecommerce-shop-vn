@@ -112,7 +112,7 @@ const ShopProducts = ({ styles, products }) => {
             <h2 className="text-md text-slate-700 font-medium">{u.name}</h2>
             <div className="flex justify-start items-center gap-2">
               <span className="text-lg  font-bold text-slate-700">
-                ${u.price}
+                {u.price} đ
               </span>
               <div className="flex text-lg">
                 {<Ratings ratings={u.rating} />}

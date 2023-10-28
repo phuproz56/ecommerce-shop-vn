@@ -252,12 +252,12 @@ const Details = () => {
               <div className="text-2xl text-red-500 font-bold flex gap-3">
                 {product.discount ? (
                   <>
-                    <h2 className="line-through">${product.price}</h2>
+                    <h2 className="line-through">{product.price} đ</h2>
                     <h2>
-                      $
+                      
                       {product.price -
-                        Math.floor(product.price * product.discount) / 100}{" "}
-                      (-{product.discount}%)
+                        Math.floor(product.price * product.discount) / 100} đ{" "}
+                      (-{product.discount}%) 
                     </h2>
                   </>
                 ) : (
