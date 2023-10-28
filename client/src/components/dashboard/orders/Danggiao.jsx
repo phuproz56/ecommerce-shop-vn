@@ -120,7 +120,7 @@ const Danggiao = () => {
                                               (p.price * p.discount) / 100
                                             )} đ
                                         </h2>
-                                        <p>{p.price}</p>
+                                        <p className="line-through">{p.price}</p>
                                         <p>-{p.discount}%</p>
                                       </div>
                                     </div>

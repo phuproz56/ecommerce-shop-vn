@@ -25,7 +25,7 @@ const Banner = () => {
     <div className="w-full md-lg:mt-6">
       <div className="w-[85%] lg:w-[90%] mx-auto">
         <div className="w-full flex flex-wrap md-lg:gap-8">
-          <div className="w-full">
+          <div className="w-full mt-[200px]">
             <div className="my-8">
               <Carousel
                 autoPlay={true}

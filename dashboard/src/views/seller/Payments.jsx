@@ -39,7 +39,7 @@ const Payments = () => {
       <div style={style} className="flex text-sm">
         <div className="w-[25%] p-2 whitespace-nowrap">{index + 1}</div>
         <div className="w-[25%] p-2 whitespace-nowrap">
-          ${successwithdraws[index]?.amount}
+          {successwithdraws[index]?.amount} đ
         </div>
         <div className="w-[25%] p-2 whitespace-nowrap">
           <span className="py-[1px] px-[5px] bg-slate-700 text-blue-500 rounded-md text-xs">
@@ -58,7 +58,7 @@ const Payments = () => {
       <div style={style} className="flex text-sm">
         <div className="w-[25%] p-2 whitespace-nowrap">{index + 1}</div>
         <div className="w-[25%] p-2 whitespace-nowrap">
-          ${pendingwithdraws[index]?.amount}
+          {pendingwithdraws[index]?.amount} đ
         </div>
         <div className="w-[25%] p-2 whitespace-nowrap">
           <span className="py-[1px] px-[5px] bg-slate-700 text-blue-500 rounded-md text-xs">
@@ -103,7 +103,7 @@ const Payments = () => {
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         <div className="flex justify-between items-center p-5 bg-[#283046] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#d0d2d6]">
-            <h2 className="text-lg font-bold">${totalAmount}</h2>
+            <h2 className="text-lg font-bold">{totalAmount} đ</h2>
             <span className="text-sm font-normal">Tổng thu nhập</span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-[#28c76f1f] flex justify-center items-center text-xl">
@@ -112,7 +112,7 @@ const Payments = () => {
         </div>
         <div className="flex justify-between items-center p-5 bg-[#283046] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#d0d2d6]">
-            <h2 className="text-lg font-bold">${availableAmount}</h2>
+            <h2 className="text-lg font-bold">{availableAmount} đ</h2>
             <span className="text-sm font-normal">Số tiền khả dụng</span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-[#e000e81f] flex justify-center items-center text-xl">
@@ -121,7 +121,7 @@ const Payments = () => {
         </div>
         <div className="flex justify-between items-center p-5 bg-[#283046] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#d0d2d6]">
-            <h2 className="text-lg font-bold">${withdrawAmount}</h2>
+            <h2 className="text-lg font-bold">{withdrawAmount} đ</h2>
             <span className="text-sm font-normal">Số tiền rút </span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-[#00cfe81f] flex justify-center items-center text-xl">
@@ -130,7 +130,7 @@ const Payments = () => {
         </div>
         <div className="flex justify-between items-center p-5 bg-[#283046] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#d0d2d6]">
-            <h2 className="text-lg font-bold">${pendingAmount}</h2>
+            <h2 className="text-lg font-bold">{pendingAmount} đ</h2>
             <span className="text-sm font-normal">Số tiền chờ xét duyệt</span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-[#7367f01f] flex justify-center items-center text-xl">

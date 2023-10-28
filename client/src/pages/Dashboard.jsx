@@ -35,7 +35,7 @@ const Dashboard = () => {
     }
   };
   return (
-    <div>
+    <div className="pt-[200px]">
       <Headers />
       <div className="bg-slate-200 mt-5 ">
         <div className="w-[90%] mx-auto pt-5 md-lg:block hidden">
@@ -48,7 +48,7 @@ const Dashboard = () => {
             </button>
           </div>
         </div>
-        <div className="h-full mx-auto">
+        <div className="h-full mx-auto z-20">
           <div className="py-5 flex md-lg:w-[90%] mx-auto relative ">
             <div
               className={`rounded-md z-50 md-lg:absolute ${

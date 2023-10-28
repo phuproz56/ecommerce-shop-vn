@@ -104,7 +104,7 @@ export const allNav = [
   },
   {
     id: 14,
-    title: "Sự Kiện, Khuyến Mãi",
+    title: "Thêm Mã Khuyến Mãi",
     icon: <RiProductHuntLine />,
     role: "seller",
     path: "/seller/dashboard/discount-products",

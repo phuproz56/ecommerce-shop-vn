@@ -43,7 +43,7 @@ const ChangePassword = () => {
   }, [successMessage, errorMessage, dispatch, navigate]);
 
   return (
-    <div className="p-4 bg-white">
+    <div className="p-4 bg-white rounded-md">
       <h2 className="text-xl text-slate-600 pb-5">Thay Đổi Mật Khẩu</h2>
       <form onSubmit={passwordChangeHandler}>
         <div className="flex flex-col gap-1 mb-2">

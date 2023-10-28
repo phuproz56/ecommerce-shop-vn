@@ -84,7 +84,7 @@ const LogProduct = () => {
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
-                    <span>${d.price}</span>
+                    <span>{d.price} đ</span>
                   </th>
                   <th
                     scope="row"

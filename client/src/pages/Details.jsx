@@ -179,7 +179,7 @@ const Details = () => {
   };
 
   return (
-    <div>
+    <div className="pt-[200px]">
       <Headers />
       <section className="bg-[url('http://localhost:3000/images/banner/order.jpg')] h-[220px] mt-6 bg-cover bg-no-reqeat relative bg-left">
         <div className="absolute left-0 top-0 h-full w-full mx-auto bg-[#2422228a]">

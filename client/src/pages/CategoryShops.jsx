@@ -78,7 +78,7 @@ const CategoryShops = () => {
     );
   };
   return (
-    <div>
+    <div className="pt-[200px]">
       <Headers />
       <section className='bg-[url("http://localhost:3000/images/banner/shop.gif")] h-[220px] mt-6 bg-cover bg-no-repeat relative bg-left'>
         <div className="absolute left-0 top-0 w-full h-full bg-[#2422228a]">

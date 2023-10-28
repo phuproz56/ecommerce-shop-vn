@@ -37,9 +37,8 @@ const Profile = () => {
     dispatch(updateUserInformation({ name, email, phoneNumber, password }));
   };
   return (
-    <>
-      <br />
-      <br />
+    <div className="p-4 bg-white rounded-md">
+   
       <div className="w-full px-5">
         <form onSubmit={handleSubmit} aria-required={true}>
           <div className="w-full 800px:flex block pb-3">
@@ -100,7 +99,7 @@ const Profile = () => {
           />
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

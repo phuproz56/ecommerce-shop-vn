@@ -118,7 +118,7 @@ const Hoanthanh = () => {
                                               (p.price * p.discount) / 100
                                             )} đ
                                         </h2>
-                                        <p>{p.price} đ</p>
+                                        <p className="line-through">{p.price} đ</p>
                                         <p>-{p.discount}%</p>
                                       </div>
                                       {q.delivery_status === "Đã Giao Hàng" && (

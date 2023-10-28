@@ -116,7 +116,7 @@ const OrderDetails = () => {
                   <h2>Trạng Thái Thanh Toán : </h2>
                   <span className="text-base">{order?.payment_status}</span>
                 </div>
-                <span>Giá : ${order?.price}</span>
+                <span>Giá : {order?.price} đ</span>
                 <div className="mt-4 flex flex-col gap-8">
                   <div className="text-[#d0d2d6]">
                     {order?.products &&

@@ -2,7 +2,7 @@ import React from 'react'
 
 const UnAuthorized = () => {
   return (
-    <div>UnAuthorized</div>
+    <div className="text-white text-lg">UnAuthorized</div>
   )
 }
 
