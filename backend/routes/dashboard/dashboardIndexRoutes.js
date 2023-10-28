@@ -9,7 +9,7 @@ const {
 } = require("../../controllers/dashboard/dashboardIndexController");
 
 router.get(
-  "/seller/get-dashboard-index-data",
+  "/seller/get-dashboard-index-data/:sellerId",
   authMiddleware,
   get_seller_dashboard_data
 );

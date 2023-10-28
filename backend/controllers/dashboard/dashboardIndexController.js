@@ -16,6 +16,7 @@ const { responseReturn } = require("../../utils/response");
 
 module.exports.get_seller_dashboard_data = async (req, res) => {
   const { id } = req;
+  const { sellerId } = req.params;
 
   try {
     const totalSele = await sellerWallet.aggregate([
@@ -33,6 +34,78 @@ module.exports.get_seller_dashboard_data = async (req, res) => {
         },
       },
     ]);
+
+    const thongke_tien = await sellerWallet.aggregate([
+      {
+        $match: {
+          sellerId: {
+            $eq: id,
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          birthMonth: { $month: "$createdAt" },
+          totalAmount: { $sum: "$amount" },
+        },
+      },
+    ]);
+
+    let tt1 = 0,
+      tt2 = 0,
+      tt3 = 0,
+      tt4 = 0,
+      tt5 = 0,
+      tt6 = 0,
+      tt7 = 0,
+      tt8 = 0,
+      tt9 = 0,
+      tt10 = 0,
+      tt11 = 0,
+      tt12 = 0;
+
+    for (let i = 0; i < thongke_tien.length; i++) {
+      switch (thongke_tien[i].birthMonth) {
+        case 1:
+          tt1 = tt1 + thongke_tien[i].totalAmount;
+          break;
+        case 2:
+          tt2 = tt2 + thongke_tien[i].totalAmount;
+          break;
+        case 3:
+          tt3 = tt3 + thongke_tien[i].totalAmount;
+          break;
+        case 4:
+          tt4 = tt4 + thongke_tien[i].totalAmount;
+          break;
+        case 5:
+          t5 = tt5 + thongke_tien[i].totalAmount;
+          break;
+        case 6:
+          tt6 = tt6 + thongke_tien[i].totalAmount;
+          break;
+        case 7:
+          tt7 = tt7 + thongke_tien[i].totalAmount;
+          break;
+        case 8:
+          tt8 = tt8 + thongke_tien[i].totalAmount;
+          break;
+        case 9:
+          tt9 = tt9 + thongke_tien[i].totalAmount;
+          break;
+        case 10:
+          tt10 = tt10 + thongke_tien[i].totalAmount;
+          break;
+        case 11:
+          tt11 = tt11 + thongke_tien[i].totalAmount;
+          break;
+        case 12:
+          tt12 = tt12 + thongke_tien[i].totalAmount;
+          break;
+      }
+    }
+
 
     const totalProduct = await productModel
       .find({
@@ -86,6 +159,78 @@ module.exports.get_seller_dashboard_data = async (req, res) => {
       })
       .limit(5);
 
+    const array = [];
+
+    const thongke = await authorOrder.aggregate([
+      {
+        $match: {
+          sellerId: {
+            $eq: new ObjectId(sellerId),
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          birthMonth: { $month: "$createdAt" },
+        },
+      },
+    ]);
+
+    let t1 = 0,
+      t2 = 0,
+      t3 = 0,
+      t4 = 0,
+      t5 = 0,
+      t6 = 0,
+      t7 = 0,
+      t8 = 0,
+      t9 = 0,
+      t10 = 0,
+      t11 = 0,
+      t12 = 0;
+
+    for (let i = 0; i < thongke.length; i++) {
+      switch (thongke[i].birthMonth) {
+        case 1:
+          t1 = t1 + 1;
+          break;
+        case 2:
+          t2 = t2 + 1;
+          break;
+        case 3:
+          t3 = t3 + 1;
+          break;
+        case 4:
+          t4 = t4 + 1;
+          break;
+        case 5:
+          t5 = t5 + 1;
+          break;
+        case 6:
+          t6 = t6 + 1;
+          break;
+        case 7:
+          t7 = t7 + 1;
+          break;
+        case 8:
+          t8 = t8 + 1;
+          break;
+        case 9:
+          t9 = t9 + 1;
+          break;
+        case 10:
+          t10 = t10 + 1;
+          break;
+        case 11:
+          t11 = t11 + 1;
+          break;
+        case 12:
+          t12 = t12 + 1;
+          break;
+      }
+    }
+
     responseReturn(res, 200, {
       totalOrder,
       totalSale: totalSele.length > 0 ? totalSele[0].totalAmount : 0,
@@ -93,9 +238,33 @@ module.exports.get_seller_dashboard_data = async (req, res) => {
       messages,
       recentOrders,
       totalProduct,
+      t1,
+      t2,
+      t3,
+      t4,
+      t5,
+      t6,
+      t7,
+      t8,
+      t9,
+      t10,
+      t11,
+      t12,
+      tt1,
+      tt2,
+      tt3,
+      tt4,
+      tt5,
+      tt6,
+      tt7,
+      tt8,
+      tt9,
+      tt10,
+      tt11,
+      tt12,
     });
   } catch (error) {
-    console.log("get seller dashboard data error " + error.messages);
+    console.log(error.message);
   }
 };
 

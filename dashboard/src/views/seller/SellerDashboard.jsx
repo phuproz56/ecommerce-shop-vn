@@ -12,23 +12,57 @@ import customer from "../../assets/seller.png";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
-import { get_seller_dashboard_index_data,thongke } from "../../store/Reducers/dashboardIndexReducer";
-const SellerDashboard = () => {
+import {
+  get_seller_dashboard_index_data,
+  thongke,
+} from "../../store/Reducers/dashboardIndexReducer";
 
-  // const { thongke } = useSelector((state) => state.dashboardIndex);
+const SellerDashboard = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+  const {
+    totalSale,
+    totalOrder,
+    totalProduct,
+    totalPendingOrder,
+    totalSeller,
+    recentOrders,
+    recentMessage,
+    t1,
+    t2,
+    t3,
+    t4,
+    t5,
+    t6,
+    t7,
+    t8,
+    t9,
+    t10,
+    t11,
+    t12,
+    tt1,
+    tt2,
+    tt3,
+    tt4,
+    tt5,
+    tt6,
+    tt7,
+    tt8,
+    tt9,
+    tt10,
+    tt11,
+    tt12,
+  } = useSelector((state) => state.dashboardIndex);
+
   const state = {
     series: [
       {
-        name: "Orders",
-        data: [34, 65, 34, 65, 34, 34, 34, 56, 23, 67, 23, 45],
+        name: "Đơn",
+        data: [t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12],
       },
+
       {
-        name: "Revenue",
-        data: [34, 32, 45, 32, 34, 34, 43, 56, 65, 67, 45, 78],
-      },
-      {
-        name: "Seles",
-        data: [78, 32, 34, 54, 65, 34, 54, 21, 54, 43, 45, 43],
+        name: "Tiền",
+        data: [tt1, tt2, tt3, tt4, tt5, tt6, tt7, tt8, tt9, tt10, tt11, tt12],
       },
     ],
     options: {
@@ -103,21 +137,69 @@ const SellerDashboard = () => {
       ],
     },
   };
+
+  const state1 = {
+    series: [
+      {
+        name: "Đơn",
+        data: [t1 + t2 + t3, t4 + t6 + t5, t7 + t8 + t9, t10 + t11 + t12],
+      },
+
+      {
+        name: "Tiền",
+        data: [tt1 + tt2 + tt3, t4 + tt6 + tt5, tt7 + tt8 + tt9, tt10 + tt11 + tt12],
+      },
+    ],
+    options: {
+      color: ["#181ee8", "#181ee8"],
+      plotOptions: {
+        radius: 30,
+      },
+      chart: {
+        background: "transparent",
+        foreColor: "#d0d2d6",
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        show: true,
+        curve: ["smooth", "straight", "stepline"],
+        lineCap: "butt",
+        colors: "#f0f0f0",
+        width: 0.5,
+        dashArray: 0,
+      },
+      xaxis: {
+        categories: ["Quý 1", "Quý 2", "Quý 3", "Quý 4"],
+      },
+      legend: {
+        position: "top",
+      },
+      responsive: [
+        {
+          breakpoint: 565,
+          yaxis: {
+            categories: ["Quý 1", "Quý 2", "Quý 3", "Quý 4"],
+          },
+          options: {
+            plotOptions: {
+              bar: {
+                horizontal: true,
+              },
+            },
+            chart: {
+              height: "550px",
+            },
+          },
+        },
+      ],
+    },
+  };
   const dispatch = useDispatch();
 
-  const { userInfo } = useSelector((state) => state.auth);
-  const {
-    totalSale,
-    totalOrder,
-    totalProduct,
-    totalPendingOrder,
-    totalSeller,
-    recentOrders,
-    recentMessage,
-  } = useSelector((state) => state.dashboardIndex);
-
   useEffect(() => {
-    dispatch(get_seller_dashboard_index_data());
+    dispatch(get_seller_dashboard_index_data({ sellerId: userInfo._id }));
     dispatch(thongke());
   }, []);
 
@@ -172,11 +254,6 @@ const SellerDashboard = () => {
                 type="bar"
                 height={350}
               />
-              {/* <iframe
-                class="w-full h-full"
-                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=65350d57-8afe-46d3-82fe-6fddd28ca39d&maxDataAge=3600&theme=dark&autoRefresh=true"
-                frameborder="0"
-              ></iframe> */}
             </div>
           </div>
         </div>
@@ -235,13 +312,14 @@ const SellerDashboard = () => {
       <div className="w-full flex mt-7 text-white">
         <div className="w-full lg:w-6/12 lg:pr-3">
           <div className="w-full bg-[#283046] p-4 rounded-md">
-            <h2>Thống kê theo ngày</h2>
+            <h2>Thống kê theo Quý</h2>
             <div class="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
-              <iframe
-                class="w-full h-full"
-                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=65350d57-8afe-46d3-82fe-6fddd28ca39d&maxDataAge=60&theme=dark&autoRefresh=true"
-                frameborder="0"
-              ></iframe>
+              <Chart
+                options={state1.options}
+                series={state1.series}
+                type="bar"
+                height={350}
+              />
             </div>
           </div>
         </div>
