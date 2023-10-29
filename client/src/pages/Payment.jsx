@@ -141,11 +141,21 @@ const Payment = () => {
                   <h2>Hóa Đơn</h2>
                   <div className="flex justify-between items-center">
                     <span> sản phẩm và phí vận chuyển đã áp dụng</span>
-                    <span>{price} đ</span>
+                    <span>
+                      {price.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })}{" "}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center font-semibold">
                     <span>Tổng số tiền cần thanh toán</span>
-                    <span className="text-lg text-orange-500">{price} đ</span>
+                    <span className="text-lg text-orange-500">
+                      {price.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })}{" "}
+                    </span>
                   </div>
                 </div>
               </div>

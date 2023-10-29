@@ -1,4 +1,3 @@
-
 import Orders from "../Orders";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -12,13 +11,13 @@ const Chothanhtoan = () => {
 
   useEffect(() => {
     dispatch(get_orders({ customerId: userInfo.id, status: state }));
-    setState('Đang chờ thanh toán!')
+    setState("Đang chờ thanh toán!");
   }, [dispatch, state, userInfo.id]);
 
   return (
     <div>
       <Orders />
-      {state==='Đang chờ thanh toán!' ? (
+      {state === "Đang chờ thanh toán!" ? (
         <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
           <div className="flex justify-between items-center w-full">
             <ul>
@@ -95,13 +94,22 @@ const Chothanhtoan = () => {
                                     </div>
                                     <div className="pl-4">
                                       <h2 className="text-md text-orange-500">
-                                        
-                                        {p.price -
+                                        {(
+                                          p.price -
                                           Math.floor(
                                             (p.price * p.discount) / 100
-                                          )} đ
+                                          )
+                                        ).toLocaleString("vi", {
+                                          style: "currency",
+                                          currency: "VND",
+                                        })}
                                       </h2>
-                                      <p>{p.price} đ</p>
+                                      <p>
+                                        {p.price.toLocaleString("vi", {
+                                          style: "currency",
+                                          currency: "VND",
+                                        })}
+                                      </p>
                                       <p>-{p.discount}%</p>
                                     </div>
                                     <div className="pt-2 flex items-center">
@@ -117,9 +125,7 @@ const Chothanhtoan = () => {
                                       >
                                         Liên hệ người bán
                                       </Link>
-                                      <button
-                                        className="border border-slate-500 hover:bg-slate-100 rounded-md bg-white m-2 p-2"
-                                      >
+                                      <button className="border border-slate-500 hover:bg-slate-100 rounded-md bg-white m-2 p-2">
                                         Mua lại
                                       </button>
                                     </div>

@@ -202,8 +202,6 @@ const Shipping = () => {
                             />
                           </div>
                         </div>
-
-                        <div></div>
                         <div className="flex md:flex-col md:gap-2 w-full gap-5 text-slate-600 ">
                           <div className="flex flex-col gap-1 mt-3 w-full">
                             <button className="ml-[100px] mr-[100px] px-3 py-[6px] rounded-sm hover:shadow-indigo-500/20 hover: shadow-lg bg-indigo-500 text-white">
@@ -225,7 +223,7 @@ const Shipping = () => {
                         <div>
                           {userInfo &&
                             userInfo.addresses.map((item, index) => (
-                              <div key={index} className="w-full flex mt-1">
+                              <div onClick={() => setRes(true)} key={index} className="w-full flex mt-1">
                                 <input
                                   type="checkbox"
                                   className="mr-3"

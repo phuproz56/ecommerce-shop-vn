@@ -75,7 +75,7 @@ const Products = ({ title, products }) => {
                   />
                   <div className="px-3 flex justify-start items-start gap-1 flex-col text-slate-600">
                     <h2>{pl.name}</h2>
-                    <span className="text-lg font-bold">{pl.price} đ</span>
+                    <span className="text-lg font-bold">{pl.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</span>
                     <div className="flex">
                       {<Ratings ratings={pl.rating} />}
                     </div>

@@ -63,14 +63,20 @@ const Headers = () => {
   useEffect(() => {
     if (listening) {
       setSearchValue(transcript);
-    } 
-  }, [listening, transcript]);
+      if (transcript) {
+        navigate(`/product/search?category=${category}&&value=${transcript}`);
+      }
+    }
+  }, [category, listening, navigate, transcript]);
 
   const search = () => {
     navigate(`/product/search?category=${category}&&value=${searchValue}`);
   };
 
-  console.log(searchValue);
+//   var x = 1000000;
+// x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+// console.log(x);
+  
   return (
     <div className=" w-full bg-white fixed z-40 pb-5 top-0 left-0 ">
       <div className="header-top bg-[#eeeeee] md-lg:hidden">
@@ -288,7 +294,7 @@ const Headers = () => {
           } hidden md-lg:block w-screen h-screen bg-[rgba(0,0,0,0.5)] top-0 left-0 z-20`}
         ></div>
         <div
-          className={`w-[300px] z-[9999] transition-all duration-200 fixed ${
+          className={`w-[300px] z-[30] transition-all duration-200 fixed ${
             showSlidebar ? "-left-[300px]" : "left-0 "
           } top-0 overflow-y-auto bg-white h-screen py-6 px-8`}
         >
@@ -419,7 +425,7 @@ const Headers = () => {
           </div>
         </div>
       </div>
-      <div className="w-[85%] lg:w-[90%] mx-auto">
+      <div className="w-[85%] lg:w-[90%] mx-auto ">
         <div className="flex w-full flex-wrap md-lg:gap-8">
           <div className="w-3/12 md-lg:w-full">
             <div className="bg-white relative">

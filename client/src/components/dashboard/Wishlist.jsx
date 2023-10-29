@@ -71,7 +71,7 @@ const Wishlist = () => {
           <div className="py-3 text-slate-600 px-2">
             <h2>{p.name}</h2>
             <div className="flex justify-start items-center gap-3">
-              <span className="text-lg  font-bold">{p.price} đ</span>
+              <span className="text-lg  font-bold">{p.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</span>
               <div className="flex">{<Ratings ratings={p.rating} />}</div>
             </div>
           </div>

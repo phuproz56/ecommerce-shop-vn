@@ -115,12 +115,12 @@ const Dahuy = () => {
                                       <div className="pl-4">
                                         <h2 className="text-md text-orange-500">
                                           
-                                          {p.price -
+                                          {(p.price -
                                             Math.floor(
                                               (p.price * p.discount) / 100
-                                            )} đ
+                                            )).toLocaleString('vi', {style : 'currency', currency : 'VND'})} 
                                         </h2>
-                                        <p className="line-through">{p.price}</p>
+                                        <p className="line-through">{p.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</p>
                                         <p>-{p.discount}%</p>
                                       </div>
                                     </div>

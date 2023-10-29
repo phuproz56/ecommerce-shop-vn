@@ -144,16 +144,16 @@ const Cart = () => {
                             <div className="flex justify-between w-5/12 sm:w-full sm:mt-3">
                               <div className="pl-4 sm:pl-0">
                                 <h2 className="text-lg text-orange-500">
-                                  ${" "}
-                                  {pt.productInfo.price -
+                                  {" "}
+                                  {(pt.productInfo.price -
                                     Math.floor(
                                       pt.productInfo.price *
                                         pt.productInfo.discount
                                     ) /
-                                      100}
+                                      100).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
                                 </h2>
                                 <p className="line-through">
-                                  {pt.productInfo.price}
+                                  {pt.productInfo.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}
                                 </p>
                                 <p>-{pt.productInfo.discount}%</p>
                               </div>
@@ -223,16 +223,16 @@ const Cart = () => {
                               <div className="flex justify-between w-5/12 sm:w-full sm:mt-3">
                                 <div className="pl-4 sm:pl-0">
                                   <h2 className="text-lg text-orange-500">
-                                    $
-                                    {p.products[0].price -
+                                    
+                                    {(p.products[0].price -
                                       Math.floor(
                                         (p.products[0].price *
                                           p.products[0].discount) /
                                           100
-                                      )}
+                                      )).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
                                   </h2>
                                   <p className="line-through">
-                                    {p.products[0].price}
+                                    {p.products[0].price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}
                                   </p>
                                   <p>-{p.products[0].discount}%</p>
                                 </div>
@@ -283,11 +283,11 @@ const Cart = () => {
                       <h2 className="text-xl font-bold">TỔNG SỐ TIỀN</h2>
                       <div className="flex justify-between  items-center">
                         <span>{buy_product_item} SẢN PHẨM</span>
-                        <span>${price}</span>
+                        <span>{price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</span>
                       </div>
                       <div className="flex justify-between  items-center">
                         <span>PHÍ VẬN CHUYỂN</span>
-                        <span>${shipping_fee}</span>
+                        <span>{shipping_fee.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</span>
                       </div>
                       <div className="flex gap-2">
                         <input
@@ -302,7 +302,7 @@ const Cart = () => {
                       <div className="flex justify-between  items-center">
                         <span>TỔNG</span>
                         <span className="text-lg text-orange-500">
-                          ${price + shipping_fee}
+                          {(price + shipping_fee).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
                         </span>
                       </div>
                       <button

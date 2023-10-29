@@ -87,7 +87,7 @@ const Index = () => {
                       scope="row"
                       className="px-6 py-4 font-medium whitespace-nowrap"
                     >
-                      {o.price} đ
+                      {o.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}
                     </th>
                     <th
                       scope="row"

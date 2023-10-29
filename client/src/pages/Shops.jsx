@@ -182,8 +182,8 @@ const Shops = () => {
                 />
                 <div>
                   <span className="text-red-500 font-bold text-lg">
-                    {Math.floor(state.values[0])} đ - 
-                    {Math.floor(state.values[1])} đ
+                    {Math.floor(state.values[0]).toLocaleString('vi', {style : 'currency', currency : 'VND'})}  - 
+                    {Math.floor(state.values[1]).toLocaleString('vi', {style : 'currency', currency : 'VND'})} 
                   </span>
                 </div>
               </div>

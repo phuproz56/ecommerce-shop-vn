@@ -87,9 +87,9 @@ const Order = () => {
                 </div>
                 <div className="pl-4">
                   <h2 className="text-md text-orange-500">
-                    {p.price - Math.floor((p.price * p.discount) / 100)} đ
+                    {(p.price - Math.floor((p.price * p.discount) / 100)).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
                   </h2>
-                  <p>{p.price} đ</p>
+                  <p>{p.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})} </p>
                   <p>-{p.discount}%</p>
                 </div>
               </div>
