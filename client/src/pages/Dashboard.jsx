@@ -6,7 +6,7 @@ import { FaList } from "react-icons/fa";
 import { FaAddressBook } from "react-icons/fa6";
 import { RxDashboard } from "react-icons/rx";
 import { RiProductHuntLine } from "react-icons/ri";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { BsChat, BsHeart } from "react-icons/bs";
 import { TfiLock } from "react-icons/tfi";
 import { BiLogInCircle } from "react-icons/bi";
@@ -18,6 +18,7 @@ import { ImProfile } from "react-icons/im";
 import toast from "react-hot-toast";
 
 const Dashboard = () => {
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [filterShow, setFilterShow] = useState(false);
@@ -36,7 +37,7 @@ const Dashboard = () => {
   };
   return (
     <div className="pt-[200px]">
-      <Headers />
+      <Headers /> {/*  Cum here  */}
       <div className="bg-slate-200 mt-5 ">
         <div className="w-[90%] mx-auto pt-5 md-lg:block hidden">
           <div>
