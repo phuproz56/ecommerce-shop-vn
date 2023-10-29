@@ -73,8 +73,8 @@ const Payment = () => {
                     }`}
                   >
                     <div className="flex flex-col gap-[3px] justify-center items-center">
-                      <img src="/images/payment/stripe.png" alt="stripe" />
-                      <span className="text-slate-600">Stripe</span>
+                      <img src="/images/payment/bank.png" alt="stripe" />
+                      <span className="text-slate-600">Chuyển Khoản</span>
                     </div>
                   </div>
                   <div

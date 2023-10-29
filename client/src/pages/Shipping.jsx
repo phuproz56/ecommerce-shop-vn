@@ -249,7 +249,7 @@ const Shipping = () => {
                       </h2>
                       <p>
                         <span className="bg-blue-200 text-blue-800 text-xs font-medium mr-2 px-3 py-1 rounded">
-                          Home
+                          Địa chỉ
                         </span>
                         <span className="text-slate-600 text-sm">
                           {address1} {city} {country}{" "}
@@ -294,14 +294,14 @@ const Shipping = () => {
                           <div className="pl-4 sm:pt-0">
                             <h2 className="text-orange-500 text-lg">
                               
-                              {pt.productInfo.price -
+                              {(pt.productInfo.price -
                                 Math.floor(
                                   pt.productInfo.price * pt.productInfo.discount
                                 ) /
-                                  100} đ
+                                  100).toLocaleString('vi', {style : 'currency', currency : 'VND'})} 
                             </h2>
                             <p className="line-through">
-                              {pt.productInfo.price} đ
+                              {pt.productInfo.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}
                             </p>
                             <p>-{pt.productInfo.discount}%</p>
                           </div>
@@ -318,24 +318,24 @@ const Shipping = () => {
                   <h2 className="text-xl font-semibold">HÓA ĐƠN</h2>
                   <div className="flex justify-between  items-center">
                     <span>Tổng Số Tiền</span>
-                    <span className="text-lg text-orange-500">{price} đ</span>
+                    <span className="text-lg text-orange-500">{price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</span>
                   </div>
                   <div className="flex justify-between  items-center">
                     <span>Phí Giao Hàng</span>
                     <span className="text-lg text-orange-500">
-                      {shipping_fee} đ
+                      {shipping_fee.toLocaleString('vi', {style : 'currency', currency : 'VND'})}
                     </span>
                   </div>
                   <div className="flex justify-between  items-center">
                     <span>Tổng Số Tiền Cần Trả</span>
                     <span className="text-lg text-orange-500">
-                      {price + shipping_fee} đ
+                      {(price + shipping_fee).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
                     </span>
                   </div>
                   <div className="flex justify-between  items-center">
                     <span>TỔNG</span>
                     <span className="text-lg text-orange-500">
-                      {price + shipping_fee} đ
+                      {(price + shipping_fee).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
                     </span>
                   </div>
                   <button

@@ -272,10 +272,7 @@ const Details = () => {
                 ) : (
                   <h2>
                     Price:{" "}
-                    {product.price.toLocaleString("vi", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
+                    {product.price}
                   </h2>
                 )}
               </div>

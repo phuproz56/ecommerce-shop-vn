@@ -34,7 +34,7 @@ const Headers = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
-  const { categorys } = useSelector((state) => state.home);
+  const { categorys, products } = useSelector((state) => state.home);
   const [categoryShow, setCategoryShow] = useState(true);
   const { pathname } = useLocation();
   const [showSlidebar, setshowSlidebar] = useState(true);
@@ -45,6 +45,7 @@ const Headers = () => {
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (userInfo) {
@@ -60,25 +61,42 @@ const Headers = () => {
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
-  useEffect(() => {
-    if (listening) {
-      setSearchValue(transcript);
-      if (transcript) {
-        navigate(`/product/search?category=${category}&&value=${transcript}`);
-      }
-    }
-  }, [category, listening, navigate, transcript]);
-
   const search = () => {
     navigate(`/product/search?category=${category}&&value=${searchValue}`);
   };
 
-//   var x = 1000000;
-// x = x.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
-// console.log(x);
-  
+  const [filteredUsers, setFilteredUsers] = useState(products);
+
+  const handleInputChange = (e) => {
+    const searchTerm = e.target.value;
+    setSearchValue(searchTerm);
+    const filteredItems = products.filter((user) =>
+      user.name.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    console.log(filteredItems);
+    if (searchTerm && !listening) {
+      setFilteredUsers(filteredItems);
+    } else {
+      filteredItems.length = 0;
+      setFilteredUsers("");
+    }
+  };
+  useEffect(() => {
+    if (listening) {
+      setSearchValue(transcript);
+      setFilteredUsers("");
+      if (transcript) {
+        navigate(`/product/search?category=${category}&&value=${transcript}`);
+        setFilteredUsers("");
+      }
+    }
+    setFilteredUsers("");
+  }, [category, listening, navigate, transcript]);
+
+  console.log(filteredUsers, searchValue);
+
   return (
-    <div className=" w-full bg-white fixed z-40 pb-5 top-0 left-0 ">
+    <div className="w-full bg-white fixed z-40 pb-5 top-0 left-0">
       <div className="header-top bg-[#eeeeee] md-lg:hidden">
         <div className="w-[85%] lg:w-[90%] mx-auto">
           <div className="flex w-full justify-between items-center h-[50px] text-slate-500">
@@ -501,6 +519,7 @@ const Headers = () => {
                         type="text"
                         placeholder="Bạn đang tìm gì ?"
                       />
+
                       <div className="flex items-end h-full">
                         <p
                           className="flex text-lg cursor-pointer "
@@ -514,10 +533,12 @@ const Headers = () => {
                     <div className="flex w-full pr-[20px]">
                       <input
                         className="w-full bg-transparent text-slate-500 outline-0 px-3 h-full"
-                        onChange={(e) => setSearchValue(e.target.value)}
+                        // onChange={(e) => setSearchValue(e.target.value)}
+                        onChange={handleInputChange}
                         type="text"
                         placeholder="Bạn đang tìm gì ?"
                       />
+
                       <div className="flex items-end h-full">
                         <p
                           className="flex text-lg cursor-pointer "
@@ -554,6 +575,33 @@ const Headers = () => {
                 </div>
               </div> */}
             </div>
+            {filteredUsers.length ? (
+              <div className="flex flex-wrap w-[655px] justify-start items-start fixed bg-white">
+                <div className="w-8/12 md-lg:w-9/12">
+                  <div className="flex w-[655px] flex-wrap border items-center relative gap-5">
+                    <ul className="flex flex-wrap w-auto">
+                      {filteredUsers.map((product) => (
+                        <Link to={`/product/details/${product.slug}`}>
+                          <li
+                            className="flex flex-wrap w-[655px]"
+                            key={product.id}
+                          >
+                            <img
+                              className="flex flex-wrap h-[50px] w-[50px]"
+                              src={product.images[0]}
+                              alt=""
+                            />
+                            {product?.name?.slice(0, 32)}...
+                          </li>
+                        </Link>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

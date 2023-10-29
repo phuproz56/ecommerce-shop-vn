@@ -14,7 +14,7 @@ const Orders = () => {
       <div className="flex justify-between items-center w-full">
         <div className="md-lg:w-full w-full">
           <div className="flex justify-between md-lg:justify-center items-center flex-wrap pl-8">
-            <ul className="flex justify-start items-start gap-20 text-sm font-bold uppercase">
+            <ul className="flex justify-start items-start gap-20 text-sm font-bold uppercase w-full">
               <li>
                 <Link
                   to="/dashboard/tatca"
