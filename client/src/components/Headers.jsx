@@ -43,6 +43,7 @@ const Headers = ({ isFixed }) => {
   );
   const user = 0;
 
+  // console.log(mode); cái này là cái ví dụ để in cái mode ra
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(true);
@@ -93,7 +94,7 @@ const Headers = ({ isFixed }) => {
     setFilteredUsers("");
   }, [category, listening, navigate, transcript]);
 
-  const headerStyle = isFixed ? { position: 'fixed' } : {};
+  const headerStyle = isFixed ? { position: "fixed" } : {};
 
   return (
     <div
