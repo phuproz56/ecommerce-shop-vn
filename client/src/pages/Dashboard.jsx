@@ -37,6 +37,9 @@ const Dashboard = () => {
   };
   return (
     <div className="pt-[200px]">
+      {*/ chổ này ông thêm cái param theo kiểu
+        <Headers mode={'<cái gì đó>'}
+      */}
       <Headers /> {/*  Cum here  */}
       <div className="bg-slate-200 mt-5 ">
         <div className="w-[90%] mx-auto pt-5 md-lg:block hidden">
