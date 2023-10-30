@@ -37,7 +37,7 @@ const Dashboard = () => {
   };
   return (
     <div className="pt-[200px]">
-      {*/ chổ này ông thêm cái param theo kiểu
+      {/* chổ này ông thêm cái param theo kiểu
         <Headers mode={'<cái gì đó>'}
       */}
       <Headers /> {/*  Cum here  */}
