@@ -52,7 +52,7 @@ const Hoanthanh = () => {
                         <h2 className="text-slate-600 font-semibold">
                           Đã mua vào ngày: <span>{q.date}</span>{" "}
                           <div className="text-end">
-                            <Link to={``} className="pl-[100px] text-green-500">
+                            <Link to={`/dashboard/order/${u._id}`} className="pl-[100px] text-green-500">
                               {q.delivery_status}
                             </Link>
                             {q.delivery_status === "Đã Giao Hàng" && (
@@ -91,8 +91,8 @@ const Hoanthanh = () => {
                           <div className="flex gap-5 ">
                             <ul>
                               {q.products?.map((p, i) => (
-                                <li>
-                                  <div className="flex flex-col w-full" key={i}>
+                                <li  key={i}>
+                                  <div className="flex flex-col w-full">
                                     <div className="flex gap-5 justify-start items-center text-slate-600">
                                       <div className="flex gap-2">
                                         <img

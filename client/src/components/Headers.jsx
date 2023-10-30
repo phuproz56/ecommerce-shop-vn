@@ -30,7 +30,7 @@ import SpeechRecognition, {
 import loading2 from "react-useanimations/lib/loading2";
 import UseAnimations from "react-useanimations";
 
-const Headers = () => {
+const Headers = ({ isFixed }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
@@ -73,7 +73,7 @@ const Headers = () => {
     const filteredItems = products.filter((user) =>
       user.name.toString().toLowerCase().includes(searchTerm.toLowerCase())
     );
-    console.log(filteredItems);
+
     if (searchTerm && !listening) {
       setFilteredUsers(filteredItems);
     } else {
@@ -93,10 +93,13 @@ const Headers = () => {
     setFilteredUsers("");
   }, [category, listening, navigate, transcript]);
 
-  console.log(filteredUsers, searchValue);
+  const headerStyle = isFixed ? { position: 'fixed' } : {};
 
   return (
-    <div className="w-full bg-white fixed z-40 pb-5 top-0 left-0">
+    <div
+      style={headerStyle}
+      className={`w-full bg-white z-40 pb-5 top-0 left-0`}
+    >
       <div className="header-top bg-[#eeeeee] md-lg:hidden">
         <div className="w-[85%] lg:w-[90%] mx-auto">
           <div className="flex w-full justify-between items-center h-[50px] text-slate-500">

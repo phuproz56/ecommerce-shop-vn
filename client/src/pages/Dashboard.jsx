@@ -35,8 +35,9 @@ const Dashboard = () => {
       console.log(error.response.data);
     }
   };
+
   return (
-    <div className="pt-[200px]">
+    <div>
       <Headers /> {/*  Cum here  */}
       <div className="bg-slate-200 mt-5 ">
         <div className="w-[90%] mx-auto pt-5 md-lg:block hidden">

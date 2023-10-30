@@ -58,7 +58,7 @@ const Payment = () => {
   }, [message]);
   console.log(message);
   return (
-    <div className="pt-[200px]">
+    <div>
       <Headers />
       <section className="bg-[#eeeeee]">
         <div className="w-[85%] lg:w-[90%] md:w-[90%] sm:w-[90%] mx-auto py-16 mt-4">

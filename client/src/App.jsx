@@ -30,6 +30,7 @@ import Choxuly from "./components/dashboard/orders/Choxuly";
 import Dahuy from "./components/dashboard/orders/Dahuy";
 import Danggiao from "./components/dashboard/orders/Danggiao";
 import Hoanthanh from "./components/dashboard/orders/Hoanthanh";
+import OrderDetails from "./components/dashboard/OrderDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -64,6 +65,7 @@ function App() {
             <Route key={4} path="danggiao" element={<Danggiao />} />
             <Route key={5} path="hoanthanh" element={<Hoanthanh />} />
             <Route key={6} path="dahuy" element={<Dahuy />} />
+            <Route  path="order/:orderId" element={<OrderDetails />} />
 
             <Route path="my-wishlist" element={<Wishlist />} />
             <Route path="order/details/:orderId" element={<Order />} />

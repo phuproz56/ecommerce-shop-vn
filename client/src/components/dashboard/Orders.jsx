@@ -10,77 +10,77 @@ const Orders = () => {
   const [state, setState] = useState("");
 
   return (
-    <div className="bg-white p-4 rounded-md w-full">
+    <div className="bg-white flex p-4 rounded-md w-full ">
       <div className="flex justify-between items-center w-full">
         <div className="md-lg:w-full w-full">
           <div className="flex justify-between md-lg:justify-center items-center flex-wrap pl-8">
-            <ul className="flex justify-start items-start gap-20 text-sm font-bold uppercase w-full">
-              <li>
+            <ul className="flex md:flex-col gap-20 text-sm font-bold uppercase w-auto">
+              <li className="flex justify-start items-center gap-2 py-2 w-auto">
                 <Link
                   to="/dashboard/tatca"
-                  className={`p-2 block ${
+                  className={` flex justify-start items-center p-2 ${
                     pathname === "/dashboard/tatca"
-                      ? "text-[#7fad39]"
+                      ? "text-[#7fad39] border-b-2"
                       : "text-slate-600"
                   }`}
                 >
                   tất cả
                 </Link>
               </li>
-              <li>
+              <li className="flex justify-start items-center gap-2 py-2 w-auto">
                 <Link
                   to="/dashboard/choxuly"
-                  className={`p-2 block ${
+                  className={`p-2 flex justify-start items-center ${
                     pathname === "/dashboard/choxuly"
-                      ? "text-[#7fad39]"
+                      ? "text-[#7fad39] border-b-2"
                       : "text-slate-600"
                   }`}
                 >
                   chờ xử lý
                 </Link>
               </li>
-              <li>
+              <li className="flex justify-start items-center gap-2 py-2 w-auto">
                 <Link
                   to="/dashboard/vanchuyen"
-                  className={`p-2 block ${
+                  className={`p-2 flex justify-start items-center ${
                     pathname === "/dashboard/vanchuyen"
-                      ? "text-[#7fad39]"
+                      ? "text-[#7fad39] border-b-2"
                       : "text-slate-600"
                   }`}
                 >
                   vận chuyển
                 </Link>
               </li>
-              <li>
+              <li className="flex justify-start items-center gap-2 py-2 w-auto">
                 <Link
                   to="/dashboard/danggiao"
-                  className={`p-2 block ${
+                  className={`p-2 flex justify-start items-center ${
                     pathname === "/dashboard/danggiao"
-                      ? "text-[#7fad39]"
+                      ? "text-[#7fad39] border-b-2"
                       : "text-slate-600"
                   }`}
                 >
                   đang giao
                 </Link>
               </li>
-              <li>
+              <li className="flex justify-start items-center gap-2 py-2 w-auto">
                 <Link
                   to="/dashboard/hoanthanh"
-                  className={`p-2 block ${
+                  className={`p-2 flex justify-start items-center ${
                     pathname === "/dashboard/hoanthanh"
-                      ? "text-[#7fad39]"
+                      ? "text-[#7fad39] border-b-2"
                       : "text-slate-600"
                   }`}
                 >
                   hoàn thành
                 </Link>
               </li>
-              <li>
+              <li className="flex justify-start items-center gap-2 py-2 w-auto">
                 <Link
                   to="/dashboard/dahuy"
-                  className={`p-2 block ${
+                  className={`p-2 flex justify-start items-center ${
                     pathname === "/dashboard/dahuy"
-                      ? "text-[#7fad39]"
+                      ? "text-[#7fad39] border-b-2"
                       : "text-slate-600"
                   }`}
                 >

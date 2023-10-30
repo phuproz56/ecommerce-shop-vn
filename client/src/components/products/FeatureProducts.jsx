@@ -112,7 +112,12 @@ const FeatureProducts = ({ products }) => {
             <div className="py-3 text-slate-600 px-2">
               <h2>{c.name}</h2>
               <div className="flex justify-start items-center gap-3">
-                <span className="text-lg  font-bold">{c.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</span>
+                <span className="text-lg  font-bold">
+                  {c.price.toLocaleString("vi", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </span>
                 <div className="flex">{<Ratings ratings={c.rating} />}</div>
               </div>
             </div>

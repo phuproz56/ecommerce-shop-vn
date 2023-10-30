@@ -221,7 +221,8 @@ class orderController {
   get_order = async (req, res) => {
     const { orderId } = req.params;
     try {
-      const order = await customerOrder.findById(orderId);
+      const order = await authOrderModel.find({ orderId });
+
       responseReturn(res, 200, {
         order,
       });

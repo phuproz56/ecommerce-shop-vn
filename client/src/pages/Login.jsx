@@ -44,7 +44,7 @@ const Login = () => {
     }
   }, [successMessage, errorMessage, messageClear]);
   return (
-    <div className="pt-[200px]">
+    <div>
       {loader && (
         <div className="w-screen h-screen flex justify-center items-center fixed left-0 top-0 bg-[#38303033] z-[9999]">
           <FadeLoader />

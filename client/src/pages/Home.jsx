@@ -10,24 +10,19 @@ import { get_categorys, get_products } from "../store/reducers/homeReducer";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const {
-    products,
-    latest_products,
-    topRated_products,
-    discount_products,
-  } = useSelector((state) => state.home);
+  const { products, latest_products, topRated_products, discount_products } =
+    useSelector((state) => state.home);
   useEffect(() => {
     dispatch(get_categorys());
     dispatch(get_products());
   }, [dispatch]);
 
-
   return (
     <div className="w-full">
-      <Headers  />
+      <Headers isFixed={true}/>
       <Banner />
       <div className="my-4">
-        <Categorys  />
+        <Categorys />
       </div>
       <div className="py-[45px]">
         <FeatureProducts products={products} />
@@ -45,7 +40,10 @@ const Home = () => {
               />
             </div>
             <div className="overflow-hidden">
-              <Products title="SP giảm giá cao nhất" products={discount_products} />
+              <Products
+                title="SP giảm giá cao nhất"
+                products={discount_products}
+              />
             </div>
           </div>
         </div>

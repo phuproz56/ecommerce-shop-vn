@@ -53,7 +53,7 @@ const Vanchuyen = () => {
                         <h2 className="text-slate-600 font-semibold">
                           Đã mua vào ngày: <span>{q.date}</span>{" "}
                           <div className="text-end">
-                            <Link to={``} className="pl-[100px] text-green-500">
+                            <Link to={`/dashboard/order/${u._id}`} className="pl-[100px] text-green-500">
                               {q.delivery_status}
                             </Link>
                             {q.delivery_status === "complete" && (

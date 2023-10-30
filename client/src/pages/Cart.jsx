@@ -84,7 +84,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="pt-[200px]">
+    <div>
       <Headers />
       <section className="bg-[url('http://localhost:3000/images/banner/cart.jpg')] h-[220px] mt-6 bg-cover bg-no-reqeat relative bg-left">
         <div className="absolute left-0 top-0 h-full w-full mx-auto bg-[#2422228a]">
