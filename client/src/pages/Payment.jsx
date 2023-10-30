@@ -19,7 +19,7 @@ const Payment = () => {
   const { myOrder } = useSelector((state) => state.order);
   const location = useLocation();
   const [paymentMethod, setPaymentMethod] = useState("stripe");
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
@@ -109,7 +109,7 @@ const Payment = () => {
                     >
                       Mua Ngay
                     </button>
-                    {message === "succeeded" ? (
+                    {message === "succeeded" && (
                       loader ? (
                         <FadeLoader />
                       ) : (
@@ -128,8 +128,6 @@ const Payment = () => {
                           </Link>
                         </div>
                       )
-                    ) : (
-                      <FadeLoader />
                     )}
                   </div>
                 )}

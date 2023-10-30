@@ -56,7 +56,13 @@ const LogProductSeeDetail = () => {
                 <p>số lượng khi nhập: {u.stock}</p>
               </div>
               <div className="text-white">
-                <p>giá: {u.price}</p>
+                <p>
+                  giá:{" "}
+                  {u.price.toLocaleString("vi", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </p>
               </div>
               <div className="text-white">
                 <p>ghi chú: {u.note}</p>

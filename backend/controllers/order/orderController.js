@@ -102,7 +102,7 @@ class orderController {
 
       setTimeout(() => {
         this.paymentCheck(order.id);
-      }, 15000);
+      }, 36000000);
 
       responseReturn(res, 201, {
         message: "đặt hàng thành công!",

@@ -99,9 +99,9 @@ const Profile = () => {
             </div>
             <div className="px-0 md:px-5 py-2">
               <div className="flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md relative">
-                <span className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer">
+                {/* <span className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer">
                   <FaEdit />
-                </span>
+                </span> */}
                 <div className="flex gap-2">
                   <span>Tên : </span>
                   <span>{userInfo.name}</span>
@@ -206,9 +206,9 @@ const Profile = () => {
                 </form>
               ) : (
                 <div className="flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md relative">
-                  <span className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer">
+                  {/* <span className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer">
                     <FaEdit />
-                  </span>
+                  </span> */}
                   <div className="flex gap-2">
                     <span>Tên Shop : </span>
                     <span>{userInfo.shopInfo?.shopName}</span>
@@ -230,7 +230,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div className="w-full md:w-6/12">
+        {/* <div className="w-full md:w-6/12">
           <div className="w-full pl-0 md:pl-7 mt-6 md:mt-0  ">
             <div className="bg-[#283046] rounded-md text-[#d0d2d6] p-4">
               <h1 className="text-[#d0d2d6] text-lg mb-3 font-semibold">
@@ -273,7 +273,7 @@ const Profile = () => {
               </form>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

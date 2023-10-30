@@ -69,7 +69,7 @@ const Products = () => {
                   Thương Hiệu
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Giá 
+                  Giá
                 </th>
                 <th scope="col" className="py-3 px-4">
                   Giảm Giá
@@ -123,7 +123,12 @@ const Products = () => {
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
-                    <span>{d.price} VNĐ</span>
+                    <span>
+                      {d.price.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </span>
                   </th>
                   <th
                     scope="row"
@@ -152,7 +157,7 @@ const Products = () => {
                       >
                         <FaEdit />
                       </Link>
-                      
+
                       <button
                         onClick={() => deleteProduct(d._id)}
                         className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50"

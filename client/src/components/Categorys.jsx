@@ -45,7 +45,7 @@ const Categorys = () => {
       <Carousel
         autoPlay={true}
         infinite={true}
-        arrows={true}
+        arrows={false}
         responsive={responsive}
         transitionDuration={500}
       >

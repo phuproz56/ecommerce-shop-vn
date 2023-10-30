@@ -41,9 +41,7 @@ const Headers = ({ isFixed }) => {
   const { card_product_count, wishlist_count } = useSelector(
     (state) => state.card
   );
-  const user = 0;
 
-  // console.log(mode); cái này là cái ví dụ để in cái mode ra
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(true);
@@ -82,6 +80,8 @@ const Headers = ({ isFixed }) => {
       setFilteredUsers("");
     }
   };
+
+  console.log(filteredUsers, searchValue)
   useEffect(() => {
     if (listening) {
       setSearchValue(transcript);
@@ -432,7 +432,7 @@ const Headers = ({ isFixed }) => {
                 <h2 className="text-sm font-medium text-slate-700">
                   +1234567890
                 </h2>
-                <span className="text-xs">hỗ trợ 24/7 time</span>
+                <span className="text-xs">hỗ trợ 24/7</span>
               </div>
             </div>
             <ul className="flex flex-col justify-start items-start gap-3 text-[#1c1c1c]">
@@ -453,7 +453,7 @@ const Headers = ({ isFixed }) => {
             <div className="bg-white relative">
               <div
                 onClick={() => setCategoryShow(!categoryShow)}
-                className="h-[50px] bg-red-300 text-white flex justify-center md-lg:justify-between md-lg:px-6 items-center gap-3 font-bold text-md cursor-pointer"
+                className="h-[50px] bg-green-400 text-white flex justify-center md-lg:justify-between md-lg:px-6 items-center gap-3 font-bold text-md cursor-pointer"
               >
                 <div className="flex justify-center items-center gap-3">
                   <span>
@@ -495,9 +495,9 @@ const Headers = ({ isFixed }) => {
               </div>
             </div>
           </div>
-          <div className="w-8/12 pl-8 md-lg:pl-0 md-lg:w-full">
+          <div className="w-9/12 pl-8 md-lg:pl-0 md-lg:w-full">
             <div className="flex flex-wrap w-full justify-start items-start">
-              <div className="w-8/12 md-lg:w-9/12">
+              <div className="w-8/12 md-lg:w-10/12">
                 <div className="flex border h-[50px] items-center relative gap-5">
                   <div className="relative after:absolute w-6/12 after:h-[25px] after:w-[1px] after:bg-[#afafaf] after:-right-[15px] md:hidden">
                     <select
@@ -555,35 +555,35 @@ const Headers = ({ isFixed }) => {
                   )}
                 </div>
               </div>
-              <div className="flex relative border h-[50px] items-center w-1/12 md-lg:w-3/12">
+              <div className="flex relative border h-[50px] items-center w-1/12 ">
                 <button
                   onClick={search}
-                  className="bg-red-300 right-0 px-8 h-full font-semibold uppercase text-white"
+                  className="bg-green-400 right-0 px-8 h-full font-semibold uppercase text-white"
                 >
                   TÌM KIẾM
                 </button>
               </div>
-              {/* <div className="w-2/12 block md-lg:hidden pl-2 md-lg:w-full md-lg:pl-0">
+              <div className="w-3/12 block md-lg:hidden pl-2 md-lg:w-full md-lg:pl-0">
                 <div className="w-full flex justify-end md-lg:justify-start gap-3 items-center">
                   <div className="w-[48px] h-[48px] rounded-full flex bg-[#f5f5f5] justify-center items-center">
                     <span>
                       <IoIosCall />
                     </span>
                   </div>
-                  <div className="flex justify-end flex-col gap-1">
+                  <div className="flex justify-end items-end flex-col gap-1">
                     <h2 className="text-sm font-medium text-slate-700">
                       +1234567890
                     </h2>
-                    <span className="text-xs">support 24/7 time</span>
+                    <span className="text-xs">hỗ trợ 24/7</span>
                   </div>
                 </div>
-              </div> */}
+              </div>
             </div>
             {filteredUsers.length ? (
-              <div className="flex flex-wrap w-[655px] justify-start items-start fixed bg-white">
+              <div className="flex flex-wrap w-auto justify-start items-start fixed bg-white">
                 <div className="w-8/12 md-lg:w-9/12">
                   <div className="flex w-[655px] flex-wrap border items-center relative gap-5">
-                    <ul className="flex flex-wrap w-auto">
+                    <ul className="flex p-4 flex-wrap w-auto">
                       {filteredUsers.map((product) => (
                         <Link to={`/product/details/${product.slug}`}>
                           <li

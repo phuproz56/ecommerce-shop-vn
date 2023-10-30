@@ -56,8 +56,12 @@ const Tatca = () => {
                         <h2 className="text-slate-600 font-semibold">
                           Đã mua vào ngày: <span>{q.date}</span>{" "}
                           <div className="text-end">
-                            <Link to={``} className="pl-[100px] text-green-500">
-                              {q.delivery_status}
+                            <Link 
+                              to={`/dashboard/order/${u._id}`}
+                              className="pl-[100px] text-green-500"
+                            >
+
+                              {q.delivery_status === 'Tìm Shipper' ? 'Đã Xử Lí' : q.delivery_status}
                             </Link>
                             {q.delivery_status === "Đã Giao Hàng" && (
                               <b className="border-l-2 text-red-400 uppercase ml-4">

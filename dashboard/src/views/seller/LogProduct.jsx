@@ -84,7 +84,10 @@ const LogProduct = () => {
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
-                    <span>{d.price} đ</span>
+                    <span>{d.price.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })} </span>
                   </th>
                   <th
                     scope="row"
