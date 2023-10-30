@@ -29,7 +29,8 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import loading2 from "react-useanimations/lib/loading2";
 import UseAnimations from "react-useanimations";
-
+// Dòng 33 là cái ví dụ cụ thể cách truyền mode vô trong component, thay thế dòng 34 hiện tại
+// const Headers = (mode) => { 
 const Headers = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ const Headers = () => {
   );
   const user = 0;
 
+  // console.log(mode); cái này là cái ví dụ để in cái mode ra
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(true);
