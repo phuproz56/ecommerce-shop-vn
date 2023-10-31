@@ -27,6 +27,7 @@ const Reviews = ({ product }) => {
     (state) => state.home
   );
   const { userInfo } = useSelector((state) => state.auth);
+
   const [re, setRe] = useState();
 
   const review_submit = (e) => {
@@ -39,6 +40,7 @@ const Reviews = ({ product }) => {
     };
     dispatch(customer_review(obj));
   };
+  // console.log(product)
 
   useEffect(() => {
     if (successMessage) {

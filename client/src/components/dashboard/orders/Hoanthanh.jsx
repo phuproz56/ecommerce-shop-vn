@@ -11,22 +11,30 @@ import {
 } from "../../../store/reducers/orderReducer";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { RxCross1 } from "react-icons/rx";
+import Reviews from "../../Reviews";
+import api from "../../../api/api";
+
 const Hoanthanh = () => {
   const dispatch = useDispatch();
   const { allOrders, successMessage } = useSelector((state) => state.order);
   const { userInfo } = useSelector((state) => state.auth);
+  const [open, setOpen] = useState(false);
+  const { product } = useSelector((state) => state.home);
+
+  // const getProduct = async () => {
+  //   try {
+  //     const { data } = await api.get(`/home/get-product/`);
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.log(error.response.data);
+  //   }
+  // };
 
   useEffect(() => {
     dispatch(get_all_orders());
+    // dispatch(getProduct());
   }, []);
-
-  // const huydonhang = (id) => {
-  //   dispatch(huy_order({ orderId: id }));
-
-  //   setTimeout(() => {
-  //     window.location.reload();
-  //   }, 2000);
-  // };
 
   useEffect(() => {
     if (successMessage) {
@@ -34,10 +42,32 @@ const Hoanthanh = () => {
       messageClear();
     }
   }, [successMessage]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div>
       <Orders />
       <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
+        {open && (
+          <div className="fixed w-full h-screen bg-[#0000004b] top-0 left-0 flex items-center justify-center ">
+            <div className="w-[50%] h-[80vh] pl-[100px] bg-white rounded shadow relative overflow-y-scroll">
+              <div className="w-full flex justify-end p-3">
+                <RxCross1
+                  size={30}
+                  className="cursor-pointer"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+              <h1 className="text-center text-[25px] font-Poppins">Đánh giá</h1>
+              <div className="w-[50%]">
+                <Reviews product={product} />
+              </div>
+            </div>
+          </div>
+        )}
         <div className="flex justify-between items-center w-full">
           <ul className="w-full">
             {allOrders.map((u, i) =>
@@ -52,7 +82,10 @@ const Hoanthanh = () => {
                         <h2 className="text-slate-600 font-semibold">
                           Đã mua vào ngày: <span>{q.date}</span>{" "}
                           <div className="text-end">
-                            <Link to={`/dashboard/order/${u._id}`} className="pl-[100px] text-green-500">
+                            <Link
+                              to={`/dashboard/order/${u._id}`}
+                              className="pl-[100px] text-green-500"
+                            >
                               {q.delivery_status}
                             </Link>
                             {q.delivery_status === "Đã Giao Hàng" && (
@@ -91,7 +124,7 @@ const Hoanthanh = () => {
                           <div className="flex gap-5 ">
                             <ul>
                               {q.products?.map((p, i) => (
-                                <li  key={i}>
+                                <li key={i}>
                                   <div className="flex flex-col w-full">
                                     <div className="flex gap-5 justify-start items-center text-slate-600">
                                       <div className="flex gap-2">
@@ -112,20 +145,30 @@ const Hoanthanh = () => {
                                       </div>
                                       <div className="pl-4">
                                         <h2 className="text-md text-orange-500">
-                                          
-                                          {(p.price -
+                                          {(
+                                            p.price -
                                             Math.floor(
                                               (p.price * p.discount) / 100
-                                            )).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
+                                            )
+                                          ).toLocaleString("vi", {
+                                            style: "currency",
+                                            currency: "VND",
+                                          })}
                                         </h2>
-                                        <p className="line-through">{p.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</p>
+                                        <p className="line-through">
+                                          {p.price.toLocaleString("vi", {
+                                            style: "currency",
+                                            currency: "VND",
+                                          })}
+                                        </p>
                                         <p>-{p.discount}%</p>
                                       </div>
                                       {q.delivery_status === "Đã Giao Hàng" && (
                                         <div className="pt-2 flex items-center">
                                           <Link
+                                            onClick={() => setOpen(true)}
                                             className={`rounded-md text-white bg-red-500 m-2 p-2 `}
-                                            to={`/product/details/${p.slug}`}
+                                            // to={`/product/details/${p.slug}`}
                                           >
                                             Đánh Giá
                                           </Link>

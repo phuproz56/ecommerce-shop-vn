@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BsImages } from "react-icons/bs";
-import { FaEdit } from "react-icons/fa";
+// import { FaEdit } from "react-icons/fa";
 import { PropagateLoader } from "react-spinners";
 import { FadeLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";

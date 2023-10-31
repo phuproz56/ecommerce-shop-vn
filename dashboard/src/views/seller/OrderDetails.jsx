@@ -117,11 +117,11 @@ const OrderDetails = () => {
                   <span className="text-base">{order?.payment_status}</span>
                 </div>
                 <span>
-                  Giá :{" "}
-                  {order?.price.toLocaleString("vi", {
+                  Giá :
+                  {order?.price?.toLocaleString("vi", {
                     style: "currency",
                     currency: "VND",
-                  })}{" "}
+                  })}
                 </span>
                 <div className="mt-4 flex flex-col gap-8">
                   <div className="text-[#d0d2d6]">
