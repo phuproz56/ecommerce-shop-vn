@@ -40,8 +40,8 @@ const Danggiao = () => {
       <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
         <div className="flex justify-between items-center w-full">
           <ul className="w-full">
-            {allOrders.map((u, i) =>
-              u.suborder.map((q, i) =>
+            {allOrders.map((q, i) =>
+              
                 q.delivery_status === "Đang Giao Hàng" ? (
                   <li
                     key={i}
@@ -52,7 +52,7 @@ const Danggiao = () => {
                         <h2 className="text-slate-600 font-semibold">
                           Đã mua vào ngày: <span>{q.date}</span>{" "}
                           <div className="text-end">
-                            <Link to={`/dashboard/order/${u._id}`} className="pl-[100px] text-green-500">
+                            <Link to={`/dashboard/order/${q._id}`} className="pl-[100px] text-green-500">
                               {q.delivery_status}
                             </Link>
                             {q.delivery_status === "complete" && (
@@ -148,7 +148,7 @@ const Danggiao = () => {
                   ""
                 )
               )
-            )}
+            }
           </ul>
         </div>
       </div>

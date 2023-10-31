@@ -41,8 +41,8 @@ const Dahuy = () => {
       <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
         <div className="flex justify-between items-center w-full">
           <ul className="w-full">
-            {allOrders.map((u, i) =>
-              u.suborder.map((q, i) =>
+            {allOrders.map((q, i) =>
+              
                 q.delivery_status === "Hủy" ? (
                   <li
                     key={i}
@@ -143,7 +143,7 @@ const Dahuy = () => {
                   ""
                 )
               )
-            )}
+            }
           </ul>
         </div>
       </div>

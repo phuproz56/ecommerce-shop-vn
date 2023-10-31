@@ -17,7 +17,7 @@ const OrderDetails = () => {
   const dispatch = useDispatch();
   const { orderId } = useParams();
   const { myOrder } = useSelector((state) => state.order);
-
+console.log(myOrder)
   useEffect(() => {
     dispatch(get_order(orderId));
   }, [dispatch, orderId]);
@@ -38,9 +38,9 @@ const OrderDetails = () => {
         <div className="flex justify-items-end uppercase">
           <p className="flex items-end pr-2">Mã đơn hàng: {orderId}</p>
           <p className="flex border-l-2 pl-2 text-red-500">
-            {myOrder[0]?.delivery_status === "Đã Giao Hàng"
+            {myOrder?.delivery_status === "Đã Giao Hàng"
               ? "Đơn hàng đã hoàn thành"
-              : myOrder[0]?.delivery_status === "Hủy"
+              : myOrder?.delivery_status === "Hủy"
               ? "Đơn hàng đã hủy"
               : "Đơn hàng chưa hoàn thành"}
           </p>
@@ -50,17 +50,17 @@ const OrderDetails = () => {
         <div>
           <FcTodoList
             className={` p-2 border-4 ${
-              myOrder[0]?.delivery_status === "Hủy"
+              myOrder?.delivery_status === "Hủy"
                 ? "border-slate-500"
                 : "border-green-500"
             } rounded-full`}
             style={{ fontSize: "80px" }}
           />
-          Đơn Hàng Đã Đặt <p className="text-slate-400">{myOrder[0]?.date}</p>
+          Đơn Hàng Đã Đặt <p className="text-slate-400">{myOrder?.date}</p>
         </div>
         <div
           className={`w-full border-t-4 ${
-            myOrder[0]?.delivery_status === "Hủy"
+            myOrder?.delivery_status === "Hủy"
               ? "border-slate-500"
               : "border-green-500"
           } mt-[40px]`}
@@ -68,20 +68,22 @@ const OrderDetails = () => {
         <div>
           <FcMoneyTransfer
             className={`p-2 border-4 ${
-              myOrder[0]?.delivery_status === "Hủy"
+              myOrder?.delivery_status === "Hủy"
                 ? "border-slate-500"
                 : "border-green-500"
             }  rounded-full`}
             style={{ fontSize: "80px" }}
           />
           Đã Xác Nhận Thông Tin Thanh Toán
-          <p className="text-slate-400">{moment(myOrder[0]?.updatedAt).format("LLL")}</p>
+          <p className="text-slate-400">
+            {moment(myOrder?.updatedAt).format("LLL")}
+          </p>
         </div>
         <div
           className={`w-full border-t-4 ${
-            myOrder[0]?.delivery_status === "Vận Chuyển" ||
-            myOrder[0]?.delivery_status === "Đang Giao Hàng" ||
-            myOrder[0]?.delivery_status === "Đã Giao Hàng"
+            myOrder?.delivery_status === "Vận Chuyển" ||
+            myOrder?.delivery_status === "Đang Giao Hàng" ||
+            myOrder?.delivery_status === "Đã Giao Hàng"
               ? "border-green-500"
               : "border-slate-500"
           } mt-[40px]`}
@@ -89,16 +91,16 @@ const OrderDetails = () => {
         <div>
           <MdLocalShipping
             className={`p-2 border-4 ${
-              myOrder[0]?.delivery_status === "Vận Chuyển" ||
-              myOrder[0]?.delivery_status === "Đang Giao Hàng" ||
-              myOrder[0]?.delivery_status === "Đã Giao Hàng"
+              myOrder?.delivery_status === "Vận Chuyển" ||
+              myOrder?.delivery_status === "Đang Giao Hàng" ||
+              myOrder?.delivery_status === "Đã Giao Hàng"
                 ? "border-green-500"
                 : "border-slate-500"
             } rounded-full`}
             style={
-              myOrder[0]?.delivery_status === "Vận Chuyển" ||
-              myOrder[0]?.delivery_status === "Đang Giao Hàng" ||
-              myOrder[0]?.delivery_status === "Đã Giao Hàng"
+              myOrder?.delivery_status === "Vận Chuyển" ||
+              myOrder?.delivery_status === "Đang Giao Hàng" ||
+              myOrder?.delivery_status === "Đã Giao Hàng"
                 ? { fontSize: "80px", color: "green" }
                 : { fontSize: "80px", color: "slategray" }
             }
@@ -107,7 +109,7 @@ const OrderDetails = () => {
         </div>
         <div
           className={`w-full border-t-4 ${
-            myOrder[0]?.delivery_status === "Đã Giao Hàng"
+            myOrder?.delivery_status === "Đã Giao Hàng"
               ? "border-green-500"
               : "border-slate-500"
           } mt-[40px]`}
@@ -115,7 +117,7 @@ const OrderDetails = () => {
         <div>
           <FcAcceptDatabase
             className={`p-2 border-4 ${
-              myOrder[0]?.delivery_status === "Đã Giao Hàng"
+              myOrder?.delivery_status === "Đã Giao Hàng"
                 ? "border-green-500"
                 : "border-slate-500"
             } rounded-full`}
@@ -125,7 +127,7 @@ const OrderDetails = () => {
         </div>
         <div
           className={`w-full border-t-4 ${
-            myOrder[0]?.delivery_status === "Đã Giao Hàng"
+            myOrder?.delivery_status === "Đã Giao Hàng"
               ? "border-green-500"
               : "border-slate-500"
           } mt-[40px]`}
@@ -133,12 +135,12 @@ const OrderDetails = () => {
         <div>
           <AiOutlineCheck
             className={`p-2 border-4 ${
-              myOrder[0]?.delivery_status === "Đã Giao Hàng"
+              myOrder?.delivery_status === "Đã Giao Hàng"
                 ? "border-green-500"
                 : "border-slate-500"
             } rounded-full`}
             style={
-              myOrder[0]?.delivery_status === "Đã Giao Hàng"
+              myOrder?.delivery_status === "Đã Giao Hàng"
                 ? { fontSize: "80px", color: "green" }
                 : { fontSize: "80px", color: "slategray" }
             }

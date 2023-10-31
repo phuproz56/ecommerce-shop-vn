@@ -115,6 +115,8 @@ class homeControllers {
     }
   };
 
+  
+
   price_range_product = async (req, res) => {
     try {
       const priceRange = {

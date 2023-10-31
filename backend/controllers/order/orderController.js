@@ -190,28 +190,15 @@ class orderController {
   };
 
   get_all_orders = async (req, res) => {
-    // const { customerId } = req.params;
-
     try {
-      const orders = await customerOrder
-        .aggregate([
-          {
-            $lookup: {
-              from: "authororders",
-              localField: "_id",
-              foreignField: "orderId",
-              as: "suborder",
-            },
-          },
-        ])
-        .sort({ createdAt: -1 });
-
-      // const orders = await authOrderModel.find({
-      //   customerId: orders.shippingInfo.userId,
-      // });
+      const orders = await authOrderModel.find({}).sort({ createdAt: -1 });
+      
+      const order_complete = await authOrderModel.find({
+        delivery_status: "Đã Giao Hàng"
+      });
 
       responseReturn(res, 200, {
-        orders,
+        orders,order_complete
       });
     } catch (error) {
       console.log(error.message);
@@ -220,9 +207,10 @@ class orderController {
 
   get_order = async (req, res) => {
     const { orderId } = req.params;
-    try {
-      const order = await authOrderModel.find({ orderId });
 
+    try {
+      const order = await authOrderModel.findById(orderId);
+      console.log(order)
       responseReturn(res, 200, {
         order,
       });

@@ -45,10 +45,10 @@ const Tatca = () => {
         <div className="bg-white p-4 rounded-md w-full mt-5">
           <div className="flex w-full">
             <ul className="w-full">
-              {allOrders.map((u, i) =>
-                u.suborder.map((q, i) => (
+              {allOrders.map((q, i) =>
+                
                   <li
-                    key={`${u.id}_${i}`}
+                    key={`${q.id}_${i}`}
                     className="mt-3 border border-slate-300 rounded-md w-full"
                   >
                     <div className="flex flex-col w-full ">
@@ -57,7 +57,7 @@ const Tatca = () => {
                           Đã mua vào ngày: <span>{q.date}</span>{" "}
                           <div className="text-end">
                             <Link 
-                              to={`/dashboard/order/${u._id}`}
+                              to={`/dashboard/order/${q._id}`}
                               className="pl-[100px] text-green-500"
                             >
 
@@ -99,10 +99,10 @@ const Tatca = () => {
                           <div className="flex gap-5 ">
                             <ul>
                               {q.products?.map((p, i) => (
-                                <li key={`${u.id}_${i}`}>
+                                <li key={`${q.id}_${i}`}>
                                   <div
                                     className="flex flex-col w-full"
-                                    key={`${u.id}_${i}`}
+                                    key={`${q.id}_${i}`}
                                   >
                                     <div className="flex gap-5 justify-start items-center text-slate-600">
                                       <div className="flex gap-2">
@@ -173,21 +173,21 @@ const Tatca = () => {
                         </div>
                       </div>
                     </div>
-                    {u.delivery_status === "Hủy" ||
-                    u.delivery_status === "Đã Giao Hàng" ||
-                    u.delivery_status === "Đang Giao Hàng" ? (
+                    {q.delivery_status === "Hủy" ||
+                    q.delivery_status === "Đã Giao Hàng" ||
+                    q.delivery_status === "Đang Giao Hàng" ? (
                       ""
                     ) : (
                       <button
-                        onClick={() => huydonhang(u._id)}
+                        onClick={() => huydonhang(q._id)}
                         className={`rounded-md text-white bg-red-500 m-2 p-2`}
                       >
                         Hủy Đơn Hàng
                       </button>
                     )}
                   </li>
-                ))
-              )}
+                )
+              }
             </ul>
           </div>
         </div>
