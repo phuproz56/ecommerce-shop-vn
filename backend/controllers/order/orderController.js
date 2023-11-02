@@ -65,6 +65,7 @@ class orderController {
         price: price + shipping_fee,
         delivery_status: "Chưa Xử Lí",
         payment_status: "unpaid",
+        shipperInfo: {},
         date: tempDate,
       });
 
@@ -170,10 +171,10 @@ class orderController {
     const { orderId } = req.params;
     console.log(orderId);
     try {
-      await authOrderModel.findByIdAndUpdate(orderId, {
+      await customerOrder.findByIdAndUpdate(orderId, {
         delivery_status: "Hủy",
       });
-      const cuOrder = await authOrderModel.findById(orderId);
+      const cuOrder = await customerOrder.findById(orderId);
 
       const customerOrderProduct = cuOrder.products;
 
@@ -191,14 +192,15 @@ class orderController {
 
   get_all_orders = async (req, res) => {
     try {
-      const orders = await authOrderModel.find({}).sort({ createdAt: -1 });
-      
-      const order_complete = await authOrderModel.find({
-        delivery_status: "Đã Giao Hàng"
+      const orders = await customerOrder.find({}).sort({ createdAt: -1 });
+
+      const order_complete = await customerOrder.find({
+        delivery_status: "Đã Giao Hàng",
       });
 
       responseReturn(res, 200, {
-        orders,order_complete
+        orders,
+        order_complete,
       });
     } catch (error) {
       console.log(error.message);
@@ -209,8 +211,8 @@ class orderController {
     const { orderId } = req.params;
 
     try {
-      const order = await authOrderModel.findById(orderId);
-      console.log(order)
+      const order = await customerOrder.findById(orderId);
+      console.log(order);
       responseReturn(res, 200, {
         order,
       });
@@ -321,7 +323,7 @@ class orderController {
 
     try {
       if (searchValue) {
-        const orders = await authOrderModel
+        const orders = await customerOrder
           .find({
             delivery_status: { $regex: searchValue },
             // "shippingInfo.name": { $regex: searchValue },
@@ -331,18 +333,12 @@ class orderController {
           .sort({ createdAt: 1 });
         responseReturn(res, 200, { orders });
       } else {
-        const orders = await authOrderModel
-          .find({
-            sellerId,
-          })
+        const orders = await customerOrder
+          .find({})
           .skip(skipPage)
           .limit(parPage)
           .sort({ createdAt: -1 });
-        const totalOrder = await authOrderModel
-          .find({
-            sellerId,
-          })
-          .countDocuments();
+        const totalOrder = await customerOrder.find({}).countDocuments();
         responseReturn(res, 200, { orders, totalOrder });
       }
     } catch (error) {
@@ -353,8 +349,9 @@ class orderController {
 
   get_seller_order = async (req, res) => {
     const { _id } = req.params;
+
     try {
-      const order = await authOrderModel.findById({ _id });
+      const order = await customerOrder.findById(_id);
 
       responseReturn(res, 200, { order });
     } catch (error) {
@@ -367,12 +364,12 @@ class orderController {
     const { status } = req.body;
 
     try {
-      const a = await authOrderModel.findByIdAndUpdate(_id, {
+      const a = await customerOrder.findByIdAndUpdate(_id, {
         delivery_status: status,
       });
 
       if (status === "Hủy") {
-        const cuOrder = await authOrderModel.findById(_id);
+        const cuOrder = await customerOrder.findById(_id);
 
         const customerOrderProduct = cuOrder.products;
         for (let i = 0; i < customerOrderProduct.length; i++) {

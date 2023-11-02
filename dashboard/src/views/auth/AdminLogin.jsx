@@ -102,12 +102,12 @@ function AdminLogin() {
               )}
             </button>
           </form>
-          <div className="justify-items-center">
+          {/* <div className="justify-items-center">
             Bạn là nhân viên?{" "}
             <Link to={"/nhanvien-admin/login"} className="text-green-500">
               Nhân Viên
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

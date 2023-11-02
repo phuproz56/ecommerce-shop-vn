@@ -106,27 +106,13 @@ module.exports.get_seller_dashboard_data = async (req, res) => {
       }
     }
 
+    const totalProduct = await productModel.find({}).countDocuments();
 
-    const totalProduct = await productModel
-      .find({
-        sellerId: new ObjectId(id),
-      })
-      .countDocuments();
-
-    const totalOrder = await authorOrder
-      .find({
-        sellerId: new ObjectId(id),
-      })
-      .countDocuments();
+    const totalOrder = await customerOrder.find({}).countDocuments();
 
     const totalPendingOrder = await authorOrder
       .find({
         $and: [
-          {
-            sellerId: {
-              $eq: new ObjectId(id),
-            },
-          },
           {
             delivery_status: {
               $eq: "Chưa Xử Lí",
@@ -305,22 +291,13 @@ module.exports.get_admin_dashboard_data = async (req, res) => {
 
 module.exports.get_shipper_new_order = async (req, res) => {
   try {
-    const orders = await authOrder.aggregate([
-      {
-        $lookup: {
-          from: "authororders",
-          localField: "_id",
-          foreignField: "orderId",
-          as: "suborder",
-        },
-      },
-    ]);
+    const orders = await customerOrder.find({});
 
-    Total_TimShipper = await authOrder
+    Total_TimShipper = await customerOrder
       .find({ delivery_status: "Tìm Shipper" })
       .countDocuments();
 
-    Total_VanChuyen = await authOrder
+    Total_VanChuyen = await customerOrder
       .find({ delivery_status: "Vận Chuyển" })
       .countDocuments();
 
@@ -343,7 +320,8 @@ module.exports.comfirm_order_shipper = async (req, res) => {
   const { orderId } = req.params;
   const userInfo = req.body;
   try {
-    const order = await authOrder.findByIdAndUpdate(orderId, {
+    const order = await customerOrder.findByIdAndUpdate(orderId, {
+      delivery_status: "Tìm Thấy Shipper",
       shipperInfo: userInfo,
       shipper_date: moment(Date.now()).format("LLL"),
     });

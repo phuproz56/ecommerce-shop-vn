@@ -72,7 +72,6 @@ class productController {
         const products = await productModel
           .find({
             $text: { $search: searchValue },
-            sellerId: id,
           })
           .skip(skipPage)
           .limit(parPage)
@@ -80,19 +79,16 @@ class productController {
         const totalProduct = await productModel
           .find({
             $text: { $search: searchValue },
-            sellerId: id,
           })
           .countDocuments();
         responseReturn(res, 200, { totalProduct, products });
       } else {
         const products = await productModel
-          .find({ sellerId: id })
+          .find({})
           .skip(skipPage)
           .limit(parPage)
           .sort({ createdAt: -1 });
-        const totalProduct = await productModel
-          .find({ sellerId: id })
-          .countDocuments();
+        const totalProduct = await productModel.find({}).countDocuments();
         responseReturn(res, 200, { totalProduct, products });
       }
     } catch (error) {

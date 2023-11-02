@@ -65,7 +65,8 @@ const ShipperComfirm = () => {
             <tbody>
               {myOrders.map(
                 (d, i) =>
-                  d.delivery_status === "Tìm Shipper" && (
+                  d.delivery_status === "Tìm Shipper" || d.delivery_status === "Tìm Thấy Shipper" 
+                   && (
                     <tr key={i}>
                       <td
                         scope="row"

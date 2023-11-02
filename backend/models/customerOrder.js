@@ -30,6 +30,14 @@ const customerOrder = new Schema(
       type: String,
       required: true,
     },
+    shipperInfo: {
+      type: Object,
+      required: true,
+    },
+    shipper_date: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );
