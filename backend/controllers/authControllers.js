@@ -180,16 +180,16 @@ class authControllers {
     const { name, email, password } = req.body;
 
     try {
-      const getNvAdmin = await nvadminModel.findOne({ email });
+      const getNvAdmin = await sellerModel.findOne({ email });
 
       if (getNvAdmin) {
         responseReturn(res, 404, { error: "Email đã tồn tại!" });
       } else {
-        const nvAdmin = await nvadminModel.create({
+        const nvAdmin = await sellerModel.create({
           name,
           email,
           password: await bcrypt.hash(password, 10),
-          method: "menualy",
+          status: "active",
         });
         nvAdmin.save();
 
@@ -225,12 +225,10 @@ class authControllers {
       } else if (role === "nhanvien_admin") {
         const user = await nvadminModel.findById(id);
         responseReturn(res, 200, { userInfo: user });
-      }
-      else if (role === "shipper") {
+      } else if (role === "shipper") {
         const user = await shipperModel.findById(id);
         responseReturn(res, 200, { userInfo: user });
-      }
-      else {
+      } else {
         const seller = await sellerModel.findById(id);
         responseReturn(res, 200, { userInfo: seller });
       }

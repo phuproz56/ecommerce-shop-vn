@@ -57,7 +57,7 @@ class productController {
         });
         responseReturn(res, 201, { message: "Thêm sản phẩm thành công!" });
       } catch (error) {
-        responseReturn(res, 500, { error: error.message });
+        responseReturn(res, 500, { error: "Cần Điền Đầy Đủ" });
       }
     });
   };

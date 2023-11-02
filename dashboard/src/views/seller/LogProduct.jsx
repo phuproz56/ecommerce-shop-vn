@@ -6,6 +6,7 @@ import Pagination from "../Pagination";
 import { useSelector, useDispatch } from "react-redux";
 import { get_products } from "../../store/Reducers/productReducer";
 import { FaWarehouse, FaEye } from "react-icons/fa";
+import { Tooltip } from "antd";
 
 const LogProduct = () => {
   const dispatch = useDispatch();
@@ -84,10 +85,12 @@ const LogProduct = () => {
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
-                    <span>{d.price.toLocaleString("vi", {
+                    <span>
+                      {d.price.toLocaleString("vi", {
                         style: "currency",
                         currency: "VND",
-                      })} </span>
+                      })}{" "}
+                    </span>
                   </th>
                   <th
                     scope="row"
@@ -100,18 +103,22 @@ const LogProduct = () => {
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <div className="flex justify-start items-center gap-4">
-                      <Link
-                        to={`/seller/dashboard/log-product-detail/${d._id}`}
-                        className="p-[10px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50"
-                      >
-                        <FaWarehouse />
-                      </Link>
-                      <Link
-                        to={`/seller/dashboard/log-product-see-detail/${d._id}`}
-                        className="p-[10px] bg-yellow-300 text-white rounded hover:shadow-lg hover:shadow-yellow-500/50"
-                      >
-                        <FaEye />
-                      </Link>
+                      <Tooltip title="Nhập Hàng">
+                        <Link
+                          to={`/seller/dashboard/log-product-detail/${d._id}`}
+                          className="p-[10px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50"
+                        >
+                          <FaWarehouse />
+                        </Link>
+                      </Tooltip>
+                      <Tooltip title="Xem Chi Tiết Phiếu Nhập">
+                        <Link
+                          to={`/seller/dashboard/log-product-see-detail/${d._id}`}
+                          className="p-[10px] bg-yellow-300 text-white rounded hover:shadow-lg hover:shadow-yellow-500/50"
+                        >
+                          <FaEye />
+                        </Link>
+                      </Tooltip>
                     </div>
                   </th>
                 </tr>

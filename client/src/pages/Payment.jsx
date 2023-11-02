@@ -27,7 +27,7 @@ const Payment = () => {
   }, [dispatch, orderId]);
 
   const update_payment = async () => {
-    const orderId = myOrder._id;
+    const orderId = myOrder?._id;
 
     if (orderId) {
       try {

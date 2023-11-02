@@ -60,18 +60,14 @@ const DeactiveSellers = () => {
                 <th scope="col" className="py-3 px-4">
                   tên
                 </th>
+                
                 <th scope="col" className="py-3 px-4">
-                  tên shop
-                </th>
-                <th scope="col" className="py-3 px-4">
-                  trạng thái thanh toán
+                  Trạng thái
                 </th>
                 <th scope="col" className="py-3 px-4">
                   Email
                 </th>
-                <th scope="col" className="py-3 px-4">
-                  phân công
-                </th>
+                
                 <th scope="col" className="py-3 px-4">
                   địa chỉ
                 </th>
@@ -105,16 +101,7 @@ const DeactiveSellers = () => {
                   >
                     <span>{d.name}</span>
                   </td>
-                  <td
-                    scope="row"
-                    className="py-1 px-4 font-medium whitespace-nowrap"
-                  >
-                    <span>
-                      {d.shopInfo?.shopName
-                        ? d.shopInfo?.shopName
-                        : "(chưa điền)"}
-                    </span>
-                  </td>
+                  
                   <td
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
@@ -127,16 +114,7 @@ const DeactiveSellers = () => {
                   >
                     <span>{d.email}</span>
                   </td>
-                  <td
-                    scope="row"
-                    className="py-1 px-4 font-medium whitespace-nowrap"
-                  >
-                    <span>
-                      {d.shopInfo?.division
-                        ? d.shopInfo?.division
-                        : "(chưa điền)"}
-                    </span>
-                  </td>
+                  
                   <td
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"

@@ -29,7 +29,7 @@ const sellerSchema = new Schema(
     },
     method: {
       type: String,
-      required: true,
+      required: false,
     },
     image: {
       type: String,

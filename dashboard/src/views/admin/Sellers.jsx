@@ -54,17 +54,9 @@ const Sellers = () => {
                 <th scope="col" className="py-3 px-4">
                   tên
                 </th>
-                <th scope="col" className="py-3 px-4">
-                  tên shop
-                </th>
-                <th scope="col" className="py-3 px-4">
-                  tài khoản ngân hàng
-                </th>
+
                 <th scope="col" className="py-3 px-4">
                   Email
-                </th>
-                <th scope="col" className="py-3 px-4">
-                  phân công
                 </th>
                 <th scope="col" className="py-3 px-4">
                   địa chỉ
@@ -99,22 +91,7 @@ const Sellers = () => {
                   >
                     <span>{d.name}</span>
                   </th>
-                  <th
-                    scope="row"
-                    className="py-1 px-4 font-medium whitespace-nowrap"
-                  >
-                    <span>
-                      {d.shopInfo?.shopName
-                        ? d.shopInfo?.shopName
-                        : "(chưa điền)"}
-                    </span>
-                  </th>
-                  <th
-                    scope="row"
-                    className="py-1 px-4 font-medium whitespace-nowrap"
-                  >
-                    <span>{d.status}</span>
-                  </th>
+
                   <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
@@ -131,16 +108,7 @@ const Sellers = () => {
                         : "(chưa điền)"}
                     </span>
                   </th>
-                  <th
-                    scope="row"
-                    className="py-1 px-4 font-medium whitespace-nowrap"
-                  >
-                    <span>
-                      {d.shopInfo?.district
-                        ? d.shopInfo?.district
-                        : "(chưa điền)"}
-                    </span>
-                  </th>
+
                   <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"

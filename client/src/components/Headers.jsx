@@ -234,7 +234,7 @@ const Headers = ({ isFixed }) => {
                       Cửa Hàng
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link
                       to="/event"
                       className={`p-2 block ${
@@ -245,7 +245,7 @@ const Headers = ({ isFixed }) => {
                     >
                       Sự Kiện Khuyến Mãi
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link
                       className={`p-2 block ${

@@ -71,10 +71,7 @@ const SellerDetails = () => {
                     <span>Email : </span>
                     <span>{seller?.email}</span>
                   </div>
-                  <div className="flex gap-2">
-                    <span>vai trò : </span>
-                    <span>{seller?.role}</span>
-                  </div>
+                  
                   <div className="flex gap-2">
                     <span>trạng thái : </span>
                     <span>{seller?.status}</span>
@@ -94,12 +91,12 @@ const SellerDetails = () => {
                 <div className="flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md">
                   <div className="flex gap-2">
                     <span>Tên shop : </span>
-                    <span>{seller?.shopInfo?.shopName}</span>
+                    <span>Shop-vn</span>
                   </div>
-                  <div className="flex gap-2">
+                  {/* <div className="flex gap-2">
                     <span>Phân công : </span>
                     <span>{seller?.shopInfo?.division}</span>
-                  </div>
+                  </div> */}
                   <div className="flex gap-2">
                     <span>Địa chỉ 1 : </span>
                     <span>{seller?.shopInfo?.district}</span>

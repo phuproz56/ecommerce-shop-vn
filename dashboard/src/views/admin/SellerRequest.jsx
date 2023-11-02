@@ -82,13 +82,13 @@ const SellerRequest = () => {
                     scope="row"
                     className="py-2 px-4 font-normal whitespace-nowrap"
                   >
-                    <span>{d.payment}</span>
+                    <span>{d.payment === 'inactive' && 'Chưa Kích Hoạt'}</span>
                   </th>
                   <th
                     scope="row"
                     className="py-2 px-4 font-normal whitespace-nowrap"
                   >
-                    <span>{d.status}</span>
+                    <span>{d.status === 'pending' && 'Chưa Xét Duyệt'}</span>
                   </th>
                   <th
                     scope="row"

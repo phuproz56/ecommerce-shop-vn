@@ -18,23 +18,18 @@ import {
   comfirm_order_shipper,
   messageClear,
 } from "../../store/Reducers/dashboardIndexReducer";
+import { FaEye } from "react-icons/fa";
 
 const ShipperDashboard = () => {
-  const {
-    orders,
-    Total_Orders,
-    Total_TimShipper,
-    successMessage,
-  } = useSelector((state) => state.dashboardIndex);
+  const { orders, Total_Orders, Total_TimShipper, successMessage } =
+    useSelector((state) => state.dashboardIndex);
 
   const dispatch = useDispatch();
-const { userInfo } = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(get_shipper_new_order());
-
   }, []);
-  
 
   const nhandonhang = (orderId) => {
     dispatch(comfirm_order_shipper({ orderId, userInfo }));
@@ -69,7 +64,6 @@ const { userInfo } = useSelector((state) => state.auth);
             <AiOutlineShoppingCart className="text-[#7367f0] shadow-lg" />
           </div>
         </div>
-       
       </div>
       <div className="w-full flex flex-wrap mt-7">
         <div className="w-full p-4  bg-[#283046] rounded-md">
@@ -137,7 +131,15 @@ const { userInfo } = useSelector((state) => state.auth);
                         className="py-3 px-4 font-medium whitespace-nowrap"
                       >
                         {d.shipperInfo ? (
-                          `Đã nhận đơn vào ngày ${d.shipper_date}`
+                          <div>
+                            Đã nhận đơn vào ngày {d.shipper_date}
+                            <Link
+                              to={`/shipper/dashboard/details/${d._id}`}
+                              className="pl-2 p-[6px] w-[30px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50 flex justify-center items-center"
+                            >
+                              <FaEye />
+                            </Link>
+                          </div>
                         ) : (
                           <button
                             onClick={() => nhandonhang(d._id)}

@@ -143,7 +143,7 @@ const Tatca = () => {
                                         <p>-{p.discount}%</p>
                                       </div>
                                       {q.delivery_status === "Đã Giao Hàng" && (
-                                        <div className="pt-2 flex items-center">
+                                        <div className="pt-2 flex items-center md-lg:flex-col">
                                           <Link
                                             className={`rounded-md text-white bg-red-500 m-2 p-2 `}
                                             to={`/product/details/${p.slug}`}

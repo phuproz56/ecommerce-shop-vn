@@ -12,14 +12,15 @@ import {
 import toast from "react-hot-toast";
 import { overrideStyle } from "../../utils/utils";
 import { create_stripe_connect_account } from "../../store/Reducers/sellerReducer";
+import { FaEdit } from "react-icons/fa";
 
 const Profile = () => {
   const dispatch = useDispatch();
-
+  const [open, setOpen] = useState(false);
+  console.log(open);
   const [state, setState] = useState({
-    division: "",
     district: "",
-    shopName: "",
+    shopName: "Shop-Vn",
     sub_district: "",
   });
   const { userInfo, loader, successMessage } = useSelector(
@@ -99,9 +100,6 @@ const Profile = () => {
             </div>
             <div className="px-0 md:px-5 py-2">
               <div className="flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md relative">
-                {/* <span className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer">
-                  <FaEdit />
-                </span> */}
                 <div className="flex gap-2">
                   <span>Tên : </span>
                   <span>{userInfo.name}</span>
@@ -112,7 +110,7 @@ const Profile = () => {
                 </div>
                 <div className="flex gap-2">
                   <span>Vai trò : </span>
-                  <span>{userInfo.role}</span>
+                  <span>{userInfo.role === "seller" && "Nhân Viên"}</span>
                 </div>
                 <div className="flex gap-2">
                   <span>Trạng thái : </span>
@@ -140,12 +138,13 @@ const Profile = () => {
               </div>
             </div>
             <div className="px-0 md:px-5 py-2">
-              {!userInfo?.shopInfo ? (
+              {open && (
                 <form onSubmit={add}>
                   <div className="flex flex-col w-full gap-1 mb-3">
                     <label htmlFor="Shop">Tên Shop </label>
                     <input
-                      value={state.shopName}
+                      required
+                      value="Shop-Vn"
                       onChange={inputHandle}
                       className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
                       type="text"
@@ -154,7 +153,7 @@ const Profile = () => {
                       id="Shop"
                     />
                   </div>
-                  <div className="flex flex-col w-full gap-1">
+                  {/* <div className="flex flex-col w-full gap-1">
                     <label htmlFor="div">Người bán</label>
                     <input
                       value={state.division}
@@ -165,7 +164,7 @@ const Profile = () => {
                       name="division"
                       id="div"
                     />
-                  </div>
+                  </div> */}
                   <div className="flex flex-col w-full gap-1 mb-3">
                     <label htmlFor="district">Địa chỉ 1</label>
                     <input
@@ -204,18 +203,18 @@ const Profile = () => {
                     )}
                   </button>
                 </form>
-              ) : (
+              )}
+              {!open && (
                 <div className="flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md relative">
-                  {/* <span className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer">
+                  <span
+                    onClick={() => setOpen(true)}
+                    className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer"
+                  >
                     <FaEdit />
-                  </span> */}
+                  </span>
                   <div className="flex gap-2">
                     <span>Tên Shop : </span>
-                    <span>{userInfo.shopInfo?.shopName}</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <span>Người bán : </span>
-                    <span>{userInfo.shopInfo?.division}</span>
+                    <span>Shop-Vn</span>
                   </div>
                   <div className="flex gap-2">
                     <span>Địa chỉ 1 : </span>

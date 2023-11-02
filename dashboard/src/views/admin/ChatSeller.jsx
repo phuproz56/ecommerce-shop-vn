@@ -99,7 +99,7 @@ const ChatSeller = () => {
           >
             <div className="w-full h-[calc(100vh-177px)] bg-[#252b3b] md:bg-transparent overflow-y-auto">
               <div className="flex text-xl justify-between items-center p-4 md:p-0 md:px-3 md:pb-3 text-white">
-                <h2>Sellers</h2>
+                <h2>Nhân Viên</h2>
                 <span
                   onClick={() => setShow(!show)}
                   className="block cursor-pointer md:hidden"

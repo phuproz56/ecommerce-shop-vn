@@ -14,11 +14,11 @@ const Orders = () => {
       <div className="flex justify-between items-center w-full">
         <div className="md-lg:w-full w-full">
           <div className="flex justify-between md-lg:justify-center items-center flex-wrap pl-8">
-            <ul className="flex md:flex-col gap-20 text-sm font-bold uppercase w-auto">
+            <ul className="flex md:flex-col gap-20 text-sm font-bold uppercase w-full">
               <li className="flex justify-start items-center gap-2 py-2 w-auto">
                 <Link
                   to="/dashboard/tatca"
-                  className={` flex justify-start items-center p-2 ${
+                  className={` flex justify-center items-center p-2 ${
                     pathname === "/dashboard/tatca"
                       ? "text-[#7fad39] border-b-2"
                       : "text-slate-600"
