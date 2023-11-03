@@ -59,7 +59,7 @@ const Tatca = () => {
                             to={`/dashboard/order/${q._id}`}
                             className="pl-[100px] text-green-500"
                           >
-                            {q.delivery_status === "Tìm Shipper"
+                            {q.delivery_status === "Tìm Shipper" || q.delivery_status === "Tìm Thấy Shipper"|| q.delivery_status === "Giao Hàng Thành Công"
                               ? "Đã Xử Lí"
                               : q.delivery_status}
                           </Link>

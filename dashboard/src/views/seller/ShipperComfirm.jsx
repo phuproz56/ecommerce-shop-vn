@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/scope */
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from "react";
 import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -7,13 +7,16 @@ import Pagination from "../Pagination";
 import Search from "../components/Search";
 import { useSelector, useDispatch } from "react-redux";
 import { get_seller_orders } from "../../store/Reducers/OrderReducer";
+import { Tooltip } from "antd";
+
 const ShipperComfirm = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
   const { myOrders, totalOrder } = useSelector((state) => state.order);
-  const { userInfo } = useSelector((state) => state.auth);
+
+  console.log(myOrders);
 
   useEffect(() => {
     dispatch(
@@ -21,16 +24,9 @@ const ShipperComfirm = () => {
         parPage: parseInt(parPage),
         page: parseInt(currentPage),
         searchValue,
-        sellerId: userInfo._id,
       })
-      // get_admin_orders({
-      //   sellerId: userInfo._id,
-      //   parPage: parseInt(parPage),
-      //   page: parseInt(currentPage),
-      //   searchValue,
-      // })
     );
-  }, [parPage, currentPage, searchValue]);
+  }, [parPage, currentPage, searchValue, dispatch]);
 
   return (
     <div className="px-2 lg:px-7 pt-5 ">
@@ -63,65 +59,70 @@ const ShipperComfirm = () => {
               </tr>
             </thead>
             <tbody>
-              {myOrders.map(
-                (d, i) =>
-                  d.delivery_status === "Tìm Shipper" || d.delivery_status === "Tìm Thấy Shipper" 
-                   && (
-                    <tr key={i}>
-                      <td
-                        scope="row"
-                        className="py-3 px-4 font-medium whitespace-nowrap"
-                      >
-                        {d.shipperInfo?.name ? (
-                          d.shipperInfo?.name
-                        ) : (
-                          <p className="text-red-500">(Đang tìm)</p>
-                        )}
-                      </td>
-                      <td
-                        scope="row"
-                        className="py-3 px-4 font-medium whitespace-nowrap"
-                      >
-                        {d.shipperInfo?.phoneNumber ? (
-                          d.shipperInfo?.phoneNumber
-                        ) : (
-                          <p className="text-red-500">(Đang tìm)</p>
-                        )}
-                      </td>
+              {myOrders.map((d, i) =>
+                d.delivery_status === "Tìm Shipper" ||
+                d.delivery_status === "Tìm Thấy Shipper"||
+                d.delivery_status === "Giao Hàng Thành Công"||
+                d.delivery_status === "Giao Hàng Thất Bại" ? (
+                  <tr key={i}>
+                    <td
+                      scope="row"
+                      className="py-3 px-4 font-medium whitespace-nowrap"
+                    >
+                      {d.shipperInfo?.name ? (
+                        d.shipperInfo?.name
+                      ) : (
+                        <p className="text-red-500">(Đang tìm)</p>
+                      )}
+                    </td>
+                    <td
+                      scope="row"
+                      className="py-3 px-4 font-medium whitespace-nowrap"
+                    >
+                      {d.shipperInfo?.phoneNumber ? (
+                        d.shipperInfo?.phoneNumber
+                      ) : (
+                        <p className="text-red-500">(Đang tìm)</p>
+                      )}
+                    </td>
 
+                    <td
+                      scope="row"
+                      className="py-3 px-4 font-medium whitespace-nowrap"
+                    >
+                      <span>{d.delivery_status}</span>
+                    </td>
+                    <td
+                      scope="row"
+                      className="py-3 px-4 font-medium whitespace-nowrap"
+                    >
+                      {d.shipper_date ? (
+                        d.shipper_date
+                      ) : (
+                        <p className="text-red-500">(Đang tìm)</p>
+                      )}
+                    </td>
+                    {d.shipperInfo ? (
                       <td
                         scope="row"
                         className="py-3 px-4 font-medium whitespace-nowrap"
                       >
-                        <span>{d.delivery_status}</span>
-                      </td>
-                      <td
-                        scope="row"
-                        className="py-3 px-4 font-medium whitespace-nowrap"
-                      >
-                        {d.shipper_date ? (
-                          d.shipper_date
-                        ) : (
-                          <p className="text-red-500">(Đang tìm)</p>
-                        )}
-                      </td>
-                      {d.shipperInfo ? (
-                        <td
-                          scope="row"
-                          className="py-3 px-4 font-medium whitespace-nowrap"
-                        >
+                        <Tooltip title="Xem Chi Tiết Đơn Hàng">
                           <Link
-                            to={`/seller/dashboard/order/details/${d._id}`}
+                            to={`/seller/dashboard/shipper-comfirm/details/${d._id}`}
                             className="p-[6px] w-[30px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50 flex justify-center items-center"
                           >
                             <FaEye />
                           </Link>
-                        </td>
-                      ) : (
-                        ""
-                      )}
-                    </tr>
-                  )
+                        </Tooltip>
+                      </td>
+                    ) : (
+                      ""
+                    )}
+                  </tr>
+                ) : (
+                  ""
+                )
               )}
             </tbody>
           </table>

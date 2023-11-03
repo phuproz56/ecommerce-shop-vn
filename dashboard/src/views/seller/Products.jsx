@@ -11,6 +11,7 @@ import {
   messageClear,
 } from "../../store/Reducers/productReducer";
 import toast from "react-hot-toast";
+import { Tooltip } from "antd";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -151,19 +152,21 @@ const Products = () => {
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <div className="flex justify-start items-center gap-4">
-                      <Link
-                        to={`/seller/dashboard/edit-product/${d._id}`}
-                        className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50"
-                      >
-                        <FaEdit />
-                      </Link>
-
+                      <Tooltip title="Chỉnh Sửa Sản Phẩm">
+                        <Link
+                          to={`/seller/dashboard/edit-product/${d._id}`}
+                          className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50"
+                        >
+                          <FaEdit />
+                        </Link>
+                      </Tooltip>
+                      <Tooltip title="Xóa Sản Phẩm">
                       <button
                         onClick={() => deleteProduct(d._id)}
                         className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50"
                       >
                         <FaTrash />
-                      </button>
+                      </button></Tooltip>
                     </div>
                   </th>
                 </tr>

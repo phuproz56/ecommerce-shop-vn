@@ -5,7 +5,6 @@ const { authMiddleware } = require("../middlewares/authMiddleware");
 // ----------- admin ------------
 router.post("/admin-login", authControllers.admin_login);
 
-
 // ----------- nhan vien admin ------------
 router.post("/nvadmin-login", authControllers.nvadmin_login);
 router.post(

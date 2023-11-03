@@ -313,7 +313,6 @@ class orderController {
   };
 
   get_seller_orders = async (req, res) => {
-    const { sellerId } = req.params;
     let { page, parPage, searchValue } = req.query;
 
     page = parseInt(page);
@@ -338,8 +337,14 @@ class orderController {
           .skip(skipPage)
           .limit(parPage)
           .sort({ createdAt: -1 });
+
         const totalOrder = await customerOrder.find({}).countDocuments();
-        responseReturn(res, 200, { orders, totalOrder });
+
+        const found_shipper = await customerOrder.find({
+          delivery_status: "Tìm Shipper",
+        });
+        
+        responseReturn(res, 200, { orders, found_shipper, totalOrder });
       }
     } catch (error) {
       console.log("get seller order error " + error.message);

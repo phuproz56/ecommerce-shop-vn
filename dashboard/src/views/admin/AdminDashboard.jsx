@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable jsx-a11y/scope */
 import React, { useEffect } from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
@@ -121,10 +123,12 @@ const AdminDashboard = () => {
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-7">
         <div className="flex justify-between items-center p-5 bg-[#283046] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#d0d2d6]">
-            <h2 className="text-3xl font-bold">{totalSale.toLocaleString("vi", {
+            <h2 className="text-3xl font-bold">
+              {totalSale.toLocaleString("vi", {
                 style: "currency",
                 currency: "VND",
-              })}</h2>
+              })}
+            </h2>
             <span className="text-md font-medium">Doanh Thu</span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-[#28c76f1f] flex justify-center items-center text-xl">
@@ -162,12 +166,14 @@ const AdminDashboard = () => {
       <div className="w-full flex flex-wrap mt-7">
         <div className="w-full lg:w-7/12 lg:pr-3">
           <div className="w-full bg-[#283046] p-4 rounded-md">
-            <Chart
-              options={state.options}
-              series={state.series}
-              type="bar"
-              height={350}
-            />
+            <h2 className="text-white">Thống kê theo ngày</h2>
+            <div class="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
+              <iframe
+                class="w-full h-full"
+                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=653512a4-c4df-476a-8533-3f3dce2fb8bb&maxDataAge=60&theme=dark&autoRefresh=true"
+                frameborder="0"
+              ></iframe>
+            </div>
           </div>
         </div>
         <div className="w-full lg:w-5/12 lg:pl-4 mt-6 lg:mt-0">
@@ -215,6 +221,32 @@ const AdminDashboard = () => {
                   </li>
                 ))}
               </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="w-full flex mt-7 text-white">
+        <div className="w-full lg:w-6/12 lg:pr-3">
+          <div className="w-full bg-[#283046] p-4 rounded-md">
+            <h2>Thống kê theo tháng</h2>
+            <div class="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
+              <iframe
+                class="w-full h-full"
+                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=65350d57-8afe-46d3-82fe-6fddd28ca39d&maxDataAge=300&theme=dark&autoRefresh=true"
+                frameborder="0"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+        <div className="w-full lg:w-6/12 lg:pr-3">
+          <div className="w-full bg-[#283046] p-4 rounded-md">
+            <h2>Thống kê theo năm</h2>
+            <div class="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
+              <iframe
+                class="w-full h-full"
+                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=65351768-8afe-44a0-8a28-6fddd294071c&maxDataAge=3600&theme=dark&autoRefresh=true"
+                frameborder="0"
+              ></iframe>
             </div>
           </div>
         </div>

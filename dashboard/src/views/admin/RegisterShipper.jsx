@@ -6,17 +6,19 @@ import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../../utils/utils";
 import {
   messageClear,
-  nvadmin_register,
+  shipper_register,
 } from "../../store/Reducers/authReducer";
 import toast from "react-hot-toast";
-const RegisterNvAdmin = () => {
+const RegisterShipper = () => {
   const dispatch = useDispatch();
   const { loader, errorMessage, successMessage } = useSelector(
     (state) => state.auth
   );
   const [state, setSatate] = useState({
     name: "",
-    email: "",
+    phoneNumber: "",
+    cccd: "",
+    address: "",
     password: "",
   });
   const inputHandle = (e) => {
@@ -28,13 +30,16 @@ const RegisterNvAdmin = () => {
 
   const submit = (e) => {
     e.preventDefault();
-    dispatch(nvadmin_register(state));
+    dispatch(shipper_register(state));
   };
 
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
+      setTimeout(() => {
+        window.location.reload(1);
+      }, 2500);
     }
     if (errorMessage) {
       toast.error(errorMessage);
@@ -44,10 +49,12 @@ const RegisterNvAdmin = () => {
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4  bg-[#283046] rounded-md text-white">
-      <h2 className="text-center">Đăng Ký Tài Khoản Nhân Viên</h2>
+        <h2 className="text-center">Đăng Ký Tài Khoản Shipper</h2>
         <form onSubmit={submit}>
           <div className="flex flex-col w-full gap-1 mb-3 ">
-            <label htmlFor="name">Tên</label>
+            <label className="flex" htmlFor="text">
+              Họ và Tên<p className="text-red-500">*</p>
+            </label>
             <input
               onChange={inputHandle}
               value={state.name}
@@ -60,27 +67,61 @@ const RegisterNvAdmin = () => {
             />
           </div>
           <div className="flex flex-col w-full gap-1 mb-3">
-            <label htmlFor="email">Email</label>
+            <label className="flex" htmlFor="number">
+              Số Điện Thoại <p className="text-red-500">*</p>
+            </label>
             <input
               onChange={inputHandle}
-              value={state.email}
+              value={state.phoneNumber}
               className="px-3 py-2 outline-none border border-slate-700 bg-transparent rounded-md text-[#d0d2d6] focus:border-indigo-500 overflow-hidden"
-              type="email"
-              name="email"
-              placeholder="email"
-              id="email"
+              type="number"
+              name="phoneNumber"
+              placeholder="số điện thoại"
+              id="phoneNumber"
               required
             />
           </div>
           <div className="flex flex-col w-full gap-1 mb-3">
-            <label htmlFor="password">Mật khẩu</label>
+            <label className="flex" htmlFor="number">
+              Căn Cước Công Dân <p className="text-red-500">*</p>
+            </label>
+            <input
+              onChange={inputHandle}
+              value={state.cccd}
+              className="px-3 py-2 outline-none border border-slate-700 bg-transparent rounded-md text-[#d0d2d6] focus:border-indigo-500 overflow-hidden"
+              type="number"
+              name="cccd"
+              placeholder="cccd"
+              id="cccd"
+              required
+            />
+          </div>
+          <div className="flex flex-col w-full gap-1 mb-3">
+            <label className="flex" htmlFor="number">
+              Địa Chỉ <p className="text-red-500">*</p>
+            </label>
+            <input
+              onChange={inputHandle}
+              value={state.address}
+              className="px-3 py-2 outline-none border border-slate-700 bg-transparent rounded-md text-[#d0d2d6] focus:border-indigo-500 overflow-hidden"
+              type="text"
+              name="address"
+              placeholder="số nhà / đường / tỉnh / huyện / xã"
+              id="address"
+              required
+            />
+          </div>
+          <div className="flex flex-col w-full gap-1 mb-3">
+            <label className="flex" htmlFor="password">
+              Mật Khẩu <p className="text-red-500">*</p>
+            </label>
             <input
               onChange={inputHandle}
               value={state.password}
               className="px-3 py-2 outline-none border border-slate-700 bg-transparent rounded-md text-[#d0d2d6] focus:border-indigo-500 overflow-hidden"
               type="password"
               name="password"
-              placeholder="password"
+              placeholder="Mật Khẩu"
               id="password"
               required
             />
@@ -102,4 +143,4 @@ const RegisterNvAdmin = () => {
   );
 };
 
-export default RegisterNvAdmin;
+export default RegisterShipper;

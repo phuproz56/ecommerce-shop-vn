@@ -6,11 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   messageClear,
   seller_order_status_update,
-  get_admin_order,
   get_seller_order,
 } from "../../store/Reducers/OrderReducer";
 
-const OrderDetails = () => {
+const OrderShipperDetails = () => {
   // const { userInfo } = useSelector((state) => state.auth);
   const _id = useParams();
   const dispatch = useDispatch();
@@ -83,13 +82,10 @@ const OrderDetails = () => {
             id=""
             className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
           >
-            <option value="Chưa Xử Lí">Chưa Xử Lí</option>
-            <option value="Đã Xử Lí">Đã Xử Lí</option>
-            <option value="Tìm Shipper">Tìm Shipper</option>
-            <option value="Vận Chuyển">Vận Chuyển</option>
-            <option value="Đang Giao Hàng">Đang Giao Hàng</option>
-            <option value="Đã Giao Hàng">Đã Giao Hàng</option>
-            <option value="Hủy">Hủy</option>
+            <option value={order.delivery_status}>{order.delivery_status}</option>
+            <option value="Giao Hàng Thành Công">Giao Hàng Thành Công</option>
+            <option value="Giao Hàng Thất Bại">Giao Hàng Thất Bại</option>
+
           </select>
         </div>
         <div className="p-4">
@@ -152,9 +148,34 @@ const OrderDetails = () => {
             </div>
           </div>
         </div>
+        <div className="p-4 border-t-2">
+          <div className="flex gap-2 text-lg text-[#d0d2d6]">
+            <h2>Chi Tiết Shipper</h2>
+            
+          </div>
+          <div className="flex flex-wrap">
+            <div className="w-[32%]">
+              <div className="pr-3 text-[#d0d2d6] text-lg">
+                <div className="flex flex-col gap-1">
+                  <h2 className="pb-2 font-semibold">
+                    Tên Shipper: {order?.shipperInfo?.name}
+                  </h2>
+                  
+                </div>
+                <div className="flex justify-start items-center gap-3">
+                  <h2>Số điện thoại: </h2>
+                  <span className="text-base">
+                    {order?.shipperInfo?.phoneNumber}
+                  </span>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default OrderDetails;
+export default OrderShipperDetails;

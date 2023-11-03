@@ -2,6 +2,7 @@ import {
   AiFillDashboard,
   AiOutlineShoppingCart,
   AiOutlinePlus,
+  AiOutlineUser,
 } from "react-icons/ai";
 import { BiCategory, BiLoaderCircle } from "react-icons/bi";
 import { FiUsers } from "react-icons/fi";
@@ -9,7 +10,8 @@ import { CiChat1 } from "react-icons/ci";
 import { BsCurrencyDollar, BsChat } from "react-icons/bs";
 import { RiProductHuntLine } from "react-icons/ri";
 import { MdProductionQuantityLimits } from "react-icons/md";
-import { FaShippingFast } from "react-icons/fa";
+import { FaShippingFast, FaUserAstronaut } from "react-icons/fa";
+import { HiUsers } from "react-icons/hi2";
 export const allNav = [
   {
     id: 1,
@@ -70,9 +72,23 @@ export const allNav = [
   {
     id: 9,
     title: "Tạo Tài Khoản Nhân Viên",
-    icon: <CiChat1 />,
+    icon: <AiOutlineUser />,
     role: "admin",
     path: "/admin/dashboard/register-nvadmin",
+  },
+  {
+    id: 10,
+    title: "Tạo Tài Khoản Shipper",
+    icon: <FaUserAstronaut />,
+    role: "admin",
+    path: "/admin/dashboard/register-shipper",
+  },
+  {
+    id: 2,
+    title: "Danh Sách Shipper",
+    icon: <HiUsers />,
+    role: "admin",
+    path: "/admin/dashboard/ds-shipper",
   },
   // {
   //   id: 10,

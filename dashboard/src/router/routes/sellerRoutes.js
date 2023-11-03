@@ -2,6 +2,7 @@ import { lazy } from "react";
 import LogProduct from "../../views/seller/LogProduct";
 import LogProductDetail from "../../views/seller/LogProductDetail";
 import LogProductSeeDetail from "../../views/seller/LogProductSeeDetail";
+import OrderShipperDetails from "../../views/seller/OrderShipperDetails";
 const SellerDashboard = lazy(() =>
   import("../../views/seller/SellerDashboard")
 );
@@ -93,6 +94,12 @@ export const sellerRoutes = [
   {
     path: "/seller/dashboard/shipper-comfirm",
     element: <ShipperComfirm />,
+    role: "seller",
+    visibility: ["active", "deactive"],
+  },
+  {
+    path: "/seller/dashboard/shipper-comfirm/details/:orderId",
+    element: <OrderShipperDetails />,
     role: "seller",
     visibility: ["active", "deactive"],
   },

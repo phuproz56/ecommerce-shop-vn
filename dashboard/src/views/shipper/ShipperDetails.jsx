@@ -82,13 +82,9 @@ const ShipperDetails = () => {
             id=""
             className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
           >
-            <option value="Chưa Xử Lí">Chưa Xử Lí</option>
-            <option value="Đã Xử Lí">Đã Xử Lí</option>
-            <option value="Tìm Shipper">Tìm Shipper</option>
-            <option value="Vận Chuyển">Vận Chuyển</option>
-            <option value="Đang Giao Hàng">Đang Giao Hàng</option>
-            <option value="Đã Giao Hàng">Đã Giao Hàng</option>
-            <option value="Hủy">Hủy</option>
+            <option value="Tìm Thấy Shipper">Tìm Thấy Shipper</option>
+            <option value="Giao Hàng Thành Công">Giao Hàng Thành Công</option>
+            <option value="Giao Hàng Thất Bại">Giao Hàng Thất Bại</option>
           </select>
         </div>
         <div className="p-4">
@@ -101,19 +97,20 @@ const ShipperDetails = () => {
               <div className="pr-3 text-[#d0d2d6] text-lg">
                 <div className="flex flex-col gap-1">
                   <h2 className="pb-2 font-semibold">
-                    Nơi Giao Hàng : {order?.shippingInfo?.name}
+                    Tên khách hàng: {order?.shippingInfo?.name}
                   </h2>
                   <p>
                     <span className="text-sm">
-                      {order?.shippingInfo?.address} {order?.shippingInfo?.city}{" "}
-                      {order?.shippingInfo?.province}{" "}
-                      {order?.shippingInfo?.area}
+                      Nơi Giao Hàng : {order?.shippingInfo?.address1}{" "}
+                      {order?.shippingInfo?.city}{" "}
                     </span>
                   </p>
                 </div>
                 <div className="flex justify-start items-center gap-3">
                   <h2>Trạng Thái Thanh Toán : </h2>
-                  <span className="text-base">{order?.payment_status}</span>
+                  <span className="text-base">
+                    {order?.payment_status === "paid" && "Đã Thanh Toán"}
+                  </span>
                 </div>
                 <span>
                   Giá :

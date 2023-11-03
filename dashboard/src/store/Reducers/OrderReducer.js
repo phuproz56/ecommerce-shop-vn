@@ -22,12 +22,12 @@ export const get_admin_orders = createAsyncThunk(
 export const get_seller_orders = createAsyncThunk(
   "order/get_seller_orders",
   async (
-    { parPage, page, searchValue, sellerId },
+    { parPage, page, searchValue },
     { rejectWithValue, fulfillWithValue }
   ) => {
     try {
       const { data } = await api.get(
-        `/seller/orders/${sellerId}?page=${page}&searchValue=${searchValue}&parPage=${parPage}`,
+        `/seller/orders?page=${page}&searchValue=${searchValue}&parPage=${parPage}`,
         { withCredentials: true }
       );
       return fulfillWithValue(data);
@@ -109,6 +109,7 @@ export const OrderReducer = createSlice({
     totalOrder: 0,
     order: {},
     myOrders: [],
+    found_shipper: [],
   },
   reducers: {
     messageClear: (state, _) => {
@@ -133,6 +134,7 @@ export const OrderReducer = createSlice({
     [get_seller_orders.fulfilled]: (state, { payload }) => {
       state.myOrders = payload.orders;
       state.totalOrder = payload.totalOrder;
+      state.found_shipper = payload.found_shipper;
     },
     [get_seller_order.fulfilled]: (state, { payload }) => {
       state.order = payload.order;

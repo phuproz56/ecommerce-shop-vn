@@ -36,7 +36,7 @@ router.put(
 
 // ---- seller -----
 
-router.get("/seller/orders/:sellerId", orderController.get_seller_orders);
+router.get("/seller/orders", orderController.get_seller_orders);
 router.get(
   "/seller/order/:_id",
   authMiddleware,

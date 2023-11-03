@@ -157,7 +157,7 @@ class authControllers {
   };
 
   shipper_register = async (req, res) => {
-    const { name, phoneNumber, password } = req.body;
+    const { name, phoneNumber,cccd, address, password } = req.body;
     try {
       const getUser = await shipperModel.findOne({ phoneNumber });
       if (getUser) {
@@ -166,6 +166,8 @@ class authControllers {
         const shipper = await shipperModel.create({
           name,
           phoneNumber,
+          cccd,
+          address,
           password: await bcrypt.hash(password, 10),
           method: "menualy",
         });

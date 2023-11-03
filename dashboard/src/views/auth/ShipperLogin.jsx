@@ -4,7 +4,7 @@ import { PropagateLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { shipper_login, messageClear } from "../../store/Reducers/authReducer";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function ShipperLogin() {
   const navigate = useNavigate();
@@ -102,12 +102,6 @@ function ShipperLogin() {
               )}
             </button>
           </form>
-          <div className="justify-items-center">
-            Chưa có tài khoản?{" "}
-            <Link to={"/shipper/register"} className="text-green-500">
-              Đăng ký
-            </Link>
-          </div>
         </div>
       </div>
     </div>

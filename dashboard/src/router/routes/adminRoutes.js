@@ -1,6 +1,9 @@
 import { lazy } from "react";
 import RegisterNvAdmin from "../../views/admin/RegisterNvAdmin";
 import DsNhanvien from "../../views/admin/DsNhanvien";
+import RegisterShipper from "../../views/admin/RegisterShipper";
+import DsShipper from "../../views/admin/DsShipper";
+import ShipperDetails from "../../views/admin/ShipperDetails";
 const SellerDetails = lazy(() => import("../../views/admin/SellerDetail"));
 const DeactiveSellers = lazy(() => import("../../views/admin/DeactiveSellers"));
 const SellerRequest = lazy(() => import("../../views/admin/SellerRequest"));
@@ -53,6 +56,11 @@ export const adminRoutes = [
     role: "admin",
   },
   {
+    path: "admin/dashboard/shipper/details/:shipperId",
+    element: <ShipperDetails />,
+    role: "admin",
+  },
+  {
     path: "admin/dashboard/chat-sellers",
     element: <ChatSeller />,
     role: "admin",
@@ -73,9 +81,18 @@ export const adminRoutes = [
     role: "admin",
   },
   {
+    path: "/admin/dashboard/register-shipper",
+    element: <RegisterShipper />,
+    role: "admin",
+  },
+  {
     path: "/admin/dashboard/ds-nhanvien",
     element: <DsNhanvien />,
     role: "admin",
   },
- 
+  {
+    path: "/admin/dashboard/ds-shipper",
+    element: <DsShipper />,
+    role: "admin",
+  },
 ];

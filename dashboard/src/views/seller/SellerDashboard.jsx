@@ -256,15 +256,22 @@ const SellerDashboard = () => {
       <div className="w-full flex flex-wrap mt-7">
         <div className="w-full lg:w-7/12 lg:pr-3">
           <div className="w-full bg-[#283046] p-4 rounded-md">
-            <h2 className="text-white">Thống kê theo tháng</h2>
-            <div class="bg-[#283046] rounded-lg shadow-md h-[350px]">
+            <h2 className="text-white">Thống kê theo ngày</h2>
+            <div class="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
+              <iframe
+                class="w-full h-full"
+                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=653512a4-c4df-476a-8533-3f3dce2fb8bb&maxDataAge=60&theme=dark&autoRefresh=true"
+                frameborder="0"
+              ></iframe>
+            </div>
+            {/* <div class="bg-[#283046] rounded-lg shadow-md h-[350px]">
               <Chart
                 options={state.options}
                 series={state.series}
                 type="bar"
                 height={350}
               />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="w-full lg:w-5/12 lg:pl-4 mt-6 lg:mt-0">
@@ -322,20 +329,19 @@ const SellerDashboard = () => {
       <div className="w-full flex mt-7 text-white">
         <div className="w-full lg:w-6/12 lg:pr-3">
           <div className="w-full bg-[#283046] p-4 rounded-md">
-            <h2>Thống kê theo Quý</h2>
+            <h2>Thống kê theo tháng</h2>
             <div class="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
-              <Chart
-                options={state1.options}
-                series={state1.series}
-                type="bar"
-                height={350}
-              />
+              <iframe
+                class="w-full h-full"
+                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=65350d57-8afe-46d3-82fe-6fddd28ca39d&maxDataAge=300&theme=dark&autoRefresh=true"
+                frameborder="0"
+              ></iframe>
             </div>
           </div>
         </div>
         <div className="w-full lg:w-6/12 lg:pr-3">
           <div className="w-full bg-[#283046] p-4 rounded-md">
-            <h2>Thống kê theo ngày</h2>
+            <h2>Thống kê theo năm</h2>
             <div class="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
               <iframe
                 class="w-full h-full"
