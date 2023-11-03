@@ -116,6 +116,20 @@ export const active_stripe_connect_account = createAsyncThunk(
   }
 );
 
+export const xoa_seller = createAsyncThunk(
+  "shipper/xoa_seller",
+  async (id, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.delete(`/xoa-seller/${id}`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const sellerReducer = createSlice({
   name: "seller",
   initialState: {
@@ -158,6 +172,12 @@ export const sellerReducer = createSlice({
     [active_stripe_connect_account.fulfilled]: (state, { payload }) => {
       state.loader = false;
       state.successMessage = payload.message;
+    },
+    [xoa_seller.fulfilled]: (state, { payload }) => {
+      state.successMessage = payload.message;
+    },
+    [xoa_seller.rejected]: (state, { payload }) => {
+      state.errorMessage = payload.message;
     },
   },
 });

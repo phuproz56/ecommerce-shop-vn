@@ -70,7 +70,6 @@ const Address = () => {
 
   const handleDelete = (item) => {
     const id = item._id;
-    console.log(id);
     dispatch(deleteUserAddress(id));
   };
   return (

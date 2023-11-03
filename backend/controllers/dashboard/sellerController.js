@@ -129,6 +129,15 @@ class sellerController {
       console.log("active seller get " + error.message);
     }
   };
+  xoa_seller = async (req, res) => {
+    const { sellerId } = req.params;
+    try {
+      await sellerModel.findByIdAndDelete(sellerId);
+      responseReturn(res, 200, { message: "Xóa Thành Công!" });
+    } catch (error) {
+      responseReturn(res, 500, { message: "Lỗi Máy Chủ!" });
+    }
+  };
 }
 
 module.exports = new sellerController();

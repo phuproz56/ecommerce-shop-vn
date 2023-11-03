@@ -47,7 +47,7 @@ const RegisterNvAdmin = () => {
       <h2 className="text-center">Đăng Ký Tài Khoản Nhân Viên</h2>
         <form onSubmit={submit}>
           <div className="flex flex-col w-full gap-1 mb-3 ">
-            <label htmlFor="name">Tên</label>
+            <label className="flex" htmlFor="name">Tên <p className="text-red-500">*</p></label>
             <input
               onChange={inputHandle}
               value={state.name}
@@ -60,7 +60,7 @@ const RegisterNvAdmin = () => {
             />
           </div>
           <div className="flex flex-col w-full gap-1 mb-3">
-            <label htmlFor="email">Email</label>
+            <label className="flex" htmlFor="email">Email  <p className="text-red-500">*</p></label>
             <input
               onChange={inputHandle}
               value={state.email}
@@ -73,7 +73,7 @@ const RegisterNvAdmin = () => {
             />
           </div>
           <div className="flex flex-col w-full gap-1 mb-3">
-            <label htmlFor="password">Mật khẩu</label>
+            <label className="flex" htmlFor="password">Mật khẩu  <p className="text-red-500">*</p></label>
             <input
               onChange={inputHandle}
               value={state.password}

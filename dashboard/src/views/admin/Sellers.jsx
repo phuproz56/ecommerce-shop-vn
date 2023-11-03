@@ -1,17 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { get_active_sellers } from "../../store/Reducers/sellerReducer";
-
+import {
+  get_active_sellers,
+  xoa_seller,
+  messageClear,
+} from "../../store/Reducers/sellerReducer";
+import { Tooltip } from "antd";
+import toast from "react-hot-toast";
+import { RxCross1 } from "react-icons/rx";
 const Sellers = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
+  const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
-  const { sellers, totalSeller } = useSelector((state) => state.seller);
+  const { sellers, totalSeller, successMessage } = useSelector(
+    (state) => state.seller
+  );
   // const [show, setShow] = useState(false)
   useEffect(() => {
     const obj = {
@@ -21,8 +30,56 @@ const Sellers = () => {
     };
     dispatch(get_active_sellers(obj));
   }, [currentPage, parPage, searchValue]);
+
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+      setTimeout(() => {
+        window.location.reload(1);
+      }, 2500);
+    }
+  }, [successMessage]);
+
+  const delete_seller = (id) => {
+    dispatch(xoa_seller(id));
+  };
   return (
     <div className="px-2 lg:px-7 pt-5">
+      {open &&
+        sellers.map((u, i) => (
+          <div
+            key={i}
+            className="fixed w-full h-screen bg-[#0000004b] top-0 left-0 flex items-center justify-center"
+          >
+            <div className="p-4 w-[auto] h-[200px] bg-white rounded shadow relative">
+              <div className="w-full flex justify-end p-3">
+                <RxCross1
+                  size={30}
+                  className="cursor-pointer"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+              <h1 className="text-center text-[25px] font-Poppins">
+                Bạn Chắc Chắn Muốn Xóa Nhân Viên Này?
+              </h1>
+              <div className="p-[100px] flex justify-between items-center pt-4">
+                <button
+                  onClick={() => setOpen(false)}
+                  className="flex border p-2 bg-red-500 rounded-md text-white"
+                >
+                  Không
+                </button>
+                <button
+                  onClick={() => delete_seller(u._id)}
+                  className="flex border p-2 bg-green-500 rounded-md text-white"
+                >
+                  Có
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       <div className="w-full p-4  bg-[#283046] rounded-md">
         <div className="flex justify-between items-center">
           <select
@@ -41,7 +98,7 @@ const Sellers = () => {
             placeholder="search"
           />
         </div>
-        <div className="relative overflow-x-auto">
+        <div className="overflow-x-auto">
           <table className="w-full text-sm text-left text-[#d0d2d6]">
             <thead className="text-xs text-[#d0d2d6] uppercase border-b border-slate-700">
               <tr>
@@ -114,12 +171,23 @@ const Sellers = () => {
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <div className="flex justify-start items-center gap-4">
-                      <Link
-                        to={`/admin/dashboard/seller/details/${d._id}`}
-                        className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50"
-                      >
-                        <FaEye />
-                      </Link>
+                      <Tooltip title="Xem Chi Tiết Nhân Viên">
+                        <Link
+                          to={`/admin/dashboard/seller/details/${d._id}`}
+                          className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50"
+                        >
+                          <FaEye />
+                        </Link>
+                      </Tooltip>
+                      <Tooltip title="Xóa Nhân Viên">
+                        <Link
+                          onClick={() => setOpen(true)}
+                          // onClick={() => delete_seller(d._id)}
+                          className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50"
+                        >
+                          <FaTrash />
+                        </Link>
+                      </Tooltip>
                     </div>
                   </th>
                 </tr>

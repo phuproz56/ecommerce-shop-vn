@@ -11,9 +11,11 @@ import {
 } from "../../store/Reducers/shipperReducer";
 import { Tooltip } from "antd";
 import toast from "react-hot-toast";
+import { RxCross1 } from "react-icons/rx";
 
 const DsShipper = () => {
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
@@ -46,6 +48,40 @@ const DsShipper = () => {
 
   return (
     <div className="px-2 lg:px-7 pt-5">
+      {open &&
+        shippers.map((u, i) => (
+          <div
+            key={i}
+            className="fixed w-full h-screen bg-[#0000004b] top-0 left-0 flex items-center justify-center"
+          >
+            <div className="p-4 w-[auto] h-[200px] bg-white rounded shadow relative">
+              <div className="w-full flex justify-end p-3">
+                <RxCross1
+                  size={30}
+                  className="cursor-pointer"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+              <h1 className="text-center text-[25px] font-Poppins">
+                Bạn Chắc Chắn Muốn Xóa Nhân Viên Này?
+              </h1>
+              <div className="p-[100px] flex justify-between items-center pt-4">
+                <button
+                  onClick={() => setOpen(false)}
+                  className="flex border p-2 bg-red-500 rounded-md text-white"
+                >
+                  Không
+                </button>
+                <button
+                  onClick={() => delete_shipper(u._id)}
+                  className="flex border p-2 bg-green-500 rounded-md text-white"
+                >
+                  Có
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       <div className="w-full p-4  bg-[#283046] rounded-md">
         <div className="flex justify-between items-center">
           <select
@@ -150,7 +186,7 @@ const DsShipper = () => {
                       </Tooltip>
                       <Tooltip title="Xóa Shipper">
                         <Link
-                          onClick={() => delete_shipper(d._id)}
+                          onClick={() => setOpen(true)}
                           className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50"
                         >
                           <FaTrash />

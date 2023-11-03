@@ -21,6 +21,12 @@ router.get(
   authMiddleware,
   sellerController.get_seller
 );
+
+router.delete(
+  "/xoa-seller/:sellerId",
+  sellerController.xoa_seller
+);
+
 router.post(
   "/seller-status-update",
   authMiddleware,
