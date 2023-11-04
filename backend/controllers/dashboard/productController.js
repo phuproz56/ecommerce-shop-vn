@@ -3,6 +3,7 @@ const cloudinary = require("cloudinary").v2;
 const productModel = require("../../models/productModel");
 const logProductModel = require("../../models/logProduct");
 const { responseReturn } = require("../../utils/response");
+const couponModel = require("../../models/couponModel");
 const moment = require("moment");
 
 class productController {
@@ -270,6 +271,65 @@ class productController {
           .countDocuments();
         responseReturn(res, 200, { totallogProduct, logProduct });
       }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  create_coupon_code = async (req, res) => {
+    try {
+      const isCoupounCodeExists = await couponModel.find({
+        name: req.body.name,
+      });
+
+      if (isCoupounCodeExists.length !== 0) {
+        responseReturn(res, 400, { message: "Mã giảm giá đã tồn tại!" });
+      }
+
+      const coupounCode = await couponModel.create(req.body);
+
+      responseReturn(res, 200, { coupounCode });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  get_coupon = async (req, res) => {
+    try {
+      const couponCodes = await couponModel.find({ shopId: req.params.id });
+      res.status(201).json({
+        success: true,
+        couponCodes,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  delete_coupon = async (req, res) => {
+    try {
+      const couponCode = await couponModel.findByIdAndDelete(req.params.id);
+
+      if (!couponCode) {
+        responseReturn(res, 500, { message: "Mã giảm giá không tồn tại!" });
+      }
+      res.status(201).json({
+        success: true,
+        message: "Đã xóa mã giảm giá thành công!",
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  get_coupon_value = async (req, res) => {
+    try {
+      const couponCode = await couponModel.findOne({ name: req.params.name });
+
+      res.status(200).json({
+        success: true,
+        couponCode,
+      });
     } catch (error) {
       console.log(error.message);
     }

@@ -23,7 +23,7 @@ router.get(
 );
 
 router.get(
-  "/shipper/get-shipper-new-order",
+  "/shipper/get-shipper-new-order/:id",
   authMiddleware,
   get_shipper_new_order
 );

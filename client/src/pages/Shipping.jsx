@@ -11,6 +11,9 @@ import {
   update_product,
 } from "../store/reducers/orderReducer";
 import { Country, State } from "country-state-city";
+import api from "../api/api";
+import toast from "react-hot-toast";
+
 const Shipping = () => {
   const location = useLocation();
   useEffect(() => {
@@ -21,18 +24,29 @@ const Shipping = () => {
     });
   }, [location]);
 
+  const [couponCode, setCouponCode] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const {
     state: { products, price, shipping_fee, items },
   } = useLocation();
-  const [res, setRes] = useState(false);
+  const { card_products } = useSelector((state) => state.card);
+  const [openVoucher, setOpenVoucher] = useState(false);
+
+  const search_address_macdinh = userInfo.addresses?.filter(
+    (item) => item.addressType === "Mặc định"
+  );
+console.log(search_address_macdinh)
+
+  const [res, setRes] = useState(search_address_macdinh.length ? true : false);
 
   const [country, setCountry] = useState("VN");
-  const [city, setCity] = useState("");
-  const [address1, setAddress1] = useState("");
+  const [city, setCity] = useState(search_address_macdinh.length ? search_address_macdinh[0].city : "");
+  const [address1, setAddress1] = useState(search_address_macdinh.length ? search_address_macdinh[0].address1 : "");
   const [user, setUser] = useState(false);
+  const [discountPrice, setDiscountPrice] = useState(null);
+  const [couponCodeData, setCouponCodeData] = useState(null);
 
   const save = (e) => {
     e.preventDefault();
@@ -49,6 +63,7 @@ const Shipping = () => {
       setRes(true);
     }
   };
+
   const placeOrder = () => {
     const data = {
       userId: userInfo.id,
@@ -66,11 +81,54 @@ const Shipping = () => {
         shipping_fee,
         shippingInfo: data,
         userId: userInfo.id,
+        discountPrice,
         navigate,
         items,
       })
     );
   };
+
+  const subTotalPrice = price;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const name = couponCode;
+    await api.get(`/coupon/get-coupon-value/${name}`).then((res) => {
+      const selectedProduct = res.data.couponCode?.selectedProduct;
+      const couponCodeValue = res.data.couponCode?.value;
+      const minAmount = res.data.couponCode?.minAmount;
+      const maxAmount = res.data.couponCode?.maxAmount;
+
+      if (res.data.couponCode !== null) {
+        if (minAmount > subTotalPrice) {
+          toast.error("Không đáp ứng điều kiện của voucher!");
+          setCouponCode("");
+        } else if (maxAmount < subTotalPrice) {
+          const discountPrice = (maxAmount * couponCodeValue) / 100;
+          setDiscountPrice(discountPrice);
+          setCouponCodeData(res.data.couponCode);
+          setOpenVoucher(true);
+        } else {
+          const discountPrice = (subTotalPrice * couponCodeValue) / 100;
+          console.log(discountPrice);
+          setDiscountPrice(discountPrice);
+          setCouponCodeData(res.data.couponCode);
+          setOpenVoucher(true);
+          // setCouponCode("");
+        }
+      }
+      if (res.data.couponCode === null) {
+        toast.error("Mã Voucher này không tồn tại!");
+        setCouponCode("");
+      }
+    });
+  };
+
+  const discountPercentenge = couponCodeData ? discountPrice : "";
+
+  const totalPrice = couponCodeData
+    ? subTotalPrice + shipping_fee - discountPercentenge
+    : subTotalPrice + shipping_fee;
 
   return (
     <div>
@@ -223,7 +281,11 @@ const Shipping = () => {
                         <div>
                           {userInfo &&
                             userInfo.addresses.map((item, index) => (
-                              <div onClick={() => setRes(true)} key={index} className="w-full flex mt-1">
+                              <div
+                                onClick={() => setRes(true)}
+                                key={index}
+                                className="w-full flex mt-1"
+                              >
                                 <input
                                   type="checkbox"
                                   className="mr-3"
@@ -293,15 +355,22 @@ const Shipping = () => {
                         <div className="flex justify-end w-5/12 sm:w-full sm:mt-3 ">
                           <div className="pl-4 sm:pt-0">
                             <h2 className="text-orange-500 text-lg">
-                              
-                              {(pt.productInfo.price -
+                              {(
+                                pt.productInfo.price -
                                 Math.floor(
                                   pt.productInfo.price * pt.productInfo.discount
                                 ) /
-                                  100).toLocaleString('vi', {style : 'currency', currency : 'VND'})} 
+                                  100
+                              ).toLocaleString("vi", {
+                                style: "currency",
+                                currency: "VND",
+                              })}
                             </h2>
                             <p className="line-through">
-                              {pt.productInfo.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}
+                              {pt.productInfo.price.toLocaleString("vi", {
+                                style: "currency",
+                                currency: "VND",
+                              })}
                             </p>
                             <p>-{pt.productInfo.discount}%</p>
                           </div>
@@ -318,24 +387,68 @@ const Shipping = () => {
                   <h2 className="text-xl font-semibold">HÓA ĐƠN</h2>
                   <div className="flex justify-between  items-center">
                     <span>Tổng Số Tiền</span>
-                    <span className="text-lg text-orange-500">{price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}</span>
+                    <span className="text-lg text-orange-500">
+                      {price.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </span>
                   </div>
                   <div className="flex justify-between  items-center">
                     <span>Phí Giao Hàng</span>
                     <span className="text-lg text-orange-500">
-                      {shipping_fee.toLocaleString('vi', {style : 'currency', currency : 'VND'})}
+                      {shipping_fee.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
                     </span>
                   </div>
                   <div className="flex justify-between  items-center">
                     <span>Tổng Số Tiền Cần Trả</span>
                     <span className="text-lg text-orange-500">
-                      {(price + shipping_fee).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
+                      {(price + shipping_fee).toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
                     </span>
                   </div>
+                  {res && !openVoucher ? (
+                    <form onSubmit={handleSubmit}>
+                      <input
+                        type="text"
+                        className={`w-full border p-1 rounded-[5px] h-[40px] pl-2`}
+                        placeholder="Áp dụng mã Voucher ngay!!! "
+                        value={couponCode}
+                        onChange={(e) => setCouponCode(e.target.value)}
+                        required
+                      />
+                      <input
+                        className={`w-full h-[40px] border border-[#f63b60] text-center text-[#f63b60] font-bold rounded-[3px] mt-8 cursor-pointer`}
+                        required
+                        value="Áp dụng mã voucher"
+                        type="submit"
+                      />
+                    </form>
+                  ) : couponCodeData && openVoucher ? (
+                    <div>
+                      <p>Đã áp dụng mã voucher giảm {couponCodeData.value}%</p>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
                   <div className="flex justify-between  items-center">
                     <span>TỔNG</span>
                     <span className="text-lg text-orange-500">
-                      {(price + shipping_fee).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
+                      {!discountPercentenge
+                        ? (price + shipping_fee).toLocaleString("vi", {
+                            style: "currency",
+                            currency: "VND",
+                          })
+                        : totalPrice.toLocaleString("vi", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
                     </span>
                   </div>
                   <button

@@ -82,9 +82,16 @@ const ShipperDetails = () => {
             id=""
             className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
           >
-            <option value="Tìm Thấy Shipper">Tìm Thấy Shipper</option>
-            <option value="Giao Hàng Thành Công">Giao Hàng Thành Công</option>
-            <option value="Giao Hàng Thất Bại">Giao Hàng Thất Bại</option>
+            <option value={order.delivery_status}>
+              {order.delivery_status}
+            </option>
+            {order.delivery_status === "Vận Chuyển" ? (
+              <option value="Shipper Nhận Được Hàng">Shipper Nhận Được Hàng</option>
+            ) : order.delivery_status === "Đang Giao Hàng" ? (
+              <option value="Giao Hàng Thành Công">Giao Hàng Thành Công</option>
+            ) : order.delivery_status === "Giao Hàng Thành Công" ? "" : (
+              <option value="Giao Hàng Thất Bại">Giao Hàng Thất Bại</option>
+            ) }
           </select>
         </div>
         <div className="p-4">

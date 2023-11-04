@@ -117,7 +117,7 @@ class authControllers {
           responseReturn(res, 400, { error: "password sai!" });
         }
       } else {
-        responseReturn(res, 400, { error: "email không tìm thấy!!" });
+        responseReturn(res, 400, { error: "Số điện thoại không tìm thấy!!" });
       }
     } catch (error) {
       responseReturn(res, 500, { error: error.message });

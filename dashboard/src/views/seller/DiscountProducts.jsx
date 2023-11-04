@@ -1,15 +1,81 @@
-import React, { useState } from "react";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import { BsImages } from "react-icons/bs";
-import { IoCloseSharp } from "react-icons/io5";
+/* eslint-disable jsx-a11y/role-supports-aria-props */
+import React, { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { RxCross1 } from "react-icons/rx";
+import api from "../../api/api";
+import toast from "react-hot-toast";
+import { DataGrid } from "@mui/x-data-grid";
+import { get_products_seller } from "../../store/Reducers/sellerReducer";
+import { AiOutlineDelete } from "react-icons/ai";
+import { Tooltip } from "antd";
 
 const DiscountProducts = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const row = [];
+  const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [coupouns, setCoupouns] = useState([]);
+  const [minAmount, setMinAmout] = useState(null);
+  const [maxAmount, setMaxAmount] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [value, setValue] = useState(null);
+  const { userInfo } = useSelector((state) => state.auth);
+  const { products } = useSelector((state) => state.seller);
+
+  useEffect(() => {
+    dispatch(get_products_seller());
+  }, [dispatch]);
+
   const handleDelete = async (id) => {
+    api
+      .delete(`/coupon/delete-coupon/${id}`, { withCredentials: true })
+      .then((res) => {
+        toast.success("Xóa thành công!!");
+      });
     window.location.reload();
   };
+
+  useEffect(() => {
+    setIsLoading(true);
+    api
+      .get(`/coupon/get-coupon/${userInfo._id}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setIsLoading(false);
+        setCoupouns(res.data.couponCodes);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+      });
+  }, [dispatch, userInfo._id]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await api
+      .post(
+        `/coupon/create-coupon-code`,
+        {
+          name,
+          minAmount,
+          maxAmount,
+          selectedProduct,
+          value,
+          shopId: userInfo._id,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        toast.success("Đã tạo mã giảm giá thành công!");
+        setOpen(false);
+        window.location.reload();
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
+  };
+
   const columns = [
     { field: "id", headerName: "Id", minWidth: 150, flex: 0.7 },
     {
@@ -34,112 +100,158 @@ const DiscountProducts = () => {
       renderCell: (params) => {
         return (
           <>
-            {/* <Button onClick={() => handleDelete(params.id)}>
+          <Tooltip title="Xóa Mã Giảm Giá">
+            <Button onClick={() => handleDelete(params.id)}>
               <AiOutlineDelete size={20} />
-            </Button> */}
+            </Button></Tooltip>
           </>
         );
       },
     },
   ];
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
 
-  const [cateShow, setCateShow] = useState(false);
+  const row = [];
+
+  coupouns &&
+    coupouns.forEach((item) => {
+      row.push({
+        id: item._id,
+        name: item.name,
+        price: item.value + " %",
+        sold: 10,
+      });
+    });
+
   return (
-    <div className="px-2 lg:px-7 pt-5">
-      <div className="text-white w-full 800px:w-[50%] bg-[#283046] shadow h-[80vh] rounded-[4px] p-3 overflow-y-scroll justify-center items-center">
-        <h5 className="text-[30px] font-Poppins text-center">
-          Tạo Mã khuyến mãi
-        </h5>
-        {/* create event form */}
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-col w-full gap-1 relative">
+    <div className="px-2 md:px-7 py-5">
+      {isLoading ? (
+        "<Loader />"
+      ) : (
+        <div className="w-full pt-1 bg-[#283046] rounded-md">
+          <div className="w-full flex justify-end">
             <div
-              className={`absolute top-[101%] bg-slate-800 w-full transition-all ${
-                cateShow ? "scale-100" : "scale-0"
-              }`}
-            ></div>
+              className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer !w-max !h-[45px] px-3 !rounded-[5px] mr-3 mb-3 bg-[#f61d1deb]`}
+              onClick={() => setOpen(true)}
+            >
+              <span className="text-white">Thêm mã giảm giá</span>
+            </div>
           </div>
-          <br />
-          <div>
-            <label className="pb-2">Tên Mã</label>
-            <input
-              type="text"
-              name="tags"
-              // value={tags}
-              className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6] w-full mt-2"
-              // onChange={(e) => setTags(e.target.value)}
-              placeholder="Thêm Mã giảm giá..."
+          <div className="text-white p-4">
+            <DataGrid
+              rows={row}
+              columns={columns}
+              sx={{
+                borderBlock: "white",
+                color: "white",
+                boxShadow: 2,
+                border: 2,
+              }}
             />
           </div>
-          <br />
-          <div>
-            <label className="pb-2">
-              Giá khuyến mãi <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="number"
-              name="price"
-              // value={discountPrice}
-              className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6] w-full mt-2"
-              // onChange={(e) => setDiscountPrice(e.target.value)}
-              placeholder="Giảm giá % ..."
-            />
-          </div>
-          <br />
-          <div>
-            <label className="pb-2">
-              Số lượng <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="number"
-              name="price"
-              // value={stock}
-              className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6] w-full mt-2"
-              // onChange={(e) => setStock(e.target.value)}
-              placeholder="Số lượng sản phẩm..."
-            />
-          </div>
-          <br />
-          <div>
-            <label className="pb-2">
-              Ngày bắt đầu <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="date"
-              name="price"
-              id="start-date"
-              // value={startDate ? startDate.toISOString().slice(0,10) : ""}
-              className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6] w-full mt-2"
-              // onChange={handleStartDateChange}
-              // min={today}
-              placeholder="Enter your event product stock..."
-            />
-          </div>
-          <br />
-          <div>
-            <label className="pb-2">
-              Ngày kết thúc <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="date"
-              name="price"
-              id="start-date"
-              // value={endDate ? endDate.toISOString().slice(0,10) : ""}
-              className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6] w-full mt-2"
-              // onChange={handleEndDateChange}
-              // min={minEndDate}
-              placeholder="Enter your event product stock..."
-            />
-          </div>
-          <br />
-          <button className="flex border bg-blue-500 p-2 rounded-md justify-items-center">
-            Thêm Mã Giảm Giá
-          </button>
-        </form>
-      </div>
+          {open && (
+            <div className="fixed top-0 left-0 w-full h-screen bg-[#00000062] z-[20000] flex items-center justify-center">
+              <div className="w-[90%] 800px:w-[40%] h-[80vh] bg-white rounded-md shadow p-4">
+                <div className="w-full flex justify-end">
+                  <RxCross1
+                    size={30}
+                    className="cursor-pointer"
+                    onClick={() => setOpen(false)}
+                  />
+                </div>
+                <h5 className="text-[30px] font-Poppins text-center">
+                  Thêm mã giảm giá
+                </h5>
+                {/* create coupoun code */}
+                <form onSubmit={handleSubmit} aria-required={true}>
+                  <br />
+                  <div>
+                    <label className="pb-2">
+                      Tên <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      value={name}
+                      className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Thêm tên mã giảm giá..."
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <label className="pb-2">
+                      Số lượng giảm (%) <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="value"
+                      value={value}
+                      required
+                      className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      onChange={(e) => setValue(e.target.value)}
+                      placeholder="Nhập % giảm giá (% < 100%)..."
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <label className="pb-2">Số tiền tổi thiểu</label>
+                    <input
+                      type="number"
+                      name="value"
+                      value={minAmount}
+                      className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      onChange={(e) => setMinAmout(e.target.value)}
+                      placeholder="Nhập số tiền tối thiểu có thể giảm giá..."
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <label className="pb-2">Số tiền tối đa</label>
+                    <input
+                      type="number"
+                      name="value"
+                      value={maxAmount}
+                      className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      onChange={(e) => setMaxAmount(e.target.value)}
+                      placeholder="Nhập số tiền tối đa có thể giảm giá..."
+                    />
+                  </div>
+                  <br />
+                  {/* <div>
+                    <label className="pb-2">
+                      Chọn sản phẩm có thể áp dụng mã giảm giá
+                    </label>
+                    <select
+                      className="w-full mt-2 border h-[35px] rounded-[5px]"
+                      value={selectedProduct}
+                      onChange={(e) => setSelectedProduct(e.target.value)}
+                    >
+                      <option value="Choose your selected products">
+                        Chọn sản phẩm
+                      </option>
+                      {products &&
+                        products.map((i) => (
+                          <option value={i.name} key={i.name}>
+                            {i.name}
+                          </option>
+                        ))}
+                    </select>
+                  </div> */}
+                  <br />
+                  <div>
+                    <input
+                      type="submit"
+                      value="Tạo mã giảm giá"
+                      className="mt-2 appearance-none block w-full px-3 h-[35px] bg-[#050505bd] text-[#fff] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    />
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

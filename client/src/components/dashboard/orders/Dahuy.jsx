@@ -54,7 +54,7 @@ const Dahuy = () => {
                           Đã mua vào ngày: <span>{q.date}</span>{" "}
                           <div className="text-end">
                             <Link to={``} className="pl-[100px] text-green-500">
-                              {q.delivery_status}
+                            Hủy
                             </Link>
                             {q.delivery_status === "complete" && (
                               <b className="border-l-2 text-red-400 uppercase ml-4">

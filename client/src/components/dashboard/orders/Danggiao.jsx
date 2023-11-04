@@ -42,7 +42,7 @@ const Danggiao = () => {
           <ul className="w-full">
             {allOrders.map((q, i) =>
               
-                q.delivery_status === "Đang Giao Hàng" ? (
+                q.delivery_status === "Đang Giao Hàng" || q.delivery_status === "Giao Hàng Thành Công" ? (
                   <li
                     key={i}
                     className="mt-3 border border-slate-300 rounded-md"
@@ -53,7 +53,7 @@ const Danggiao = () => {
                           Đã mua vào ngày: <span>{q.date}</span>{" "}
                           <div className="text-end">
                             <Link to={`/dashboard/order/${q._id}`} className="pl-[100px] text-green-500">
-                              {q.delivery_status}
+                              Đang Giao Hàng
                             </Link>
                             {q.delivery_status === "complete" && (
                               <b className="border-l-2 text-red-400 uppercase ml-4">

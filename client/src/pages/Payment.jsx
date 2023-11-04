@@ -109,8 +109,8 @@ const Payment = () => {
                     >
                       Mua Ngay
                     </button>
-                    {message === "succeeded" && (
-                      loader ? (
+                    {message === "succeeded" &&
+                      (loader ? (
                         <FadeLoader />
                       ) : (
                         <div className="flex flex-col gap-3 justify-center items-center">
@@ -127,8 +127,7 @@ const Payment = () => {
                             Quay lại trang chủ
                           </Link>
                         </div>
-                      )
-                    )}
+                      ))}
                   </div>
                 )}
               </div>
@@ -140,7 +139,7 @@ const Payment = () => {
                   <div className="flex justify-between items-center">
                     <span> sản phẩm và phí vận chuyển đã áp dụng</span>
                     <span>
-                      {price.toLocaleString("vi", {
+                      {myOrder?.price?.toLocaleString("vi", {
                         style: "currency",
                         currency: "VND",
                       })}{" "}
@@ -149,7 +148,7 @@ const Payment = () => {
                   <div className="flex justify-between items-center font-semibold">
                     <span>Tổng số tiền cần thanh toán</span>
                     <span className="text-lg text-orange-500">
-                      {price.toLocaleString("vi", {
+                      {myOrder?.price?.toLocaleString("vi", {
                         style: "currency",
                         currency: "VND",
                       })}{" "}

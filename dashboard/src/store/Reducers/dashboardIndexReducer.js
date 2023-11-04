@@ -34,11 +34,15 @@ export const get_admin_dashboard_index_data = createAsyncThunk(
 
 export const get_shipper_new_order = createAsyncThunk(
   "dashboardIndex/get_shipper_new_order",
-  async (_, { rejectWithValue, fulfillWithValue }) => {
+  async ( id, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get(`/shipper/get-shipper-new-order`, {
-        withCredentials: true,
-      });
+      const { data } = await api.get(
+        `/shipper/get-shipper-new-order/${id}`,
+         
+        {
+          withCredentials: true,
+        }
+      );
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.message);

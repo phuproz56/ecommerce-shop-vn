@@ -4,6 +4,7 @@ const sellerWallet = require("../../models/sellerWallet");
 const myShopWallet = require("../../models/myShopWallet");
 const sellerModel = require("../../models/sellerModel");
 const authOrder = require("../../models/authOrder");
+const shipperModel = require("../../models/shipperModel");
 
 const adminSellerMessage = require("../../models/chat/adminSellerMessage");
 const sellerCustomerMessage = require("../../models/chat/sellerCustomerMessage");
@@ -300,6 +301,14 @@ module.exports.get_shipper_new_order = async (req, res) => {
     Total_VanChuyen = await customerOrder
       .find({ delivery_status: "Vận Chuyển" })
       .countDocuments();
+
+    const user = await shipperModel.findById(req.id)
+
+    const find = await customerOrder.find({
+      shipperInfo: {$gt: new ObjectId(req.id)}
+    })
+
+    console.log(find)
 
     responseReturn(res, 200, {
       orders,

@@ -22,6 +22,11 @@ router.get(
   sellerController.get_seller
 );
 
+router.get(
+  "/get-products-seller",
+  sellerController.get_products_seller
+);
+
 router.delete(
   "/xoa-seller/:sellerId",
   sellerController.xoa_seller

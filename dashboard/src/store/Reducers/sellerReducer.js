@@ -130,6 +130,20 @@ export const xoa_seller = createAsyncThunk(
   }
 );
 
+export const get_products_seller = createAsyncThunk(
+  "shipper/get_products_seller",
+  async (id, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(`/get-products-seller`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const sellerReducer = createSlice({
   name: "seller",
   initialState: {
@@ -139,6 +153,7 @@ export const sellerReducer = createSlice({
     sellers: [],
     totalSeller: 0,
     seller: "",
+    products: [],
   },
   reducers: {
     messageClear: (state, _) => {
@@ -178,6 +193,9 @@ export const sellerReducer = createSlice({
     },
     [xoa_seller.rejected]: (state, { payload }) => {
       state.errorMessage = payload.message;
+    },
+    [get_products_seller.fulfilled]: (state, { payload }) => {
+      state.products = payload.products;
     },
   },
 });

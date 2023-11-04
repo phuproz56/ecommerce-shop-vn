@@ -53,7 +53,7 @@ const Choxuly = () => {
                           Đã mua vào ngày: <span>{q.date}</span>{" "}
                           <div className="text-end">
                             <Link to={`/dashboard/order/${q._id}`} className="pl-[100px] text-green-500">
-                              {q.delivery_status}
+                            Chưa Xử Lí
                             </Link>
                             {q.delivery_status === "complete" && (
                               <b className="border-l-2 text-red-400 uppercase ml-4">

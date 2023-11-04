@@ -77,6 +77,7 @@ class cardController {
       const stockProduct = card_products.filter(
         (p) => p.products[0].stock >= p.quantity
       );
+
       for (let i = 0; i < stockProduct.length; i++) {
         const { quantity } = stockProduct[i];
         card_product_count = card_product_count + quantity;
@@ -88,7 +89,6 @@ class cardController {
             quantity * (price - Math.floor((price * discount) / 100));
         } else {
           calculatePrice = calculatePrice + quantity * price;
-          console.log(calculatePrice);
         }
       }
 
@@ -96,6 +96,7 @@ class cardController {
       let unique = [
         ...new Set(stockProduct.map((p) => p.products[0].sellerId.toString())),
       ];
+
       for (let i = 0; i < unique.length; i++) {
         let price = 0;
         for (let j = 0; j < stockProduct.length; j++) {

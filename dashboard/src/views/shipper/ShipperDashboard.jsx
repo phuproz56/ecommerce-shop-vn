@@ -28,7 +28,7 @@ const ShipperDashboard = () => {
   const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    dispatch(get_shipper_new_order());
+    dispatch(get_shipper_new_order(userInfo._id));
   }, []);
 
   const nhandonhang = (orderId) => {
@@ -59,6 +59,15 @@ const ShipperDashboard = () => {
           <div className="flex flex-col justify-start items-start text-[#d0d2d6]">
             <h2 className="text-3xl font-bold">{Total_TimShipper}</h2>
             <span className="text-md font-medium">Đơn Hàng Đang Chờ</span>
+          </div>
+          <div className="w-[46px] h-[47px] rounded-full bg-[#7367f01f] flex justify-center items-center text-xl">
+            <AiOutlineShoppingCart className="text-[#7367f0] shadow-lg" />
+          </div>
+        </div>
+        <div className="flex justify-between items-center p-5 bg-[#283046] rounded-md gap-3">
+          <div className="flex flex-col justify-start items-start text-[#d0d2d6]">
+            <h2 className="text-3xl font-bold">{Total_TimShipper}</h2>
+            <span className="text-md font-medium">Đơn Hàng Hoàn Thành</span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-[#7367f01f] flex justify-center items-center text-xl">
             <AiOutlineShoppingCart className="text-[#7367f0] shadow-lg" />

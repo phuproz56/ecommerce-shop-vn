@@ -11,6 +11,7 @@ module.exports.authMiddleware = async (req, res, next) => {
       const deCodeToken = await jwt.verify(accessToken, process.env.SECRET);
       req.role = deCodeToken.role;
       req.id = deCodeToken.id;
+      req.userInfo = deCodeToken;
       next();
     } catch (error) {
       return res.status(409).json({ error: "Vui lòng đăng nhập để tiếp tục!" });

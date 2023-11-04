@@ -38,4 +38,29 @@ router.get(
   productController.get_logproduct
 );
 
+// thêm coupon sản phẩm
+
+router.post(
+  "/coupon/create-coupon-code",
+  authMiddleware,
+  productController.create_coupon_code
+);
+
+router.get(
+  "/coupon/get-coupon/:id",
+  authMiddleware,
+  productController.get_coupon
+);
+
+router.delete(
+  "/coupon/delete-coupon/:id",
+  authMiddleware,
+  productController.delete_coupon
+);
+
+router.get(
+  "/coupon/get-coupon-value/:name",
+  productController.get_coupon_value
+);
+
 module.exports = router;

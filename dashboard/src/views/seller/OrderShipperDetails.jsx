@@ -30,25 +30,6 @@ const OrderShipperDetails = () => {
   }, [order]);
 
   const status_update = (e) => {
-    const user_email = order.shippingInfo.email;
-    const order_date = order.date;
-    const order_id = order._id;
-    // const seller_email = userInfo.email;
-    if (status === "Chưa Xử Lí") {
-      const config = {
-        SecureToken: "f9473773-192c-4284-8cb3-cf7b77d1fb21",
-        To: user_email,
-        From: "phuproz348@gmail.com",
-        Subject: `Shop-vn Gửi mail cho bạn về đơn hàng ${order_id}`,
-        Body: `Đơn hàng: (${order_id}) của bạn được đặt vào ${order_date} đã được xử lí`,
-      };
-      if (window.Email) {
-        window.Email.send(config).then((message) =>
-          alert("Email đã gửi về cho khách hàng!")
-        );
-      }
-    }
-
     dispatch(
       seller_order_status_update({
         _id: _id.orderId,
@@ -82,10 +63,18 @@ const OrderShipperDetails = () => {
             id=""
             className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
           >
-            <option value={order.delivery_status}>{order.delivery_status}</option>
-            <option value="Giao Hàng Thành Công">Giao Hàng Thành Công</option>
-            <option value="Giao Hàng Thất Bại">Giao Hàng Thất Bại</option>
-
+            <option value={order.delivery_status}>
+              {order.delivery_status}
+            </option>
+            {order.delivery_status === "Tìm Thấy Shipper" ? (
+              <option value="Vận Chuyển">Vận Chuyển</option>
+            ) : order.delivery_status === "Shipper Nhận Được Hàng" ? (
+              <option value="Đang Giao Hàng">Đang Giao Hàng</option>
+            ) : order.delivery_status === "Giao Hàng Thành Công" ? (
+              <option value="Đã Giao Hàng">Đã Giao Hàng</option>
+            ) : (
+              <option value="Hủy">Hủy</option>
+            )}
           </select>
         </div>
         <div className="p-4">
@@ -151,16 +140,14 @@ const OrderShipperDetails = () => {
         <div className="p-4 border-t-2">
           <div className="flex gap-2 text-lg text-[#d0d2d6]">
             <h2>Chi Tiết Shipper</h2>
-            
           </div>
           <div className="flex flex-wrap">
-            <div className="w-[32%]">
-              <div className="pr-3 text-[#d0d2d6] text-lg">
+            <div className="w-auto">
+              <div className="pr-4 text-[#d0d2d6] text-lg">
                 <div className="flex flex-col gap-1">
                   <h2 className="pb-2 font-semibold">
                     Tên Shipper: {order?.shipperInfo?.name}
                   </h2>
-                  
                 </div>
                 <div className="flex justify-start items-center gap-3">
                   <h2>Số điện thoại: </h2>
@@ -168,7 +155,16 @@ const OrderShipperDetails = () => {
                     {order?.shipperInfo?.phoneNumber}
                   </span>
                 </div>
-                
+                <div className="flex justify-start items-center gap-3">
+                  <h2>Địa chỉ: </h2>
+                  <span className="text-base">
+                    {order?.shipperInfo?.address}
+                  </span>
+                </div>
+                <div className="flex justify-start items-center gap-3">
+                  <h2>cccd: </h2>
+                  <span className="text-base">{order?.shipperInfo?.cccd}</span>
+                </div>
               </div>
             </div>
           </div>

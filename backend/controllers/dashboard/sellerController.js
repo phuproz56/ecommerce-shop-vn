@@ -1,5 +1,6 @@
 const sellerModel = require("../../models/sellerModel");
 const { responseReturn } = require("../../utils/response");
+const productModel = require("../../models/productModel");
 class sellerController {
   get_seller_request = async (req, res) => {
     const { page, searchValue, parPage } = req.query;
@@ -136,6 +137,15 @@ class sellerController {
       responseReturn(res, 200, { message: "Xóa Thành Công!" });
     } catch (error) {
       responseReturn(res, 500, { message: "Lỗi Máy Chủ!" });
+    }
+  };
+
+  get_products_seller = async (req, res) => {
+    try {
+      const products = await productModel.find({});
+      responseReturn(res, 200, { products });
+    } catch (error) {
+      console.log(error.message);
     }
   };
 }

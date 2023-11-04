@@ -4,7 +4,6 @@ import Orders from "../Orders";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-
   messageClear,
   get_all_orders,
 } from "../../../store/reducers/orderReducer";
@@ -39,7 +38,6 @@ const Hoanthanh = () => {
       messageClear();
     }
   }, [successMessage]);
-
 
   return (
     <div>
@@ -76,10 +74,10 @@ const Hoanthanh = () => {
                             to={`/dashboard/order/${q._id}`}
                             className="pl-[100px] text-green-500"
                           >
-                            {q.delivery_status}
+                            Đã Giao Hàng
                           </Link>
                           {q.delivery_status === "Đã Giao Hàng" && (
-                            <b className="border-l-2 text-red-400 uppercase ml-4">
+                            <b className="border-l-2 text-red-400 uppercase ml-4 pl-2">
                               hoàn thành
                             </b>
                           )}

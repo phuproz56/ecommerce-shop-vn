@@ -44,10 +44,12 @@ const RegisterNvAdmin = () => {
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4  bg-[#283046] rounded-md text-white">
-      <h2 className="text-center">Đăng Ký Tài Khoản Nhân Viên</h2>
+        <h2 className="text-center">Đăng Ký Tài Khoản Nhân Viên</h2>
         <form onSubmit={submit}>
           <div className="flex flex-col w-full gap-1 mb-3 ">
-            <label className="flex" htmlFor="name">Tên <p className="text-red-500">*</p></label>
+            <label className="flex" htmlFor="name">
+              Tên <p className="text-red-500">*</p>
+            </label>
             <input
               onChange={inputHandle}
               value={state.name}
@@ -60,7 +62,9 @@ const RegisterNvAdmin = () => {
             />
           </div>
           <div className="flex flex-col w-full gap-1 mb-3">
-            <label className="flex" htmlFor="email">Email  <p className="text-red-500">*</p></label>
+            <label className="flex" htmlFor="email">
+              Email <p className="text-red-500">*</p>
+            </label>
             <input
               onChange={inputHandle}
               value={state.email}
@@ -73,7 +77,9 @@ const RegisterNvAdmin = () => {
             />
           </div>
           <div className="flex flex-col w-full gap-1 mb-3">
-            <label className="flex" htmlFor="password">Mật khẩu  <p className="text-red-500">*</p></label>
+            <label className="flex" htmlFor="password">
+              Mật khẩu <p className="text-red-500">*</p>
+            </label>
             <input
               onChange={inputHandle}
               value={state.password}

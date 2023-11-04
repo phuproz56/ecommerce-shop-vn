@@ -4,6 +4,7 @@ const cardModel = require("../../models/cardModel");
 const myShopWallet = require("../../models/myShopWallet");
 const sellerWallet = require("../../models/sellerWallet");
 const productModel = require("../../models/productModel");
+const couponModel = require("../../models/couponModel");
 const moment = require("moment");
 const { responseReturn } = require("../../utils/response");
 const {
@@ -37,7 +38,15 @@ class orderController {
   };
 
   place_order = async (req, res) => {
-    const { price, products, shipping_fee, shippingInfo, userId } = req.body;
+    const {
+      price,
+      products,
+      shipping_fee,
+      shippingInfo,
+      discountPrice,
+      userId,
+    } = req.body;
+    console.log(discountPrice);
 
     let authorOrderData = [];
     let cardId = [];
@@ -58,57 +67,107 @@ class orderController {
     }
 
     try {
-      const order = await customerOrder.create({
-        customerId: userId,
-        shippingInfo,
-        products: customerOrderProduct,
-        price: price + shipping_fee,
-        delivery_status: "Chưa Xử Lí",
-        payment_status: "unpaid",
-        shipperInfo: {},
-        date: tempDate,
-      });
-
-      for (let i = 0; i < products.length; i++) {
-        const pro = products[i].products;
-        const pri = products[i].price;
-        const sellerId = products[i].sellerId;
-        let storePro = [];
-        for (let j = 0; j < pro.length; j++) {
-          let tempPro = pro[j].productInfo;
-          tempPro.quantity = pro[j].quantity;
-
-          storePro.push(tempPro);
-        }
-
-        authorOrderData.push({
-          orderId: order.id,
-          sellerId,
-          products: storePro,
-          price: pri,
-          payment_status: "unpaid",
-          shippingInfo: shippingInfo,
+      if (discountPrice) {
+        const order = await customerOrder.create({
+          customerId: userId,
+          shippingInfo,
+          products: customerOrderProduct,
+          price: price + shipping_fee - discountPrice,
           delivery_status: "Chưa Xử Lí",
+          payment_status: "unpaid",
           shipperInfo: {},
           date: tempDate,
         });
+
+        for (let i = 0; i < products.length; i++) {
+          const pro = products[i].products;
+          const pri = products[i].price;
+          const sellerId = products[i].sellerId;
+          let storePro = [];
+          for (let j = 0; j < pro.length; j++) {
+            let tempPro = pro[j].productInfo;
+            tempPro.quantity = pro[j].quantity;
+
+            storePro.push(tempPro);
+          }
+
+          authorOrderData.push({
+            orderId: order.id,
+            sellerId,
+            products: storePro,
+            price: pri,
+            payment_status: "unpaid",
+            shippingInfo: shippingInfo,
+            delivery_status: "Chưa Xử Lí",
+            shipperInfo: {},
+            date: tempDate,
+          });
+        }
+        await authOrderModel.insertMany(authorOrderData);
+
+        for (let k = 0; k < cardId.length; k++) {
+          await cardModel.findByIdAndDelete(cardId[k]);
+        }
+
+        setTimeout(() => {
+          this.paymentCheck(order.id);
+        }, 36000000);
+
+        responseReturn(res, 201, {
+          message: "đặt hàng thành công!",
+          orderId: order.id,
+        });
+      } else {
+        const order = await customerOrder.create({
+          customerId: userId,
+          shippingInfo,
+          products: customerOrderProduct,
+          price: price + shipping_fee - discountPrice,
+          delivery_status: "Chưa Xử Lí",
+          payment_status: "unpaid",
+          shipperInfo: {},
+          date: tempDate,
+        });
+
+        for (let i = 0; i < products.length; i++) {
+          const pro = products[i].products;
+          const pri = products[i].price;
+          const sellerId = products[i].sellerId;
+          let storePro = [];
+          for (let j = 0; j < pro.length; j++) {
+            let tempPro = pro[j].productInfo;
+            tempPro.quantity = pro[j].quantity;
+
+            storePro.push(tempPro);
+          }
+
+          authorOrderData.push({
+            orderId: order.id,
+            sellerId,
+            products: storePro,
+            price: pri,
+            payment_status: "unpaid",
+            shippingInfo: shippingInfo,
+            delivery_status: "Chưa Xử Lí",
+            shipperInfo: {},
+            date: tempDate,
+          });
+        }
+        await authOrderModel.insertMany(authorOrderData);
+
+        for (let k = 0; k < cardId.length; k++) {
+          await cardModel.findByIdAndDelete(cardId[k]);
+        }
+
+        setTimeout(() => {
+          this.paymentCheck(order.id);
+        }, 36000000);
+
+        responseReturn(res, 201, {
+          message: "đặt hàng thành công!",
+          orderId: order.id,
+        });
       }
-      await authOrderModel.insertMany(authorOrderData);
-
-      for (let k = 0; k < cardId.length; k++) {
-        await cardModel.findByIdAndDelete(cardId[k]);
-      }
-
-      // console.log(this.paymentCheck(order.id))
-
-      setTimeout(() => {
-        this.paymentCheck(order.id);
-      }, 36000000);
-
-      responseReturn(res, 201, {
-        message: "đặt hàng thành công!",
-        orderId: order.id,
-      });
     } catch (error) {
       console.log(error.message);
     }
@@ -169,7 +228,6 @@ class orderController {
 
   huy_order = async (req, res) => {
     const { orderId } = req.params;
-    console.log(orderId);
     try {
       await customerOrder.findByIdAndUpdate(orderId, {
         delivery_status: "Hủy",
@@ -212,7 +270,6 @@ class orderController {
 
     try {
       const order = await customerOrder.findById(orderId);
-      console.log(order);
       responseReturn(res, 200, {
         order,
       });
@@ -343,7 +400,7 @@ class orderController {
         const found_shipper = await customerOrder.find({
           delivery_status: "Tìm Shipper",
         });
-        
+
         responseReturn(res, 200, { orders, found_shipper, totalOrder });
       }
     } catch (error) {

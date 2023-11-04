@@ -86,10 +86,10 @@ const OrderDetails = () => {
             <option value="Chưa Xử Lí">Chưa Xử Lí</option>
             <option value="Đã Xử Lí">Đã Xử Lí</option>
             <option value="Tìm Shipper">Tìm Shipper</option>
-            <option value="Vận Chuyển">Vận Chuyển</option>
+            {/* <option value="Vận Chuyển">Vận Chuyển</option>
             <option value="Đang Giao Hàng">Đang Giao Hàng</option>
             <option value="Đã Giao Hàng">Đã Giao Hàng</option>
-            <option value="Hủy">Hủy</option>
+            <option value="Hủy">Hủy</option> */}
           </select>
         </div>
         <div className="p-4">

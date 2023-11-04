@@ -43,7 +43,7 @@ const Vanchuyen = () => {
           <ul className="w-full">
             {allOrders.map((q, i) =>
               
-                q.delivery_status === "Vận Chuyển" ? (
+                q.delivery_status === "Vận Chuyển" || q.delivery_status === "Shipper Nhận Được Hàng" ? (
                   <li
                     key={i}
                     className="mt-3 border border-slate-300 rounded-md"
@@ -54,7 +54,7 @@ const Vanchuyen = () => {
                           Đã mua vào ngày: <span>{q.date}</span>{" "}
                           <div className="text-end">
                             <Link to={`/dashboard/order/${q._id}`} className="pl-[100px] text-green-500">
-                              {q.delivery_status}
+                              Vận Chuyển
                             </Link>
                             {q.delivery_status === "complete" && (
                               <b className="border-l-2 text-red-400 uppercase ml-4">
