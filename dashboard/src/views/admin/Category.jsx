@@ -15,12 +15,17 @@ import {
   categoryAdd,
   get_category,
   messageClear,
+  xoa_category,
 } from "../../store/Reducers/categoryReducer";
+import { Tooltip } from "antd";
+import api from "../../api/api";
+import { RxCross1 } from "react-icons/rx";
+
 const Category = () => {
   const dispatch = useDispatch();
-  const { loader, successMessage, errorMessage, categorys } = useSelector(
-    (state) => state.category
-  );
+  const { loader, successMessage, errorMessage, categorys, totalCategory } =
+    useSelector((state) => state.category);
+  const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [parPage, setParPage] = useState(5);
@@ -61,6 +66,7 @@ const Category = () => {
         image: "",
       });
       setImage("");
+      window.location.reload();
     }
   }, [successMessage, errorMessage]);
 
@@ -73,8 +79,46 @@ const Category = () => {
     dispatch(get_category(obj));
   }, [searchValue, currentPage, parPage]);
 
+  const delete_category = (_id) => {
+    dispatch(xoa_category(_id));
+  };
+
   return (
     <div className="px-2 lg:px-7 pt-5">
+      {/* {open &&
+        categorys?.map((d, i) => (
+          <div
+            key={i}
+            className="fixed w-full h-screen bg-[#0000004b] top-0 left-0 flex items-center justify-center"
+          >
+            <div className="p-4 w-[auto] h-[200px] bg-white rounded shadow relative">
+              <div className="w-full flex justify-end p-3">
+                <RxCross1
+                  size={30}
+                  className="cursor-pointer"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+              <h1 className="text-center text-[25px] font-Poppins">
+                Bạn Chắc Chắn Muốn Xóa danh mục Này?
+              </h1>
+              <div className="p-[100px] flex justify-between items-center pt-4">
+                <button
+                  onClick={() => setOpen(false)}
+                  className="flex border p-2 bg-red-500 rounded-md text-white"
+                >
+                  Không
+                </button>
+                <button
+                  onClick={() => delete_category(d._id)}
+                  className="flex border p-2 bg-green-500 rounded-md text-white"
+                >
+                  Có
+                </button>
+              </div>
+            </div>
+          </div>
+        ))} */}
       <div className="flex lg:hidden justify-between items-center mb-5 p-4 bg-[#283046] rounded-md">
         <h1 className="text-[#d0d2d6] font-semibold text-lg">Categorys</h1>
         <button
@@ -92,7 +136,7 @@ const Category = () => {
               setSearchValue={setSearchValue}
               searchValue={searchValue}
             />
-            <div className="relative overflow-x-auto">
+            <div className="overflow-x-auto">
               <table className="w-full text-sm text-left text-[#d0d2d6]">
                 <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
                   <tr>
@@ -140,9 +184,14 @@ const Category = () => {
                         className="py-1 px-4 font-medium whitespace-nowrap"
                       >
                         <div className="flex justify-start items-center gap-4">
-                          <Link className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50">
-                            <FaTrash />
-                          </Link>
+                          <Tooltip title="Xóa danh mục">
+                            <button
+                              onClick={() => delete_category(d._id)}
+                              className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50"
+                            >
+                              <FaTrash />
+                            </button>
+                          </Tooltip>
                         </div>
                       </td>
                     </tr>
@@ -151,13 +200,15 @@ const Category = () => {
               </table>
             </div>
             <div className="w-full flex justify-end mt-4 bottom-4 right-4">
-              <Pagination
-                pageNumber={currentPage}
-                setPageNumber={setCurrentPage}
-                totalItem={50}
-                parPage={parPage}
-                showItem={4}
-              />
+              {totalCategory >= parPage && (
+                <Pagination
+                  pageNumber={currentPage}
+                  setPageNumber={setCurrentPage}
+                  totalItem={totalCategory}
+                  parPage={parPage}
+                  showItem={totalCategory - parPage}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -201,7 +252,11 @@ const Category = () => {
                     htmlFor="image"
                   >
                     {imageShow ? (
-                      <img className="w-full h-full" src={imageShow} alt='imageshow' />
+                      <img
+                        className="w-full h-full"
+                        src={imageShow}
+                        alt="imageshow"
+                      />
                     ) : (
                       <>
                         <span>

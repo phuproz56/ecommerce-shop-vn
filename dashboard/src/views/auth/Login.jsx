@@ -42,8 +42,8 @@ function Login() {
       <div className="w-[350px] text-[#d0d2d6] p-2">
         <div className="bg-[#283046] p-4 rounded-md">
           <h2 className="text-xl mb-3">CHÀO MỪNG ĐẾN VỚI SHOP-VN</h2>
-          <p className="text-sm mb-3 items-center justify-center">
-            Vui lòng đăng nhập vào tài khoản của bạn và bắt đầu kinh doanh
+          <p className="mb-3 items-center justify-center text-center uppercase text-lg">
+           Nhân viên
           </p>
           <form onSubmit={submit}>
             <div className="flex flex-col w-full gap-1 mb-3">

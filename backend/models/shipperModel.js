@@ -34,5 +34,8 @@ const shipperSchema = new Schema({
     default: "shipper",
   },
 });
+shipperSchema.index({
+  name: "text",
+});
 
 module.exports = model("shippers", shipperSchema);

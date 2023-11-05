@@ -3,16 +3,34 @@ const shipperModel = require("../../models/shipperModel");
 class shipperController {
   get_all_shipper = async (req, res) => {
     const { page, searchValue, parPage } = req.query;
-    const skipPage = parseInt(parPage) * (parseInt(page) - 1);
     try {
-      if (searchValue) {
-        //const seller
+      let skipPage = "";
+      if (parPage && page) {
+        skipPage = parseInt(parPage) * (parseInt(page) - 1);
+      }
+      if (searchValue && page && parPage) {
+        const shippers = await shipperModel
+          .find({
+            $text: { $search: searchValue },
+          })
+          .skip(skipPage)
+          .limit(parPage)
+          .sort({ createdAt: -1 });
+
+        const totalShipper = await shipperModel
+          .find({
+            $text: { $search: searchValue },
+          })
+          .countDocuments();
+
+        responseReturn(res, 200, { totalShipper, shippers });
       } else {
         const shippers = await shipperModel
           .find({})
           .skip(skipPage)
           .limit(parPage)
           .sort({ createdAt: -1 });
+
         const totalShipper = await shipperModel.find({}).countDocuments();
 
         responseReturn(res, 200, { totalShipper, shippers });

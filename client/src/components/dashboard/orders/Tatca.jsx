@@ -69,7 +69,7 @@ const Tatca = () => {
                               : q.delivery_status}
                           </Link>
                           {q.delivery_status === "Đã Giao Hàng" && (
-                            <b className="border-l-2 text-red-400 uppercase ml-4">
+                            <b className="border-l-2 text-red-400 uppercase ml-4 pl-3">
                               hoàn thành
                             </b>
                           )}

@@ -63,7 +63,7 @@ const DsShipper = () => {
                 />
               </div>
               <h1 className="text-center text-[25px] font-Poppins">
-                Bạn Chắc Chắn Muốn Xóa Nhân Viên Này?
+                Bạn Chắc Chắn Muốn Xóa Shipper Này?
               </h1>
               <div className="p-[100px] flex justify-between items-center pt-4">
                 <button

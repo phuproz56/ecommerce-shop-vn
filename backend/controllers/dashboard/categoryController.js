@@ -85,6 +85,17 @@ class categoryController {
       console.log(error.message);
     }
   };
+
+  xoa_category = async (req, res) => {
+    const { _id } = req.params;
+
+    try {
+      await categoryModel.findByIdAndDelete(_id);
+      responseReturn(res, 200, { message: "Xóa Thành Công!" });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 }
 
 module.exports = new categoryController();

@@ -35,6 +35,20 @@ export const get_category = createAsyncThunk(
   }
 );
 
+export const xoa_category = createAsyncThunk(
+  "category/xoa_category",
+  async (_id, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.delete(`/xoa-category/${_id}`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const categoryReducer = createSlice({
   name: "category",
   initialState: {
@@ -66,6 +80,9 @@ export const categoryReducer = createSlice({
     [get_category.fulfilled]: (state, { payload }) => {
       state.totalCategory = payload.totalCategory;
       state.categorys = payload.categorys;
+    },
+    [xoa_category.fulfilled]: (state, { payload }) => {
+      state.successMessage = payload.message;
     },
   },
 });

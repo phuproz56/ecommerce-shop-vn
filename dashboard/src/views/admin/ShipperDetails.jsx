@@ -10,6 +10,7 @@ import {
 import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../../utils/utils";
 import { FaEdit } from "react-icons/fa";
+import { Tooltip } from "antd";
 const ShipperDetails = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -148,12 +149,15 @@ const ShipperDetails = () => {
               )}
               {!open && (
                 <div className="flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md relative">
+                  <Tooltip title="Chỉnh sửa thông tin shipper">
+
+                  
                   <span
                     onClick={() => setOpen(true)}
                     className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 right-2 top-2 absolute cursor-pointer"
                   >
                     <FaEdit />
-                  </span>
+                  </span></Tooltip>
                   <div className="py-2 text-lg">
                     <h2>Thông tin căn bản Shipper</h2>
                   </div>
