@@ -276,7 +276,7 @@ const Details = () => {
                   </h2>
                 )}
               </div>
-              <h2 className="text-slate-600 ">Tên Shop: {product.shopName}</h2>
+              {/* <h2 className="text-slate-600 ">Tên Shop: {product.shopName}</h2> */}
               <div className="text-slate-600">
                 <p>{product.description}</p>
               </div>

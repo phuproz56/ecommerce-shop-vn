@@ -87,6 +87,18 @@ const Orders = () => {
                   đã hủy
                 </Link>
               </li>
+              <li className="flex justify-start items-center gap-2 py-2 w-auto">
+                <Link
+                  to="/dashboard/trahang"
+                  className={`p-2 flex justify-start items-center ${
+                    pathname === "/dashboard/trahang"
+                      ? "text-[#7fad39] border-b-2"
+                      : "text-slate-600"
+                  }`}
+                >
+                  Trả hàng
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

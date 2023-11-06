@@ -105,21 +105,7 @@ const Headers = ({ isFixed }) => {
         <div className="w-[85%] lg:w-[90%] mx-auto">
           <div className="flex w-full justify-between items-center h-[50px] text-slate-500">
             <ul className="flex justify-start items-center gap-8">
-              <li
-                className="flex relative justify-center items-center gap-2 text-sm
-              after:absolute after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px]"
-              >
-                <p>
-                  Bạn muốn bán hàng?{" "}
-                  <Link
-                    className="text-blue-500"
-                    target="_blank"
-                    to="http://localhost:3001/login"
-                  >
-                    Kênh Người Bán
-                  </Link>
-                </p>
-              </li>
+              
               <li
                 className="flex relative justify-center items-center gap-2 text-sm
               after:absolute after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px]"

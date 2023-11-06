@@ -116,9 +116,7 @@ const Cart = () => {
                     {card_products.map((p, i) => (
                       <div key={i} className="flex bg-white p-4 flex-col gap-2">
                         <div className="flex justify-start items-center">
-                          <h2 className="text-md text-slate-600">
-                            {p.shopName}
-                          </h2>
+                          
                         </div>
                         {p.products.map((pt, i) => (
                           <div key={i} className="w-full flex flex-wrap">

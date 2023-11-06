@@ -7,7 +7,7 @@ import {
 import { BiCategory, BiLoaderCircle } from "react-icons/bi";
 import { FiUsers } from "react-icons/fi";
 import { CiChat1 } from "react-icons/ci";
-import { BsCurrencyDollar, BsChat } from "react-icons/bs";
+import { BsCurrencyDollar, BsChat,BsCartDashFill } from "react-icons/bs";
 import { RiProductHuntLine } from "react-icons/ri";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { FaShippingFast, FaUserAstronaut } from "react-icons/fa";
@@ -41,13 +41,13 @@ export const allNav = [
     role: "admin",
     path: "/admin/dashboard/sellers",
   },
-  {
-    id: 5,
-    title: "Yêu Cầu Chuyển Tiền",
-    icon: <BsCurrencyDollar />,
-    role: "admin",
-    path: "/admin/dashboard/payment-request",
-  },
+  // {
+  //   id: 5,
+  //   title: "Yêu Cầu Chuyển Tiền",
+  //   icon: <BsCurrencyDollar />,
+  //   role: "admin",
+  //   path: "/admin/dashboard/payment-request",
+  // },
   {
     id: 6,
     title: "Kích Hoạt Nhân Viên",
@@ -146,12 +146,19 @@ export const allNav = [
     role: "seller",
     path: "/seller/dashboard/shipper-comfirm",
   },
+  // {
+  //   id: 17,
+  //   title: "Chuyển Tiền",
+  //   icon: <BsCurrencyDollar />,
+  //   role: "seller",
+  //   path: "/seller/dashboard/payments",
+  // },
   {
-    id: 17,
-    title: "Chuyển Tiền",
-    icon: <BsCurrencyDollar />,
+    id: 31,
+    title: "Người Mua Trả Hàng",
+    icon: <BsCartDashFill />,
     role: "seller",
-    path: "/seller/dashboard/payments",
+    path: "/seller/dashboard/request",
   },
   {
     id: 18,

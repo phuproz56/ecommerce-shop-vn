@@ -5,6 +5,8 @@ const myShopWallet = require("../../models/myShopWallet");
 const sellerWallet = require("../../models/sellerWallet");
 const productModel = require("../../models/productModel");
 const couponModel = require("../../models/couponModel");
+const requestModel = require("../../models/requestModel");
+const customerModel = require("../../models/customerModel");
 const moment = require("moment");
 const { responseReturn } = require("../../utils/response");
 const {
@@ -250,15 +252,23 @@ class orderController {
 
   get_all_orders = async (req, res) => {
     try {
-      const orders = await customerOrder.find({}).sort({ createdAt: -1 });
+      const orders = await customerOrder.find({}).sort({ updatedAt: -1 });
 
-      const order_complete = await customerOrder.find({
-        delivery_status: "Đã Giao Hàng",
-      });
+      const order_complete = await customerOrder
+        .find({
+          delivery_status: "Đã Giao Hàng",
+        })
+        .sort({ updatedAt: -1 });
+      const product_complete = [];
+      for (let i = 0; i < order_complete.length; i++) {
+        const { products } = order_complete[i];
+        product_complete.push(products);
+      }
 
       responseReturn(res, 200, {
         orders,
         order_complete,
+        product_complete,
       });
     } catch (error) {
       console.log(error.message);
@@ -517,6 +527,60 @@ class orderController {
       }
 
       responseReturn(res, 200, { message: "Thành công!" });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  submit_request = async (req, res) => {
+    const { userId, orderId, information } = req.body;
+    try {
+      const request1 = await requestModel
+        .find({
+          customerId: new ObjectId(userId),
+          orderId: new ObjectId(orderId),
+        })
+        .countDocuments();
+
+      const request = await requestModel.findOne({
+        customerId: new ObjectId(userId),
+        orderId: new ObjectId(orderId),
+      });
+
+      if (request1) {
+        responseReturn(res, 200, { request });
+      } else {
+        await requestModel.create({
+          customerId: userId,
+          orderId: orderId,
+          information: information,
+        });
+
+        responseReturn(res, 200, { message: "Yêu cầu thành công!" });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  get_request = async (req, res) => {
+    try {
+      const a = await requestModel.find({});
+
+      const all_customer = [];
+      const all_order = [];
+
+      for (let i = 0; i < a.length; i++) {
+        const { customerId } = a[i];
+        const { orderId } = a[i];
+
+        const customer = await customerModel.findById(customerId);
+        all_customer.push(customer);
+
+        const order = await customerOrder.findById(orderId);
+        all_order.push(order);
+      }
+      responseReturn(res, 200, { a, all_customer, all_order });
     } catch (error) {
       console.log(error.message);
     }

@@ -1,52 +1,32 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import Orders from "../Orders";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
+  get_orders,
+  huy_order,
   messageClear,
   get_all_orders,
 } from "../../../store/reducers/orderReducer";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { RxCross1 } from "react-icons/rx";
-import Reviews from "../../Reviews";
-import { get_product } from "../../../store/reducers/homeReducer";
-
-const Hoanthanh = () => {
+const Trahang = () => {
   const dispatch = useDispatch();
-  const { allOrders, successMessage, order_complete, product_complete } =
-    useSelector((state) => state.order);
+  const { allOrders, successMessage } = useSelector((state) => state.order);
   const { userInfo } = useSelector((state) => state.auth);
-  const [open, setOpen] = useState(false);
-  const [slugitem, setSlug] = useState("");
-
-
 
   useEffect(() => {
     dispatch(get_all_orders());
-    for (let i = 0; i < product_complete.length; i++) {
-      let products = product_complete[i];
-      for (let j = 0; j < products.length; j++) {
-        const product_1 = products.filter((items) => items.slug);
-        console.log(product_1);
-        dispatch(get_product(products[j].slug));
-      }
-    }
-  }, [dispatch]);
+  }, []);
 
-  const product_2 = [];
+  const huydonhang = (id) => {
+    dispatch(huy_order({ orderId: id }));
 
-  for (let i = 0; i < product_complete.length; i++) {
-    let products = product_complete[i];
-    for (let j = 0; j < products.length; j++) {
-      const product_1 = products.filter((items) => items.slug);
-      // console.log(product_1)
-      product_2.push(product_1[j]);
-    }
-  }
-
-  // console.log(product_2);
-
-  // const { product } = useSelector((state) => state.home);
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  };
 
   useEffect(() => {
     if (successMessage) {
@@ -54,36 +34,15 @@ const Hoanthanh = () => {
       messageClear();
     }
   }, [successMessage]);
-
   return (
     <div>
       <Orders />
       <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
-        {open && (
-          <div className="fixed w-full h-screen bg-[#0000004b] top-0 left-0 flex items-center justify-center ">
-            <div className="w-[50%] h-[80vh] pl-[100px] bg-white rounded shadow relative overflow-y-scroll">
-              <div className="w-full flex justify-end p-3">
-                <RxCross1
-                  size={30}
-                  className="cursor-pointer"
-                  onClick={() => setOpen(false)}
-                />
-              </div>
-              <h1 className="text-center text-[25px] font-Poppins">Đánh giá</h1>
-              <div className="w-[50%]">
-                {product_2.map(
-                  (u) => slugitem === u.slug && <Reviews product={u} />
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-        
         <div className="flex justify-between items-center w-full">
           <ul className="w-full">
-            {allOrders.map(
-              (q, i) =>
-                q.delivery_status === "Đã Giao Hàng" && (
+            {allOrders.map((q, i) =>
+              
+                q.delivery_status === "Xác Nhận Trả Hàng" ? (
                   <li
                     key={i}
                     className="mt-3 border border-slate-300 rounded-md"
@@ -93,14 +52,12 @@ const Hoanthanh = () => {
                         <h2 className="text-slate-600 font-semibold">
                           Đã mua vào ngày: <span>{q.date}</span>{" "}
                           <div className="text-end">
-                            <Link
-                              to={`/dashboard/order/${q._id}`}
-                              className="pl-[100px] text-green-500"
-                            >
-                              Đã Giao Hàng
+                            <Link to={`/dashboard/order/${q._id}`} className="pl-[100px] text-red-500">
+                            Đã Trả Hàng
                             </Link>
-                            {q.delivery_status === "Đã Giao Hàng" && (
-                              <b className="border-l-2 text-red-400 uppercase ml-4 pl-2">
+                            {q.delivery_status === "complete" && (
+                              <b className="border-l-2 text-red-400 uppercase ml-4">
+                                {" "}
                                 hoàn thành
                               </b>
                             )}
@@ -135,8 +92,8 @@ const Hoanthanh = () => {
                           <div className="flex gap-5 ">
                             <ul>
                               {q.products?.map((p, i) => (
-                                <li key={i}>
-                                  <div className="flex flex-col w-full">
+                                <li>
+                                  <div className="flex flex-col w-full" key={i}>
                                     <div className="flex gap-5 justify-start items-center text-slate-600">
                                       <div className="flex gap-2">
                                         <img
@@ -174,44 +131,22 @@ const Hoanthanh = () => {
                                         </p>
                                         <p>-{p.discount}%</p>
                                       </div>
-                                      {q.delivery_status === "Đã Giao Hàng" && (
-                                        <div className="pt-2 flex items-center justify-start md-lg:flex-col">
-                                          <Link
-                                            onClick={() =>
-                                              setOpen(true) || setSlug(p.slug)
-                                            }
-                                            className={`rounded-md text-white bg-red-500 m-2 p-2 `}
-                                            // to={`/product/details/${p.slug}`}
-                                          >
-                                            Đánh Giá
-                                          </Link>
-                                          <Link
-                                            className={`border border-slate-500 rounded-md   m-2 p-2 `}
-                                            to={`/dashboard/chat/${p.sellerId}`}
-                                          >
-                                            Liên hệ người bán
-                                          </Link>
-                                          <button
-                                            // onClick={buyagain}
-                                            className={`border border-slate-500 rounded-md  m-2 p-2 `}
-                                          >
-                                            Mua lại
-                                          </button>
-                                        </div>
-                                      )}
                                     </div>
                                   </div>
                                 </li>
                               ))}
-                              
                             </ul>
                           </div>
                         </div>
                       </div>
                     </div>
+                    
                   </li>
+                ) : (
+                  ""
                 )
-            )}
+              )
+            }
           </ul>
         </div>
       </div>
@@ -219,4 +154,4 @@ const Hoanthanh = () => {
   );
 };
 
-export default Hoanthanh;
+export default Trahang;

@@ -91,6 +91,25 @@ export const huy_order = createAsyncThunk(
   }
 );
 
+export const submit_request = createAsyncThunk(
+  "order/submit_request",
+  async (request, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post(
+        `/home/customer/submit-request`,
+        request,
+        {
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.message);
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
 export const orderReducer = createSlice({
   name: "order",
   initialState: {
@@ -102,6 +121,8 @@ export const orderReducer = createSlice({
     allOrders: [],
     cancelledOrders: [],
     order_complete: {},
+    product_complete: [],
+    request: {}
   },
   reducers: {
     messageClear: (state, _) => {
@@ -120,9 +141,14 @@ export const orderReducer = createSlice({
     [get_all_orders.fulfilled]: (state, { payload }) => {
       state.allOrders = payload.orders;
       state.order_complete = payload.order_complete;
+      state.product_complete = payload.product_complete;
     },
     [huy_order.fulfilled]: (state, { payload }) => {
       state.successMessage = payload.message;
+    },
+    [submit_request.fulfilled]: (state, { payload }) => {
+      state.successMessage = payload.message;
+      state.request = payload.request;
     },
   },
 });

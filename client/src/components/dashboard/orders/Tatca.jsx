@@ -66,7 +66,9 @@ const Tatca = () => {
                               ? "Vận Chuyển"
                               : q.delivery_status === "Giao Hàng Thành Công"
                               ? "Đang Giao Hàng"
-                              : q.delivery_status}
+                              : q.delivery_status === "Xác Nhận Trả Hàng" ?
+                              <p className="text-red-500">Đã Trả Hàng</p> : q.delivery_status
+                            }
                           </Link>
                           {q.delivery_status === "Đã Giao Hàng" && (
                             <b className="border-l-2 text-red-400 uppercase ml-4 pl-3">
@@ -180,7 +182,8 @@ const Tatca = () => {
                   </div>
                   {q.delivery_status === "Hủy" ||
                   q.delivery_status === "Đã Giao Hàng" ||
-                  q.delivery_status === "Đang Giao Hàng" ? (
+                  q.delivery_status === "Đang Giao Hàng"||
+                  q.delivery_status === "Xác Nhận Trả Hàng"  ? (
                     ""
                   ) : (
                     <button

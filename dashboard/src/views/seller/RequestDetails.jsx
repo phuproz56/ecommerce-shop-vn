@@ -8,8 +8,9 @@ import {
   seller_order_status_update,
   get_seller_order,
 } from "../../store/Reducers/OrderReducer";
+import moment from "moment";
 
-const OrderDetails = () => {
+const RequestDetails = () => {
   // const { userInfo } = useSelector((state) => state.auth);
   const _id = useParams();
   const dispatch = useDispatch();
@@ -31,16 +32,16 @@ const OrderDetails = () => {
 
   const status_update = (e) => {
     const user_email = order.shippingInfo.email;
-    const order_date = order.date;
+    const order_date = moment(order.updatedAt).format("LLL");
     const order_id = order._id;
     // const seller_email = userInfo.email;
-    if (order.delivery_status === "Chưa Xử Lí") {
+    if (order.delivery_status === "Đã Giao Hàng") {
       const config = {
         SecureToken: "f9473773-192c-4284-8cb3-cf7b77d1fb21",
         To: user_email,
         From: "phuproz348@gmail.com",
         Subject: `Shop-vn Gửi mail cho bạn về đơn hàng ${order_id}`,
-        Body: `Đơn hàng: (${order_id}) của bạn được đặt vào ${order_date} đã được xử lí`,
+        Body: `Đơn hàng: (${order_id}) của bạn được đã được hủy và xác trả hàng vào ngày: ${order_date}`,
       };
       if (window.Email) {
         window.Email.send(config).then((message) =>
@@ -85,18 +86,9 @@ const OrderDetails = () => {
             <option value={order.delivery_status}>
               {order.delivery_status}
             </option>
-            {order.delivery_status === "Chưa Xử Lí" ? (
-              <option value="Đã Xử Lí">Đã Xử Lí</option>
-            ) : order.delivery_status === "Đã Xử Lí" ? (
-              <option value="Tìm Shipper">Tìm Shipper</option>
-            ) : (
-              ""
+            {order.delivery_status === "Đã Giao Hàng" && (
+              <option value="Xác Nhận Trả Hàng">Xác Nhận Trả Hàng</option>
             )}
-
-            {/* <option value="Vận Chuyển">Vận Chuyển</option>
-            <option value="Đang Giao Hàng">Đang Giao Hàng</option>
-            <option value="Đã Giao Hàng">Đã Giao Hàng</option>
-            <option value="Hủy">Hủy</option> */}
           </select>
         </div>
         <div className="p-4">
@@ -164,4 +156,4 @@ const OrderDetails = () => {
   );
 };
 
-export default OrderDetails;
+export default RequestDetails;

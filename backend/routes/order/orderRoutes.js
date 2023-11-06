@@ -23,6 +23,7 @@ router.get("/home/customer/get-order/:orderId", orderController.get_order);
 router.post("/order/create-payment", orderController.create_payment);
 router.get("/order/confirm/:orderId", orderController.order_confirm);
 router.put("/home/customer/huy-order/:orderId", orderController.huy_order);
+router.post("/home/customer/submit-request", orderController.submit_request);
 
 // --- admin ----
 
@@ -47,6 +48,11 @@ router.get(
 router.put(
   "/seller/order-status/update/:_id",
   orderController.seller_order_status_update
+);
+
+router.get(
+  "/seller/get-request",
+  orderController.get_request
 );
 
 module.exports = router;

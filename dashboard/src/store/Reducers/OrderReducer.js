@@ -92,7 +92,21 @@ export const seller_order_status_update = createAsyncThunk(
           withCredentials: true,
         }
       );
-      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_request = createAsyncThunk(
+  "order/get_request",
+  async (_, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(`/seller/get-request`, {
+        withCredentials: true,
+      });
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.message);
@@ -110,6 +124,9 @@ export const OrderReducer = createSlice({
     order: {},
     myOrders: [],
     found_shipper: [],
+    all_customer: [],
+    all_order: [],
+    all_request: [],
   },
   reducers: {
     messageClear: (state, _) => {
@@ -144,6 +161,11 @@ export const OrderReducer = createSlice({
     },
     [seller_order_status_update.fulfilled]: (state, { payload }) => {
       state.successMessage = payload.message;
+    },
+    [get_request.fulfilled]: (state, { payload }) => {
+      state.all_customer = payload.all_customer;
+      state.all_order = payload.all_order;
+      state.all_request = payload.a;
     },
   },
 });

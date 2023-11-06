@@ -106,7 +106,7 @@ const Products = () => {
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
-                    <span>{d?.name?.slice(0, 16)}...</span>
+                    <span><Tooltip title={d.name}>{d?.name?.slice(0, 16)}...</Tooltip></span>
                   </th>
                   <th
                     scope="row"

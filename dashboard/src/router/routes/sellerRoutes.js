@@ -3,6 +3,8 @@ import LogProduct from "../../views/seller/LogProduct";
 import LogProductDetail from "../../views/seller/LogProductDetail";
 import LogProductSeeDetail from "../../views/seller/LogProductSeeDetail";
 import OrderShipperDetails from "../../views/seller/OrderShipperDetails";
+import Request from "../../views/seller/Request";
+import RequestDetails from "../../views/seller/RequestDetails";
 const SellerDashboard = lazy(() =>
   import("../../views/seller/SellerDashboard")
 );
@@ -136,6 +138,18 @@ export const sellerRoutes = [
   {
     path: "/seller/dashboard/profile",
     element: <Profile />,
+    role: "seller",
+    visibility: ["active", "deactive", "pending"],
+  },
+  {
+    path: "/seller/dashboard/request",
+    element: <Request />,
+    role: "seller",
+    visibility: ["active", "deactive", "pending"],
+  },
+  {
+    path: "/seller/dashboard/request/details/:orderId",
+    element: <RequestDetails />,
     role: "seller",
     visibility: ["active", "deactive", "pending"],
   },
