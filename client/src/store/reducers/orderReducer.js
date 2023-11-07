@@ -110,6 +110,21 @@ export const submit_request = createAsyncThunk(
   }
 );
 
+export const get_all_coupon = createAsyncThunk(
+  "order/get_all_coupon",
+  async (_, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(`/home/customer/get-all-coupon`, _, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.message);
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
 export const orderReducer = createSlice({
   name: "order",
   initialState: {
@@ -122,7 +137,8 @@ export const orderReducer = createSlice({
     cancelledOrders: [],
     order_complete: {},
     product_complete: [],
-    request: {}
+    request: {},
+    all_coupon: [],
   },
   reducers: {
     messageClear: (state, _) => {
@@ -149,6 +165,9 @@ export const orderReducer = createSlice({
     [submit_request.fulfilled]: (state, { payload }) => {
       state.successMessage = payload.message;
       state.request = payload.request;
+    },
+    [get_all_coupon.fulfilled]: (state, { payload }) => {
+      state.all_coupon = payload.all_coupon;
     },
   },
 });

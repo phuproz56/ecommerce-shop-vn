@@ -139,11 +139,13 @@ class cardController {
       const { sellerId } = req.params;
       const shopInfo = await sellerModel.find({ sellerId });
 
+      console.log(calculatePrice)
+
       responseReturn(res, 200, {
         card_products: p,
         price: calculatePrice,
         card_product_count,
-        shipping_fee: 2 * p.length,
+        shipping_fee: calculatePrice > 500000 ? 0 : 50000,
         outOfStockProduct,
         buy_product_item,
         shopInfo,

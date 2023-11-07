@@ -32,6 +32,7 @@ import Danggiao from "./components/dashboard/orders/Danggiao";
 import Hoanthanh from "./components/dashboard/orders/Hoanthanh";
 import OrderDetails from "./components/dashboard/OrderDetails";
 import Trahang from "./components/dashboard/orders/Trahang.jsx";
+import Coupon from "./components/dashboard/Coupon.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ function App() {
           <Route path="" element={<Dashboard />}>
             <Route path="" element={<Index />} />
             <Route path="address" element={<Address />} />
+            <Route path="coupon" element={<Coupon />} />
             <Route path="my-orders" element={<Orders />} />
 
             <Route key={1} path="tatca" element={<Tatca />} />
@@ -67,7 +69,7 @@ function App() {
             <Route key={5} path="hoanthanh" element={<Hoanthanh />} />
             <Route key={6} path="dahuy" element={<Dahuy />} />
             <Route key={6} path="trahang" element={<Trahang />} />
-            <Route  path="order/:orderId" element={<OrderDetails />} />
+            <Route path="order/:orderId" element={<OrderDetails />} />
 
             <Route path="my-wishlist" element={<Wishlist />} />
             <Route path="order/details/:orderId" element={<Order />} />

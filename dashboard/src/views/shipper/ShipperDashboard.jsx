@@ -102,9 +102,12 @@ const ShipperDashboard = () => {
               </thead>
               <tbody>
                 {orders.map((d, i) =>
-                  d.delivery_status === "Tìm Shipper" ||
-                  d.delivery_status === "Vận Chuyển"  ||
-                  d.delivery_status === "Tìm Thấy Shipper"? (
+                  d.delivery_status === "Chưa Xử Lí" ||
+                  d.delivery_status === "Đã Xử Lí" ||
+                  d.delivery_status === "Hủy"||
+                  d.delivery_status === "Xác Nhận Trả Hàng" ? (
+                    ""
+                  ) : (
                     <tr key={i}>
                       <td
                         scope="row"
@@ -160,8 +163,6 @@ const ShipperDashboard = () => {
                         )}
                       </td>
                     </tr>
-                  ) : (
-                    ""
                   )
                 )}
               </tbody>

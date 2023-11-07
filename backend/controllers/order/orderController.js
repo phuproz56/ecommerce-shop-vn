@@ -585,6 +585,15 @@ class orderController {
       console.log(error.message);
     }
   };
+
+  get_all_coupon = async (req, res) => {
+    try {
+      const all_coupon = await couponModel.find({});
+      responseReturn(res, 200, { all_coupon });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 }
 
 module.exports = new orderController();

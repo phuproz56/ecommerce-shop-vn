@@ -114,6 +114,8 @@ const OrderDetails = () => {
               ? "Đơn hàng đã hoàn thành"
               : myOrder?.delivery_status === "Hủy"
               ? "Đơn hàng đã hủy"
+              : myOrder?.delivery_status === "Xác Nhận Trả Hàng"
+              ? "Đã Trả Hàng"
               : "Đơn hàng chưa hoàn thành"}
           </p>
         </div>
@@ -155,7 +157,9 @@ const OrderDetails = () => {
           className={`w-full border-t-4 ${
             myOrder?.delivery_status === "Vận Chuyển" ||
             myOrder?.delivery_status === "Đang Giao Hàng" ||
-            myOrder?.delivery_status === "Đã Giao Hàng"
+            myOrder?.delivery_status === "Đã Giao Hàng" ||
+            myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
+            myOrder?.delivery_status === "Giao Hàng Thành Công"
               ? "border-green-500"
               : "border-slate-500"
           } mt-[40px]`}
@@ -165,14 +169,18 @@ const OrderDetails = () => {
             className={`p-2 border-4 ${
               myOrder?.delivery_status === "Vận Chuyển" ||
               myOrder?.delivery_status === "Đang Giao Hàng" ||
-              myOrder?.delivery_status === "Đã Giao Hàng"
+              myOrder?.delivery_status === "Đã Giao Hàng" ||
+              myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
+              myOrder?.delivery_status === "Giao Hàng Thành Công"
                 ? "border-green-500"
                 : "border-slate-500"
             } rounded-full`}
             style={
               myOrder?.delivery_status === "Vận Chuyển" ||
               myOrder?.delivery_status === "Đang Giao Hàng" ||
-              myOrder?.delivery_status === "Đã Giao Hàng"
+              myOrder?.delivery_status === "Đã Giao Hàng" ||
+              myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
+              myOrder?.delivery_status === "Giao Hàng Thành Công"
                 ? { fontSize: "80px", color: "green" }
                 : { fontSize: "80px", color: "slategray" }
             }
@@ -181,7 +189,9 @@ const OrderDetails = () => {
         </div>
         <div
           className={`w-full border-t-4 ${
-            myOrder?.delivery_status === "Đã Giao Hàng"
+            myOrder?.delivery_status === "Đã Giao Hàng" ||
+            myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
+            myOrder?.delivery_status === "Giao Hàng Thành Công"
               ? "border-green-500"
               : "border-slate-500"
           } mt-[40px]`}
@@ -189,7 +199,9 @@ const OrderDetails = () => {
         <div>
           <FcAcceptDatabase
             className={`p-2 border-4 ${
-              myOrder?.delivery_status === "Đã Giao Hàng"
+              myOrder?.delivery_status === "Đã Giao Hàng" ||
+              myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
+              myOrder?.delivery_status === "Giao Hàng Thành Công"
                 ? "border-green-500"
                 : "border-slate-500"
             } rounded-full`}
@@ -199,7 +211,8 @@ const OrderDetails = () => {
         </div>
         <div
           className={`w-full border-t-4 ${
-            myOrder?.delivery_status === "Đã Giao Hàng"
+            myOrder?.delivery_status === "Đã Giao Hàng" ||
+            myOrder?.delivery_status === "Xác Nhận Trả Hàng"
               ? "border-green-500"
               : "border-slate-500"
           } mt-[40px]`}
@@ -207,17 +220,23 @@ const OrderDetails = () => {
         <div>
           <AiOutlineCheck
             className={`p-2 border-4 ${
-              myOrder?.delivery_status === "Đã Giao Hàng"
+              myOrder?.delivery_status === "Đã Giao Hàng" ||
+              myOrder?.delivery_status === "Xác Nhận Trả Hàng"
                 ? "border-green-500"
                 : "border-slate-500"
             } rounded-full`}
             style={
-              myOrder?.delivery_status === "Đã Giao Hàng"
+              myOrder?.delivery_status === "Đã Giao Hàng" ||
+              myOrder?.delivery_status === "Xác Nhận Trả Hàng"
                 ? { fontSize: "80px", color: "green" }
                 : { fontSize: "80px", color: "slategray" }
             }
           />
-          <p>Đơn Hàng Đã Hoàn Thành</p>
+          {myOrder?.delivery_status === "Xác Nhận Trả Hàng" ? (
+            <p>Đã Trả Hàng</p>
+          ) : (
+            <p>Đơn Hàng Đã Hoàn Thành</p>
+          )}
         </div>
       </div>
       <div className="pt-4">
@@ -225,17 +244,20 @@ const OrderDetails = () => {
         <div></div>
       </div>
 
-      {myOrder?.delivery_status === "Đã Giao Hàng" && !request ? (
+      {myOrder?.delivery_status === "Đã Giao Hàng" ? (
         <button
           onClick={() => setOpen_request(true)}
           className={`border bg-orange-500 text-white rounded-md  m-2 p-2 `}
         >
           Yêu cầu trả hàng
         </button>
+      ) : myOrder?.delivery_status === "Xác Nhận Trả Hàng" ? (
+        <p className="pt-2">
+          bạn đã gửi yêu cầu trả hàng vào:{" "}
+          {moment(request.createdAt).format("LLL")}
+        </p>
       ) : (
-        
-        <p className="pt-2">bạn đã gửi yêu cầu trả hàng vào: {moment(request.createdAt).format("LLL")}</p>
-        
+        ""
       )}
     </div>
   );

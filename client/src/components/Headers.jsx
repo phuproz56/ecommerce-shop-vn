@@ -177,13 +177,13 @@ const Headers = ({ isFixed }) => {
       <div className="w-white">
         <div className="w-[85%] lg:w-[90%] mx-auto">
           <div
-            className="h-[80px] md-lg:h-[100px] flex justify-between
+            className="h-[100px] md-lg:h-[100px] flex justify-between
             items-center flex-wrap"
           >
             <div className="md-lg:w-full w-3/12 md-lg:pt-4">
-              <div className="flex justify-between items-center">
-                <Link to="/">
-                  <img src="/images/vnshop.jpg" alt="logo" />
+              <div className="flex w-full justify-between items-center">
+                <Link  to="/">
+                  <img className="w-[130px]" src="/images/shopvn.png" alt="logo" />
                 </Link>
                 <div
                   className=" justify-center items-center w-[30px] h-[30px] bg-white text-slate-600 border border-slate-600 rounded-sm cursor-pointer lg:hidden md-lg:flex xl:hidden hidden"
@@ -308,7 +308,7 @@ const Headers = ({ isFixed }) => {
         >
           <div className="flex justify-start flex-col gap-6">
             <Link to="/">
-              <img src="/images/vnshop.jpg" alt="logo" />
+              <img src="/images/shopvn.png" alt="logo" />
             </Link>
             <div className="flex justify-start items-center gap-10">
               <div

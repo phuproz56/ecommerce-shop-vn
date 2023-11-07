@@ -84,7 +84,7 @@ const Address = () => {
                 onClick={() => setOpen(false)}
               />
             </div>
-            <h1 className="text-center text-[25px] font-Poppins">
+            <h1 className="text-center text-[25px] ">
               Thêm địa chỉ
             </h1>
             <div className="w-full">

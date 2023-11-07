@@ -37,13 +37,16 @@ const Shipping = () => {
   const search_address_macdinh = userInfo.addresses?.filter(
     (item) => item.addressType === "Mặc định"
   );
-console.log(search_address_macdinh)
 
   const [res, setRes] = useState(search_address_macdinh.length ? true : false);
 
   const [country, setCountry] = useState("VN");
-  const [city, setCity] = useState(search_address_macdinh.length ? search_address_macdinh[0].city : "");
-  const [address1, setAddress1] = useState(search_address_macdinh.length ? search_address_macdinh[0].address1 : "");
+  const [city, setCity] = useState(
+    search_address_macdinh.length ? search_address_macdinh[0].city : ""
+  );
+  const [address1, setAddress1] = useState(
+    search_address_macdinh.length ? search_address_macdinh[0].address1 : ""
+  );
   const [user, setUser] = useState(false);
   const [discountPrice, setDiscountPrice] = useState(null);
   const [couponCodeData, setCouponCodeData] = useState(null);
@@ -104,13 +107,13 @@ console.log(search_address_macdinh)
           toast.error("Không đáp ứng điều kiện của voucher!");
           setCouponCode("");
         } else if (maxAmount < subTotalPrice) {
-          const discountPrice = (maxAmount * couponCodeValue) / 100;
+          const discountPrice = maxAmount;
           setDiscountPrice(discountPrice);
           setCouponCodeData(res.data.couponCode);
           setOpenVoucher(true);
         } else {
           const discountPrice = (subTotalPrice * couponCodeValue) / 100;
-          console.log(discountPrice);
+
           setDiscountPrice(discountPrice);
           setCouponCodeData(res.data.couponCode);
           setOpenVoucher(true);
@@ -430,7 +433,7 @@ console.log(search_address_macdinh)
                       />
                     </form>
                   ) : couponCodeData && openVoucher ? (
-                    <div>
+                    <div className="border-b-2 pb-2 border-slate-500">
                       <p>Đã áp dụng mã voucher giảm {couponCodeData.value}%</p>
                     </div>
                   ) : (

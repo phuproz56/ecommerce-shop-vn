@@ -56,10 +56,10 @@ function ShipperLogin() {
             Shipper
           </h1>
           <div className="h-[70px] flex justify-center items-center">
-            <div className="w-[180px] h-[50px]">
+            <div className="w-[180px] h-[100px]">
               <img
-                className="w-full h-full"
-                src="/images/vnshop.jpg"
+                className="w-[200px] h-[100px]"
+                src="/images/shopvn.png"
                 alt="image"
               />
             </div>
