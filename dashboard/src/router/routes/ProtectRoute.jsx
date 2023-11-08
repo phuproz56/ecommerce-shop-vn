@@ -8,6 +8,7 @@ const ProtectRoute = ({ route, children }) => {
   if (role) {
     if (userInfo) {
       if (route.role) {
+        console.log(userInfo.role, route)
         if (userInfo.role === route.role) {
           if (route.status) {
             if (route.status === userInfo.status) {

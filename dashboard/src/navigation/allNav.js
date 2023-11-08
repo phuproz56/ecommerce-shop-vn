@@ -20,13 +20,27 @@ export const allNav = [
     role: "admin",
     path: "/admin/dashboard",
   },
-  // {
-  //   id: 2,
-  //   title: "Đặt Hàng",
-  //   icon: <AiOutlineShoppingCart />,
-  //   role: "admin",
-  //   path: "/admin/dashboard/orders",
-  // },
+  {
+    id: 5,
+    title: "Thêm Sản Phẩm",
+    icon: <AiOutlinePlus />,
+    role: "admin",
+    path: "/admin/dashboard/add-product",
+  },
+  {
+    id: 10,
+    title: "Tất Cả Sản Phẩm",
+    icon: <RiProductHuntLine />,
+    role: "admin",
+    path: "/admin/dashboard/products",
+  },
+  {
+    id: 2,
+    title: "Đặt Hàng",
+    icon: <AiOutlineShoppingCart />,
+    role: "admin",
+    path: "/admin/dashboard/orders",
+  },
   {
     id: 3,
     title: "Danh Mục",
@@ -41,13 +55,7 @@ export const allNav = [
     role: "admin",
     path: "/admin/dashboard/sellers",
   },
-  // {
-  //   id: 5,
-  //   title: "Yêu Cầu Chuyển Tiền",
-  //   icon: <BsCurrencyDollar />,
-  //   role: "admin",
-  //   path: "/admin/dashboard/payment-request",
-  // },
+  
   {
     id: 6,
     title: "Kích Hoạt Nhân Viên",
@@ -90,13 +98,7 @@ export const allNav = [
     role: "admin",
     path: "/admin/dashboard/ds-shipper",
   },
-  // {
-  //   id: 10,
-  //   title: "Danh Sách Nhân Viên",
-  //   icon: <CiChat1 />,
-  //   role: "admin",
-  //   path: "/admin/dashboard/ds-nhanvien",
-  // },
+  
   {
     id: 11,
     title: "Dashboard",

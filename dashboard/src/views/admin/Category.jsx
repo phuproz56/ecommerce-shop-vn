@@ -242,7 +242,7 @@ const Category = () => {
                     type="text"
                     id="name"
                     name="category_name"
-                    placeholder="category name"
+                    placeholder="Nhập tên loại danh mục sản phẩm"
                     required
                   />
                 </div>

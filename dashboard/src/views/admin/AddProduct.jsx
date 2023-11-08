@@ -131,7 +131,6 @@ const AddProduct = () => {
   const add = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    if (state.shopName) {
       formData.append("name", state.name);
       formData.append("description", state.description);
       formData.append("price", state.price);
@@ -140,10 +139,6 @@ const AddProduct = () => {
       formData.append("discount", state.discount);
       formData.append("shopName", state.shopName);
       formData.append("brand", state.brand);
-    } else {
-      toast.error("Cần điền hồ sơ trước khi thêm sản phẩm!");
-      return;
-    }
 
     for (let i = 0; i < images.length; i++) {
       formData.append("images", images[i]);
@@ -160,7 +155,7 @@ const AddProduct = () => {
           </h1>
           <Link
             className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-sm px-7 py-2 my-2 "
-            to="/seller/dashboard/products"
+            to="/admin/dashboard/products"
           >
             Tất Cả Sản Phẩm
           </Link>

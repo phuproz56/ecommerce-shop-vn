@@ -4,6 +4,8 @@ import DsNhanvien from "../../views/admin/DsNhanvien";
 import RegisterShipper from "../../views/admin/RegisterShipper";
 import DsShipper from "../../views/admin/DsShipper";
 import ShipperDetails from "../../views/admin/ShipperDetails";
+import Products from "../../views/admin/Products";
+import EditProduct from "../../views/admin/EditProduct";
 const SellerDetails = lazy(() => import("../../views/admin/SellerDetail"));
 const DeactiveSellers = lazy(() => import("../../views/admin/DeactiveSellers"));
 const SellerRequest = lazy(() => import("../../views/admin/SellerRequest"));
@@ -13,7 +15,9 @@ const Category = lazy(() => import("../../views/admin/Category"));
 const Sellers = lazy(() => import("../../views/admin/Sellers"));
 const PaymentRequest = lazy(() => import("../../views/admin/PaymentRequest"));
 const ChatSeller = lazy(() => import("../../views/admin/ChatSeller"));
-const OrderDetails = lazy(() => import("../../views/admin/OrderDetails"));
+const OrderDetails = lazy(() => import("../../views/seller/OrderDetails"));
+const AddProduct = lazy(() => import("../../views/admin/AddProduct"));
+
 export const adminRoutes = [
   {
     path: "admin/dashboard",
@@ -21,8 +25,28 @@ export const adminRoutes = [
     role: "admin",
   },
   {
+    path: "admin/dashboard/add-product",
+    element: <AddProduct />,
+    role: "admin",
+  },
+  {
+    path: "admin/dashboard/products",
+    element: <Products />,
+    role: "admin",
+  },
+  {
+    path: "/admin/dashboard/edit-product/:productId",
+    element: <EditProduct />,
+    role: "admin",
+  },
+  {
     path: "admin/dashboard/orders",
     element: <Orders />,
+    role: "admin",
+  },
+  {
+    path: "admin/dashboard/order/details/:orderId",
+    element: <OrderDetails />,
     role: "admin",
   },
   {
@@ -68,11 +92,6 @@ export const adminRoutes = [
   {
     path: "admin/dashboard/chat-sellers/:sellerId",
     element: <ChatSeller />,
-    role: "admin",
-  },
-  {
-    path: "admin/dashboard/order/details/:orderId",
-    element: <OrderDetails />,
     role: "admin",
   },
   {
