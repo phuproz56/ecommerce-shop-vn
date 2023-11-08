@@ -19,15 +19,11 @@ const Hoanthanh = () => {
   const [open, setOpen] = useState(false);
   const [slugitem, setSlug] = useState("");
 
-
-
   useEffect(() => {
-    dispatch(get_all_orders());
+    dispatch(get_all_orders(userInfo.id));
     for (let i = 0; i < product_complete.length; i++) {
       let products = product_complete[i];
       for (let j = 0; j < products.length; j++) {
-        const product_1 = products.filter((items) => items.slug);
-        console.log(product_1);
         dispatch(get_product(products[j].slug));
       }
     }
@@ -78,7 +74,7 @@ const Hoanthanh = () => {
             </div>
           </div>
         )}
-        
+
         <div className="flex justify-between items-center w-full">
           <ul className="w-full">
             {allOrders.map(
@@ -203,7 +199,6 @@ const Hoanthanh = () => {
                                   </div>
                                 </li>
                               ))}
-                              
                             </ul>
                           </div>
                         </div>

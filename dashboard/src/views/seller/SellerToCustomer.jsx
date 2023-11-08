@@ -35,8 +35,11 @@ const SellerToCustomer = () => {
 
   const [show, setShow] = useState(false);
 
+
+const id = "654366fbba51a942cd41835f";
+
   useEffect(() => {
-    dispatch(get_customers(userInfo._id));
+    dispatch(get_customers(id));
   }, []);
   
   useEffect(() => {
@@ -49,7 +52,7 @@ const SellerToCustomer = () => {
     e.preventDefault();
     dispatch(
       send_message({
-        senderId: userInfo._id,
+        senderId: "654366fbba51a942cd41835f",
         receverId: customerId,
         text,
         name: userInfo?.shopInfo?.shopName,
@@ -74,12 +77,14 @@ const SellerToCustomer = () => {
     // })
   }, []);
 
+console.log(receverMessage)
   useEffect(() => {
     if (receverMessage) {
       if (
         customerId === receverMessage.senderId &&
-        userInfo._id === receverMessage.receverId
+        userInfo._id
       ) {
+        console.log("123")
         dispatch(updateMessage(receverMessage));
       } else {
         toast.success(receverMessage.senderName + " " + "send a message");

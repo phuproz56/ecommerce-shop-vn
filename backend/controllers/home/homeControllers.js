@@ -178,7 +178,7 @@ class homeControllers {
 
   submit_review = async (req, res) => {
     const { name, rating, review, productId } = req.body;
-    console.log(req.body);
+
     try {
       await reviewModel.create({
         productId,

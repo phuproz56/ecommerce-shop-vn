@@ -139,7 +139,7 @@ class authControllers {
           shopInfo: {},
         });
         await sellerCustomerModel.create({
-          myId: seller.id,
+          myId: "654366fbba51a942cd41835f",
         });
         const token = await createToken({
           id: seller.id,
@@ -157,7 +157,7 @@ class authControllers {
   };
 
   shipper_register = async (req, res) => {
-    const { name, phoneNumber,cccd, address, password } = req.body;
+    const { name, phoneNumber, cccd, address, password } = req.body;
     try {
       const getUser = await shipperModel.findOne({ phoneNumber });
       if (getUser) {

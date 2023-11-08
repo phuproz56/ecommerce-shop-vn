@@ -144,7 +144,7 @@ class paymentController {
 
   withdrawal_request = async (req, res) => {
     const { amount, sellerId } = req.body;
-    console.log(sellerId);
+
     try {
       const withdrawal = await withdrawRequest.create({
         sellerId,

@@ -308,8 +308,6 @@ module.exports.get_shipper_new_order = async (req, res) => {
       shipperInfo: {$gt: new ObjectId(req.id)}
     })
 
-    console.log(find)
-
     responseReturn(res, 200, {
       orders,
       Total_TimShipper,

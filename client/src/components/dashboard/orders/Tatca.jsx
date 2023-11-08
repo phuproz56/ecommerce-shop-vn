@@ -8,18 +8,17 @@ import {
   messageClear,
 } from "../../../store/reducers/orderReducer";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+
 const Tatca = () => {
   const dispatch = useDispatch();
   const { allOrders, successMessage } = useSelector((state) => state.order);
   const { userInfo } = useSelector((state) => state.auth);
-  console.log();
-  const { orderId } = useParams();
-  console.log(orderId);
+ 
+ 
 
   useEffect(() => {
     if (userInfo && userInfo.id) {
-      dispatch(get_all_orders());
+      dispatch(get_all_orders(userInfo.id));
     }
   }, [userInfo, dispatch]);
 

@@ -3,7 +3,6 @@ const customerModel = require("../../models/customerModel");
 const sellerCustomerModel = require("../../models/chat/sellerCustomerModel");
 const sellerCustomerMessage = require("../../models/chat/sellerCustomerMessage");
 const adminSellerMessage = require("../../models/chat/adminSellerMessage");
-
 const { responseReturn } = require("../../utils/response");
 
 class chatController {
@@ -12,9 +11,8 @@ class chatController {
     try {
       if (sellerId !== "") {
         const seller = await sellerModel.findById(sellerId);
+
         const user = await customerModel.findById(userId);
-
-
         const checkSeller = await sellerCustomerModel.findOne({
           $and: [
             {
@@ -31,9 +29,8 @@ class chatController {
             },
           ],
         });
-
         if (!checkSeller) {
-          await sellerCustomerModel.updateOne(
+          const user = await sellerCustomerModel.updateOne(
             {
               myId: userId,
             },
@@ -41,7 +38,7 @@ class chatController {
               $push: {
                 myFriends: {
                   fdId: sellerId,
-                  name: seller.shopInfo?.shopName,
+                  name: "Shop-Vn",
                   image: seller.image,
                 },
               },
@@ -65,6 +62,7 @@ class chatController {
             },
           ],
         });
+
         if (!checkCustomer) {
           await sellerCustomerModel.updateOne(
             {
@@ -86,9 +84,7 @@ class chatController {
             {
               $and: [
                 {
-                  receverId: {
-                    $eq: sellerId,
-                  },
+                  receverId: { $eq: "654366fbba51a942cd41835f" },
                 },
                 {
                   senderId: {
@@ -100,20 +96,20 @@ class chatController {
             {
               $and: [
                 {
-                  receverId: {
-                    $eq: userId,
-                  },
+                  receverId: { $eq: userId },
                 },
                 {
                   senderId: {
-                    $eq: sellerId,
+                    $eq: "654366fbba51a942cd41835f",
                   },
                 },
               ],
             },
           ],
         });
-        const MyFriends = await sellerCustomerModel.findOne({ myId: userId });
+        const MyFriends = await sellerCustomerModel.findOne({
+          myId: userId,
+        });
         const currentFd = MyFriends.myFriends.find((s) => s.fdId === sellerId);
         responseReturn(res, 200, {
           myFriends: MyFriends.myFriends,
@@ -121,8 +117,12 @@ class chatController {
           messages,
         });
       } else {
-        const MyFriends = await sellerCustomerModel.findOne({ myId: userId });
-        responseReturn(res, 200, { myFriends: MyFriends.myFriends });
+        const MyFriends = await sellerCustomerModel.findOne({
+          myId: userId,
+        });
+        responseReturn(res, 200, {
+          myFriends: MyFriends.myFriends,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -138,9 +138,8 @@ class chatController {
         receverId: sellerId,
         message: text,
       });
-      const data = await sellerCustomerModel.findOne({
-        myId: userId,
-      });
+
+      const data = await sellerCustomerModel.findOne({ myId: userId });
       let myFriends = data.myFriends;
       let index = myFriends.findIndex((f) => f.fdId === sellerId);
       while (index > 0) {
@@ -159,13 +158,15 @@ class chatController {
       );
       const data1 = await sellerCustomerModel.findOne({ myId: sellerId });
       let myFriends1 = data1.myFriends;
-      let index1 = myFriends1.findIndex((f) => (f.fdId = userId));
+      let index1 = myFriends1.findIndex((f) => f.fdId === userId);
+
       while (index1 > 0) {
         let temp1 = myFriends1[index1];
         myFriends1[index1] = myFriends[index1 - 1];
         myFriends1[index1 - 1] = temp1;
         index1--;
       }
+
       await sellerCustomerModel.updateOne(
         {
           myId: sellerId,
@@ -174,6 +175,7 @@ class chatController {
           myFriends1,
         }
       );
+
       responseReturn(res, 201, { message });
     } catch (error) {
       console.log(error);
@@ -182,8 +184,9 @@ class chatController {
 
   get_customers = async (req, res) => {
     const { sellerId } = req.params;
+
     try {
-      const data = await sellerCustomerModel.findOne({ myId: sellerId });
+      const data = await sellerCustomerModel.findOne({ myId: "654366fbba51a942cd41835f" });
 
       responseReturn(res, 200, {
         customers: data.myFriends,
@@ -195,8 +198,7 @@ class chatController {
 
   get_customer_seller_message = async (req, res) => {
     const { customerId } = req.params;
-    const { id } = req;
-
+    const  id  = "654366fbba51a942cd41835f";
     try {
       const messages = await sellerCustomerMessage.find({
         $or: [
@@ -247,14 +249,12 @@ class chatController {
       const data = await sellerCustomerModel.findOne({ myId: senderId });
       let myFriends = data.myFriends;
       let index = myFriends.findIndex((f) => f.fdId === receverId);
-
       while (index > 0) {
         let temp = myFriends[index];
         myFriends[index] = myFriends[index - 1];
         myFriends[index - 1] = temp;
         index--;
       }
-
       await sellerCustomerModel.updateOne(
         {
           myId: senderId,
@@ -263,7 +263,6 @@ class chatController {
           myFriends,
         }
       );
-
       const data1 = await sellerCustomerModel.findOne({ myId: receverId });
       let myFriends1 = data1.myFriends;
       let index1 = myFriends1.findIndex((f) => f.fdId === senderId);

@@ -137,7 +137,7 @@ const AddProduct = () => {
       formData.append("stock", state.stock);
       formData.append("category", category);
       formData.append("discount", state.discount);
-      formData.append("shopName", state.shopName);
+      formData.append("shopName", "Shop-Vn");
       formData.append("brand", state.brand);
 
     for (let i = 0; i < images.length; i++) {

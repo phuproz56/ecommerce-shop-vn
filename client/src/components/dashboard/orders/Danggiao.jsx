@@ -17,7 +17,7 @@ const Danggiao = () => {
   const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    dispatch(get_all_orders());
+    dispatch(get_all_orders(userInfo.id));
   }, []);
 
   // const huydonhang = (id) => {

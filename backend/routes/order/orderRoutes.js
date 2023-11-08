@@ -9,15 +9,11 @@ router.get(
   "/home/customer/get-dashboard-data/:userId",
   orderController.get_customer_dashboard_data
 );
+router.get("/home/customer/get-orders/:status", orderController.get_orders);
 router.get(
-  "/home/customer/get-orders/:status",
-  orderController.get_orders
-);
-router.get(
-  "/home/customer/get-all-orders/",
+  "/home/customer/get-all-orders/:customerId",
   orderController.get_all_orders
 );
-
 
 router.get("/home/customer/get-order/:orderId", orderController.get_order);
 router.post("/order/create-payment", orderController.create_payment);
@@ -28,10 +24,7 @@ router.get("/home/customer/get-all-coupon", orderController.get_all_coupon);
 
 // --- admin ----
 
-router.get(
-  "/admin/orders",
-  orderController.get_admin_orders
-);
+router.get("/admin/orders", orderController.get_admin_orders);
 router.get("/admin/order/:orderId", orderController.get_admin_order);
 router.put(
   "/admin/order-status/update/:orderId",
@@ -51,11 +44,6 @@ router.put(
   orderController.seller_order_status_update
 );
 
-router.get(
-  "/seller/get-request",
-  orderController.get_request
-);
-
-
+router.get("/seller/get-request", orderController.get_request);
 
 module.exports = router;

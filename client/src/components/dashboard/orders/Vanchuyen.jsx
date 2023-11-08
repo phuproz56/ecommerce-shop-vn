@@ -18,7 +18,7 @@ const Vanchuyen = () => {
   const [state, setState] = useState(true);
 
   useEffect(() => {
-    dispatch(get_all_orders());
+    dispatch(get_all_orders(userInfo.id));
   }, []);
 
   const huydonhang = (id) => {

@@ -57,6 +57,7 @@ const addSeller = (sellerId, socketId, userInfo) => {
 const findCustomer = (customerId) => {
   return allCustomer.find((c) => c.customerId === customerId);
 };
+
 const findSeller = (sellerId) => {
   return allSeller.find((c) => c.sellerId === sellerId);
 };
@@ -82,7 +83,9 @@ io.on("connection", (soc) => {
     io.emit("activeSeller", allSeller);
     io.emit("activeCustomer", allCustomer);
   });
+
   soc.on("add_seller", (sellerId, userInfo) => {
+    sellerId = "654366fbba51a942cd41835f";
     addSeller(sellerId, soc.id, userInfo);
     io.emit("activeSeller", allSeller);
     io.emit("activeCustomer", allCustomer);
@@ -99,6 +102,7 @@ io.on("connection", (soc) => {
 
   soc.on("send_seller_message", (msg) => {
     const customer = findCustomer(msg.receverId);
+
     if (customer !== undefined) {
       soc.to(customer.socketId).emit("seller_message", msg);
     }

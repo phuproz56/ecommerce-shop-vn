@@ -39,7 +39,7 @@ const Products = () => {
   }, [successMessage]);
 
   const deleteProduct = (id) => {
-    dispatch(dispatch(delete_product(id)));
+    dispatch(delete_product(id));
   };
 
   return (

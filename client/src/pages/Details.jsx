@@ -180,7 +180,7 @@ const Details = () => {
 
   return (
     <div className="pt-[200px]">
-      <Headers isFixed={true}/>
+      <Headers isFixed={true} />
       <section className="bg-[url('http://localhost:3000/images/banner/order.jpg')] h-[220px] mt-6 bg-cover bg-no-reqeat relative bg-left">
         <div className="absolute left-0 top-0 h-full w-full mx-auto bg-[#2422228a]">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
@@ -270,10 +270,7 @@ const Details = () => {
                     </h2>
                   </>
                 ) : (
-                  <h2>
-                    Price:{" "}
-                    {product.price}
-                  </h2>
+                  <h2>Price: {product.price}</h2>
                 )}
               </div>
               {/* <h2 className="text-slate-600 ">Tên Shop: {product.shopName}</h2> */}

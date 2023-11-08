@@ -67,9 +67,9 @@ export const get_order = createAsyncThunk(
 
 export const get_all_orders = createAsyncThunk(
   "order/get_all_orders",
-  async (_, { rejectWithValue, fulfillWithValue }) => {
+  async (customerId, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get(`/home/customer/get-all-orders/`);
+      const { data } = await api.get(`/home/customer/get-all-orders/${customerId}`);
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.response);

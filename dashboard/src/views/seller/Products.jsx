@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Search from "../components/Search";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { useSelector, useDispatch } from "react-redux";
 import {
   get_products,
-  delete_product,
+
   messageClear,
 } from "../../store/Reducers/productReducer";
 import toast from "react-hot-toast";
@@ -38,9 +38,7 @@ const Products = () => {
     }
   }, [successMessage]);
 
-  const deleteProduct = (id) => {
-    dispatch(dispatch(delete_product(id)));
-  };
+
 
   return (
     <div className="px-2 lg:px-7 pt-5 ">
@@ -160,13 +158,6 @@ const Products = () => {
                           <FaEdit />
                         </Link>
                       </Tooltip>
-                      <Tooltip title="Xóa Sản Phẩm">
-                      <button
-                        onClick={() => deleteProduct(d._id)}
-                        className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50"
-                      >
-                        <FaTrash />
-                      </button></Tooltip>
                     </div>
                   </th>
                 </tr>

@@ -8,7 +8,8 @@ const moment = require("moment");
 
 class productController {
   add_product = async (req, res) => {
-    const { id } = req;
+    const id  = "654366fbba51a942cd41835f";
+    console.log(id)
     const form = formidable({ multiples: true });
 
     form.parse(req, async (err, field, files) => {

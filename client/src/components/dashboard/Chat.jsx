@@ -24,7 +24,7 @@ const Chat = () => {
   const scrollRef = useRef();
 
   const dispatch = useDispatch();
-  const { sellerId } = useParams();
+  const sellerId = "654366fbba51a942cd41835f";
   const [text, setText] = useState("");
   const [receverMessage, setReceverMessage] = useState("");
   const [activeSeller, setActiveSeller] = useState([]);
@@ -40,7 +40,7 @@ const Chat = () => {
   useEffect(() => {
     dispatch(
       add_friend({
-        sellerId: sellerId || "",
+        sellerId: "654366fbba51a942cd41835f",
         userId: userInfo.id,
       })
     );
@@ -99,7 +99,11 @@ const Chat = () => {
   return (
     <div className="bg-white p-3 rounded-md">
       <div className="w-full flex relative">
-        <div className={`w-[230px] md-lg:absolute bg-white transition-all md-lg:h-full ${show ? 'left-0': '-left-[350px]'} `}>
+        <div
+          className={`w-[230px] md-lg:absolute bg-white transition-all md-lg:h-full ${
+            show ? "left-0" : "-left-[350px]"
+          } `}
+        >
           <div className="flex justify-center gap-3 items-center text-slate-600 text-xl h-[50px]">
             <span>
               <AiOutlineMessage />
@@ -139,7 +143,10 @@ const Chat = () => {
                   </div>
                   <span>{currentFd.name}</span>
                 </div>
-                <div onClick={()=> setShow(!show)} className="w-[40px] h-[40px] cursor-pointer hidden md-lg:flex rounded-sm justify-center items-center bg-sky-600 text-white">
+                <div
+                  onClick={() => setShow(!show)}
+                  className="w-[40px] h-[40px] cursor-pointer hidden md-lg:flex rounded-sm justify-center items-center bg-sky-600 text-white"
+                >
                   <FaList />
                 </div>
               </div>
@@ -213,7 +220,10 @@ const Chat = () => {
               </div>
             </div>
           ) : (
-            <div onClick={()=>setShow(!show)} className="w-full h-[400px] flex justify-center items-center text-lg ont-bold text-slate-600">
+            <div
+              onClick={() => setShow(!show)}
+              className="w-full h-[400px] flex justify-center items-center text-lg ont-bold text-slate-600"
+            >
               <span className="cursor-pointer">Chọn Người Bán Muốn Chat</span>
             </div>
           )}

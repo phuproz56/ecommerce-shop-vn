@@ -251,11 +251,17 @@ class orderController {
   };
 
   get_all_orders = async (req, res) => {
+    const { customerId } = req.params;
+
     try {
-      const orders = await customerOrder.find({}).sort({ updatedAt: -1 });
+      const orders = await customerOrder
+        .find({ customerId: customerId })
+        .sort({ updatedAt: -1 });
+      console.log(orders);
 
       const order_complete = await customerOrder
         .find({
+          customerId: customerId,
           delivery_status: "Đã Giao Hàng",
         })
         .sort({ updatedAt: -1 });
