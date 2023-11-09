@@ -5,31 +5,31 @@ import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  get_all_shipper,
-  xoa_shipper,
+  get_all_customer,
+  xoa_customer,
   messageClear,
-} from "../../store/Reducers/shipperReducer";
+} from "../../store/Reducers/authReducer";
 import { Tooltip } from "antd";
 import toast from "react-hot-toast";
 import { RxCross1 } from "react-icons/rx";
+import FadeLoader from "react-spinners/FadeLoader";
 
-const DsShipper = () => {
+const DsCustomers = () => {
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
-  const { shippers, totalShipper, successMessage } = useSelector(
-    (state) => state.shipper
+  const { customers, totalCustomers, successMessage, loader } = useSelector(
+    (state) => state.auth
   );
-  // const [show, setShow] = useState(false)
   useEffect(() => {
     const obj = {
       parPage: parseInt(parPage),
       page: parseInt(currentPage),
       searchValue,
     };
-    dispatch(get_all_shipper(obj));
+    dispatch(get_all_customer(obj));
   }, [currentPage, parPage, searchValue]);
 
   useEffect(() => {
@@ -41,14 +41,14 @@ const DsShipper = () => {
     }
   }, [successMessage]);
 
-  const delete_shipper = (id) => {
-    dispatch(xoa_shipper(id));
+  const delete_customer = (id) => {
+    dispatch(xoa_customer(id));
   };
 
   return (
     <div className="px-2 lg:px-7 pt-5">
       {open &&
-        shippers.map((u, i) => (
+        customers.map((u, i) => (
           <div
             key={i}
             className="fixed w-full h-screen bg-[#0000004b] top-0 left-0 flex items-center justify-center"
@@ -58,21 +58,21 @@ const DsShipper = () => {
                 <RxCross1
                   size={30}
                   className="cursor-pointer"
-                  onClick={() => setOpen(false)}
+                  onClick={() => setOpen("")}
                 />
               </div>
               <h1 className="text-center text-[25px] font-Poppins">
-                Bạn Chắc Chắn Muốn Xóa Shipper Này?
+                Bạn Chắc Chắn Muốn Xóa Tài Khoản Này?
               </h1>
               <div className="p-[100px] flex justify-between items-center pt-4">
                 <button
-                  onClick={() => setOpen(false)}
+                  onClick={() => setOpen("")}
                   className="flex border p-2 bg-red-500 rounded-md text-white"
                 >
                   Không
                 </button>
                 <button
-                  onClick={() => delete_shipper(u._id)}
+                  onClick={() => delete_customer(open)}
                   className="flex border p-2 bg-green-500 rounded-md text-white"
                 >
                   Có
@@ -99,7 +99,7 @@ const DsShipper = () => {
             placeholder="search"
           />
         </div>
-        <div className=" overflow-x-auto">
+        <div className="overflow-x-auto">
           <table className="w-full text-sm text-left text-[#d0d2d6]">
             <thead className="text-xs text-[#d0d2d6] uppercase border-b border-slate-700">
               <tr>
@@ -113,10 +113,10 @@ const DsShipper = () => {
                   tên
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  số điện thoại
+                  email
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  cccd
+                  số điện thoại
                 </th>
                 <th scope="col" className="py-3 px-4">
                   địa chỉ
@@ -127,85 +127,97 @@ const DsShipper = () => {
               </tr>
             </thead>
             <tbody className="text-sm font-normal">
-              {shippers?.map((d, i) => (
-                <tr key={i}>
-                  <th
-                    scope="row"
-                    className="py-1 px-4 font-medium whitespace-nowrap"
-                  >
-                    {i + 1}
-                  </th>
-                  <th
-                    scope="row"
-                    className="py-1 px-4 font-medium whitespace-nowrap"
-                  >
-                    <img
-                      className="w-[45px] h-[45px]"
-                      src={d.image ? d.image : "/images/seller.png"}
-                      alt="img_seller"
-                    />
-                  </th>
-                  <th
-                    scope="row"
-                    className="py-1 px-4 font-medium whitespace-nowrap"
-                  >
-                    <span>{d.name}</span>
-                  </th>
+              {loader ? (
+                <FadeLoader color="white"/>
+              ) : customers.length ? (
+                customers?.map((d, i) => (
+                  <tr key={i}>
+                    <th
+                      scope="row"
+                      className="py-1 px-4 font-medium whitespace-nowrap"
+                    >
+                      {i + 1}
+                    </th>
+                    <th
+                      scope="row"
+                      className="py-1 px-4 font-medium whitespace-nowrap"
+                    >
+                      <img
+                        className="w-[45px] h-[45px]"
+                        src={d?.image ? d?.image : "/images/seller.png"}
+                        alt="img_seller"
+                      />
+                    </th>
+                    <th
+                      scope="row"
+                      className="py-1 px-4 font-medium whitespace-nowrap"
+                    >
+                      <span>{d.name}</span>
+                    </th>
 
-                  <th
-                    scope="row"
-                    className="py-1 px-4 font-medium whitespace-nowrap"
-                  >
-                    <span>{d.phoneNumber}</span>
-                  </th>
-                  <th
-                    scope="row"
-                    className="py-1 px-4 font-medium whitespace-nowrap"
-                  >
-                    <span>{d.cccd}</span>
-                  </th>
-                  <th
-                    scope="row"
-                    className="py-1 px-4 font-medium whitespace-nowrap"
-                  >
-                    <span>{d.address}</span>
-                  </th>
-                  <th
-                    scope="row"
-                    className="py-1 px-4 font-medium whitespace-nowrap"
-                  >
-                    <div className="flex justify-start items-center gap-4">
-                      <Tooltip title="Xem Chi Tiết Shipper">
+                    <th
+                      scope="row"
+                      className="py-1 px-4 font-medium whitespace-nowrap"
+                    >
+                      <span>{d.email}</span>
+                    </th>
+                    <th
+                      scope="row"
+                      className="py-1 px-4 font-medium whitespace-nowrap"
+                    >
+                      <span>
+                        {d?.phoneNumber ? d.phoneNumber : "(Chưa điền)"}
+                      </span>
+                    </th>
+                    <th
+                      scope="row"
+                      className="py-1 px-4 font-medium whitespace-nowrap"
+                    >
+                      <span>
+                        {d?.addresses[0]?.address1
+                          ? d?.addresses[0]?.address1
+                          : "(Chưa điền)"}
+                      </span>
+                    </th>
+                    <th
+                      scope="row"
+                      className="py-1 px-4 font-medium whitespace-nowrap"
+                    >
+                      <div className="flex justify-start items-center gap-4">
+                        {/* <Tooltip title="Xem Chi Tiết Shipper">
                         <Link
-                          to={`/admin/dashboard/shipper/details/${d._id}`}
+                          to={`/admin/dashboard/customer/details/${d._id}`}
                           className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50"
                         >
                           <FaEye />
                         </Link>
-                      </Tooltip>
-                      <Tooltip title="Xóa Shipper">
-                        <Link
-                          onClick={() => setOpen(true)}
-                          className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50"
-                        >
-                          <FaTrash />
-                        </Link>
-                      </Tooltip>
-                    </div>
-                  </th>
-                </tr>
-              ))}
+                      </Tooltip> */}
+                        <Tooltip title="Xóa Shipper">
+                          <Link
+                            onClick={() => setOpen(d._id)}
+                            className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50"
+                          >
+                            <FaTrash />
+                          </Link>
+                        </Tooltip>
+                      </div>
+                    </th>
+                  </tr>
+                ))
+              ) : <div className="text-center items-center justify-between text-lg pt-2">
+                <h1>Không tìm thấy tên cần tìm</h1>
+                </div>}
             </tbody>
           </table>
         </div>
-        {totalShipper < parPage ? (
+        {totalCustomers < parPage ? (
           <div className="w-full flex justify-end mt-4 bottom-4 right-4">
             <Pagination
               pageNumber={currentPage}
               setPageNumber={setCurrentPage}
-              totalItem={totalShipper}
+              totalItem={totalCustomers}
               parPage={parPage}
-              showItem={3}
+              showItem={totalCustomers-parPage}
             />
           </div>
         ) : (
@@ -216,4 +228,4 @@ const DsShipper = () => {
   );
 };
 
-export default DsShipper;
+export default DsCustomers;

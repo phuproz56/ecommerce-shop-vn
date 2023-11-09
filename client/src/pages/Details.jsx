@@ -28,6 +28,7 @@ import toast from "react-hot-toast";
 const Details = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const { slug } = useParams();
   const [image, setImage] = useState("");
   const [state, setState] = useState("reviews");
@@ -82,7 +83,7 @@ const Details = () => {
 
   const inc = () => {
     if (quantity >= product.stock) {
-      toast.error("Out of stock");
+      toast.error("Hết hàng!");
     } else {
       setQuantity(quantity + 1);
     }
@@ -104,6 +105,7 @@ const Details = () => {
         })
       );
     } else {
+      toast.error("Cần đăng nhập để tiếp tục!");
       navigate("/login");
     }
   };
@@ -123,6 +125,7 @@ const Details = () => {
         })
       );
     } else {
+      toast.error("Cần đăng nhập để tiếp tục!");
       navigate("/login");
     }
   };
@@ -143,30 +146,34 @@ const Details = () => {
   }, [errorMessage, successMessage]);
 
   const buy = () => {
-    let price = 0;
-
-    if (product.discount !== 0) {
-      price =
-        product.price - Math.floor((product.price * product.discount) / 100);
+    if (userInfo) {
+      let price = 0;
+      if (product.discount !== 0) {
+        price =
+          product.price - Math.floor((product.price * product.discount) / 100);
+      } else {
+        price = product.price;
+      }
+      const obj = [
+        {
+          sellerId: product.sellerId,
+          shopName: product.shopName,
+          price: quantity * (price - Math.floor(price * 5) / 100),
+          products: [{ quantity, productInfo: product }],
+        },
+      ];
+      navigate("/shipping", {
+        state: {
+          products: obj,
+          price: price * quantity,
+          shipping_fee: 85,
+          items: 1,
+        },
+      });
     } else {
-      price = product.price;
+      toast.error("Cần đăng nhập để tiếp tục!");
+      navigate("/login");
     }
-    const obj = [
-      {
-        sellerId: product.sellerId,
-        shopName: product.shopName,
-        price: quantity * (price - Math.floor(price * 5) / 100),
-        products: [{ quantity, productInfo: product }],
-      },
-    ];
-    navigate("/shipping", {
-      state: {
-        products: obj,
-        price: price * quantity,
-        shipping_fee: 85,
-        items: 1,
-      },
-    });
   };
 
   const [color, setColor] = useState(true);
@@ -175,6 +182,15 @@ const Details = () => {
       setColor(false);
     } else {
       setColor(true);
+    }
+  };
+
+  const chat_to_shop = (id) => {
+    if (userInfo) {
+      navigate(`/dashboard/chat/${id}`);
+    } else {
+      toast.error("Cần đăng nhập để tiếp tục!");
+      navigate("/login");
     }
   };
 
@@ -375,12 +391,13 @@ const Details = () => {
                 ) : (
                   ""
                 )}
-                <Link
-                  to={`/dashboard/chat/${product.sellerId}`}
+                <button
+                  
+                  onClick={() => chat_to_shop(product.sellerId)}
                   className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-orange-500/40 bg-orange-500 text-white block"
                 >
                   Chat với Người Bán
-                </Link>
+                </button>
               </div>
             </div>
           </div>

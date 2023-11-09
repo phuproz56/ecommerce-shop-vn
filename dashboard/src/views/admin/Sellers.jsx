@@ -35,9 +35,7 @@ const Sellers = () => {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
-      setTimeout(() => {
-        window.location.reload(1);
-      }, 2500);
+      window.location.reload();
     }
   }, [successMessage]);
 
@@ -160,8 +158,8 @@ const Sellers = () => {
                     className="py-1 px-4 font-medium whitespace-nowrap"
                   >
                     <span>
-                      {d.shopInfo?.division
-                        ? d.shopInfo?.division
+                      {d.shopInfo?.district
+                        ? d.shopInfo?.district
                         : "(chưa điền)"}
                     </span>
                   </th>

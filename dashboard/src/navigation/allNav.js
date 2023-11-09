@@ -98,7 +98,13 @@ export const allNav = [
     role: "admin",
     path: "/admin/dashboard/ds-shipper",
   },
-  
+  {
+    id: 35,
+    title: "Danh Sách TK Khách",
+    icon: <HiUsers />,
+    role: "admin",
+    path: "/admin/dashboard/ds-customers",
+  },
   {
     id: 11,
     title: "Dashboard",

@@ -2,18 +2,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Orders from "../Orders";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
-  get_orders,
   huy_order,
   messageClear,
   get_all_orders,
 } from "../../../store/reducers/orderReducer";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import FadeLoader from "react-spinners/FadeLoader";
 const Vanchuyen = () => {
   const dispatch = useDispatch();
-  const { allOrders, successMessage } = useSelector((state) => state.order);
+  const { allOrders, successMessage, loader } = useSelector(
+    (state) => state.order
+  );
   const { userInfo } = useSelector((state) => state.auth);
   const [state, setState] = useState(true);
 
@@ -35,15 +37,23 @@ const Vanchuyen = () => {
       messageClear();
     }
   }, [successMessage]);
+  const vanchuyen = allOrders.filter(
+    (items) =>
+      items.delivery_status === "Vận Chuyển" ||
+      items.delivery_status === "Shipper Nhận Được Hàng"
+  );
+
   return (
     <div>
       <Orders />
-      <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
-        <div className="flex justify-between items-center w-full">
-          <ul className="w-full">
-            {allOrders.map((q, i) =>
-              
-                q.delivery_status === "Vận Chuyển" || q.delivery_status === "Shipper Nhận Được Hàng" ? (
+      {vanchuyen.length ? (
+        <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
+          <div className="flex justify-between items-center w-full">
+            <ul className="w-full">
+              {loader ? (
+                <FadeLoader />
+              ) : (
+                vanchuyen.map((q, i) => (
                   <li
                     key={i}
                     className="mt-3 border border-slate-300 rounded-md"
@@ -53,7 +63,10 @@ const Vanchuyen = () => {
                         <h2 className="text-slate-600 font-semibold">
                           Đã mua vào ngày: <span>{q.date}</span>{" "}
                           <div className="text-end">
-                            <Link to={`/dashboard/order/${q._id}`} className="pl-[100px] text-green-500">
+                            <Link
+                              to={`/dashboard/order/${q._id}`}
+                              className="pl-[100px] text-green-500"
+                            >
                               Vận Chuyển
                             </Link>
                             {q.delivery_status === "complete" && (
@@ -114,13 +127,22 @@ const Vanchuyen = () => {
                                       </div>
                                       <div className="pl-4">
                                         <h2 className="text-md text-orange-500">
-                                          
-                                          {(p.price -
+                                          {(
+                                            p.price -
                                             Math.floor(
                                               (p.price * p.discount) / 100
-                                            )).toLocaleString('vi', {style : 'currency', currency : 'VND'})} 
+                                            )
+                                          ).toLocaleString("vi", {
+                                            style: "currency",
+                                            currency: "VND",
+                                          })}
                                         </h2>
-                                        <p className="line-through">{p.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})} </p>
+                                        <p className="line-through">
+                                          {p.price.toLocaleString("vi", {
+                                            style: "currency",
+                                            currency: "VND",
+                                          })}{" "}
+                                        </p>
                                         <p>-{p.discount}%</p>
                                       </div>
                                     </div>
@@ -139,14 +161,20 @@ const Vanchuyen = () => {
                       Hủy Đơn Hàng
                     </button>
                   </li>
-                ) : (
-                  ""
-                )
-              )
-            }
-          </ul>
+                ))
+              )}
+            </ul>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
+          <div className="flex justify-between items-center w-full">
+            <h1 className="justify-items-center text-center text-lg">
+              Chưa có đơn hàng!
+            </h1>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

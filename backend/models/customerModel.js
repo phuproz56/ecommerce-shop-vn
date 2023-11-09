@@ -18,6 +18,7 @@ const customerSchema = new Schema(
     },
     phoneNumber: {
       type: Number,
+      required: true,
     },
     addresses: [
       {
@@ -42,6 +43,11 @@ const customerSchema = new Schema(
   },
   { timestamps: true }
 );
+
+customerSchema.index({
+  name: "text",
+  email: "regex",
+});
 
 customerSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);

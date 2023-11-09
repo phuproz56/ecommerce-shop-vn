@@ -14,6 +14,8 @@ const Profile = () => {
   const [phoneNumber, setPhoneNumber] = useState(
     userInfo && userInfo.phoneNumber
   );
+
+  console.log(userInfo.phoneNumber)
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
@@ -72,7 +74,7 @@ const Profile = () => {
                 type="number"
                 className={`border p-2 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
                 required
-                placeholder="+84"
+                placeholder="(+84)"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
               />

@@ -21,6 +21,7 @@ const Address = () => {
     (state) => state.auth
   );
 
+
   const dispatch = useDispatch();
 
   const addressTypeData = [
@@ -72,6 +73,9 @@ const Address = () => {
     const id = item._id;
     dispatch(deleteUserAddress(id));
   };
+
+  console.log(userInfo.addresses?.length)
+
   return (
     <div className="w-full px-5 bg-white pb-[100px] rounded-md">
       {open && (
@@ -234,7 +238,7 @@ const Address = () => {
           </div>
         ))}
 
-      {userInfo && userInfo.addresses?.length === 0 && (
+      {userInfo.addresses?.length === "undefined" && (
         <h5 className="text-center pt-8 text-[18px]">
           Bạn chưa cập nhật địa chỉ nào!!!
         </h5>

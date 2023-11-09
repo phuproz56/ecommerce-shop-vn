@@ -3,6 +3,7 @@ const nvadminModel = require("../models/nhanvienAdminModel");
 const sellerModel = require("../models/sellerModel");
 const shipperModel = require("../models/shipperModel");
 const sellerCustomerModel = require("../models/chat/sellerCustomerModel");
+const customerModel = require("../models/customerModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { responseReturn } = require("../utils/response");
@@ -314,6 +315,56 @@ class authControllers {
       responseReturn(res, 200, { message: "Đăng xuất thành công!" });
     } catch (error) {
       responseReturn(res, 500, { error: error.message });
+    }
+  };
+
+  get_all_customers = async (req, res) => {
+    const { page, searchValue, parPage } = req.query;
+    try {
+      let skipPage = "";
+      if (parPage && page) {
+        skipPage = parseInt(parPage) * (parseInt(page) - 1);
+      }
+      if (searchValue && page && parPage) {
+        const customers = await customerModel
+          .find({
+            $text: { $search: searchValue },
+          })
+          .skip(skipPage)
+          .limit(parPage)
+          .sort({ createdAt: -1 });
+         
+
+        const totalCustomers = await customerModel
+          .find({
+            $text: { $search: searchValue },
+          })
+          .countDocuments();
+
+        responseReturn(res, 200, { totalCustomers, customers });
+      } else {
+        const customers = await customerModel
+          .find({})
+          .skip(skipPage)
+          .limit(parPage)
+          .sort({ createdAt: -1 });
+
+        const totalCustomers = await customerModel.find({}).countDocuments();
+
+        responseReturn(res, 200, { totalCustomers, customers });
+      }
+    } catch (error) {
+      responseReturn(res, 500, { error: error.message });
+    }
+  };
+
+  xoa_customer = async (req, res) => {
+    const { customerId } = req.params;
+    try {
+      await customerModel.findByIdAndDelete(customerId);
+      responseReturn(res, 200, { message: "Xóa thành công!" });
+    } catch (error) {
+      console.log(error.message);
     }
   };
 }

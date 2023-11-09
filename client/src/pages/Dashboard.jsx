@@ -30,7 +30,7 @@ const Dashboard = () => {
       localStorage.removeItem("customerToken");
       dispatch(user_reset());
       dispatch(reset_count());
-      toast.success("logout success!!");
+      toast.success("Đăng Xuất thành công!!");
       navigate("/login");
     } catch (error) {
       console.log(error.response.data);

@@ -2,16 +2,17 @@
 import React, { useEffect, useState } from "react";
 import Headers from "../components/Headers";
 import Footer from "../components/Footer";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { customer_login, messageClear } from "../store/reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
 import FadeLoader from "react-spinners/FadeLoader";
-
 const Login = () => {
   const { loader, successMessage, errorMessage, userInfo } = useSelector(
     (state) => state.auth
   );
+
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [state, setState] = useState({
@@ -43,6 +44,15 @@ const Login = () => {
       navigate("/");
     }
   }, [successMessage, errorMessage, messageClear]);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 100,
+      left: 400,
+      behavior: "smooth",
+    });
+  }, [location]);
+
   return (
     <div>
       {loader && (
@@ -73,7 +83,7 @@ const Login = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1 mb-2">
-                    <label htmlFor="email">Password</label>
+                    <label htmlFor="email">Mật Khẩu</label>
                     <input
                       onChange={inputHandle}
                       value={state.password}
@@ -81,11 +91,11 @@ const Login = () => {
                       className="w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md"
                       id="password"
                       name="password"
-                      placeholder="password"
+                      placeholder="Mật khẩu"
                     />
                   </div>
                   <button className="px-8 w-full py-2 bg-purple-500 shadow-lg hover:shadow-indigo-500/30 text-white rounded-md">
-                    Login
+                    Đăng Ký
                   </button>
                 </form>
               </div>

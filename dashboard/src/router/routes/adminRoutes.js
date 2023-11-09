@@ -6,6 +6,7 @@ import DsShipper from "../../views/admin/DsShipper";
 import ShipperDetails from "../../views/admin/ShipperDetails";
 import Products from "../../views/admin/Products";
 import EditProduct from "../../views/admin/EditProduct";
+import DsCustomers from "../../views/admin/DsCustomers";
 const SellerDetails = lazy(() => import("../../views/admin/SellerDetail"));
 const DeactiveSellers = lazy(() => import("../../views/admin/DeactiveSellers"));
 const SellerRequest = lazy(() => import("../../views/admin/SellerRequest"));
@@ -112,6 +113,11 @@ export const adminRoutes = [
   {
     path: "/admin/dashboard/ds-shipper",
     element: <DsShipper />,
+    role: "admin",
+  },
+  {
+    path: "/admin/dashboard/ds-customers",
+    element: <DsCustomers />,
     role: "admin",
   },
 ];

@@ -2,31 +2,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Orders from "../Orders";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
-  get_orders,
-  huy_order,
   messageClear,
   get_all_orders,
 } from "../../../store/reducers/orderReducer";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import FadeLoader from "react-spinners/FadeLoader";
 const Danggiao = () => {
   const dispatch = useDispatch();
-  const { allOrders, successMessage } = useSelector((state) => state.order);
+  const { allOrders, successMessage, loader } = useSelector(
+    (state) => state.order
+  );
   const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(get_all_orders(userInfo.id));
   }, []);
-
-  // const huydonhang = (id) => {
-  //   dispatch(huy_order({ orderId: id }));
-
-  //   setTimeout(() => {
-  //     window.location.reload();
-  //   }, 2000);
-  // };
 
   useEffect(() => {
     if (successMessage) {
@@ -34,15 +27,24 @@ const Danggiao = () => {
       messageClear();
     }
   }, [successMessage]);
+
+  const danggiao = allOrders.filter(
+    (items) =>
+      items.delivery_status === "Đang Giao Hàng" ||
+      items.delivery_status === "Giao Hàng Thành Công"
+  );
+
   return (
     <div>
       <Orders />
-      <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
-        <div className="flex justify-between items-center w-full">
-          <ul className="w-full">
-            {allOrders.map((q, i) =>
-              
-                q.delivery_status === "Đang Giao Hàng" || q.delivery_status === "Giao Hàng Thành Công" ? (
+      {danggiao.length ? (
+        <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
+          <div className="flex justify-between items-center w-full">
+            <ul className="w-full">
+              {loader ? (
+                <FadeLoader />
+              ) : (
+                danggiao.map((q, i) => (
                   <li
                     key={i}
                     className="mt-3 border border-slate-300 rounded-md"
@@ -52,7 +54,10 @@ const Danggiao = () => {
                         <h2 className="text-slate-600 font-semibold">
                           Đã mua vào ngày: <span>{q.date}</span>{" "}
                           <div className="text-end">
-                            <Link to={`/dashboard/order/${q._id}`} className="pl-[100px] text-green-500">
+                            <Link
+                              to={`/dashboard/order/${q._id}`}
+                              className="pl-[100px] text-green-500"
+                            >
                               Đang Giao Hàng
                             </Link>
                             {q.delivery_status === "complete" && (
@@ -124,7 +129,10 @@ const Danggiao = () => {
                                           })}
                                         </h2>
                                         <p className="line-through">
-                                          {p.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}
+                                          {p.price.toLocaleString("vi", {
+                                            style: "currency",
+                                            currency: "VND",
+                                          })}
                                         </p>
                                         <p>-{p.discount}%</p>
                                       </div>
@@ -137,21 +145,21 @@ const Danggiao = () => {
                         </div>
                       </div>
                     </div>
-                    {/* <button
-                      onClick={() => huydonhang(q._id)}
-                      className={`rounded-md text-white bg-red-500 m-2 p-2`}
-                    >
-                      Hủy Đơn Hàng
-                    </button> */}
                   </li>
-                ) : (
-                  ""
-                )
-              )
-            }
-          </ul>
+                ))
+              )}
+            </ul>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
+          <div className="flex justify-between items-center w-full">
+            <h1 className="justify-items-center text-center text-lg">
+              Chưa có đơn hàng!
+            </h1>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

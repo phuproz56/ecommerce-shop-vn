@@ -69,7 +69,9 @@ export const get_all_orders = createAsyncThunk(
   "order/get_all_orders",
   async (customerId, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get(`/home/customer/get-all-orders/${customerId}`);
+      const { data } = await api.get(
+        `/home/customer/get-all-orders/${customerId}`
+      );
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error.response);
@@ -139,6 +141,7 @@ export const orderReducer = createSlice({
     product_complete: [],
     request: {},
     all_coupon: [],
+    loader: false
   },
   reducers: {
     messageClear: (state, _) => {
@@ -154,7 +157,11 @@ export const orderReducer = createSlice({
     [get_order.fulfilled]: (state, { payload }) => {
       state.myOrder = payload.order;
     },
+    [get_all_orders.pending]: (state, { payload }) => {
+      state.loader = true;
+    },
     [get_all_orders.fulfilled]: (state, { payload }) => {
+      state.loader = false;
       state.allOrders = payload.orders;
       state.order_complete = payload.order_complete;
       state.product_complete = payload.product_complete;

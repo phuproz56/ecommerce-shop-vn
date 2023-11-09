@@ -29,12 +29,13 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import loading2 from "react-useanimations/lib/loading2";
 import UseAnimations from "react-useanimations";
+import FadeLoader from "react-spinners/FadeLoader";
 
 const Headers = ({ isFixed }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
-  const { categorys, products } = useSelector((state) => state.home);
+  const { categorys, products, loader } = useSelector((state) => state.home);
   const [categoryShow, setCategoryShow] = useState(true);
   const { pathname } = useLocation();
   const [showSlidebar, setshowSlidebar] = useState(true);
@@ -66,6 +67,7 @@ const Headers = ({ isFixed }) => {
 
   const [filteredUsers, setFilteredUsers] = useState(products);
 
+
   const handleInputChange = (e) => {
     const searchTerm = e.target.value;
     setSearchValue(searchTerm);
@@ -81,7 +83,6 @@ const Headers = ({ isFixed }) => {
     }
   };
 
-  console.log(filteredUsers, searchValue)
   useEffect(() => {
     if (listening) {
       setSearchValue(transcript);
@@ -96,6 +97,7 @@ const Headers = ({ isFixed }) => {
 
   const headerStyle = isFixed ? { position: "fixed" } : {};
 
+
   return (
     <div
       style={headerStyle}
@@ -105,7 +107,6 @@ const Headers = ({ isFixed }) => {
         <div className="w-[85%] lg:w-[90%] mx-auto">
           <div className="flex w-full justify-between items-center h-[50px] text-slate-500">
             <ul className="flex justify-start items-center gap-8">
-              
               <li
                 className="flex relative justify-center items-center gap-2 text-sm
               after:absolute after:h-[18px] after:w-[1px] after:bg-[#afafaf] after:-right-[16px]"
@@ -182,8 +183,12 @@ const Headers = ({ isFixed }) => {
           >
             <div className="md-lg:w-full w-3/12 md-lg:pt-4">
               <div className="flex w-full justify-between items-center">
-                <Link  to="/">
-                  <img className="w-[130px]" src="/images/shopvn.png" alt="logo" />
+                <Link to="/">
+                  <img
+                    className="w-[130px]"
+                    src="/images/shopvn.png"
+                    alt="logo"
+                  />
                 </Link>
                 <div
                   className=" justify-center items-center w-[30px] h-[30px] bg-white text-slate-600 border border-slate-600 rounded-sm cursor-pointer lg:hidden md-lg:flex xl:hidden hidden"
@@ -589,9 +594,7 @@ const Headers = ({ isFixed }) => {
                   </div>
                 </div>
               </div>
-            ) : (
-              ""
-            )}
+            ) : ""}
           </div>
         </div>
       </div>

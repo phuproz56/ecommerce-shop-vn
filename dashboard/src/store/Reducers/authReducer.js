@@ -186,7 +186,39 @@ export const get_shipper = createAsyncThunk(
   "auth/get_nvadmin",
   async (_, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const { data } = await api.get("/get-nvadmin", { withCredentials: true });
+      const { data } = await api.get(`/get-nvadmin`, { withCredentials: true });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_all_customer = createAsyncThunk(
+  "auth/get_all_customer",
+  async (
+    { parPage, page, searchValue },
+    { rejectWithValue, fulfillWithValue }
+  ) => {
+    try {
+      const { data } = await api.get(
+        `/get-all-customers?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
+        { withCredentials: true }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const xoa_customer = createAsyncThunk(
+  "auth/xoa_customer",
+  async (id, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.delete(`/xoa-customer/${id}`, {
+        withCredentials: true,
+      });
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -219,6 +251,8 @@ export const authReducer = createSlice({
     role: returnRole(localStorage.getItem("accessToken")),
     token: localStorage.getItem("accessToken"),
     nvAdmin: [],
+    customers: [],
+    totalCustomers: 0,
   },
   reducers: {
     messageClear: (state, _) => {
@@ -350,6 +384,19 @@ export const authReducer = createSlice({
       state.successMessage = payload.message;
       state.token = payload.token;
       state.role = returnRole(payload.token);
+    },
+    // ----------------- customers ---------------------
+
+    [get_all_customer.pending]: (state, { payload }) => {
+      state.loader = true;
+    },
+    [get_all_customer.fulfilled]: (state, { payload }) => {
+      state.loader = false;
+      state.customers = payload.customers;
+      state.totalCustomers = payload.totalCustomers;
+    },
+    [xoa_customer.fulfilled]: (state, { payload }) => {
+      state.successMessage = payload.message;
     },
   },
 });

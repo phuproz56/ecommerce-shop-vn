@@ -114,6 +114,7 @@ export const homeReducer = createSlice({
     totalReview: 0,
     rating_review: [],
     reviews: [],
+    loader: false,
   },
   reducers: {
     messageClear: (state, _) => {
@@ -125,7 +126,11 @@ export const homeReducer = createSlice({
     [get_categorys.fulfilled]: (state, { payload }) => {
       state.categorys = payload.categorys;
     },
+    [get_products.pending]: (state, { payload }) => {
+      state.loader = true;
+    },
     [get_products.fulfilled]: (state, { payload }) => {
+      state.loader = false;
       state.products = payload.products;
       state.latest_products = payload.latest_products;
       state.topRated_products = payload.topRated_products;

@@ -5,6 +5,11 @@ const { authMiddleware } = require("../middlewares/authMiddleware");
 // ----------- admin ------------
 router.post("/admin-login", authControllers.admin_login);
 
+// ------------ customer -------------
+
+router.get("/get-all-customers", authControllers.get_all_customers);
+router.delete("/xoa-customer/:customerId", authControllers.xoa_customer);
+
 // ----------- nhan vien admin ------------
 router.post("/nvadmin-login", authControllers.nvadmin_login);
 router.post(

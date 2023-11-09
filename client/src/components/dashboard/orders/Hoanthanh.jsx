@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Orders from "../Orders";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -11,10 +12,12 @@ import { RxCross1 } from "react-icons/rx";
 import Reviews from "../../Reviews";
 import { get_product } from "../../../store/reducers/homeReducer";
 
+import FadeLoader from "react-spinners/FadeLoader";
 const Hoanthanh = () => {
   const dispatch = useDispatch();
-  const { allOrders, successMessage, order_complete, product_complete } =
-    useSelector((state) => state.order);
+  const { allOrders, successMessage, loader, product_complete } = useSelector(
+    (state) => state.order
+  );
   const { userInfo } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
   const [slugitem, setSlug] = useState("");
@@ -35,14 +38,9 @@ const Hoanthanh = () => {
     let products = product_complete[i];
     for (let j = 0; j < products.length; j++) {
       const product_1 = products.filter((items) => items.slug);
-      // console.log(product_1)
       product_2.push(product_1[j]);
     }
   }
-
-  // console.log(product_2);
-
-  // const { product } = useSelector((state) => state.home);
 
   useEffect(() => {
     if (successMessage) {
@@ -51,35 +49,43 @@ const Hoanthanh = () => {
     }
   }, [successMessage]);
 
+  const hoanthanh = allOrders.filter(
+    (items) => items.delivery_status === "Đã Giao Hàng"
+  );
+
   return (
     <div>
       <Orders />
-      <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
-        {open && (
-          <div className="fixed w-full h-screen bg-[#0000004b] top-0 left-0 flex items-center justify-center ">
-            <div className="w-[50%] h-[80vh] pl-[100px] bg-white rounded shadow relative overflow-y-scroll">
-              <div className="w-full flex justify-end p-3">
-                <RxCross1
-                  size={30}
-                  className="cursor-pointer"
-                  onClick={() => setOpen(false)}
-                />
-              </div>
-              <h1 className="text-center text-[25px] font-Poppins">Đánh giá</h1>
-              <div className="w-[50%]">
-                {product_2.map(
-                  (u) => slugitem === u.slug && <Reviews product={u} />
-                )}
+      {hoanthanh.length ? (
+        <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
+          {open && (
+            <div className="fixed w-full h-screen bg-[#0000004b] top-0 left-0 flex items-center justify-center ">
+              <div className="w-[50%] h-[80vh] pl-[100px] bg-white rounded shadow relative overflow-y-scroll">
+                <div className="w-full flex justify-end p-3">
+                  <RxCross1
+                    size={30}
+                    className="cursor-pointer"
+                    onClick={() => setOpen(false)}
+                  />
+                </div>
+                <h1 className="text-center text-[25px] font-Poppins">
+                  Đánh giá
+                </h1>
+                <div className="w-[50%]">
+                  {product_2.map(
+                    (u) => slugitem === u.slug && <Reviews product={u} />
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <div className="flex justify-between items-center w-full">
-          <ul className="w-full">
-            {allOrders.map(
-              (q, i) =>
-                q.delivery_status === "Đã Giao Hàng" && (
+          <div className="flex justify-between items-center w-full">
+            <ul className="w-full">
+              {loader ? (
+                <FadeLoader />
+              ) : (
+                hoanthanh.map((q, i) => (
                   <li
                     key={i}
                     className="mt-3 border border-slate-300 rounded-md"
@@ -205,11 +211,20 @@ const Hoanthanh = () => {
                       </div>
                     </div>
                   </li>
-                )
-            )}
-          </ul>
+                ))
+              )}
+            </ul>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="bg-white p-4 rounded-md w-full mt-5 justify-center">
+          <div className="flex justify-between items-center w-full">
+            <h1 className="justify-items-center text-center text-lg">
+              Chưa có đơn hàng!
+            </h1>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

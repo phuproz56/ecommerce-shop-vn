@@ -38,14 +38,14 @@ const Shipping = () => {
     (item) => item.addressType === "Mặc định"
   );
 
-  const [res, setRes] = useState(search_address_macdinh.length ? true : false);
+  const [res, setRes] = useState(search_address_macdinh?.length && userInfo.phoneNumber ? true : false);
 
   const [country, setCountry] = useState("VN");
   const [city, setCity] = useState(
-    search_address_macdinh.length ? search_address_macdinh[0].city : ""
+    search_address_macdinh?.length ? search_address_macdinh[0].city : ""
   );
   const [address1, setAddress1] = useState(
-    search_address_macdinh.length ? search_address_macdinh[0].address1 : ""
+    search_address_macdinh?.length ? search_address_macdinh[0].address1 : ""
   );
   const [user, setUser] = useState(false);
   const [discountPrice, setDiscountPrice] = useState(null);

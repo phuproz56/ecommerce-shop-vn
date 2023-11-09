@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 
 class customerAuthController {
   customer_register = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, phoneNumber, password } = req.body;
 
     try {
       const customer = await customerModel.findOne({ email });
@@ -16,6 +16,7 @@ class customerAuthController {
         const createCustomer = await customerModel.create({
           name: name.trim(),
           email: email.trim(),
+          phoneNumber,
           password: await bcrypt.hash(password, 10),
           method: "menualy",
         });
@@ -26,6 +27,7 @@ class customerAuthController {
           id: createCustomer.id,
           name: createCustomer.name,
           email: createCustomer.email,
+          phoneNumber: createCustomer.phoneNumber,
           method: createCustomer.method,
         });
         res.cookie("customerToken", token, {
