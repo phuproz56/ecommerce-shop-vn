@@ -72,6 +72,51 @@ class customerAuthController {
     }
   };
 
+  customer_gg_login = async (req, res) => {
+    const email = req.body.data.email;
+    try {
+      const customer = await customerModel.findOne({ email });
+      if (customer) {
+        const token = await createToken({
+          id: customer.id,
+          name: customer.name,
+          email: customer.email,
+          method: customer.method,
+          phoneNumber: customer.phoneNumber,
+          addresses: customer.addresses,
+        });
+        res.cookie("customerToken", token, {
+          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        });
+        responseReturn(res, 201, { message: "Đăng nhập thành công!", token });
+      } else {
+        const createCustomer = await customerModel.create({
+          name: req.body.data.name.trim(),
+          email: req.body.data.email.trim(),
+          phoneNumber: "0",
+          password: "1",
+          method: "menualy",
+        });
+        await sellerCustomerModel.create({
+          myId: createCustomer.id,
+        });
+        const token = await createToken({
+          id: createCustomer.id,
+          name: createCustomer.name,
+          email: createCustomer.email,
+          method: createCustomer.method,
+          phoneNumber: createCustomer.phoneNumber,
+        });
+        res.cookie("customerToken", token, {
+          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        });
+        responseReturn(res, 201, { message: "Đăng nhập thành công!", token });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   customer_logout = async (req, res) => {
     res.cookie("customerToken", "", {
       expires: new Date(Date.now()),

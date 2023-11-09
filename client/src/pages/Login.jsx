@@ -4,9 +4,15 @@ import Headers from "../components/Headers";
 import Footer from "../components/Footer";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
-import { customer_login, messageClear } from "../store/reducers/authReducer";
+import { customer_login, messageClear,customer_gg_login } from "../store/reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
 import FadeLoader from "react-spinners/FadeLoader";
+import { gapi } from "gapi-script";
+import { GoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+import api from "../api/api";
 const Login = () => {
   const { loader, successMessage, errorMessage, userInfo } = useSelector(
     (state) => state.auth
@@ -53,6 +59,30 @@ const Login = () => {
     });
   }, [location]);
 
+  const login_google = useGoogleLogin({
+    onSuccess: async (response) => {
+      try {
+        const res = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${response.access_token}`,
+            },
+          }
+        );
+        dispatch(customer_gg_login(res));
+        // const { login_gg } = await api.post(
+        //   "/customer/customer-gg-login",
+        //   { res },
+        //   { withCredentials: true }
+        // );
+        console.log(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
   return (
     <div>
       {loader && (
@@ -62,13 +92,13 @@ const Login = () => {
       )}
       <Headers />
       <div className="bg-slate-200 mt-4">
-        <div className="w-full justify-center items-center p-10">
-          <div className="grid grid-cols-2 w-[60%] mx-auto bg-white rounded-md">
-            <div className="px-8 py-8">
+        <div className="w-auto justify-center items-center p-10">
+          <div className="grid grid-cols-2 w-[60%] md-lg:w-full mx-auto bg-white rounded-md md:grid-cols-1">
+            <div className="w-full px-8 py-8">
               <h2 className="text-center w-full text-xl text-slate-600 font-bold">
                 Đăng Nhập
               </h2>
-              <div>
+              <div className="w-full md:w-full">
                 <form onSubmit={login} className="text-slate-600" action="">
                   <div className="flex flex-col gap-1 mb-2">
                     <label htmlFor="email">Email</label>
@@ -98,6 +128,29 @@ const Login = () => {
                     Đăng Ký
                   </button>
                 </form>
+                <div className="flex justify-center items-center py-2">
+                  <div className="h-[1px] bg-slate-300 w-[95%]"></div>
+                  <span className="px-3 text-slate-600">Or</span>
+                  <div className="h-[1px] bg-slate-300 w-[95%]"></div>
+                </div>
+
+                <button className="px-8 w-full py-2 bg-orange-500 shadow hover:shadow-indigo-500/30 text-white rounded-md flex justify-center items-center gap-2 mb-3">
+                  <span>
+                    {/* <GoogleLogin
+                      onSuccess={(credentialResponse) => {
+                        var credentialResponseDecoded = jwt_decode(credentialResponse.credential)
+                        console.log(credentialResponseDecoded);
+                      }}
+                      onError={() => {
+                        console.log("Login Failed");
+                      }}
+                    /> */}
+                    <button onClick={() => login_google()}>
+                      Sign in with Google 🚀{" "}
+                    </button>
+                  </span>
+                  <span>Login with Google</span>
+                </button>
               </div>
               <div className="text-center text-slate-600 pt-1">
                 <p>
@@ -108,8 +161,12 @@ const Login = () => {
                 </p>
               </div>
             </div>
-            <div className="w-full h-full py-4 pr-4">
-              <img className="w-full h-[95%]" src="/images/login.jpg" alt="" />
+            <div className="lg:w-full py-4 pr-4 md:hidden">
+              <img
+                className="w-full h-[95%] md:w-0"
+                src="/images/login.jpg"
+                alt=""
+              />
             </div>
           </div>
         </div>

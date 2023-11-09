@@ -48,7 +48,6 @@ class orderController {
       discountPrice,
       userId,
     } = req.body;
-    console.log(discountPrice);
 
     let authorOrderData = [];
     let cardId = [];
@@ -257,7 +256,6 @@ class orderController {
       const orders = await customerOrder
         .find({ customerId: customerId })
         .sort({ updatedAt: -1 });
-      console.log(orders);
 
       const order_complete = await customerOrder
         .find({

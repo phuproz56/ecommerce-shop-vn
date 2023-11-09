@@ -28,6 +28,19 @@ export const customer_login = createAsyncThunk(
   }
 );
 
+export const customer_gg_login = createAsyncThunk(
+  "auth/customer_gg_login",
+  async (res, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post("/customer/customer-gg-login", res);
+      localStorage.setItem("customerToken", data.token);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const change_password = createAsyncThunk(
   "auth/change_password",
   async (
@@ -157,6 +170,21 @@ export const authReducer = createSlice({
       state.loader = false;
       state.userInfo = userInfo;
     },
+
+    [customer_gg_login.pending]: (state, _) => {
+      state.loader = true;
+    },
+    [customer_gg_login.rejected]: (state, { payload }) => {
+      state.errorMessage = payload.error;
+      state.loader = false;
+    },
+    [customer_gg_login.fulfilled]: (state, { payload }) => {
+      const userInfo = decodeToken(payload.token);
+      state.successMessage = payload.message;
+      state.loader = false;
+      state.userInfo = userInfo;
+    },
+
     [change_password.fulfilled]: (state, { payload }) => {
       state.successMessage = payload.message;
     },

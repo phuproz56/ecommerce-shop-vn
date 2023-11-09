@@ -8,6 +8,8 @@ router.post(
 );
 router.post("/customer/customer-login", customerAuthController.customer_login);
 
+router.post("/customer/customer-gg-login", customerAuthController.customer_gg_login);
+
 router.get("/customer/logout", customerAuthController.customer_logout);
 
 router.put(
