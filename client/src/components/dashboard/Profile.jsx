@@ -35,7 +35,7 @@ const Profile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUserInformation({ name, email, phoneNumber, password }));
+    dispatch(updateUserInformation({ name, email, phoneNumber }));
   };
   return (
     <div className="p-4 bg-white rounded-md">
@@ -80,22 +80,7 @@ const Profile = () => {
               />
             </div>
 
-            {userInfo.email_verified ? (
-              ""
-            ) : (
-              <div className=" w-[100%] 800px:w-[50%]">
-                <label className="block pb-2">
-                  Nhập mật khẩu để thay đổi thông tin{" "}
-                </label>
-                <input
-                  type="password"
-                  className={`border p-2 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-            )}
+          
           </div>
           <input
             className={`w-[250px] h-[40px] border border-[#fd3e25] text-center text-[#eeeeee] font-bold rounded-[8px] mt-8 bg-[#2374e1] cursor-pointer`}

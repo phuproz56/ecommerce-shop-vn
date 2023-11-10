@@ -17,6 +17,7 @@ import {
   AiFillGithub,
   AiFillHeart,
   AiFillShopping,
+  AiOutlineBell,
 } from "react-icons/ai";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,22 +31,30 @@ import SpeechRecognition, {
 import loading2 from "react-useanimations/lib/loading2";
 import UseAnimations from "react-useanimations";
 import FadeLoader from "react-spinners/FadeLoader";
+import io from "socket.io-client";
+import { messageClear, updateMessage } from "../store/reducers/ChatReducer";
+import toast from "react-hot-toast";
+const socket = io("http://localhost:5000");
 
 const Headers = ({ isFixed }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const sellerId = "654366fbba51a942cd41835f";
   const { userInfo } = useSelector((state) => state.auth);
   const { categorys, products, loader } = useSelector((state) => state.home);
+  const [activeSeller, setActiveSeller] = useState([]);
   const [categoryShow, setCategoryShow] = useState(true);
   const { pathname } = useLocation();
   const [showSlidebar, setshowSlidebar] = useState(true);
   const { card_product_count, wishlist_count } = useSelector(
     (state) => state.card
   );
+  const { count } = useSelector((state) => state.chat);
+  const [receverMessage, setReceverMessage] = useState("");
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [notification, setNotification] = useState(true);
 
   useEffect(() => {
     if (userInfo) {
@@ -53,6 +62,10 @@ const Headers = ({ isFixed }) => {
       dispatch(get_wishlist_products(userInfo.id));
     }
   }, [dispatch, userInfo]);
+
+  useEffect(() => {
+    socket.emit("add_user", userInfo.id, userInfo);
+  }, []);
 
   const {
     transcript,
@@ -66,7 +79,6 @@ const Headers = ({ isFixed }) => {
   };
 
   const [filteredUsers, setFilteredUsers] = useState(products);
-
 
   const handleInputChange = (e) => {
     const searchTerm = e.target.value;
@@ -97,6 +109,29 @@ const Headers = ({ isFixed }) => {
 
   const headerStyle = isFixed ? { position: "fixed" } : {};
 
+  useEffect(() => {
+    socket.on("seller_message", (msg) => {
+      setReceverMessage(msg);
+    });
+    socket.on("activeSeller", (sellers) => {
+      setActiveSeller(sellers);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (receverMessage) {
+      if (
+        sellerId === receverMessage.senderId &&
+        userInfo.id === receverMessage.receverId
+      ) {
+        toast.success("Bạn có 1 tin nhắn mới!")
+        dispatch(updateMessage(receverMessage));
+      } else {
+        toast.success(receverMessage.senderName + " " + "send a message");
+        dispatch(messageClear());
+      }
+    }
+  }, [receverMessage]);
 
   return (
     <div
@@ -170,6 +205,34 @@ const Headers = ({ isFixed }) => {
                     <span>Đăng nhập</span>
                   </Link>
                 )}
+                {/* thông báo */}
+                {/* <div className="relative">
+                  <div
+                    onClick={() => setNotification(!notification)}
+                    className="relative flex justify-center items-center cursor-pointer w-full h-full rounded-full "
+                  >
+                    <span className="text-xl ">
+                      <AiOutlineBell />
+                    </span>
+
+                    {receverMessage && (
+                      <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]">
+                        {count}
+                      </div>
+                    )}
+                  </div>
+
+                  <div
+                    className={`${
+                      notification ? "h-0" : "h-[100px]"
+                    }  md-lg:relative duration-500 absolute z-[99999] bg-white w-[100px] `}
+                  >
+                    <ul className=" text-slate-600 font-medium h-full overflow-auto">
+                      ksdjfkldsjflsdkfjlsdfjsldkfjsdlkfjsdlfsldkjflsdjflsdkjf
+                    </ul>
+                  </div>
+
+                </div> */}
               </div>
             </div>
           </div>
@@ -594,7 +657,9 @@ const Headers = ({ isFixed }) => {
                   </div>
                 </div>
               </div>
-            ) : ""}
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

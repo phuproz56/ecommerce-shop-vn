@@ -9,7 +9,8 @@ import { add_product, messageClear } from "../../store/Reducers/productReducer";
 import { overrideStyle } from "../../utils/utils";
 import toast from "react-hot-toast";
 import { PropagateLoader } from "react-spinners";
-
+import Select from "react-select";
+import Multiselect from "multiselect-react-dropdown";
 const AddProduct = () => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
@@ -17,6 +18,31 @@ const AddProduct = () => {
   const { loader, successMessage, errorMessage } = useSelector(
     (state) => state.product
   );
+
+  const optionsColors = [
+    { value: "Nâu" },
+    { value: "Trắng" },
+    { value: "Đỏ" },
+    { value: "Tím" },
+    { value: "Vàng" },
+    { value: "Xanh Dương" },
+    { value: "Xanh Lá" },
+  ];
+
+  const optionsSizes = [
+    { value: "XXS" },
+    { value: "XS" },
+    { value: "S" },
+    { value: "M" },
+    { value: "L" },
+    { value: "XL" },
+    { value: "XXL" },
+  ];
+
+  const optionsSex = [
+    { value: "1", label: "Nam" },
+    { value: "2", label: "Nữ" },
+  ];
 
   useEffect(() => {
     dispatch(
@@ -44,16 +70,63 @@ const AddProduct = () => {
     }
   };
 
+  const [selectedOption, setSelectedOption] = useState([]);
+  const [selectedSize, setSelectedSize] = useState([]);
+  const [selectedOptionSex, setSelectedOptionSex] = useState(null);
+
+  let onSelectColors = (color) => {
+    const propertyValues = Object.entries(color);
+    setSelectedOption(propertyValues);
+  };
+
+  let onRemoveColors = (color) => {
+    const propertyValues = Object.entries(color);
+    setSelectedOption(propertyValues);
+  };
+
+  let onSelectSizes = (size) => {
+    const propertyValues = Object.entries(size);
+    setSelectedSize(propertyValues);
+  };
+
+  let onRemoveSizes = (size) => {
+    const propertyValues = Object.entries(size);
+    setSelectedSize(propertyValues);
+  };
+
+  const arrayColors = [];
+  for (let i = 0; i < selectedOption.length; i++) {
+    let colors = selectedOption[i];
+    for (let j = 0; j < colors.length; j++) {
+      if (colors[j].value !== undefined) {
+        arrayColors.push(colors[j].value.split(","));
+      }
+    }
+  }
+
+  const arraySizes = [];
+  for (let i = 0; i < selectedSize.length; i++) {
+    let sizes = selectedSize[i];
+    for (let j = 0; j < sizes.length; j++) {
+      if (sizes[j].value !== undefined) {
+        arraySizes.push(sizes[j].value.split(","));
+      }
+    }
+  }
+
+
   const [state, setState] = useState({
     name: "",
     description: "",
     discount: "",
     price: "",
+    sex: selectedOptionSex?.label,
+    color: arrayColors,
+    size: arraySizes,
     brand: "",
     stock: "",
     shopName: userInfo?.shopInfo?.shopName,
   });
-  console.log(state);
 
   const inputHandle = (e) => {
     setState({
@@ -118,6 +191,9 @@ const AddProduct = () => {
         name: "",
         description: "",
         discount: "",
+        sex: "",
+        color: [""],
+        size: [""],
         price: "",
         brand: "",
         stock: "",
@@ -136,6 +212,9 @@ const AddProduct = () => {
       formData.append("description", state.description);
       formData.append("price", state.price);
       formData.append("stock", state.stock);
+      formData.append("sex", selectedOptionSex?.label);
+      formData.append("color", arrayColors);
+      formData.append("size", arraySizes);
       formData.append("category", category);
       formData.append("discount", state.discount);
       formData.append("shopName", state.shopName);
@@ -283,6 +362,51 @@ const AddProduct = () => {
                 />
               </div>
             </div>
+            <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-white">
+              <div className="flex flex-col w-full gap-1">
+                <label htmlFor="color">Chọn màu sản phẩm</label>
+
+                <Multiselect
+                  placeholder="Chọn màu"
+                  options={optionsColors}
+                  onSelect={onSelectColors}
+                  onRemove={onRemoveColors}
+                  displayValue="value"
+                />
+              </div>
+
+              <div className="flex flex-col w-full gap-1 ">
+                <label htmlFor="color">Chọn size sản phẩm</label>
+
+                <Multiselect
+                  placeholder="Chọn size"
+                  options={optionsSizes}
+                  onSelect={onSelectSizes}
+                  onRemove={onRemoveSizes}
+                  displayValue="value"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-white">
+              <label htmlFor="sex">Chọn giới tính</label>
+
+              <Select
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 0,
+                  colors: {
+                    ...theme.colors,
+                    primary25: "#283046",
+                    primary: "black",
+                  },
+                })}
+                placeholder="Chọn giới tính"
+                defaultValue={selectedOptionSex}
+                onChange={setSelectedOptionSex}
+                options={optionsSex}
+                displayValue="value"
+              />
+            </div>
             <div className="flex flex-col w-full gap-1 text-[#d0d2d6] mb-5">
               <label htmlFor="description">Giới Thiệu</label>
               <textarea
@@ -295,6 +419,7 @@ const AddProduct = () => {
                 value={state.description}
               ></textarea>
             </div>
+
             <div className="grid lg:grid-cols-4 grid-cols-1 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 md:gap-4 xs:gap-4 gap-3 w-full text-[#d0d2d6] mb-4">
               {imageShow.map((img, i) => (
                 <div className="h-[180px] relative">

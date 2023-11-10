@@ -18,6 +18,18 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
+    sex: {
+      type: String,
+      required: true,
+    },
+    color: {
+      type: Array,
+      required: true,
+    },
+    size: {
+      type: Array,
+      require: true,
+    },
     brand: {
       type: String,
       required: true,

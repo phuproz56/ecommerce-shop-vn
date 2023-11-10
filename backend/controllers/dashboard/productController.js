@@ -9,7 +9,6 @@ const moment = require("moment");
 class productController {
   add_product = async (req, res) => {
     const id = "654366fbba51a942cd41835f";
-    console.log(id);
     const form = formidable({ multiples: true });
 
     form.parse(req, async (err, field, files) => {
@@ -18,11 +17,17 @@ class productController {
         category,
         description,
         stock,
+        color,
+        sex,
+        size,
         price,
         discount,
         shopName,
         brand,
       } = field;
+      
+      
+
       const { images } = files;
       name = name.trim();
       const slug = name.split(" ").join("-");
@@ -50,6 +55,9 @@ class productController {
           slug,
           shopName,
           category: category.trim(),
+          sex,
+          color,
+          size,
           description: description.trim(),
           stock: parseInt(stock),
           price: parseInt(price),

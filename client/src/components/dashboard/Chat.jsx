@@ -90,6 +90,7 @@ const Chat = () => {
     }
   }, [receverMessage]);
 
+
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [fd_messages]);

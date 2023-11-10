@@ -38,7 +38,9 @@ const Shipping = () => {
     (item) => item.addressType === "Mặc định"
   );
 
-  const [res, setRes] = useState(search_address_macdinh?.length && userInfo.phoneNumber ? true : false);
+  const [res, setRes] = useState(
+    search_address_macdinh?.length && userInfo.phoneNumber ? true : false
+  );
 
   const [country, setCountry] = useState("VN");
   const [city, setCity] = useState(

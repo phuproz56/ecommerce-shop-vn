@@ -73,6 +73,9 @@ class homeControllers {
       const product = await productModel.findOne({
         slug,
       });
+      
+      console.log(product?.color[0].split(","))
+
       const relatedProducts = await productModel
         .find({
           $and: [
@@ -114,8 +117,6 @@ class homeControllers {
       console.log(error.message);
     }
   };
-
-  
 
   price_range_product = async (req, res) => {
     try {

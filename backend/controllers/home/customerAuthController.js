@@ -234,11 +234,9 @@ class customerAuthController {
   };
 
   updateUserProfile = async (req, res) => {
-    const { email, password, phoneNumber, name } = req.body;
+    const { email, phoneNumber, name } = req.body;
     try {
-      const userInfo = await customerModel
-        .findOne({ email })
-        .select("+password");
+      const userInfo = await customerModel.findOne({ email });
 
       if (!userInfo) {
         responseReturn(res, 404, { message: "Không tìm thấy người dùng này!" });
@@ -269,18 +267,6 @@ class customerAuthController {
           token,
         });
       } else {
-        const isPasswordValid = await bcrypt.compare(
-          password,
-          userInfo.password
-        );
-
-        if (!isPasswordValid) {
-          responseReturn(res, 404, {
-            message: "Vui lòng cung cấp thông tin chính xác!",
-          });
-          return;
-        }
-
         userInfo.name = name;
         userInfo.email = email;
         userInfo.phoneNumber = phoneNumber;
@@ -292,7 +278,7 @@ class customerAuthController {
           method: userInfo.method,
           phoneNumber: userInfo.phoneNumber,
           addresses: userInfo.addresses,
-          email_verified: true,
+          email_verified: false,
         });
         res.cookie("customerToken", token, {
           expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),

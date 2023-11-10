@@ -13,9 +13,9 @@ const Orders = () => {
     <div className="bg-white flex p-4 rounded-md w-full ">
       <div className="flex justify-between items-center w-full">
         <div className="md-lg:w-full w-full">
-          <div className="flex justify-between md-lg:justify-center items-center flex-wrap pl-8">
+          <div className="flex justify-between md-lg:justify-center items-center flex-wrap sm:w-auto">
             <ul className="flex md:flex-col gap-20 text-sm font-bold uppercase w-full">
-              <li className="flex justify-start items-center gap-2 py-2 w-auto">
+              <li className="flex justify-start items-center gap-2 py-2 w-auto sm:justify-center">
                 <Link
                   to="/dashboard/tatca"
                   className={` flex justify-center items-center p-2 ${
@@ -27,7 +27,7 @@ const Orders = () => {
                   tất cả
                 </Link>
               </li>
-              <li className="flex justify-start items-center gap-2 py-2 w-auto">
+              <li className="flex justify-start items-center gap-2 py-2 w-auto sm:justify-center">
                 <Link
                   to="/dashboard/choxuly"
                   className={`p-2 flex justify-start items-center ${
@@ -39,7 +39,7 @@ const Orders = () => {
                   chờ xử lý
                 </Link>
               </li>
-              <li className="flex justify-start items-center gap-2 py-2 w-auto">
+              <li className="flex justify-start items-center gap-2 py-2 w-auto sm:justify-center">
                 <Link
                   to="/dashboard/vanchuyen"
                   className={`p-2 flex justify-start items-center ${
@@ -51,7 +51,7 @@ const Orders = () => {
                   vận chuyển
                 </Link>
               </li>
-              <li className="flex justify-start items-center gap-2 py-2 w-auto">
+              <li className="flex justify-start items-center gap-2 py-2 w-auto sm:justify-center">
                 <Link
                   to="/dashboard/danggiao"
                   className={`p-2 flex justify-start items-center ${
@@ -63,7 +63,7 @@ const Orders = () => {
                   đang giao
                 </Link>
               </li>
-              <li className="flex justify-start items-center gap-2 py-2 w-auto">
+              <li className="flex justify-start items-center gap-2 py-2 w-auto sm:justify-center">
                 <Link
                   to="/dashboard/hoanthanh"
                   className={`p-2 flex justify-start items-center ${
@@ -75,7 +75,7 @@ const Orders = () => {
                   hoàn thành
                 </Link>
               </li>
-              <li className="flex justify-start items-center gap-2 py-2 w-auto">
+              <li className="flex justify-start items-center gap-2 py-2 w-auto sm:justify-center">
                 <Link
                   to="/dashboard/dahuy"
                   className={`p-2 flex justify-start items-center ${
@@ -87,7 +87,7 @@ const Orders = () => {
                   đã hủy
                 </Link>
               </li>
-              <li className="flex justify-start items-center gap-2 py-2 w-auto">
+              <li className="flex justify-start items-center gap-2 py-2 w-auto sm:justify-center">
                 <Link
                   to="/dashboard/trahang"
                   className={`p-2 flex justify-start items-center ${

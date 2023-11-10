@@ -194,6 +194,8 @@ const Details = () => {
     }
   };
 
+  console.log(product.size[0].split(",")[0])
+
   return (
     <div className="pt-[200px]">
       <Headers isFixed={true} />
@@ -392,7 +394,6 @@ const Details = () => {
                   ""
                 )}
                 <button
-                  
                   onClick={() => chat_to_shop(product.sellerId)}
                   className="px-8 py-3 sm:h-full h-[50px] cursor-pointer hover:shadow-lg hover:shadow-orange-500/40 bg-orange-500 text-white block"
                 >

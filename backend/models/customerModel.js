@@ -40,6 +40,10 @@ const customerSchema = new Schema(
       type: String,
       required: true,
     },
+    sex: {
+      type: String,
+      required: true,
+    },
     email_verified: {
       type: Boolean,
       required: true,

@@ -38,6 +38,7 @@ export const chatReducer = createSlice({
     fd_messages: [],
     currentFd: "",
     successMessage: "",
+    count: 0,
   },
   reducers: {
     messageClear: (state, _) => {
@@ -46,6 +47,7 @@ export const chatReducer = createSlice({
     },
     updateMessage: (state, { payload }) => {
       state.fd_messages = [...state.fd_messages, payload];
+      state.count = 1;
     },
   },
   extraReducers: {

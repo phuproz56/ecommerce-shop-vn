@@ -77,14 +77,12 @@ const id = "654366fbba51a942cd41835f";
     // })
   }, []);
 
-console.log(receverMessage)
   useEffect(() => {
     if (receverMessage) {
       if (
         customerId === receverMessage.senderId &&
         userInfo._id
       ) {
-        console.log("123")
         dispatch(updateMessage(receverMessage));
       } else {
         toast.success(receverMessage.senderName + " " + "send a message");
@@ -158,7 +156,7 @@ console.log(receverMessage)
                     )}
                   </div>
                   <h2 className="text-base text-white font-semibold">
-                    {currentCustomer.name}
+                    {currentCustomer?.name}
                   </h2>
                 </div>
               )}
