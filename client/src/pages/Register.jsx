@@ -10,9 +10,11 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+ 
   const { loader, successMessage, errorMessage, userInfo } = useSelector(
     (state) => state.auth
   );
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [state, setState] = useState({

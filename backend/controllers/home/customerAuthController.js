@@ -17,6 +17,7 @@ class customerAuthController {
           name: name.trim(),
           email: email.trim(),
           phoneNumber,
+          sex: "Nam",
           password: await bcrypt.hash(password, 10),
           method: "menualy",
           email_verified: false,
@@ -27,6 +28,7 @@ class customerAuthController {
         const token = await createToken({
           id: createCustomer.id,
           name: createCustomer.name,
+          sex: "Nam",
           email: createCustomer.email,
           phoneNumber: createCustomer.phoneNumber,
           method: createCustomer.method,
@@ -55,6 +57,7 @@ class customerAuthController {
             id: customer.id,
             name: customer.name,
             email: customer.email,
+            sex: customer.sex,
             method: customer.method,
             phoneNumber: customer.phoneNumber,
             addresses: customer.addresses,
@@ -84,6 +87,7 @@ class customerAuthController {
           id: customer.id,
           name: customer.name,
           email: customer.email,
+          sex: customer?.sex,
           method: customer.method,
           phoneNumber: customer.phoneNumber,
           addresses: customer.addresses,
@@ -98,6 +102,7 @@ class customerAuthController {
           name: req.body.data.name.trim(),
           email: req.body.data.email.trim(),
           phoneNumber: "0",
+          sex: "Nam",
           password: "1",
           method: "menualy",
           email_verified: true,
@@ -108,6 +113,7 @@ class customerAuthController {
         const token = await createToken({
           id: createCustomer.id,
           name: createCustomer.name,
+          sex: createCustomer.sex,
           email: createCustomer.email,
           method: createCustomer.method,
           phoneNumber: createCustomer.phoneNumber,
@@ -234,7 +240,7 @@ class customerAuthController {
   };
 
   updateUserProfile = async (req, res) => {
-    const { email, phoneNumber, name } = req.body;
+    const { email, phoneNumber, name, sex } = req.body;
     try {
       const userInfo = await customerModel.findOne({ email });
 
@@ -246,11 +252,13 @@ class customerAuthController {
         userInfo.name = name;
         userInfo.email = email;
         userInfo.phoneNumber = phoneNumber;
+        userInfo.sex = sex;
 
         const token = await createToken({
           id: userInfo.id,
           name: userInfo.name,
           email: userInfo.email,
+          sex: userInfo.sex,
           method: userInfo.method,
           phoneNumber: userInfo.phoneNumber,
           addresses: userInfo.addresses,
@@ -269,12 +277,14 @@ class customerAuthController {
       } else {
         userInfo.name = name;
         userInfo.email = email;
+        userInfo.sex = sex;
         userInfo.phoneNumber = phoneNumber;
 
         const token = await createToken({
           id: userInfo.id,
           name: userInfo.name,
           email: userInfo.email,
+          sex: userInfo.sex,
           method: userInfo.method,
           phoneNumber: userInfo.phoneNumber,
           addresses: userInfo.addresses,

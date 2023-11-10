@@ -285,7 +285,7 @@ const Shipping = () => {
                       {user && (
                         <div>
                           {userInfo &&
-                            userInfo.addresses.map((item, index) => (
+                            userInfo.addresses?.map((item, index) => (
                               <div
                                 onClick={() => setRes(true)}
                                 key={index}

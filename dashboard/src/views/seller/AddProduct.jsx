@@ -114,7 +114,6 @@ const AddProduct = () => {
     }
   }
 
-
   const [state, setState] = useState({
     name: "",
     description: "",

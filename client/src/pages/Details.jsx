@@ -25,21 +25,27 @@ import {
   remove_wishlist,
 } from "../store/reducers/cardReducer";
 import toast from "react-hot-toast";
+import Select from "react-select";
+
 const Details = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const { slug } = useParams();
-  const [image, setImage] = useState("");
-  const [state, setState] = useState("reviews");
   const { product, relatedProducts, moreProducts, totalReview } = useSelector(
     (state) => state.home
   );
+  const { slug } = useParams();
+  const [image, setImage] = useState("");
+  const [state, setState] = useState("reviews");
+  const [selectedOption, setSelectedOption] = useState(
+    product?.color && product?.color[0].split(",")[0]
+  );
+  const [selectedSize, setSelectedSize] = useState("");
+
   const { userInfo } = useSelector((state) => state.auth);
   const { errorMessage, successMessage } = useSelector((state) => state.card);
 
   const location = useLocation();
-
+  console.log(selectedSize);
   useEffect(() => {
     window.scrollTo({
       top: 400,
@@ -97,13 +103,19 @@ const Details = () => {
 
   const add_card = () => {
     if (userInfo) {
-      dispatch(
-        add_to_card({
-          userId: userInfo.id,
-          quantity,
-          productId: product._id,
-        })
-      );
+      if (selectedSize === "") {
+        setSize(true);
+      } else {
+        dispatch(
+          add_to_card({
+            userId: userInfo.id,
+            quantity,
+            selectedSize,
+            selectedOption,
+            productId: product._id,
+          })
+        );
+      }
     } else {
       toast.error("Cần đăng nhập để tiếp tục!");
       navigate("/login");
@@ -145,43 +157,44 @@ const Details = () => {
     }
   }, [errorMessage, successMessage]);
 
+  const [size, setSize] = useState(false);
+
   const buy = () => {
     if (userInfo) {
-      let price = 0;
-      if (product.discount !== 0) {
-        price =
-          product.price - Math.floor((product.price * product.discount) / 100);
+      if (selectedSize === "") {
+        setSize(true);
       } else {
-        price = product.price;
+        let price = 0;
+
+        if (product.discount !== 0) {
+          price =
+            product.price -
+            Math.floor((product.price * product.discount) / 100);
+        } else {
+          price = product.price;
+        }
+        const obj = [
+          {
+            sellerId: product.sellerId,
+            shopName: product.shopName,
+            price: quantity * (price - Math.floor(price * 5) / 100),
+            products: [{ quantity, productInfo: product }],
+            selectedSize,
+            selectedOption,
+          },
+        ];
+        navigate("/shipping", {
+          state: {
+            products: obj,
+            price: price * quantity,
+            shipping_fee: price > 500000 ? 0 : 50000,
+            items: 1,
+          },
+        });
       }
-      const obj = [
-        {
-          sellerId: product.sellerId,
-          shopName: product.shopName,
-          price: quantity * (price - Math.floor(price * 5) / 100),
-          products: [{ quantity, productInfo: product }],
-        },
-      ];
-      navigate("/shipping", {
-        state: {
-          products: obj,
-          price: price * quantity,
-          shipping_fee: 85,
-          items: 1,
-        },
-      });
     } else {
       toast.error("Cần đăng nhập để tiếp tục!");
       navigate("/login");
-    }
-  };
-
-  const [color, setColor] = useState(true);
-  const color_wishlist = () => {
-    if (add_wishlist) {
-      setColor(false);
-    } else {
-      setColor(true);
     }
   };
 
@@ -194,7 +207,7 @@ const Details = () => {
     }
   };
 
-  console.log(product.size[0].split(",")[0])
+  // console.log(product?.size[0]?.split(","));
 
   return (
     <div className="pt-[200px]">
@@ -291,7 +304,10 @@ const Details = () => {
                   <h2>Price: {product.price}</h2>
                 )}
               </div>
-              {/* <h2 className="text-slate-600 ">Tên Shop: {product.shopName}</h2> */}
+              <h2 className="text-slate-600 ">Giới tính: {product.sex}</h2>
+              <h2 className="text-slate-600 ">
+                Màu sắc: {product?.color && product?.color[0].split(",")[0]}
+              </h2>
               <div className="text-slate-600">
                 <p>{product.description}</p>
               </div>
@@ -381,6 +397,36 @@ const Details = () => {
                     </li>
                   </ul>
                 </div>
+              </div>
+              <div className="flex gap-3">
+                <h2>Chọn size:</h2>
+
+                {product?.size &&
+                  product?.size[0].split(",").map((u) => (
+                    <div
+                      onClick={() => setSelectedSize(u) || setSize(false)}
+                      className={``}
+                    >
+                      <input
+                        readOnly
+                        className={`flex w-[50px] p-2 text-center border font-bold cursor-pointer ${
+                          selectedSize === u
+                            ? "text-green-400 border-green-400 cursor-not-allowed"
+                            : "hover:text-red-500 border hover:border-red-500"
+                        }`}
+                        name="size"
+                        id=""
+                        value={u}
+                      />
+                    </div>
+                  ))}
+                {size ? (
+                  <h2 className="text-red-500">
+                    <b>vui lòng chọn size bạn mong muốn!!!</b>
+                  </h2>
+                ) : (
+                  ""
+                )}
               </div>
               <div className="flex gap-3">
                 {product.stock ? (

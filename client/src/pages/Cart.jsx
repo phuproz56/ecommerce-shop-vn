@@ -138,6 +138,9 @@ const Cart = () => {
                                   <span className="text-sm">
                                     Thương hiệu : {pt.productInfo.brand}
                                   </span>
+                                  <h2 className="text-md">
+                                    Màu sắc: {pt.productInfo?.color && pt.productInfo?.color}
+                                  </h2>
                                 </div>
                               </div>
                             </div>

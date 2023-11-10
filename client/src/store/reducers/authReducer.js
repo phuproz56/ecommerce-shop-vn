@@ -97,7 +97,7 @@ export const deleteUserAddress = createAsyncThunk(
 export const updateUserInformation = createAsyncThunk(
   "auth/updateUserInformation",
   async (
-    { name, email, phoneNumber },
+    { name, email, phoneNumber, sex },
     { rejectWithValue, fulfillWithValue }
   ) => {
     try {
@@ -105,7 +105,7 @@ export const updateUserInformation = createAsyncThunk(
         name,
         email,
         phoneNumber,
-        
+        sex,
       });
       localStorage.setItem("customerToken", data.token);
       return fulfillWithValue(data);

@@ -4,8 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUserInformation } from "../../store/reducers/authReducer";
 import toast from "react-hot-toast";
 import { messageClear } from "../../store/reducers/authReducer";
-
+import Select from "react-select";
 const Profile = () => {
+  const optionsSex = [
+    { value: "1", label: "Nam" },
+    { value: "2", label: "Nữ" },
+  ];
   const { userInfo, errorMessage, successMessage } = useSelector(
     (state) => state.auth
   );
@@ -14,8 +18,7 @@ const Profile = () => {
   const [phoneNumber, setPhoneNumber] = useState(
     userInfo && userInfo.phoneNumber
   );
-
-  const [password, setPassword] = useState("");
+  const [sex, setSex] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,16 +29,14 @@ const Profile = () => {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
-
-      setTimeout(function () {
-        window.location.reload(1);
-      }, 2500);
     }
   }, [dispatch, errorMessage, successMessage]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUserInformation({ name, email, phoneNumber }));
+    dispatch(
+      updateUserInformation({ name, email, phoneNumber, sex: sex?.label })
+    );
   };
   return (
     <div className="p-4 bg-white rounded-md">
@@ -68,8 +69,7 @@ const Profile = () => {
 
           <div className="w-full 800px:flex block pb-3">
             <div className=" w-[100%] 800px:w-[50%]">
-              <label className="block pb-2">Số điện thoại: (+84)</label>
-
+              <label className="block pb-2">Số điện thoại<b className="text-red-500">*</b></label>
               <input
                 type="number"
                 className={`border p-2 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
@@ -79,8 +79,27 @@ const Profile = () => {
                 onChange={(e) => setPhoneNumber(e.target.value)}
               />
             </div>
-
-          
+          </div>
+          <div className="w-full 800px:flex block pb-3">
+            <div className=" w-[100%] 800px:w-[50%]">
+              <label className="block pb-2">Chọn giới tính<b className="text-red-500">*</b> (Giới tính hiện tại: {userInfo?.sex ? userInfo?.sex : "(chưa chọn)"})</label>
+              <Select
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 0,
+                  colors: {
+                    ...theme.colors,
+                    primary25: "#2374e1",
+                    primary: "black",
+                  },
+                })}
+                placeholder="Chọn giới tính của bạn..."
+                defaultValue={sex}
+                onChange={setSex}
+                options={optionsSex}
+                displayValue="value"
+              />
+            </div>
           </div>
           <input
             className={`w-[250px] h-[40px] border border-[#fd3e25] text-center text-[#eeeeee] font-bold rounded-[8px] mt-8 bg-[#2374e1] cursor-pointer`}
