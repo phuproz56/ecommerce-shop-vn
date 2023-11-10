@@ -14,14 +14,13 @@ import moment from "moment";
 import toast from "react-hot-toast";
 import {
   get_shipper_new_order,
-  thongke,
   comfirm_order_shipper,
   messageClear,
 } from "../../store/Reducers/dashboardIndexReducer";
 import { FaEye } from "react-icons/fa";
 
 const ShipperDashboard = () => {
-  const { orders, Total_Orders, Total_TimShipper, successMessage } =
+  const { orders, Total_Orders, Total_TimShipper,Total_Complete, successMessage } =
     useSelector((state) => state.dashboardIndex);
 
   const dispatch = useDispatch();
@@ -66,7 +65,7 @@ const ShipperDashboard = () => {
         </div>
         <div className="flex justify-between items-center p-5 bg-[#283046] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#d0d2d6]">
-            <h2 className="text-3xl font-bold">{Total_TimShipper}</h2>
+            <h2 className="text-3xl font-bold">{Total_Complete}</h2>
             <span className="text-md font-medium">Đơn Hàng Hoàn Thành</span>
           </div>
           <div className="w-[46px] h-[47px] rounded-full bg-[#7367f01f] flex justify-center items-center text-xl">
@@ -145,7 +144,7 @@ const ShipperDashboard = () => {
                       >
                         {d.shipperInfo ? (
                           <div>
-                            Đã nhận đơn vào ngày {d.shipper_date}
+                            Đã nhận đơn vào ngày <b className="text-green-400">{d.shipper_date}</b>
                             <Link
                               to={`/shipper/dashboard/details/${d._id}`}
                               className="pl-2 p-[6px] w-[30px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50 flex justify-center items-center"

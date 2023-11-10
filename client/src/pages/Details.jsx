@@ -314,7 +314,7 @@ const Details = () => {
                     <div>
                       <button
                         onClick={add_card}
-                        className="px-5 py-1 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white"
+                        className="px-5 py-1 sm:h-full h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white"
                       >
                         Thêm Vào Giỏ Hàng
                       </button>
@@ -326,7 +326,7 @@ const Details = () => {
                 <div>
                   <div
                     onClick={add_wishlist}
-                    className={`px-5 py-1 h-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white
+                    className={`px-5 py-1 h-[50px] sm:h-full flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white
                   `}
                   >
                     Thêm Vào Yêu Thích
@@ -384,7 +384,7 @@ const Details = () => {
                 {product.stock ? (
                   <button
                     onClick={buy}
-                    className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white"
+                    className="px-8 py-3 h-[50px] sm:h-full cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white"
                   >
                     Mua ngay
                   </button>
@@ -394,7 +394,7 @@ const Details = () => {
                 <button
                   
                   onClick={() => chat_to_shop(product.sellerId)}
-                  className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-orange-500/40 bg-orange-500 text-white block"
+                  className="px-8 py-3 sm:h-full h-[50px] cursor-pointer hover:shadow-lg hover:shadow-orange-500/40 bg-orange-500 text-white block"
                 >
                   Chat với Người Bán
                 </button>

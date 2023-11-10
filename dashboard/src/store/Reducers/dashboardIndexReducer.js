@@ -34,11 +34,11 @@ export const get_admin_dashboard_index_data = createAsyncThunk(
 
 export const get_shipper_new_order = createAsyncThunk(
   "dashboardIndex/get_shipper_new_order",
-  async ( id, { rejectWithValue, fulfillWithValue }) => {
+  async (id, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await api.get(
         `/shipper/get-shipper-new-order/${id}`,
-         
+
         {
           withCredentials: true,
         }
@@ -99,6 +99,7 @@ export const dashboardIndexReducer = createSlice({
     Total_VanChuyen: 0,
     Total_Orders: 0,
     Total_TimShipper: 0,
+    Total_Complete: 0,
     t1: 0,
     t2: 0,
     t3: 0,
@@ -178,6 +179,7 @@ export const dashboardIndexReducer = createSlice({
       state.Total_Orders = payload.Total_Orders;
       state.Total_VanChuyen = payload.Total_VanChuyen;
       state.Total_TimShipper = payload.Total_TimShipper;
+      state.Total_Complete = payload.Total_Complete;
     },
     [comfirm_order_shipper.fulfilled]: (state, { payload }) => {
       state.successMessage = payload.message;

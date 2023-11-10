@@ -30,6 +30,7 @@ const OrderDetails = () => {
   }, [order]);
 
   const status_update = (e) => {
+    e.preventDefault();
     const user_email = order.shippingInfo.email;
     const order_date = order.date;
     const order_id = order._id;
@@ -55,6 +56,7 @@ const OrderDetails = () => {
         info: { status: e.target.value },
       })
     );
+    window.location.reload();
 
     setStatus(e.target.value);
   };

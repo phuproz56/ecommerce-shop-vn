@@ -19,6 +19,7 @@ class customerAuthController {
           phoneNumber,
           password: await bcrypt.hash(password, 10),
           method: "menualy",
+          email_verified: false,
         });
         await sellerCustomerModel.create({
           myId: createCustomer.id,
@@ -29,6 +30,7 @@ class customerAuthController {
           email: createCustomer.email,
           phoneNumber: createCustomer.phoneNumber,
           method: createCustomer.method,
+          email_verified: false,
         });
         res.cookie("customerToken", token, {
           expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -56,6 +58,7 @@ class customerAuthController {
             method: customer.method,
             phoneNumber: customer.phoneNumber,
             addresses: customer.addresses,
+            email_verified: false,
           });
           res.cookie("customerToken", token, {
             expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -84,6 +87,7 @@ class customerAuthController {
           method: customer.method,
           phoneNumber: customer.phoneNumber,
           addresses: customer.addresses,
+          email_verified: true,
         });
         res.cookie("customerToken", token, {
           expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -96,6 +100,7 @@ class customerAuthController {
           phoneNumber: "0",
           password: "1",
           method: "menualy",
+          email_verified: true,
         });
         await sellerCustomerModel.create({
           myId: createCustomer.id,
@@ -106,6 +111,7 @@ class customerAuthController {
           email: createCustomer.email,
           method: createCustomer.method,
           phoneNumber: createCustomer.phoneNumber,
+          email_verified: true,
         });
         res.cookie("customerToken", token, {
           expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
@@ -233,41 +239,72 @@ class customerAuthController {
       const userInfo = await customerModel
         .findOne({ email })
         .select("+password");
+
       if (!userInfo) {
         responseReturn(res, 404, { message: "Không tìm thấy người dùng này!" });
         return;
       }
-      const isPasswordValid = await bcrypt.compare(password, userInfo.password);
+      if (userInfo.email_verified) {
+        userInfo.name = name;
+        userInfo.email = email;
+        userInfo.phoneNumber = phoneNumber;
 
-      if (!isPasswordValid) {
-        responseReturn(res, 404, {
-          message: "Vui lòng cung cấp thông tin chính xác!",
+        const token = await createToken({
+          id: userInfo.id,
+          name: userInfo.name,
+          email: userInfo.email,
+          method: userInfo.method,
+          phoneNumber: userInfo.phoneNumber,
+          addresses: userInfo.addresses,
+          email_verified: true,
         });
-        return;
+        res.cookie("customerToken", token, {
+          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        });
+
+        await userInfo.save();
+
+        responseReturn(res, 201, {
+          message: "Cập nhật profile thành công!!",
+          token,
+        });
+      } else {
+        const isPasswordValid = await bcrypt.compare(
+          password,
+          userInfo.password
+        );
+
+        if (!isPasswordValid) {
+          responseReturn(res, 404, {
+            message: "Vui lòng cung cấp thông tin chính xác!",
+          });
+          return;
+        }
+
+        userInfo.name = name;
+        userInfo.email = email;
+        userInfo.phoneNumber = phoneNumber;
+
+        const token = await createToken({
+          id: userInfo.id,
+          name: userInfo.name,
+          email: userInfo.email,
+          method: userInfo.method,
+          phoneNumber: userInfo.phoneNumber,
+          addresses: userInfo.addresses,
+          email_verified: true,
+        });
+        res.cookie("customerToken", token, {
+          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        });
+
+        await userInfo.save();
+
+        responseReturn(res, 201, {
+          message: "Cập nhật profile thành công!!",
+          token,
+        });
       }
-
-      userInfo.name = name;
-      userInfo.email = email;
-      userInfo.phoneNumber = phoneNumber;
-
-      const token = await createToken({
-        id: userInfo.id,
-        name: userInfo.name,
-        email: userInfo.email,
-        method: userInfo.method,
-        phoneNumber: userInfo.phoneNumber,
-        addresses: userInfo.addresses,
-      });
-      res.cookie("customerToken", token, {
-        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      });
-
-      await userInfo.save();
-
-      responseReturn(res, 201, {
-        message: "Cập nhật profile thành công!!",
-        token,
-      });
     } catch (error) {
       console.log(error.message);
     }

@@ -68,7 +68,7 @@ const Payment = () => {
                 <div className="flex flex-wrap">
                   <div
                     onClick={() => setPaymentMethod("stripe")}
-                    className={`w-[30%] border-r cursor-pointer py-8 px-12 ${
+                    className={`w-[30%] sm:w-full border-r cursor-pointer py-8 px-12 ${
                       paymentMethod === "stripe" ? "bg-white" : "bg-slate-100"
                     }`}
                   >
@@ -79,7 +79,7 @@ const Payment = () => {
                   </div>
                   <div
                     onClick={() => setPaymentMethod("now")}
-                    className={`w-[30%] border-r cursor-pointer py-8 px-12 ${
+                    className={`w-[30%] sm:w-full border-r cursor-pointer py-8 px-12 ${
                       paymentMethod === "now" ? "bg-white" : "bg-slate-100"
                     }`}
                   >

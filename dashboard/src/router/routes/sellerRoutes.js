@@ -102,7 +102,7 @@ export const sellerRoutes = [
   {
     path: "/seller/dashboard/shipper-comfirm/details/:orderId",
     element: <OrderShipperDetails />,
-    role: ["seller","admin"],
+    role: "seller",
     visibility: ["active", "deactive"],
   },
   {

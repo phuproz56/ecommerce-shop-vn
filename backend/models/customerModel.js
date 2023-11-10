@@ -40,6 +40,11 @@ const customerSchema = new Schema(
       type: String,
       required: true,
     },
+    email_verified: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   { timestamps: true }
 );

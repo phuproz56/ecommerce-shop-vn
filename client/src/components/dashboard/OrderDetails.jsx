@@ -100,14 +100,14 @@ const OrderDetails = () => {
           </div>
         </form>
       )}
-      <div className="flex bg-white w-auto justify-between items-center border-b-2 border-red-400 pb-4">
+      <div className="flex bg-white w-auto justify-between items-center border-b-2 border-red-400 pb-4 sm:flex-col sm:items-start">
         <button
           onClick={goBack}
-          className="flex justify-items-center w-[110px] border p-3 uppercase rounded-md text-slate-500"
+          className="flex justify-items-start w-[110px] border p-3 uppercase rounded-md text-slate-500 sm:w-[100px]"
         >
           <FcPrevious className="pt-2" /> trở lại
         </button>
-        <div className="flex justify-items-end uppercase">
+        <div className="flex justify-items-end uppercase sm:w-full">
           <p className="flex items-end pr-2">Mã đơn hàng: {orderId}</p>
           <p className="flex border-l-2 pl-2 text-red-500">
             {myOrder?.delivery_status === "Đã Giao Hàng"
@@ -120,10 +120,10 @@ const OrderDetails = () => {
           </p>
         </div>
       </div>
-      <div className=" flex-row pt-[50px] flex">
-        <div>
+      <div className=" flex-row pt-[50px] flex sm:flex-col">
+        <div className="sm:flex-col">
           <FcTodoList
-            className={` p-2 border-4 ${
+            className={`sm:flex-row p-2 border-4 ${
               myOrder?.delivery_status === "Hủy"
                 ? "border-slate-500"
                 : "border-green-500"
@@ -133,7 +133,7 @@ const OrderDetails = () => {
           Đơn Hàng Đã Đặt <p className="text-slate-400">{myOrder?.date}</p>
         </div>
         <div
-          className={`w-full border-t-4 ${
+          className={`w-full sm:hidden border-t-4 ${
             myOrder?.delivery_status === "Hủy"
               ? "border-slate-500"
               : "border-green-500"
@@ -154,7 +154,7 @@ const OrderDetails = () => {
           </p>
         </div>
         <div
-          className={`w-full border-t-4 ${
+          className={`w-full sm:hidden border-t-4 ${
             myOrder?.delivery_status === "Vận Chuyển" ||
             myOrder?.delivery_status === "Đang Giao Hàng" ||
             myOrder?.delivery_status === "Đã Giao Hàng" ||
@@ -188,7 +188,8 @@ const OrderDetails = () => {
           <p>Đã Giao Cho ĐVVC</p>
         </div>
         <div
-          className={`w-full border-t-4 ${
+          className={`w-full sm:hidden border-t-4 ${
+            myOrder?.delivery_status === "Giao Hàng Thành Công" ||
             myOrder?.delivery_status === "Đã Giao Hàng" ||
             myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
             myOrder?.delivery_status === "Giao Hàng Thành Công"
@@ -199,6 +200,7 @@ const OrderDetails = () => {
         <div>
           <FcAcceptDatabase
             className={`p-2 border-4 ${
+              myOrder?.delivery_status === "Giao Hàng Thành Công" ||
               myOrder?.delivery_status === "Đã Giao Hàng" ||
               myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
               myOrder?.delivery_status === "Giao Hàng Thành Công"
@@ -210,7 +212,7 @@ const OrderDetails = () => {
           <p>Đã Nhận Được Hàng</p>
         </div>
         <div
-          className={`w-full border-t-4 ${
+          className={`w-full sm:hidden border-t-4 ${
             myOrder?.delivery_status === "Đã Giao Hàng" ||
             myOrder?.delivery_status === "Xác Nhận Trả Hàng"
               ? "border-green-500"

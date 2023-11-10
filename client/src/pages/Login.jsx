@@ -4,13 +4,18 @@ import Headers from "../components/Headers";
 import Footer from "../components/Footer";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
-import { customer_login, messageClear,customer_gg_login } from "../store/reducers/authReducer";
+import {
+  customer_login,
+  messageClear,
+  customer_gg_login,
+} from "../store/reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
 import FadeLoader from "react-spinners/FadeLoader";
 import { gapi } from "gapi-script";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import { useGoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import api from "../api/api";
 const Login = () => {
@@ -71,11 +76,7 @@ const Login = () => {
           }
         );
         dispatch(customer_gg_login(res));
-        // const { login_gg } = await api.post(
-        //   "/customer/customer-gg-login",
-        //   { res },
-        //   { withCredentials: true }
-        // );
+
         console.log(res.data);
       } catch (error) {
         console.log(error);
@@ -125,7 +126,7 @@ const Login = () => {
                     />
                   </div>
                   <button className="px-8 w-full py-2 bg-purple-500 shadow-lg hover:shadow-indigo-500/30 text-white rounded-md">
-                    Đăng Ký
+                    Đăng Nhập
                   </button>
                 </form>
                 <div className="flex justify-center items-center py-2">
@@ -145,11 +146,12 @@ const Login = () => {
                         console.log("Login Failed");
                       }}
                     /> */}
-                    <button onClick={() => login_google()}>
-                      Sign in with Google 🚀{" "}
+                    <button className="flex" onClick={() => login_google()}>
+                      {" "}
+                      <FcGoogle className="flex text-[25px]" />
+                      <p className="flex ">Sign in with Google </p>
                     </button>
                   </span>
-                  <span>Login with Google</span>
                 </button>
               </div>
               <div className="text-center text-slate-600 pt-1">

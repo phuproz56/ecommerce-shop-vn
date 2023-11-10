@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { get_all_coupon } from "../../store/reducers/orderReducer";
 import toast from "react-hot-toast";
+import dayjs from "dayjs";
 
 const Coupon = () => {
   const dispatch = useDispatch();
@@ -45,6 +46,9 @@ const Coupon = () => {
                 currency: "VND",
               })}
             </b>
+            <p>
+              HSD: {u?.endDate ? dayjs(u?.endDate).format("D/MM/YYYY") : ""}
+            </p>
             <div className="items-center text-center">
               <button
                 onClick={() => {

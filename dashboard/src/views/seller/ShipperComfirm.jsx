@@ -62,6 +62,8 @@ const ShipperComfirm = () => {
               {myOrders.map((d, i) =>
                 d.delivery_status === "Tìm Shipper" ||
                 d.delivery_status === "Tìm Thấy Shipper"||
+                d.delivery_status === "Vận Chuyển"||
+                d.delivery_status === "Shipper Nhận Được Hàng"||
                 d.delivery_status === "Giao Hàng Thành Công"||
                 d.delivery_status === "Giao Hàng Thất Bại" ? (
                   <tr key={i}>

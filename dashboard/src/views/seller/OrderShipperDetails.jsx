@@ -30,13 +30,30 @@ const OrderShipperDetails = () => {
   }, [order]);
 
   const status_update = (e) => {
+    const user_email = order.shippingInfo.email;
+    const order_date = order.date;
+    const order_id = order._id;
+    // const seller_email = userInfo.email;
+    if (order.delivery_status === "Shipper Nhận Được Hàng") {
+      const config = {
+        SecureToken: "f9473773-192c-4284-8cb3-cf7b77d1fb21",
+        To: user_email,
+        From: "phuproz348@gmail.com",
+        Subject: `Shop-vn Gửi mail cho bạn về đơn hàng ${order_id}`,
+        Body: `Đơn hàng: (${order_id}) của bạn đang được giao tới! vui lòng xem sắp xếp thời gian để nhận hàng!`,
+      };
+      if (window.Email) {
+        window.Email.send(config).then((message) =>
+          alert("Email đã gửi về cho khách hàng!")
+        );
+      }
+    }
     dispatch(
       seller_order_status_update({
         _id: _id.orderId,
         info: { status: e.target.value },
       })
     );
-
     setStatus(e.target.value);
   };
 

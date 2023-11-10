@@ -22,6 +22,8 @@ const DiscountProducts = () => {
   const [value, setValue] = useState(null);
   const { userInfo } = useSelector((state) => state.auth);
   const { products } = useSelector((state) => state.seller);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     dispatch(get_products_seller());
@@ -51,6 +53,17 @@ const DiscountProducts = () => {
       });
   }, [dispatch, userInfo._id]);
 
+  const handleEndDateChange = (e) => {
+    const endDate = new Date(e.target.value);
+    setEndDate(endDate);
+  };
+
+  const minEndDate = startDate
+    ? new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .slice(0, 10)
+    : "";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await api
@@ -62,6 +75,7 @@ const DiscountProducts = () => {
           maxAmount,
           selectedProduct,
           value,
+          endDate,
           shopId: userInfo._id,
         },
         { withCredentials: true }
@@ -100,10 +114,11 @@ const DiscountProducts = () => {
       renderCell: (params) => {
         return (
           <>
-          <Tooltip title="Xóa Mã Giảm Giá">
-            <Button onClick={() => handleDelete(params.id)}>
-              <AiOutlineDelete size={20} />
-            </Button></Tooltip>
+            <Tooltip title="Xóa Mã Giảm Giá">
+              <Button onClick={() => handleDelete(params.id)}>
+                <AiOutlineDelete size={20} />
+              </Button>
+            </Tooltip>
           </>
         );
       },
@@ -218,26 +233,22 @@ const DiscountProducts = () => {
                     />
                   </div>
                   <br />
-                  {/* <div>
+                  <div>
                     <label className="pb-2">
-                      Chọn sản phẩm có thể áp dụng mã giảm giá
+                      Ngày kết thúc <span className="text-red-500">*</span>
                     </label>
-                    <select
-                      className="w-full mt-2 border h-[35px] rounded-[5px]"
-                      value={selectedProduct}
-                      onChange={(e) => setSelectedProduct(e.target.value)}
-                    >
-                      <option value="Choose your selected products">
-                        Chọn sản phẩm
-                      </option>
-                      {products &&
-                        products.map((i) => (
-                          <option value={i.name} key={i.name}>
-                            {i.name}
-                          </option>
-                        ))}
-                    </select>
-                  </div> */}
+                    <input
+                      type="date"
+                      name="price"
+                      id="start-date"
+                      value={endDate ? endDate.toISOString().slice(0, 10) : ""}
+                      className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      onChange={handleEndDateChange}
+                      min={minEndDate}
+                      placeholder="Enter your event product stock..."
+                    />
+                  </div>
+
                   <br />
                   <div>
                     <input

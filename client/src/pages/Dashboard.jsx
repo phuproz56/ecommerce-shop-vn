@@ -12,7 +12,7 @@ import { TfiLock } from "react-icons/tfi";
 import { BiLogInCircle } from "react-icons/bi";
 import { RiCoupon2Line } from "react-icons/ri";
 import api from "../api/api";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { user_reset } from "../store/reducers/authReducer";
 import { reset_count } from "../store/reducers/cardReducer";
 import { ImProfile } from "react-icons/im";
@@ -23,6 +23,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [filterShow, setFilterShow] = useState(false);
+  const { userInfo } = useSelector((state) => state.auth);
 
   const logout = async () => {
     try {
@@ -36,8 +37,7 @@ const Dashboard = () => {
       console.log(error.response.data);
     }
   };
-
-  
+  console.log(userInfo.email_verified)
 
   return (
     <div>
@@ -210,27 +210,29 @@ const Dashboard = () => {
                     Thông tin
                   </Link>
                 </li>
-                <li
-                  className={`flex justify-start items-center gap-2 py-2 ${
-                    pathname === "/dashboard/change-password"
-                      ? "text-green-500"
-                      : ""
-                  }`}
-                >
-                  <span className="text-xl">
-                    <TfiLock />
-                  </span>
-                  <Link
-                    to="/dashboard/change-password"
-                    className={`block ${
+                {userInfo.email_verified ? "" : (
+                  <li
+                    className={`flex justify-start items-center gap-2 py-2 ${
                       pathname === "/dashboard/change-password"
-                        ? "border-b-2 border-green-500"
+                        ? "text-green-500"
                         : ""
                     }`}
                   >
-                    Thay đổi mật khẩu
-                  </Link>
-                </li>
+                    <span className="text-xl">
+                      <TfiLock />
+                    </span>
+                    <Link
+                      to="/dashboard/change-password"
+                      className={`block ${
+                        pathname === "/dashboard/change-password"
+                          ? "border-b-2 border-green-500"
+                          : ""
+                      }`}
+                    >
+                      Thay đổi mật khẩu
+                    </Link>
+                  </li>
+                )}
                 <li
                   onClick={logout}
                   className="flex justify-start items-center gap-2 py-2 cursor-pointer"

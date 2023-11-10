@@ -8,8 +8,8 @@ const moment = require("moment");
 
 class productController {
   add_product = async (req, res) => {
-    const id  = "654366fbba51a942cd41835f";
-    console.log(id)
+    const id = "654366fbba51a942cd41835f";
+    console.log(id);
     const form = formidable({ multiples: true });
 
     form.parse(req, async (err, field, files) => {
@@ -291,7 +291,7 @@ class productController {
 
       responseReturn(res, 200, { coupounCode });
     } catch (error) {
-      console.log(error.message);
+      responseReturn(res, 500, { message: "Vui lòng nhập đầy đủ thông tin!" });
     }
   };
 

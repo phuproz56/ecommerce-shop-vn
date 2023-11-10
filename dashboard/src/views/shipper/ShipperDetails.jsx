@@ -30,31 +30,13 @@ const ShipperDetails = () => {
   }, [order]);
 
   const status_update = (e) => {
-    const user_email = order.shippingInfo.email;
-    const order_date = order.date;
-    const order_id = order._id;
-    // const seller_email = userInfo.email;
-    if (status === "Chưa Xử Lí") {
-      const config = {
-        SecureToken: "f9473773-192c-4284-8cb3-cf7b77d1fb21",
-        To: user_email,
-        From: "phuproz348@gmail.com",
-        Subject: `Shop-vn Gửi mail cho bạn về đơn hàng ${order_id}`,
-        Body: `Đơn hàng: (${order_id}) của bạn được đặt vào ${order_date} đã được xử lí`,
-      };
-      if (window.Email) {
-        window.Email.send(config).then((message) =>
-          alert("Email đã gửi về cho khách hàng!")
-        );
-      }
-    }
-
     dispatch(
       seller_order_status_update({
         _id: _id.orderId,
         info: { status: e.target.value },
       })
     );
+    window.location.reload();
 
     setStatus(e.target.value);
   };
@@ -86,12 +68,16 @@ const ShipperDetails = () => {
               {order.delivery_status}
             </option>
             {order.delivery_status === "Vận Chuyển" ? (
-              <option value="Shipper Nhận Được Hàng">Shipper Nhận Được Hàng</option>
+              <option value="Shipper Nhận Được Hàng">
+                Shipper Nhận Được Hàng
+              </option>
             ) : order.delivery_status === "Đang Giao Hàng" ? (
               <option value="Giao Hàng Thành Công">Giao Hàng Thành Công</option>
-            ) : order.delivery_status === "Giao Hàng Thành Công" ? "" : (
+            ) : order.delivery_status === "Giao Hàng Thành Công" ? (
+              ""
+            ) : (
               <option value="Giao Hàng Thất Bại">Giao Hàng Thất Bại</option>
-            ) }
+            )}
           </select>
         </div>
         <div className="p-4">

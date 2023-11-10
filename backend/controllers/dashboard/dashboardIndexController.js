@@ -292,27 +292,72 @@ module.exports.get_admin_dashboard_data = async (req, res) => {
 
 module.exports.get_shipper_new_order = async (req, res) => {
   try {
-    const orders = await customerOrder.find({});
+    const orders = await customerOrder.find({}).sort({ updatedAt: -1 });
 
     Total_TimShipper = await customerOrder
       .find({ delivery_status: "Tìm Shipper" })
       .countDocuments();
 
-    Total_VanChuyen = await customerOrder
-      .find({ delivery_status: "Vận Chuyển" })
+    Total = await customerOrder
+      .find({
+        $or: [
+          {
+            $and: [
+              {
+                delivery_status: "Đã Giao Hàng",
+              },
+            ],
+          },
+          {
+            $and: [
+              {
+                delivery_status: "Tìm Thấy Shipper",
+              },
+            ],
+          },
+          {
+            $and: [
+              {
+                delivery_status: "Shipper Nhận Được Hàng",
+              },
+            ],
+          },
+          {
+            $and: [
+              {
+                delivery_status: "Vận Chuyển",
+              },
+            ],
+          },
+          {
+            $and: [
+              {
+                delivery_status: "Đang Giao Hàng",
+              },
+            ],
+          },
+          {
+            $and: [
+              {
+                delivery_status: "Giao Hàng Thành Công",
+              },
+            ],
+          },
+        ],
+      })
       .countDocuments();
 
-    const user = await shipperModel.findById(req.id)
+    console.log(Total);
 
-    const find = await customerOrder.find({
-      shipperInfo: {$gt: new ObjectId(req.id)}
-    })
+    Total_Complete = await customerOrder
+      .find({ delivery_status: "Đã Giao Hàng" })
+      .countDocuments();
 
     responseReturn(res, 200, {
       orders,
       Total_TimShipper,
-      Total_VanChuyen,
-      Total_Orders: Total_VanChuyen + Total_TimShipper,
+      Total_Orders: Total,
+      Total_Complete,
     });
   } catch (error) {
     console.log(error.message);
