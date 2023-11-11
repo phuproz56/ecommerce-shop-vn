@@ -23,11 +23,11 @@ const productSchema = new Schema(
       required: true,
     },
     color: {
-      type: Array,
+      type: String,
       required: true,
     },
     size: {
-      type: Array,
+      type: String,
       require: true,
     },
     brand: {

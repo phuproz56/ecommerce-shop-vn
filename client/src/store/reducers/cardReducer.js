@@ -120,6 +120,7 @@ export const cardReducer = createSlice({
     shipping_fee: 0,
     outofstock_products: [],
     shopIn4: {},
+    size: "",
   },
   reducers: {
     messageClear: (state, _) => {
@@ -138,6 +139,7 @@ export const cardReducer = createSlice({
     [add_to_card.fulfilled]: (state, { payload }) => {
       state.successMessage = payload.message;
       state.card_product_count = state.card_product_count + 1;
+      state.size = payload.size;
     },
     [get_card_products.fulfilled]: (state, { payload }) => {
       state.card_products = payload.card_products;

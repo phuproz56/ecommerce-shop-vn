@@ -8,7 +8,8 @@ const {
 } = require("mongoose");
 class cardController {
   add_to_card = async (req, res) => {
-    const { userId, productId, quantity } = req.body;
+    const { userId, productId, quantity, size } = req.body;
+
     try {
       const product = await cardModel.findOne({
         $and: [
@@ -33,10 +34,12 @@ class cardController {
           userId,
           productId,
           quantity,
+          size,
         });
         responseReturn(res, 201, {
           message: "Thêm vào giỏ hàng thành công!",
           product,
+          size,
         });
       }
     } catch (error) {
@@ -65,6 +68,9 @@ class cardController {
           },
         },
       ]);
+
+      console.log(card_products)
+
       let buy_product_item = 0;
       let calculatePrice = 0;
       let card_product_count = 0;

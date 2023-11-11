@@ -25,8 +25,6 @@ class productController {
         shopName,
         brand,
       } = field;
-      
-      
 
       const { images } = files;
       name = name.trim();
@@ -306,6 +304,7 @@ class productController {
   get_coupon = async (req, res) => {
     try {
       const couponCodes = await couponModel.find({ shopId: req.params.id });
+
       res.status(201).json({
         success: true,
         couponCodes,

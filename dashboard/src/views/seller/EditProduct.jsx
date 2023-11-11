@@ -12,6 +12,21 @@ import {
 } from "../../store/Reducers/productReducer";
 import { overrideStyle } from "../../utils/utils";
 const EditProduct = () => {
+  const optionsSizes = [
+    { value: "XXS" },
+    { value: "XS" },
+    { value: "S" },
+    { value: "M" },
+    { value: "L" },
+    { value: "XL" },
+    { value: "XXL" },
+  ];
+
+  const optionsSex = [
+    { value: "1", label: "Nam" },
+    { value: "2", label: "Nữ" },
+  ];
+
   const { productId } = useParams();
   const dispatch = useDispatch();
   const { categorys } = useSelector((state) => state.category);
@@ -50,6 +65,8 @@ const EditProduct = () => {
   const [category, setCategory] = useState("");
   const [allCategory, setAllCategory] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [selectedSize, setSelectedSize] = useState([]);
+  const [selectedOptionSex, setSelectedOptionSex] = useState(null);
   const categorySearch = (e) => {
     const value = e.target.value;
     setSearchValue(value);
@@ -280,12 +297,12 @@ const EditProduct = () => {
             <div className="flex">
               <button
                 disabled={loader ? true : false}
-                className="bg-blue-500 w-[190px] hover:shadow-blue-500/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
+                className="bg-blue-500 w-[210px] hover:shadow-blue-500/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
               >
                 {loader ? (
                   <PropagateLoader color="#fff" cssOverride={overrideStyle} />
                 ) : (
-                  "Update product"
+                  "Cập nhật sản phẩm"
                 )}
               </button>
             </div>

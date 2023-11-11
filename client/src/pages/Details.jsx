@@ -36,9 +36,7 @@ const Details = () => {
   const { slug } = useParams();
   const [image, setImage] = useState("");
   const [state, setState] = useState("reviews");
-  const [selectedOption, setSelectedOption] = useState(
-    product?.color && product?.color[0].split(",")[0]
-  );
+  const [selectedOption, setSelectedOption] = useState(product?.color);
   const [selectedSize, setSelectedSize] = useState("");
 
   const { userInfo } = useSelector((state) => state.auth);
@@ -110,8 +108,7 @@ const Details = () => {
           add_to_card({
             userId: userInfo.id,
             quantity,
-            selectedSize,
-            selectedOption,
+            size: selectedSize,
             productId: product._id,
           })
         );
@@ -207,8 +204,6 @@ const Details = () => {
     }
   };
 
-  // console.log(product?.size[0]?.split(","));
-
   return (
     <div className="pt-[200px]">
       <Headers isFixed={true} />
@@ -283,7 +278,7 @@ const Details = () => {
               <div className="text-2xl text-red-500 font-bold flex gap-3">
                 {product.discount ? (
                   <>
-                    <h2 className="line-through">
+                    <h2 className="line-through text-slate-400">
                       {product.price.toLocaleString("vi", {
                         style: "currency",
                         currency: "VND",
@@ -305,9 +300,7 @@ const Details = () => {
                 )}
               </div>
               <h2 className="text-slate-600 ">Giới tính: {product.sex}</h2>
-              <h2 className="text-slate-600 ">
-                Màu sắc: {product?.color && product?.color[0].split(",")[0]}
-              </h2>
+              <h2 className="text-slate-600 ">Màu sắc: {product?.color}</h2>
               <div className="text-slate-600">
                 <p>{product.description}</p>
               </div>
@@ -402,7 +395,7 @@ const Details = () => {
                 <h2>Chọn size:</h2>
 
                 {product?.size &&
-                  product?.size[0].split(",").map((u) => (
+                  product?.size.split(",").map((u) => (
                     <div
                       onClick={() => setSelectedSize(u) || setSize(false)}
                       className={``}

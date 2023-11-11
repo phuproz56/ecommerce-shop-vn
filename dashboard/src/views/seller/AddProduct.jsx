@@ -19,16 +19,6 @@ const AddProduct = () => {
     (state) => state.product
   );
 
-  const optionsColors = [
-    { value: "Nâu" },
-    { value: "Trắng" },
-    { value: "Đỏ" },
-    { value: "Tím" },
-    { value: "Vàng" },
-    { value: "Xanh Dương" },
-    { value: "Xanh Lá" },
-  ];
-
   const optionsSizes = [
     { value: "XXS" },
     { value: "XS" },
@@ -70,19 +60,8 @@ const AddProduct = () => {
     }
   };
 
-  const [selectedOption, setSelectedOption] = useState([]);
   const [selectedSize, setSelectedSize] = useState([]);
   const [selectedOptionSex, setSelectedOptionSex] = useState(null);
-
-  let onSelectColors = (color) => {
-    const propertyValues = Object.entries(color);
-    setSelectedOption(propertyValues);
-  };
-
-  let onRemoveColors = (color) => {
-    const propertyValues = Object.entries(color);
-    setSelectedOption(propertyValues);
-  };
 
   let onSelectSizes = (size) => {
     const propertyValues = Object.entries(size);
@@ -93,16 +72,6 @@ const AddProduct = () => {
     const propertyValues = Object.entries(size);
     setSelectedSize(propertyValues);
   };
-
-  const arrayColors = [];
-  for (let i = 0; i < selectedOption.length; i++) {
-    let colors = selectedOption[i];
-    for (let j = 0; j < colors.length; j++) {
-      if (colors[j].value !== undefined) {
-        arrayColors.push(colors[j].value.split(","));
-      }
-    }
-  }
 
   const arraySizes = [];
   for (let i = 0; i < selectedSize.length; i++) {
@@ -119,8 +88,8 @@ const AddProduct = () => {
     description: "",
     discount: "",
     price: "",
-    sex: selectedOptionSex?.label,
-    color: arrayColors,
+    sex: "",
+    color: "",
     size: arraySizes,
     brand: "",
     stock: "",
@@ -191,7 +160,7 @@ const AddProduct = () => {
         description: "",
         discount: "",
         sex: "",
-        color: [""],
+        color: "",
         size: [""],
         price: "",
         brand: "",
@@ -206,20 +175,30 @@ const AddProduct = () => {
   const add = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    if (state.shopName) {
+    if (
+      state.name &&
+      state.description &&
+      state.price &&
+      state.stock &&
+      selectedOptionSex?.label &&
+      state.color &&
+      state.size &&
+      state.discount &&
+      state.brand
+    ) {
       formData.append("name", state.name);
       formData.append("description", state.description);
       formData.append("price", state.price);
       formData.append("stock", state.stock);
       formData.append("sex", selectedOptionSex?.label);
-      formData.append("color", arrayColors);
+      formData.append("color", state.color);
       formData.append("size", arraySizes);
       formData.append("category", category);
       formData.append("discount", state.discount);
       formData.append("shopName", state.shopName);
       formData.append("brand", state.brand);
     } else {
-      toast.error("Cần điền hồ sơ trước khi thêm sản phẩm!");
+      toast.error("Cần điền đầy đủ trước khi thêm sản phẩm!");
       return;
     }
 
@@ -363,21 +342,49 @@ const AddProduct = () => {
             </div>
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-white">
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="color">Chọn màu sản phẩm</label>
-
-                <Multiselect
+                <label htmlFor="color">Nhập màu sản phẩm</label>
+                <input
+                  min="0"
+                  className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
+                  type="text"
+                  placeholder="Nhập màu sản phẩm..."
+                  name="color"
+                  id="color"
+                  onChange={inputHandle}
+                  value={state.color}
+                />
+                {/* <Multiselect
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 0,
+                  colors: {
+                    ...theme.colors,
+                    primary25: "#283046",
+                    primary: "black",
+                  },
+                })}
                   placeholder="Chọn màu"
                   options={optionsColors}
                   onSelect={onSelectColors}
                   onRemove={onRemoveColors}
                   displayValue="value"
-                />
+                /> */}
               </div>
 
               <div className="flex flex-col w-full gap-1 ">
                 <label htmlFor="color">Chọn size sản phẩm</label>
 
                 <Multiselect
+                  className="text-slate-500"
+                  theme={(theme) => ({
+                    ...theme,
+                    borderRadius: 0,
+                    colors: {
+                      ...theme.colors,
+                      primary25: "#283046",
+                      primary: "black",
+                    },
+                  })}
                   placeholder="Chọn size"
                   options={optionsSizes}
                   onSelect={onSelectSizes}
@@ -390,6 +397,7 @@ const AddProduct = () => {
               <label htmlFor="sex">Chọn giới tính</label>
 
               <Select
+                className="text-slate-500"
                 theme={(theme) => ({
                   ...theme,
                   borderRadius: 0,

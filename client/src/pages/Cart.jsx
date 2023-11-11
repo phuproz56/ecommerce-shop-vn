@@ -38,6 +38,7 @@ const Cart = () => {
     buy_product_item,
     outofstock_products,
     price,
+    size,
   } = useSelector((state) => state.card);
 
   const redirect = () => {
@@ -115,9 +116,7 @@ const Cart = () => {
                     </div>
                     {card_products.map((p, i) => (
                       <div key={i} className="flex bg-white p-4 flex-col gap-2">
-                        <div className="flex justify-start items-center">
-                          
-                        </div>
+                        <div className="flex justify-start items-center"></div>
                         {p.products.map((pt, i) => (
                           <div key={i} className="w-full flex flex-wrap">
                             <div className="flex sm:w-full gap-2 w-7/12">
@@ -139,7 +138,9 @@ const Cart = () => {
                                     Thương hiệu : {pt.productInfo.brand}
                                   </span>
                                   <h2 className="text-md">
-                                    Màu sắc: {pt.productInfo?.color && pt.productInfo?.color}
+                                    Màu sắc:{" "}
+                                    {pt.productInfo?.color &&
+                                      pt.productInfo?.color}
                                   </h2>
                                 </div>
                               </div>

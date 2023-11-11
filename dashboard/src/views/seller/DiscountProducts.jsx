@@ -21,7 +21,6 @@ const DiscountProducts = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [value, setValue] = useState(null);
   const { userInfo } = useSelector((state) => state.auth);
-  const { products } = useSelector((state) => state.seller);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
@@ -38,10 +37,12 @@ const DiscountProducts = () => {
     window.location.reload();
   };
 
+  const id = "65377d3f6e191e47c12285e7";
+
   useEffect(() => {
     setIsLoading(true);
     api
-      .get(`/coupon/get-coupon/${userInfo._id}`, {
+      .get(`/coupon/get-coupon/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -153,13 +154,18 @@ const DiscountProducts = () => {
           </div>
           <div className="text-white p-4">
             <DataGrid
+              className="bg-white"
               rows={row}
               columns={columns}
               sx={{
-                borderBlock: "white",
-                color: "white",
+                borderBlock: "black",
+                color: "black",
                 boxShadow: 2,
                 border: 2,
+                borderColor: "black",
+                '& .MuiDataGrid-cell:hover': {
+                  color: 'primary.main',
+                },
               }}
             />
           </div>
