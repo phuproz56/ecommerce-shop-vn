@@ -63,9 +63,9 @@ const Wishlist = () => {
               >
                 <FaEye />
               </Link>
-              <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all">
+              {/* <li className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all">
                 <AiOutlineShoppingCart />
-              </li>
+              </li> */}
             </ul>
           </div>
           <div className="py-3 text-slate-600 px-2">

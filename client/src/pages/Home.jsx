@@ -10,8 +10,13 @@ import { get_categorys, get_products } from "../store/reducers/homeReducer";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { products, latest_products, topRated_products, discount_products } =
-    useSelector((state) => state.home);
+  const {
+    products,
+    latest_products,
+    topRated_products,
+    discount_products,
+    relatedProducts,
+  } = useSelector((state) => state.home);
   useEffect(() => {
     dispatch(get_categorys());
     dispatch(get_products());
@@ -19,13 +24,13 @@ const Home = () => {
 
   return (
     <div className="w-full">
-      <Headers isFixed={true}/>
+      <Headers isFixed={true} />
       <Banner />
       <div className="my-4">
         <Categorys />
       </div>
       <div className="py-[45px]">
-        <FeatureProducts products={products} />
+        <FeatureProducts products={relatedProducts} />
       </div>
       <div className="py-10">
         <div className="w-[85%] flex flex-wrap mx-auto">

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import Search from "../components/Search";
 import { useSelector, useDispatch } from "react-redux";
-import { get_seller_orders } from "../../store/Reducers/OrderReducer";
+import { get_admin_orders } from "../../store/Reducers/OrderReducer";
 import { Tooltip } from "antd";
 
 const ShipperComfirm = () => {
@@ -16,11 +16,20 @@ const ShipperComfirm = () => {
   const [parPage, setParPage] = useState(5);
   const { myOrders, totalOrder } = useSelector((state) => state.order);
 
-  console.log(myOrders);
+  const t = myOrders.filter(
+    (d) =>
+      d.delivery_status === "Tìm Shipper" ||
+      d.delivery_status === "Tìm Thấy Shipper" ||
+      d.delivery_status === "Vận Chuyển" ||
+      d.delivery_status === "Shipper Nhận Được Hàng" ||
+      d.delivery_status === "Giao Hàng Thành Công" ||
+      d.delivery_status === "Giao Hàng Thất Bại"
+  );
+  console.log(t);
 
   useEffect(() => {
     dispatch(
-      get_seller_orders({
+      get_admin_orders({
         parPage: parseInt(parPage),
         page: parseInt(currentPage),
         searchValue,
@@ -61,10 +70,10 @@ const ShipperComfirm = () => {
             <tbody>
               {myOrders.map((d, i) =>
                 d.delivery_status === "Tìm Shipper" ||
-                d.delivery_status === "Tìm Thấy Shipper"||
-                d.delivery_status === "Vận Chuyển"||
-                d.delivery_status === "Shipper Nhận Được Hàng"||
-                d.delivery_status === "Giao Hàng Thành Công"||
+                d.delivery_status === "Tìm Thấy Shipper" ||
+                d.delivery_status === "Vận Chuyển" ||
+                d.delivery_status === "Shipper Nhận Được Hàng" ||
+                d.delivery_status === "Giao Hàng Thành Công" ||
                 d.delivery_status === "Giao Hàng Thất Bại" ? (
                   <tr key={i}>
                     <td
@@ -127,18 +136,17 @@ const ShipperComfirm = () => {
                 )
               )}
             </tbody>
+            {t.length === 0 && <h1 className="text-center pt-2 text-lg text-red-400">Chưa có đơn hàng nào!!!</h1> }
           </table>
         </div>
-        {totalOrder <= parPage ? (
-          ""
-        ) : (
+        {t.length > parPage && (
           <div className="w-full flex justify-end mt-4 bottom-4 right-4">
             <Pagination
               pageNumber={currentPage}
               setPageNumber={setCurrentPage}
               totalItem={totalOrder}
               parPage={parPage}
-              showItem={3}
+              showItem={Math.floor(t.length / parPage)}
             />
           </div>
         )}

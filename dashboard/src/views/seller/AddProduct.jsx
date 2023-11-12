@@ -83,6 +83,14 @@ const AddProduct = () => {
     }
   }
 
+  const arraySize = [];
+  for (let i = 0; i < arraySizes.length; i++) {
+    let a = arraySizes[i];
+    for (let j = 0; j < a.length; j++) {
+      arraySize.push(a[j]);
+    }
+  }
+
   const [state, setState] = useState({
     name: "",
     description: "",
@@ -90,7 +98,7 @@ const AddProduct = () => {
     price: "",
     sex: "",
     color: "",
-    size: arraySizes,
+    size: [],
     brand: "",
     stock: "",
     shopName: userInfo?.shopInfo?.shopName,
@@ -161,7 +169,7 @@ const AddProduct = () => {
         discount: "",
         sex: "",
         color: "",
-        size: [""],
+        size: [],
         price: "",
         brand: "",
         stock: "",
@@ -171,6 +179,8 @@ const AddProduct = () => {
       setCategory("");
     }
   }, [successMessage, errorMessage]);
+
+
 
   const add = (e) => {
     e.preventDefault();
@@ -192,7 +202,7 @@ const AddProduct = () => {
       formData.append("stock", state.stock);
       formData.append("sex", selectedOptionSex?.label);
       formData.append("color", state.color);
-      formData.append("size", arraySizes);
+      formData.append("size", arraySize);
       formData.append("category", category);
       formData.append("discount", state.discount);
       formData.append("shopName", state.shopName);
@@ -353,24 +363,7 @@ const AddProduct = () => {
                   onChange={inputHandle}
                   value={state.color}
                 />
-                {/* <Multiselect
-                theme={(theme) => ({
-                  ...theme,
-                  borderRadius: 0,
-                  colors: {
-                    ...theme.colors,
-                    primary25: "#283046",
-                    primary: "black",
-                  },
-                })}
-                  placeholder="Chọn màu"
-                  options={optionsColors}
-                  onSelect={onSelectColors}
-                  onRemove={onRemoveColors}
-                  displayValue="value"
-                /> */}
               </div>
-
               <div className="flex flex-col w-full gap-1 ">
                 <label htmlFor="color">Chọn size sản phẩm</label>
 

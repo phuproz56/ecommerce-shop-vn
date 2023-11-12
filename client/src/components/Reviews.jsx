@@ -253,7 +253,7 @@ const Reviews = ({ product }) => {
               ></textarea>
               <div>
                 <button className="py-1 px-5 bg-indigo-500 text-white rounded-sm">
-                  Submit
+                  Đánh giá
                 </button>
               </div>
             </form>

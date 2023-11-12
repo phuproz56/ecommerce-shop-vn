@@ -26,6 +26,8 @@ class productController {
         brand,
       } = field;
 
+      const sizeArray = size.split(",").map((item) => String(item.trim()));
+
       const { images } = files;
       name = name.trim();
       const slug = name.split(" ").join("-");
@@ -47,23 +49,31 @@ class productController {
           allImageUrl = [...allImageUrl, result.url];
         }
 
-        await productModel.create({
-          sellerId: id,
-          name,
-          slug,
-          shopName,
-          category: category.trim(),
-          sex,
-          color,
-          size,
-          description: description.trim(),
-          stock: parseInt(stock),
-          price: parseInt(price),
-          discount: parseInt(discount),
-          images: allImageUrl,
-          brand: brand.trim(),
+        const name_product = await productModel.find({
+          name: name,
         });
-        responseReturn(res, 201, { message: "Thêm sản phẩm thành công!" });
+
+        if (name_product) {
+          responseReturn(res, 201, { message: "Tên sản phẩm đã tồn tại!" });
+        } else {
+          await productModel.create({
+            sellerId: id,
+            name,
+            slug,
+            shopName,
+            category: category.trim(),
+            sex,
+            color,
+            size: sizeArray,
+            description: description.trim(),
+            stock: parseInt(stock),
+            price: parseInt(price),
+            discount: parseInt(discount),
+            images: allImageUrl,
+            brand: brand.trim(),
+          });
+          responseReturn(res, 201, { message: "Thêm sản phẩm thành công!" });
+        }
       } catch (error) {
         responseReturn(res, 500, { error: "Cần Điền Đầy Đủ" });
       }
@@ -119,8 +129,27 @@ class productController {
   };
 
   product_update = async (req, res) => {
-    let { name, description, discount, price, brand, productId, stock } =
-      req.body;
+    let {
+      name,
+      description,
+      discount,
+      price,
+      brand,
+      productId,
+      size,
+      color,
+      sex,
+      stock,
+    } = req.body;
+
+    const sizes = [];
+    for (let i = 0; i < size.length; i++) {
+      let a = size[i];
+      for (let j = 0; j < a.length; j++) {
+        sizes.push(a[j]);
+      }
+    }
+
     name = name.trim();
     const slug = name.split(" ").join("-");
     const p = await productModel.findById(productId);
@@ -133,8 +162,11 @@ class productController {
         price,
         brand,
         productId,
+        size: sizes,
+        color,
         stock,
         slug,
+        sex,
         __v: version + 1,
       });
       responseReturn(res, 200, {

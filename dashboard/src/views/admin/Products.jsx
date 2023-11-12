@@ -12,9 +12,11 @@ import {
 } from "../../store/Reducers/productReducer";
 import toast from "react-hot-toast";
 import { Tooltip } from "antd";
+import { RxCross1 } from "react-icons/rx";
 
 const Products = () => {
   const dispatch = useDispatch();
+  const [open, setOpen] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
@@ -40,17 +42,49 @@ const Products = () => {
 
   const deleteProduct = (id) => {
     dispatch(delete_product(id));
+    window.location.reload();
   };
 
   return (
     <div className="px-2 lg:px-7 pt-5 ">
+      {open && (
+        <div className="fixed w-full h-screen bg-[#0000004b] top-0 left-0 flex items-center justify-center">
+          {" "}
+          <div className="p-4 w-[400px] h-[230px] bg-white rounded shadow relative">
+            <div className="w-full flex justify-end p-3">
+              <RxCross1
+                size={30}
+                className="cursor-pointer"
+                onClick={() => setOpen("")}
+              />
+            </div>
+            <h1 className="text-center text-[25px] font-Poppins">
+              Bạn Chắc Chắn Muốn Xóa Sản Phẩm Này?
+            </h1>
+            <div className="p-[100px] flex justify-between items-center pt-4">
+              <button
+                onClick={() => setOpen("")}
+                className="flex border p-2 bg-red-500 rounded-md text-white"
+              >
+                Không
+              </button>
+              <button
+                onClick={() => deleteProduct(open)}
+                className="flex border p-2 bg-green-500 rounded-md text-white"
+              >
+                Có
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="w-full p-4  bg-[#283046] rounded-md">
         <Search
           setParPage={setParPage}
           setSearchValue={setSearchValue}
           searchValue={searchValue}
         />
-        <div className="relative overflow-x-auto mt-5">
+        <div className="overflow-x-auto mt-5">
           <table className="w-full text-sm text-left text-[#d0d2d6]">
             <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
               <tr>
@@ -166,7 +200,7 @@ const Products = () => {
                       </Tooltip>
                       <Tooltip title="Xóa Sản Phẩm">
                         <button
-                          onClick={() => deleteProduct(d._id)}
+                          onClick={() => setOpen(d._id)}
                           className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50"
                         >
                           <FaTrash />

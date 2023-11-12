@@ -24,12 +24,6 @@ const Orders = () => {
         searchValue,
         sellerId: userInfo._id,
       })
-      // get_admin_orders({
-      //   sellerId: userInfo._id,
-      //   parPage: parseInt(parPage),
-      //   page: parseInt(currentPage),
-      //   searchValue,
-      // })
     );
   }, [parPage, currentPage, searchValue]);
 

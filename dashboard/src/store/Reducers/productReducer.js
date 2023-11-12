@@ -153,7 +153,7 @@ export const productReducer = createSlice({
     },
     [add_product.rejected]: (state, { payload }) => {
       state.loader = false;
-      state.errorMessage = payload.error;
+      state.errorMessage = payload.message;
     },
     [add_product.fulfilled]: (state, { payload }) => {
       state.loader = false;

@@ -11,7 +11,25 @@ import {
   product_image_update,
 } from "../../store/Reducers/productReducer";
 import { overrideStyle } from "../../utils/utils";
+import Select from "react-select";
+import Multiselect from "multiselect-react-dropdown";
+
 const EditProduct = () => {
+  const optionsSizes = [
+    { value: "XXS" },
+    { value: "XS" },
+    { value: "S" },
+    { value: "M" },
+    { value: "L" },
+    { value: "XL" },
+    { value: "XXL" },
+  ];
+
+  const optionsSex = [
+    { value: "1", label: "Nam" },
+    { value: "2", label: "Nữ" },
+  ];
+
   const { productId } = useParams();
   const dispatch = useDispatch();
   const { categorys } = useSelector((state) => state.category);
@@ -27,6 +45,38 @@ const EditProduct = () => {
       })
     );
   }, [dispatch]);
+
+  const [selectedSize, setSelectedSize] = useState([]);
+  const [selectedOptionSex, setSelectedOptionSex] = useState(null);
+  const [notification, setNotification] = useState(false);
+
+  let onSelectSizes = (size) => {
+    const propertyValues = Object.entries(size);
+    setSelectedSize(propertyValues);
+  };
+
+  let onRemoveSizes = (size) => {
+    const propertyValues = Object.entries(size);
+    setSelectedSize(propertyValues);
+  };
+
+  const arraySizes = [];
+  for (let i = 0; i < selectedSize.length; i++) {
+    let sizes = selectedSize[i];
+    for (let j = 0; j < sizes.length; j++) {
+      if (sizes[j].value !== undefined) {
+        arraySizes.push(sizes[j].value.split(","));
+      }
+    }
+  }
+  const arraySize = [];
+  for (let i = 0; i < arraySizes.length; i++) {
+    let a = arraySizes[i];
+    for (let j = 0; j < a.length; j++) {
+      arraySize.push(a[j]);
+    }
+  }
+
   const [state, setState] = useState({
     name: product.name || "",
     description: product.description || "",
@@ -34,7 +84,11 @@ const EditProduct = () => {
     price: product.price || "",
     brand: product.brand || "",
     stock: product.stock || "",
+    size: product.size || [],
+    color: product.color || "",
+    sex: product.sex || "",
   });
+
   const inputHandle = (e) => {
     setState({
       ...state,
@@ -50,6 +104,7 @@ const EditProduct = () => {
   const [category, setCategory] = useState("");
   const [allCategory, setAllCategory] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+
   const categorySearch = (e) => {
     const value = e.target.value;
     setSearchValue(value);
@@ -84,6 +139,9 @@ const EditProduct = () => {
       price: product.price,
       brand: product.brand,
       stock: product.stock,
+      size: product.size,
+      color: product.color,
+      sex: product.sex,
     });
     setCategory(product.category);
     setImageShow(product.images);
@@ -105,18 +163,27 @@ const EditProduct = () => {
     }
   }, [successMessage, errorMessage, dispatch]);
 
+  console.log(selectedSize);
+
   const update = (e) => {
     e.preventDefault();
-    const obj = {
-      name: state.name,
-      description: state.description,
-      discount: state.discount,
-      price: state.price,
-      brand: state.brand,
-      stock: state.stock,
-      productId: productId,
-    };
-    dispatch(update_product(obj));
+    if (selectedSize.length === 0) {
+      setNotification(true);
+    } else {
+      const obj = {
+        name: state.name,
+        description: state.description,
+        discount: state.discount,
+        price: state.price,
+        brand: state.brand,
+        stock: state.stock,
+        productId: productId,
+        color: state.color,
+        size: arraySizes,
+        sex: selectedOptionSex?.label,
+      };
+      dispatch(update_product(obj));
+    }
   };
   return (
     <div className="px-2 lg:px-7 pt-5 ">
@@ -248,6 +315,67 @@ const EditProduct = () => {
                 />
               </div>
             </div>
+            <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-white">
+              <div className="flex flex-col w-full gap-1">
+                <label htmlFor="color">Nhập màu sản phẩm</label>
+                <input
+                  min="0"
+                  className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
+                  type="text"
+                  placeholder="Nhập màu sản phẩm..."
+                  name="color"
+                  id="color"
+                  onChange={inputHandle}
+                  value={state.color}
+                />
+              </div>
+              <div className="flex flex-col w-full gap-1 ">
+                <label htmlFor="size">Chọn size sản phẩm</label>{" "}
+                {notification ? (
+                  <b className="text-red-500">Vui lòng chọn size sản phẩm</b>
+                ) : (
+                  ""
+                )}
+                <Multiselect
+                  className="text-slate-500"
+                  theme={(theme) => ({
+                    ...theme,
+                    borderRadius: 0,
+                    colors: {
+                      ...theme.colors,
+                      primary25: "#283046",
+                      primary: "black",
+                    },
+                  })}
+                  placeholder="Chọn size"
+                  options={optionsSizes}
+                  onSelect={onSelectSizes}
+                  onRemove={onRemoveSizes}
+                  displayValue="value"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-white">
+              <label htmlFor="sex">Chọn giới tính</label>
+
+              <Select
+                className="text-slate-500"
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 0,
+                  colors: {
+                    ...theme.colors,
+                    primary25: "#283046",
+                    primary: "black",
+                  },
+                })}
+                placeholder="Chọn giới tính"
+                defaultValue={state.sex}
+                onChange={setSelectedOptionSex}
+                options={optionsSex}
+                displayValue={state.sex}
+              />
+            </div>
             <div className="flex flex-col w-full gap-1 text-[#d0d2d6] mb-5">
               <label htmlFor="description">Giới Thiệu</label>
               <textarea
@@ -280,12 +408,12 @@ const EditProduct = () => {
             <div className="flex">
               <button
                 disabled={loader ? true : false}
-                className="bg-blue-500 w-[190px] hover:shadow-blue-500/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
+                className="bg-blue-500 w-[210px] hover:shadow-blue-500/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
               >
                 {loader ? (
                   <PropagateLoader color="#fff" cssOverride={overrideStyle} />
                 ) : (
-                  "Update product"
+                  "Cập nhật sản phẩm"
                 )}
               </button>
             </div>

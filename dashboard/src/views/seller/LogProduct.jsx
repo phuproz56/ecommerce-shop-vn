@@ -24,6 +24,8 @@ const LogProduct = () => {
     dispatch(get_products(obj));
   }, [searchValue, currentPage, parPage]);
 
+  console.log(currentPage);
+
   return (
     <div className="px-2 lg:px-7 pt-5 ">
       <div className="w-full p-4  bg-[#283046] rounded-md">
@@ -126,16 +128,14 @@ const LogProduct = () => {
             </tbody>
           </table>
         </div>
-        {totalProduct <= parPage ? (
-          ""
-        ) : (
+        {totalProduct > parPage && (
           <div className="w-full flex justify-end mt-4 bottom-4 right-4">
             <Pagination
               pageNumber={currentPage}
               setPageNumber={setCurrentPage}
               totalItem={totalProduct}
               parPage={parPage}
-              showItem={totalProduct - parPage - 1}
+              showItem={Math.floor(totalProduct / parPage)}
             />
           </div>
         )}

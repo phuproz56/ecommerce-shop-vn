@@ -13,6 +13,18 @@ export const get_categorys = createAsyncThunk(
   }
 );
 
+export const get_brands = createAsyncThunk(
+  "product/get_brands",
+  async (_, { fulfillWithValue }) => {
+    try {
+      const { data } = await api.get("/home/get-brands");
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+);
+
 export const get_products = createAsyncThunk(
   "product/get_products",
   async (_, { fulfillWithValue }) => {
@@ -54,13 +66,15 @@ export const query_products = createAsyncThunk(
   async (query, { fulfillWithValue }) => {
     try {
       const { data } = await api.get(
-        `/home/query-products?category=${query.category}&&rating=${
-          query.rating
-        }&&lowPrice=${query.low}&&highPrice=${query.high}&&sortPrice=${
-          query.sortPrice
-        }&&pageNumber=${query.pageNumber}&&searchValue=${
-          query.searchValue ? query.searchValue : ""
-        }`
+        `/home/query-products?category=${query.category}&&sex=${
+          query.sex
+        }&&brand=${
+          query.brand
+        }&&rating=${query.rating}&&lowPrice=${query.low}&&highPrice=${
+          query.high
+        }&&sortPrice=${query.sortPrice}&&pageNumber=${
+          query.pageNumber
+        }&&searchValue=${query.searchValue ? query.searchValue : ""}`
       );
       return fulfillWithValue(data);
     } catch (error) {
@@ -115,6 +129,8 @@ export const homeReducer = createSlice({
     rating_review: [],
     reviews: [],
     loader: false,
+    sexs: ["Nam", "Nữ"],
+    brands: [],
   },
   reducers: {
     messageClear: (state, _) => {
@@ -126,6 +142,9 @@ export const homeReducer = createSlice({
     [get_categorys.fulfilled]: (state, { payload }) => {
       state.categorys = payload.categorys;
     },
+    [get_brands.fulfilled]: (state, { payload }) => {
+      state.brands = payload.brands;
+    },
     [get_products.pending]: (state, { payload }) => {
       state.loader = true;
     },
@@ -135,6 +154,7 @@ export const homeReducer = createSlice({
       state.latest_products = payload.latest_products;
       state.topRated_products = payload.topRated_products;
       state.discount_products = payload.discount_products;
+      state.relatedProducts = payload.relatedProducts;
     },
     [get_product.fulfilled]: (state, { payload }) => {
       state.product = payload.product;

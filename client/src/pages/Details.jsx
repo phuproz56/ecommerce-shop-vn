@@ -43,7 +43,7 @@ const Details = () => {
   const { errorMessage, successMessage } = useSelector((state) => state.card);
 
   const location = useLocation();
-  console.log(selectedSize);
+
   useEffect(() => {
     window.scrollTo({
       top: 400,
@@ -395,7 +395,7 @@ const Details = () => {
                 <h2>Chọn size:</h2>
 
                 {product?.size &&
-                  product?.size.split(",").map((u) => (
+                  product?.size.map((u) => (
                     <div
                       onClick={() => setSelectedSize(u) || setSize(false)}
                       className={``}
@@ -482,7 +482,7 @@ const Details = () => {
             <div className="w-[28%] md-lg:w-full">
               <div className="pl-4 md-lg:pl-0">
                 <div className="px-3 py-2 text-slate-600 bg-slate-200">
-                  <h2> Từ {product.shopName}</h2>
+                  <h2> Từ Shop-Vn</h2>
                 </div>
                 <div className="flex flex-col gap-5 mt-3 border p-3">
                   {moreProducts.map((p, i) => {

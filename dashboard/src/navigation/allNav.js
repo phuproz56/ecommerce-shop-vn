@@ -7,7 +7,7 @@ import {
 import { BiCategory, BiLoaderCircle } from "react-icons/bi";
 import { FiUsers } from "react-icons/fi";
 import { CiChat1 } from "react-icons/ci";
-import { BsCurrencyDollar, BsChat,BsCartDashFill } from "react-icons/bs";
+import { BsChat, BsCartDashFill } from "react-icons/bs";
 import { RiProductHuntLine } from "react-icons/ri";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { FaShippingFast, FaUserAstronaut } from "react-icons/fa";
@@ -43,7 +43,7 @@ export const allNav = [
   },
   {
     id: 3,
-    title: "Danh Mục",
+    title: "Danh Mục, Thương Hiệu",
     icon: <BiCategory />,
     role: "admin",
     path: "/admin/dashboard/category",
@@ -55,7 +55,7 @@ export const allNav = [
     role: "admin",
     path: "/admin/dashboard/sellers",
   },
-  
+
   {
     id: 6,
     title: "Kích Hoạt Nhân Viên",

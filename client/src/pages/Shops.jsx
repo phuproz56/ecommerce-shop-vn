@@ -19,10 +19,13 @@ import { useEffect } from "react";
 import {
   price_range_product,
   query_products,
+  get_brands,
 } from "../store/reducers/homeReducer";
 
 const Shops = () => {
   const {
+    sexs,
+    brands,
     categorys,
     products,
     totalProduct,
@@ -30,6 +33,7 @@ const Shops = () => {
     priceRange,
     parPage,
   } = useSelector((state) => state.home);
+
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(1);
   const [styles, setStyles] = useState("grid");
@@ -39,9 +43,16 @@ const Shops = () => {
   });
   const [rating, setRating] = useState("");
   const [category, setCategory] = useState("");
+  const [sex, setSex] = useState("");
+  const [brand, setBrand] = useState("");
   const [sortPrice, setSortPrice] = useState("");
+
   useEffect(() => {
     dispatch(price_range_product());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(get_brands());
   }, [dispatch]);
 
   useEffect(() => {
@@ -49,11 +60,28 @@ const Shops = () => {
       values: [priceRange.low, priceRange.high],
     });
   }, [priceRange]);
+
   const queryCategory = (e, value) => {
     if (e.target.checked) {
       setCategory(value);
     } else {
       setCategory("");
+    }
+  };
+
+  const querySex = (e, value) => {
+    if (e.target.checked) {
+      setSex(value);
+    } else {
+      setSex("");
+    }
+  };
+
+  const queryBrand = (e, value) => {
+    if (e.target.checked) {
+      setBrand(value);
+    } else {
+      setBrand("");
     }
   };
 
@@ -63,6 +91,8 @@ const Shops = () => {
         low: state.values[0],
         high: state.values[1],
         category,
+        sex,
+        brand,
         rating,
         sortPrice,
         pageNumber,
@@ -71,6 +101,8 @@ const Shops = () => {
   }, [
     state.values[0],
     state.values[1],
+    sex,
+    brand,
     category,
     rating,
     pageNumber,
@@ -81,6 +113,8 @@ const Shops = () => {
     setCategory("");
     setRating("");
     setSortPrice("");
+    setSex("");
+    setBrand("");
     setState({
       values: [priceRange.low, priceRange.high],
     });
@@ -89,6 +123,8 @@ const Shops = () => {
         low: state.values[0],
         high: state.values[1],
         category: "",
+        sex: "",
+        brand: "",
         rating: "",
         pageNumber,
         sortPrice,
@@ -98,7 +134,7 @@ const Shops = () => {
 
   return (
     <div className="pt-[200px]">
-      <Headers isFixed={true}/>
+      <Headers isFixed={true} />
       <section className='bg-[url("http://localhost:3000/images/banner/shop.gif")] h-[220px] mt-6 bg-cover bg-no-reqeat relative bg-left'>
         <div className="absolute left-0 top-0 h-full w-full mx-auto bg-[#2422228a]">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
@@ -157,6 +193,57 @@ const Shops = () => {
                   </div>
                 ))}
               </div>
+
+              <h2 className="text-3xl font-bold mb-3 text-slate-600">
+                Giới tính
+              </h2>
+              <div className="py-2">
+                {sexs.map((c, i) => (
+                  <div
+                    className="flex justify-start items-center gap-2 py-1"
+                    key={i}
+                  >
+                    <input
+                      checked={sex === c ? true : false}
+                      onChange={(e) => querySex(e, c)}
+                      type="checkbox"
+                      id={c}
+                    />
+                    <label
+                      className="text-slate-600 block cursor-pointer"
+                      htmlFor={c}
+                    >
+                      {c}
+                    </label>
+                  </div>
+                ))}
+              </div>
+
+              <h2 className="text-3xl font-bold mb-3 text-slate-600">
+                Thương hiệu
+              </h2>
+              <div className="py-2">
+                {brands.map((c, i) => (
+                  <div
+                    className="flex justify-start items-center gap-2 py-1"
+                    key={i}
+                  >
+                    <input
+                      checked={brand === c ? true : false}
+                      onChange={(e) => queryBrand(e, c)}
+                      type="checkbox"
+                      id={c}
+                    />
+                    <label
+                      className="text-slate-600 block cursor-pointer"
+                      htmlFor={c}
+                    >
+                      {c}
+                    </label>
+                  </div>
+                ))}
+              </div>
+
               <div className="py-2 flex flex-col gap-5">
                 <h2 className="text-3xl font-bold mb-3 text-slate-600">Giá</h2>
                 <Range
@@ -182,8 +269,15 @@ const Shops = () => {
                 />
                 <div>
                   <span className="text-red-500 font-bold text-lg">
-                    {Math.floor(state.values[0]).toLocaleString('vi', {style : 'currency', currency : 'VND'})}  - 
-                    {Math.floor(state.values[1]).toLocaleString('vi', {style : 'currency', currency : 'VND'})} 
+                    {Math.floor(state.values[0]).toLocaleString("vi", {
+                      style: "currency",
+                      currency: "VND",
+                    })}{" "}
+                    -
+                    {Math.floor(state.values[1]).toLocaleString("vi", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
                   </span>
                 </div>
               </div>

@@ -38,6 +38,31 @@ class homeControllers {
     }
   };
 
+  get_brands = async (req, res) => {
+    try {
+      const products = await productModel.find({});
+
+      const brands = [];
+      const seenBrands = {};
+      for (let i = 0; i < products.length; i++) {
+        const currentBrand = products[i].brand;
+
+        if (!seenBrands[currentBrand]) {
+          brands.push(products[i].brand);
+          seenBrands[currentBrand] = true;
+        }
+      }
+
+      console.log(brands);
+
+      responseReturn(res, 200, {
+        brands,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   get_products = async (req, res) => {
     try {
       const products = await productModel.find({}).limit(16).sort({
@@ -56,11 +81,16 @@ class homeControllers {
       });
       const discount_products = this.formateProduct(allProduct3);
 
+      const relatedProducts = await productModel.find({}).limit(12).sort({
+        rating: -1,
+      });
+
       responseReturn(res, 200, {
         products,
         latest_products,
         topRated_products,
         discount_products,
+        relatedProducts,
       });
     } catch (error) {
       console.log(error.message);
@@ -73,8 +103,6 @@ class homeControllers {
       const product = await productModel.findOne({
         slug,
       });
-      
-      console.log(product?.color[0].split(","))
 
       const relatedProducts = await productModel
         .find({
@@ -151,6 +179,8 @@ class homeControllers {
       });
       const totalProduct = new queryProducts(products, req.query)
         .categoryQuery()
+        .categorySex()
+        .categoryBrand()
         .searchQuery()
         .priceQuery()
         .ratingQuery()
@@ -159,6 +189,8 @@ class homeControllers {
 
       const result = new queryProducts(products, req.query)
         .categoryQuery()
+        .categorySex()
+        .categoryBrand()
         .searchQuery()
         .ratingQuery()
         .priceQuery()

@@ -17,6 +17,22 @@ export const categoryAdd = createAsyncThunk(
   }
 );
 
+export const brandAdd = createAsyncThunk(
+  "category/brandAdd",
+  async ({ name }, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      const { data } = await api.post("/brand-add", formData, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const get_category = createAsyncThunk(
   "category/get_category",
   async (
@@ -26,6 +42,24 @@ export const get_category = createAsyncThunk(
     try {
       const { data } = await api.get(
         `/category-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
+        { withCredentials: true }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_brand = createAsyncThunk(
+  "category/get_brand",
+  async (
+    { parPage, page, searchValue },
+    { rejectWithValue, fulfillWithValue }
+  ) => {
+    try {
+      const { data } = await api.get(
+        `/brand-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
         { withCredentials: true }
       );
       return fulfillWithValue(data);
@@ -49,6 +83,20 @@ export const xoa_category = createAsyncThunk(
   }
 );
 
+export const xoa_brand = createAsyncThunk(
+  "category/xoa_brand",
+  async (_id, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.delete(`/xoa-brand/${_id}`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const categoryReducer = createSlice({
   name: "category",
   initialState: {
@@ -57,6 +105,8 @@ export const categoryReducer = createSlice({
     loader: false,
     categorys: [],
     totalCategory: 0,
+    brands: [],
+    totalBrand: 0,
   },
   reducers: {
     messageClear: (state, _) => {
@@ -83,6 +133,25 @@ export const categoryReducer = createSlice({
     },
     [xoa_category.fulfilled]: (state, { payload }) => {
       state.successMessage = payload.message;
+    },
+
+    // thương hiệu
+
+    [brandAdd.pending]: (state, _) => {
+      state.loader = true;
+    },
+    [brandAdd.rejected]: (state, { payload }) => {
+      state.loader = false;
+      state.errorMessage = payload.message;
+    },
+    [brandAdd.fulfilled]: (state, { payload }) => {
+      state.loader = false;
+      state.successMessage = payload.message;
+      state.brands = [...state.brands, payload.brand];
+    },
+    [get_brand.fulfilled]: (state, { payload }) => {
+      state.totalBrand = payload.totalBrand;
+      state.brands = payload.brand;
     },
   },
 });

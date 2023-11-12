@@ -100,12 +100,12 @@ const ShopProducts = ({ styles, products }) => {
               >
                 <FaEye />
               </Link>
-              <li
+              {/* <li
                 onClick={() => add_card(u._id)}
                 className="w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all"
               >
                 <AiOutlineShoppingCart />
-              </li>
+              </li> */}
             </ul>
           </div>
           <div className="flex justify-start items-start flex-col gap-1">

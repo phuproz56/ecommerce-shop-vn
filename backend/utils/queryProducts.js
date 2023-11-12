@@ -11,6 +11,21 @@ class queryProducts {
       : this.products;
     return this;
   };
+
+  categorySex = () => {
+    this.products = this.query.sex
+      ? this.products.filter((c) => c.sex === this.query.sex)
+      : this.products;
+    return this;
+  };
+
+  categoryBrand = () => {
+    this.products = this.query.brand
+      ? this.products.filter((c) => c.brand === this.query.brand)
+      : this.products;
+    return this;
+  };
+
   ratingQuery = () => {
     this.products = this.query.rating
       ? this.products.filter(
@@ -67,7 +82,7 @@ class queryProducts {
     this.products = skipProduct;
     return this;
   };
-  
+
   limit = () => {
     let temp = [];
     if (this.products.length > this.query.parPage) {
