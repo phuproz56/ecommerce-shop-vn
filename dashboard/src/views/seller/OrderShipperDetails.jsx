@@ -31,8 +31,7 @@ const OrderShipperDetails = () => {
 
   const status_update = (e) => {
     const user_email = order.shippingInfo.email;
-    const order_date = order.date;
-    const order_id = order._id;
+    const order_id = order._id && order._id.substring(0, 10).toUpperCase();
     // const seller_email = userInfo.email;
     if (order.delivery_status === "Shipper Nhận Được Hàng") {
       const config = {
@@ -96,7 +95,7 @@ const OrderShipperDetails = () => {
         </div>
         <div className="p-4">
           <div className="flex gap-2 text-lg text-[#d0d2d6]">
-            <h2>Mã Đơn Hàng: #{order?._id} |</h2>
+            <h2>Mã Đơn Hàng: {order?._id && order?._id.substring(0,10).toUpperCase()} |</h2>
             <span>{order?.date}</span>
           </div>
           <div className="flex flex-wrap">

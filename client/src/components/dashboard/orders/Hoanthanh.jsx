@@ -50,7 +50,9 @@ const Hoanthanh = () => {
   }, [successMessage]);
 
   const hoanthanh = allOrders.filter(
-    (items) => items.delivery_status === "Đã Giao Hàng"
+    (items) =>
+      items.delivery_status === "Đã Giao Hàng" ||
+      items.delivery_status === "Yêu Cầu Trả Hàng"
   );
 
   return (
@@ -101,11 +103,13 @@ const Hoanthanh = () => {
                             >
                               Đã Giao Hàng
                             </Link>
-                            {q.delivery_status === "Đã Giao Hàng" && (
+                            {q.delivery_status === "Đã Giao Hàng" ? (
                               <b className="border-l-2 text-red-400 uppercase ml-4 pl-2">
                                 hoàn thành
                               </b>
-                            )}
+                            ) : q.delivery_status === "Yêu Cầu Trả Hàng" ?  <b className="border-l-2 text-red-400 uppercase ml-4 pl-2">
+                            Đang chờ yêu cầu trả hàng
+                          </b> : ""}
                           </div>
                         </h2>
 
@@ -176,7 +180,9 @@ const Hoanthanh = () => {
                                         </p>
                                         <p>-{p.discount}%</p>
                                       </div>
-                                      {q.delivery_status === "Đã Giao Hàng" && (
+                                      {q.delivery_status === "Đã Giao Hàng"
+                                      
+                                      && (
                                         <div className="pt-2 flex items-center justify-start md-lg:flex-col">
                                           <Link
                                             onClick={() =>

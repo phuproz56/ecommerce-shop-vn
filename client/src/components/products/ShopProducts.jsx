@@ -81,11 +81,14 @@ const ShopProducts = ({ styles, products }) => {
                 : "md-lg:w-full relative group h-[210px] md:h-[270px] overflow-hidden"
             }
           >
-            <img
-              className="h-[240px] rounded-sm md:h-[270px] xs:h-[170px] w-full object-cover"
-              src={u.images[0]}
-              alt="img"
-            />
+            <Link to={`/product/details/${u.slug}`}>
+              <img
+                
+                className="h-[240px] rounded-sm md:h-[270px] xs:h-[170px] w-full object-cover cursor-pointer"
+                src={u.images[0]}
+                alt="img"
+              />
+            </Link>
             <ul className="flex transition-all duration-700 -bottom-10 justify-center items-center gap-2 absolute w-full group-hover:bottom-3">
               <li
                 onClick={() => add_wishlist(u)}
@@ -112,7 +115,10 @@ const ShopProducts = ({ styles, products }) => {
             <h2 className="text-md text-slate-700 font-medium">{u.name}</h2>
             <div className="flex justify-start items-center gap-2">
               <span className="text-lg  font-bold text-slate-700">
-                {u.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})}
+                {u.price.toLocaleString("vi", {
+                  style: "currency",
+                  currency: "VND",
+                })}
               </span>
               <div className="flex text-lg">
                 {<Ratings ratings={u.rating} />}

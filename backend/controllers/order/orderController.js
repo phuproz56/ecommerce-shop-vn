@@ -7,6 +7,7 @@ const productModel = require("../../models/productModel");
 const couponModel = require("../../models/couponModel");
 const requestModel = require("../../models/requestModel");
 const customerModel = require("../../models/customerModel");
+const shipperModel = require("../../models/shipperModel");
 const moment = require("moment");
 const { responseReturn } = require("../../utils/response");
 const {
@@ -214,10 +215,12 @@ class orderController {
   get_orders = async (req, res) => {
     const { customerId, status } = req.params;
     try {
-      const orders = await customerOrder.find({
-        customerId: new ObjectId(customerId),
-        delivery_status: status,
-      });
+      const orders = await customerOrder
+        .find({
+          customerId: new ObjectId(customerId),
+          delivery_status: status,
+        })
+        .sort({ updatedAt: -1 });
 
       responseReturn(res, 200, {
         orders,
@@ -306,8 +309,17 @@ class orderController {
           })
           .skip(skipPage)
           .limit(parPage)
-          .sort({ createdAt: 1 });
-        responseReturn(res, 200, { orders });
+          .sort({ updatedAt: -1 });
+
+        const orders_shipper = await customerOrder
+          .find({
+            "shipperInfo.name": { $regex: searchValue },
+          })
+          .sort({ updatedAt: -1 })
+          .skip(skipPage)
+          .limit(parPage);
+
+        responseReturn(res, 200, { orders, orders_shipper });
       } else {
         const orders = await customerOrder
           .aggregate([
@@ -326,6 +338,13 @@ class orderController {
             updatedAt: -1,
           });
 
+        const orders_shipper = await customerOrder
+          .find({})
+          .skip(skipPage)
+          .sort({
+            updatedAt: -1,
+          });
+
         const totalOrder = await customerOrder.aggregate([
           {
             $lookup: {
@@ -337,7 +356,11 @@ class orderController {
           },
         ]);
 
-        responseReturn(res, 200, { orders, totalOrder: totalOrder.length });
+        responseReturn(res, 200, {
+          orders,
+          orders_shipper,
+          totalOrder: totalOrder.length,
+        });
       }
     } catch (error) {
       console.log(error.message);
@@ -395,8 +418,8 @@ class orderController {
       if (searchValue) {
         const orders = await customerOrder
           .find({
-            delivery_status: { $regex: searchValue },
-            // "shippingInfo.name": { $regex: searchValue },
+            // delivery_status: { $regex: searchValue },
+            "shippingInfo.name": { $regex: searchValue },
           })
           .skip(skipPage)
           .limit(parPage)
@@ -445,6 +468,18 @@ class orderController {
       });
 
       if (status === "Hủy") {
+        const cuOrder = await customerOrder.findById(_id);
+
+        const customerOrderProduct = cuOrder.products;
+        for (let i = 0; i < customerOrderProduct.length; i++) {
+          const id = customerOrderProduct[i]._id;
+          await productModel.findByIdAndUpdate(id, {
+            stock: customerOrderProduct[i].stock,
+          });
+        }
+      }
+
+      if (status === "Xác Nhận Trả Hàng") {
         const cuOrder = await customerOrder.findById(_id);
 
         const customerOrderProduct = cuOrder.products;
@@ -560,6 +595,10 @@ class orderController {
           information: information,
         });
 
+        await customerOrder.findByIdAndUpdate(orderId, {
+          delivery_status: "Yêu Cầu Trả Hàng",
+        });
+
         responseReturn(res, 200, { message: "Yêu cầu thành công!" });
       }
     } catch (error) {
@@ -569,22 +608,20 @@ class orderController {
 
   get_request = async (req, res) => {
     try {
-      const a = await requestModel.find({});
+      const order_request = await customerOrder.find({
+        delivery_status: "Yêu Cầu Trả Hàng",
+      });
 
-      const all_customer = [];
-      const all_order = [];
+      const requests = [];
 
-      for (let i = 0; i < a.length; i++) {
-        const { customerId } = a[i];
-        const { orderId } = a[i];
-
-        const customer = await customerModel.findById(customerId);
-        all_customer.push(customer);
-
-        const order = await customerOrder.findById(orderId);
-        all_order.push(order);
+      for (let i = 0; i < order_request.length; i++) {
+        const request = await requestModel.find({
+          orderId: order_request,
+        });
+        requests.push(request[i]);
       }
-      responseReturn(res, 200, { a, all_customer, all_order });
+
+      responseReturn(res, 200, { order_request, requests });
     } catch (error) {
       console.log(error.message);
     }

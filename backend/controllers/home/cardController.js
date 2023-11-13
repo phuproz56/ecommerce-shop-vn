@@ -69,8 +69,6 @@ class cardController {
         },
       ]);
 
-      console.log(card_products)
-
       let buy_product_item = 0;
       let calculatePrice = 0;
       let card_product_count = 0;

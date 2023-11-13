@@ -68,11 +68,9 @@ export const query_products = createAsyncThunk(
       const { data } = await api.get(
         `/home/query-products?category=${query.category}&&sex=${
           query.sex
-        }&&brand=${
-          query.brand
-        }&&rating=${query.rating}&&lowPrice=${query.low}&&highPrice=${
-          query.high
-        }&&sortPrice=${query.sortPrice}&&pageNumber=${
+        }&&brand=${query.brand}&&rating=${query.rating}&&lowPrice=${
+          query.low
+        }&&highPrice=${query.high}&&sortPrice=${query.sortPrice}&&pageNumber=${
           query.pageNumber
         }&&searchValue=${query.searchValue ? query.searchValue : ""}`
       );
@@ -112,6 +110,7 @@ export const get_reviews = createAsyncThunk(
 export const homeReducer = createSlice({
   name: "home",
   initialState: {
+    loader: false,
     categorys: [],
     products: [],
     totalProduct: 0,
@@ -128,7 +127,6 @@ export const homeReducer = createSlice({
     totalReview: 0,
     rating_review: [],
     reviews: [],
-    loader: false,
     sexs: ["Nam", "Nữ"],
     brands: [],
   },
@@ -165,7 +163,11 @@ export const homeReducer = createSlice({
       state.latest_products = payload.latest_products;
       state.priceRange = payload.priceRange;
     },
+    [query_products.pending]: (state, { payload }) => {
+      state.loader = true;
+    },
     [query_products.fulfilled]: (state, { payload }) => {
+      state.loader = false;
       state.products = payload.products;
       state.totalProduct = payload.totalProduct;
       state.parPage = payload.parPage;

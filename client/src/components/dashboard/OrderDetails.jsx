@@ -18,6 +18,7 @@ import moment from "moment";
 import { useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import toast from "react-hot-toast";
+import dayjs from "dayjs";
 
 const OrderDetails = () => {
   const [open_request, setOpen_request] = useState(false);
@@ -28,8 +29,6 @@ const OrderDetails = () => {
     (state) => state.order
   );
   const { userInfo } = useSelector((state) => state.auth);
-
-  console.log(moment(request.createdAt).format("LLL"));
 
   const [state, setState] = useState({
     information: "",
@@ -64,6 +63,7 @@ const OrderDetails = () => {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
+      setOpen_request(false);
     }
   }, [dispatch, successMessage]);
 
@@ -108,12 +108,16 @@ const OrderDetails = () => {
           <FcPrevious className="pt-2" /> trở lại
         </button>
         <div className="flex justify-items-end uppercase sm:w-full">
-          <p className="flex items-end pr-2">Mã đơn hàng: {orderId}</p>
+          <p className="flex items-end pr-2">
+            Mã đơn hàng: {orderId && orderId.substring(0, 10)}
+          </p>
           <p className="flex border-l-2 pl-2 text-red-500">
             {myOrder?.delivery_status === "Đã Giao Hàng"
               ? "Đơn hàng đã hoàn thành"
               : myOrder?.delivery_status === "Hủy"
               ? "Đơn hàng đã hủy"
+              : myOrder?.delivery_status === "Yêu Cầu Trả Hàng"
+              ? "Đơn hàng đã hoàn thành"
               : myOrder?.delivery_status === "Xác Nhận Trả Hàng"
               ? "Đã Trả Hàng"
               : "Đơn hàng chưa hoàn thành"}
@@ -159,7 +163,8 @@ const OrderDetails = () => {
             myOrder?.delivery_status === "Đang Giao Hàng" ||
             myOrder?.delivery_status === "Đã Giao Hàng" ||
             myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
-            myOrder?.delivery_status === "Giao Hàng Thành Công"
+            myOrder?.delivery_status === "Giao Hàng Thành Công" ||
+            myOrder?.delivery_status === "Yêu Cầu Trả Hàng"
               ? "border-green-500"
               : "border-slate-500"
           } mt-[40px]`}
@@ -171,7 +176,8 @@ const OrderDetails = () => {
               myOrder?.delivery_status === "Đang Giao Hàng" ||
               myOrder?.delivery_status === "Đã Giao Hàng" ||
               myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
-              myOrder?.delivery_status === "Giao Hàng Thành Công"
+              myOrder?.delivery_status === "Giao Hàng Thành Công" ||
+              myOrder?.delivery_status === "Yêu Cầu Trả Hàng"
                 ? "border-green-500"
                 : "border-slate-500"
             } rounded-full`}
@@ -180,7 +186,8 @@ const OrderDetails = () => {
               myOrder?.delivery_status === "Đang Giao Hàng" ||
               myOrder?.delivery_status === "Đã Giao Hàng" ||
               myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
-              myOrder?.delivery_status === "Giao Hàng Thành Công"
+              myOrder?.delivery_status === "Giao Hàng Thành Công" ||
+              myOrder?.delivery_status === "Yêu Cầu Trả Hàng"
                 ? { fontSize: "80px", color: "green" }
                 : { fontSize: "80px", color: "slategray" }
             }
@@ -192,7 +199,8 @@ const OrderDetails = () => {
             myOrder?.delivery_status === "Giao Hàng Thành Công" ||
             myOrder?.delivery_status === "Đã Giao Hàng" ||
             myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
-            myOrder?.delivery_status === "Giao Hàng Thành Công"
+            myOrder?.delivery_status === "Giao Hàng Thành Công" ||
+            myOrder?.delivery_status === "Yêu Cầu Trả Hàng"
               ? "border-green-500"
               : "border-slate-500"
           } mt-[40px]`}
@@ -203,7 +211,8 @@ const OrderDetails = () => {
               myOrder?.delivery_status === "Giao Hàng Thành Công" ||
               myOrder?.delivery_status === "Đã Giao Hàng" ||
               myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
-              myOrder?.delivery_status === "Giao Hàng Thành Công"
+              myOrder?.delivery_status === "Giao Hàng Thành Công" ||
+              myOrder?.delivery_status === "Yêu Cầu Trả Hàng"
                 ? "border-green-500"
                 : "border-slate-500"
             } rounded-full`}
@@ -214,7 +223,8 @@ const OrderDetails = () => {
         <div
           className={`w-full sm:hidden border-t-4 ${
             myOrder?.delivery_status === "Đã Giao Hàng" ||
-            myOrder?.delivery_status === "Xác Nhận Trả Hàng"
+            myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
+            myOrder?.delivery_status === "Yêu Cầu Trả Hàng"
               ? "border-green-500"
               : "border-slate-500"
           } mt-[40px]`}
@@ -223,13 +233,15 @@ const OrderDetails = () => {
           <AiOutlineCheck
             className={`p-2 border-4 ${
               myOrder?.delivery_status === "Đã Giao Hàng" ||
-              myOrder?.delivery_status === "Xác Nhận Trả Hàng"
+              myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
+              myOrder?.delivery_status === "Yêu Cầu Trả Hàng"
                 ? "border-green-500"
                 : "border-slate-500"
             } rounded-full`}
             style={
               myOrder?.delivery_status === "Đã Giao Hàng" ||
-              myOrder?.delivery_status === "Xác Nhận Trả Hàng"
+              myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
+              myOrder?.delivery_status === "Yêu Cầu Trả Hàng"
                 ? { fontSize: "80px", color: "green" }
                 : { fontSize: "80px", color: "slategray" }
             }
@@ -253,10 +265,11 @@ const OrderDetails = () => {
         >
           Yêu cầu trả hàng
         </button>
-      ) : myOrder?.delivery_status === "Xác Nhận Trả Hàng" ? (
+      ) : myOrder?.delivery_status === "Yêu Cầu Trả Hàng" ||
+        myOrder?.delivery_status === "Xác Nhận Trả Hàng" ? (
         <p className="pt-2">
           bạn đã gửi yêu cầu trả hàng vào:{" "}
-          {moment(request.createdAt).format("LLL")}
+          {dayjs(request?.createdAt).format("D/MM/YYYY")}
         </p>
       ) : (
         ""

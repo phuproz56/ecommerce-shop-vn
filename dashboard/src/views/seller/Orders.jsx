@@ -119,7 +119,7 @@ const Orders = () => {
               setPageNumber={setCurrentPage}
               totalItem={totalOrder}
               parPage={parPage}
-              showItem={3}
+              showItem={Math.floor(totalOrder / parPage)}
             />
           </div>
         )}

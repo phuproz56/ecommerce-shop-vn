@@ -183,6 +183,7 @@ const EditProduct = () => {
         sex: selectedOptionSex?.label,
       };
       dispatch(update_product(obj));
+      window.location.reload();
     }
   };
   return (

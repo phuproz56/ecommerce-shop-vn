@@ -11,7 +11,6 @@ import {
 import moment from "moment";
 
 const RequestDetails = () => {
-  // const { userInfo } = useSelector((state) => state.auth);
   const _id = useParams();
   const dispatch = useDispatch();
 
@@ -20,7 +19,6 @@ const RequestDetails = () => {
   );
 
   useEffect(() => {
-    // dispatch(get_admin_order(orderId));
     dispatch(get_seller_order(_id.orderId));
   }, [_id]);
 
@@ -33,9 +31,9 @@ const RequestDetails = () => {
   const status_update = (e) => {
     const user_email = order.shippingInfo.email;
     const order_date = moment(order.updatedAt).format("LLL");
-    const order_id = order._id;
-    // const seller_email = userInfo.email;
-    if (order.delivery_status === "Đã Giao Hàng") {
+    const order_id = order._id && order._id.substring(0, 10).toUpperCase();
+
+    if (order.delivery_status === "Yêu Cầu Trả Hàng") {
       const config = {
         SecureToken: "f9473773-192c-4284-8cb3-cf7b77d1fb21",
         To: user_email,
@@ -86,14 +84,20 @@ const RequestDetails = () => {
             <option value={order.delivery_status}>
               {order.delivery_status}
             </option>
-            {order.delivery_status === "Đã Giao Hàng" && (
+            {order.delivery_status === "Yêu Cầu Trả Hàng" && (
               <option value="Xác Nhận Trả Hàng">Xác Nhận Trả Hàng</option>
             )}
           </select>
         </div>
         <div className="p-4">
           <div className="flex gap-2 text-lg text-[#d0d2d6]">
-            <h2>Mã Đơn Hàng: #{order?._id} |</h2>
+            <h2 className="uppercase">
+              Mã Đơn Hàng:{" "}
+              <b className="text-green-300">
+                {order?._id && order?._id.substring(0, 10).toUpperCase()}
+              </b>{" "}
+              |
+            </h2>
             <span>{order?.date}</span>
           </div>
           <div className="flex flex-wrap">

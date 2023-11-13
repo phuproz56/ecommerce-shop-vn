@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,6 +12,7 @@ import {
 const OrderDetails = () => {
   // const { userInfo } = useSelector((state) => state.auth);
   const _id = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { order, errorMessage, successMessage } = useSelector(
@@ -33,7 +34,7 @@ const OrderDetails = () => {
     e.preventDefault();
     const user_email = order.shippingInfo.email;
     const order_date = order.date;
-    const order_id = order._id;
+    const order_id = order._id && order._id.substring(0, 10).toUpperCase();
     // const seller_email = userInfo.email;
     if (order.delivery_status === "Chưa Xử Lí") {
       const config = {
@@ -56,7 +57,6 @@ const OrderDetails = () => {
         info: { status: e.target.value },
       })
     );
-    window.location.reload();
 
     setStatus(e.target.value);
   };
@@ -72,9 +72,19 @@ const OrderDetails = () => {
     }
   }, [successMessage, errorMessage]);
 
+  const back = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4  bg-[#283046] rounded-md">
+        <p
+          onClick={back}
+          className="text-white border w-[100px] text-center rounded-md p-2 hover:bg-slate-500 cursor-pointer uppercase"
+        >
+          Quay lại
+        </p>
         <div className="flex justify-between items-center p-4">
           <h2 className="text-xl text-[#d0d2d6]">Chi Tiết Đơn Hàng</h2>
           <select
@@ -103,7 +113,10 @@ const OrderDetails = () => {
         </div>
         <div className="p-4">
           <div className="flex gap-2 text-lg text-[#d0d2d6]">
-            <h2>Mã Đơn Hàng: #{order?._id} |</h2>
+            <h2>
+              Mã Đơn Hàng:{" "}
+              {order?._id && order?._id.substring(0, 10).toUpperCase()} |
+            </h2>
             <span>{order?.date}</span>
           </div>
           <div className="flex flex-wrap">

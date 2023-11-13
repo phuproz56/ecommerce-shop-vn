@@ -127,6 +127,8 @@ export const OrderReducer = createSlice({
     all_customer: [],
     all_order: [],
     all_request: [],
+    orders_shipper: [],
+    requests: [],
   },
   reducers: {
     messageClear: (state, _) => {
@@ -138,6 +140,7 @@ export const OrderReducer = createSlice({
     [get_admin_orders.fulfilled]: (state, { payload }) => {
       state.myOrders = payload.orders;
       state.totalOrder = payload.totalOrder;
+      state.orders_shipper = payload.orders_shipper;
     },
     [get_admin_order.fulfilled]: (state, { payload }) => {
       state.order = payload.order;
@@ -163,9 +166,8 @@ export const OrderReducer = createSlice({
       state.successMessage = payload.message;
     },
     [get_request.fulfilled]: (state, { payload }) => {
-      state.all_customer = payload.all_customer;
-      state.all_order = payload.all_order;
-      state.all_request = payload.a;
+      state.requests = payload.requests;
+      state.all_request = payload.order_request;
     },
   },
 });

@@ -21,6 +21,7 @@ import {
   query_products,
   get_brands,
 } from "../store/reducers/homeReducer";
+import FadeLoader from "react-spinners/FadeLoader";
 
 const Shops = () => {
   const {
@@ -32,6 +33,7 @@ const Shops = () => {
     latest_products,
     priceRange,
     parPage,
+    loader,
   } = useSelector((state) => state.home);
 
   const dispatch = useDispatch();
@@ -132,6 +134,8 @@ const Shops = () => {
     );
   };
 
+  console.log(rating);
+
   return (
     <div className="pt-[200px]">
       <Headers isFixed={true} />
@@ -229,16 +233,16 @@ const Shops = () => {
                     key={i}
                   >
                     <input
-                      checked={brand === c ? true : false}
-                      onChange={(e) => queryBrand(e, c)}
+                      checked={brand === c.name ? true : false}
+                      onChange={(e) => queryBrand(e, c.name)}
                       type="checkbox"
-                      id={c}
+                      id={c.name}
                     />
                     <label
                       className="text-slate-600 block cursor-pointer"
-                      htmlFor={c}
+                      htmlFor={c.name}
                     >
-                      {c}
+                      {c.name}
                     </label>
                   </div>
                 ))}
@@ -273,7 +277,7 @@ const Shops = () => {
                       style: "currency",
                       currency: "VND",
                     })}{" "}
-                    -
+                    -{" "}
                     {Math.floor(state.values[1]).toLocaleString("vi", {
                       style: "currency",
                       currency: "VND",
@@ -285,6 +289,19 @@ const Shops = () => {
                 <h2 className="text-3xl font-bold mb-3 text-slate-600">
                   Chọn Đánh Giá
                 </h2>
+                <p className="text-md text-red-400">
+                  {rating === 1
+                    ? "(Lọc từ 1 -> 2 sao)"
+                    : rating === 2
+                    ? "(Lọc từ 2 -> 3 sao)"
+                    : rating === 3
+                    ? "(Lọc từ 3 -> 4 sao)"
+                    : rating === 4
+                    ? "(Lọc từ 4 -> 5 sao)"
+                    : rating === 5
+                    ? "(Lọc 5 sao)"
+                    : ""}
+                </p>
                 <div className="flex flex-col gap-3 ">
                   <div
                     onClick={() => setRating(5)}
@@ -430,6 +447,7 @@ const Shops = () => {
                   <div className="flex justify-center items-center gap-3">
                     <select
                       onChange={(e) => setSortPrice(e.target.value)}
+                      value={sortPrice}
                       className="p-1 border outline-0 text-slate-600 font-semibold"
                       name=""
                       id=""
@@ -459,10 +477,14 @@ const Shops = () => {
                   </div>
                 </div>
                 <div className="pb-8">
-                  <ShopProducts products={products} styles={styles} />
+                  {loader ? (
+                    <FadeLoader />
+                  ) : (
+                    <ShopProducts products={products} styles={styles} />
+                  )}
                 </div>
                 <div>
-                  {totalProduct > parPage && (
+                  {totalProduct >= parPage && (
                     <Pagination
                       pageNumber={pageNumber}
                       setPageNumber={setPageNumber}

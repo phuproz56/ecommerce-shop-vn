@@ -347,8 +347,6 @@ module.exports.get_shipper_new_order = async (req, res) => {
       })
       .countDocuments();
 
-    console.log(Total);
-
     Total_Complete = await customerOrder
       .find({ delivery_status: "Đã Giao Hàng" })
       .countDocuments();

@@ -1,18 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { FaEye, FaTrash } from "react-icons/fa";
+import React, { useEffect } from "react";
+import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Pagination from "../Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { get_request } from "../../store/Reducers/OrderReducer";
 import { Tooltip } from "antd";
-import toast from "react-hot-toast";
 import moment from "moment";
 
 const Request = () => {
   const dispatch = useDispatch();
 
-  const { all_order, all_request } = useSelector((state) => state.order);
+  const { requests, all_request } = useSelector((state) => state.order);
 
   useEffect(() => {
     dispatch(get_request());
@@ -43,13 +41,11 @@ const Request = () => {
                 <th scope="col" className="py-3 px-4">
                   Yêu cầu
                 </th>
-                <th scope="col" className="py-3 px-4">
-                  
-                </th>
+                <th scope="col" className="py-3 px-4"></th>
               </tr>
             </thead>
             <tbody className="text-sm font-normal">
-              {all_order?.map((d, i) => (
+              {all_request?.map((d, i) => (
                 <tr key={i}>
                   <th
                     scope="row"
@@ -63,7 +59,7 @@ const Request = () => {
                   >
                     <img
                       className="w-[45px] h-[45px]"
-                      src={d.image ? d.image : "/images/seller.png"}
+                      src={d?.image ? d?.image : "/images/seller.png"}
                       alt="img_seller"
                     />
                   </th>
@@ -80,7 +76,7 @@ const Request = () => {
                   >
                     <span>{d?.shippingInfo?.phoneNumber}</span>
                   </th>
-                  {all_request.map((u) => (
+                  {requests.map((u) => (
                     <>
                       <th
                         scope="row"
@@ -97,9 +93,7 @@ const Request = () => {
                         scope="row"
                         className="py-1 px-4 font-medium whitespace-nowrap"
                       >
-                        {d.delivery_status === "Xác Nhận Trả Hàng" ? (
-                          <p>Đã Xác Nhận Trả Hàng vào ngày: {moment(d.updatedAt).format("LLL")}</p>
-                        ) : (
+                        {d?.delivery_status === "Yêu Cầu Trả Hàng" ? (
                           <div className="flex justify-start items-center gap-4">
                             <Tooltip title="Xem Chi Tiết Đơn Hàng">
                               <Link
@@ -110,6 +104,11 @@ const Request = () => {
                               </Link>
                             </Tooltip>
                           </div>
+                        ) : (
+                          <p>
+                            Đã Xác Nhận Trả Hàng vào ngày:{" "}
+                            {moment(d.updatedAt).format("LLL")}
+                          </p>
                         )}
                       </th>
                     </>

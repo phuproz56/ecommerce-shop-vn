@@ -163,7 +163,7 @@ const EditProduct = () => {
     }
   }, [successMessage, errorMessage, dispatch]);
 
-  console.log(selectedSize)
+  console.log(selectedSize);
 
   const update = (e) => {
     e.preventDefault();
@@ -183,6 +183,7 @@ const EditProduct = () => {
         sex: selectedOptionSex?.label,
       };
       dispatch(update_product(obj));
+      window.location.reload();
     }
   };
   return (

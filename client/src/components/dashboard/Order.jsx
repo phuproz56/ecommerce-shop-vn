@@ -17,7 +17,8 @@ const Order = () => {
   return (
     <div className="bg-white p-5">
       <h2 className="text-slate-600 font-semibold">
-        Mã đơn hàng: #{myOrder._id}, <span>{myOrder.date}</span>
+        Mã đơn hàng: {myOrder._id && myOrder._id.substring(0, 10).toUpperCase()}
+        , <span>{myOrder.date}</span>
       </h2>
       <div className="grid grid-cols-2 gap-3">
         <div className="flex flex-col gap-1">
@@ -87,9 +88,19 @@ const Order = () => {
                 </div>
                 <div className="pl-4">
                   <h2 className="text-md text-orange-500">
-                    {(p.price - Math.floor((p.price * p.discount) / 100)).toLocaleString('vi', {style : 'currency', currency : 'VND'})}
+                    {(
+                      p.price - Math.floor((p.price * p.discount) / 100)
+                    ).toLocaleString("vi", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
                   </h2>
-                  <p>{p.price.toLocaleString('vi', {style : 'currency', currency : 'VND'})} </p>
+                  <p>
+                    {p.price.toLocaleString("vi", {
+                      style: "currency",
+                      currency: "VND",
+                    })}{" "}
+                  </p>
                   <p>-{p.discount}%</p>
                 </div>
               </div>

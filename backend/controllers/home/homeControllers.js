@@ -4,6 +4,7 @@ const productModel = require("../../models/productModel");
 const { responseReturn } = require("../../utils/response");
 const queryProducts = require("../../utils/queryProducts");
 const reviewModel = require("../../models/reviewModel");
+const brandModel = require("../../models/brandModel");
 const moment = require("moment");
 const {
   mongo: { ObjectId },
@@ -40,20 +41,7 @@ class homeControllers {
 
   get_brands = async (req, res) => {
     try {
-      const products = await productModel.find({});
-
-      const brands = [];
-      const seenBrands = {};
-      for (let i = 0; i < products.length; i++) {
-        const currentBrand = products[i].brand;
-
-        if (!seenBrands[currentBrand]) {
-          brands.push(products[i].brand);
-          seenBrands[currentBrand] = true;
-        }
-      }
-
-      console.log(brands);
+      const brands = await brandModel.find({});
 
       responseReturn(res, 200, {
         brands,
