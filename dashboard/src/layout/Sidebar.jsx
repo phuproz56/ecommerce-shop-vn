@@ -30,8 +30,8 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
         } w-screen h-screen bg-[#22292f80] top-0 left-0 z-10`}
       ></div>
       <div
-        className={`w-[260px] fixed bg-[#283046] z-50 top-0 h-screen shadow-[0_0_15px_0_rgb(34_41_47_/_5%)] transition-all ${
-          showSidebar ? "left-0" : "-left-[260px] lg:left-0"
+        className={`w-[300px] fixed hover:overflow-x-scroll hover:scroll-smooth bg-[#283046] z-50 top-0 h-screen shadow-[0_0_15px_0_rgb(34_41_47_/_5%)] transition-all ${
+          showSidebar ? "left-0" : "-left-[300px] lg:left-0"
         }`}
       >
         <div className="h-[70px] flex justify-center items-center">

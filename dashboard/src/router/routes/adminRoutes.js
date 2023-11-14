@@ -18,6 +18,22 @@ const PaymentRequest = lazy(() => import("../../views/admin/PaymentRequest"));
 const ChatSeller = lazy(() => import("../../views/admin/ChatSeller"));
 const OrderDetails = lazy(() => import("../../views/seller/OrderDetails"));
 const AddProduct = lazy(() => import("../../views/admin/AddProduct"));
+const DiscountProducts = lazy(() =>
+  import("../../views/admin/DiscountProducts")
+);
+const LogProduct = lazy(() => import("../../views/admin/LogProduct"));
+const LogProductDetail = lazy(() =>
+  import("../../views/admin/LogProductDetail")
+);
+const LogProductSeeDetail = lazy(() =>
+  import("../../views/admin/LogProductSeeDetail")
+);
+const ShipperComfirm = lazy(() => import("../../views/admin/ShipperComfirm"));
+const OrderShipperDetails = lazy(() =>
+  import("../../views/admin/OrderShipperDetails")
+);
+const Request = lazy(() => import("../../views/admin/Request"));
+const RequestDetails = lazy(() => import("../../views/admin/RequestDetails"));
 
 export const adminRoutes = [
   {
@@ -53,6 +69,46 @@ export const adminRoutes = [
   {
     path: "admin/dashboard/category",
     element: <Category />,
+    role: "admin",
+  },
+  {
+    path: "/admin/dashboard/discount-products",
+    element: <DiscountProducts />,
+    role: "admin",
+  },
+  {
+    path: "/admin/dashboard/log-product",
+    element: <LogProduct />,
+    role: "admin",
+  },
+  {
+    path: "/admin/dashboard/log-product-detail/:productId",
+    element: <LogProductDetail />,
+    role: "admin",
+  },
+  {
+    path: "/admin/dashboard/log-product-see-detail/:productId",
+    element: <LogProductSeeDetail />,
+    role: "admin",
+  },
+  {
+    path: "/admin/dashboard/shipper-comfirm",
+    element: <ShipperComfirm />,
+    role: "admin",
+  },
+  {
+    path: "/admin/dashboard/shipper-comfirm/details/:orderId",
+    element: <OrderShipperDetails />,
+    role: "admin",
+  },
+  {
+    path: "/admin/dashboard/request",
+    element: <Request />,
+    role: "admin",
+  },
+  {
+    path: "/seller/dashboard/request/details/:orderId",
+    element: <RequestDetails />,
     role: "admin",
   },
   {

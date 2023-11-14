@@ -70,11 +70,11 @@ export const logout = createAsyncThunk(
       localStorage.removeItem("accessToken");
 
       if (role === "admin") {
-        navigate("/admin/login");
-      } else if (role === "nhanvien_admin") {
-        navigate("/nhanvien-admin/login");
+        navigate("/login");
+      } else if (role === "seller") {
+        navigate("/login");
       } else if (role === "shipper") {
-        navigate("/shipper/login");
+        navigate("/login");
       } else {
         navigate("/login");
       }

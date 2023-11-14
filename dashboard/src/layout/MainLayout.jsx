@@ -40,7 +40,7 @@ function MainLayout() {
     <div className="bg-[#161d31] w-full min-h-screen">
       <Header showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
       <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-      <div className="ml-0 lg:ml-[260px] pt-[95px] transition-all">
+      <div className="ml-0 lg:ml-[300px] pt-[95px] transition-all">
         <Outlet />
       </div>
     </div>

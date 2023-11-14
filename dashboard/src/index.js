@@ -14,14 +14,14 @@ root.render(
     <Provider store={store}>
       <Suspense fallback="loading...">
         <App />
-        <Toaster 
-        toastOptions={{
-          position: 'top-right',
-          style: {
-            background: '#283046',
-            color: "white"
-          }
-        }}
+        <Toaster
+          toastOptions={{
+            position: "top-right",
+            style: {
+              background: "#283046",
+              color: "white",
+            },
+          }}
         />
       </Suspense>
     </Provider>

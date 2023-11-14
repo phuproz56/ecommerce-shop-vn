@@ -285,6 +285,7 @@ class productController {
         const logProduct = await logProductModel
           .find({
             $text: { $search: searchValue },
+            // fullname: searchValue,
             productId: productId,
           })
           .skip(skipPage)
@@ -294,6 +295,7 @@ class productController {
         const totallogProduct = await logProductModel
           .find({
             $text: { $search: searchValue },
+            // fullname: searchValue,
             productId: productId,
           })
           .countDocuments();
@@ -305,9 +307,11 @@ class productController {
           .skip(skipPage)
           .limit(parPage)
           .sort({ createdAt: -1 });
+
         const totallogProduct = await logProductModel
           .find({ productId: productId })
           .countDocuments();
+
         responseReturn(res, 200, { totallogProduct, logProduct });
       }
     } catch (error) {

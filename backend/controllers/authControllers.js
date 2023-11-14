@@ -333,7 +333,6 @@ class authControllers {
           .skip(skipPage)
           .limit(parPage)
           .sort({ createdAt: -1 });
-         
 
         const totalCustomers = await customerModel
           .find({

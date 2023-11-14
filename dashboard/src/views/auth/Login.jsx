@@ -7,6 +7,7 @@ import { overrideStyle } from "../../utils/utils";
 import { messageClear, seller_login } from "../../store/Reducers/authReducer";
 import toast from "react-hot-toast";
 function Login() {
+  const [open, setOpen] = useState();
   const navigate = useNavigate();
   const [state, setSatate] = useState({
     email: "",
@@ -37,14 +38,43 @@ function Login() {
       dispatch(messageClear());
     }
   }, [successMessage, errorMessage]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setOpen(true);
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, []);
+
   return (
     <div className="min-w-screen min-h-screen bg-[#161d31] flex justify-center items-center">
+      {open && (
+        <div className="fixed transition-all duration-500 ease-in-out top-0 left-0 w-full h-screen bg-[#0000004b] flex items-center justify-center">
+          <div className="p-4 w-[600px] h-[250px] bg-white rounded shadow relative">
+            <div className="w-full flex justify-end p-3"></div>
+            <h1 className="text-center text-[25px] font-Poppins">
+              Đăng nhập với tư cách?
+            </h1>
+            <div className=" flex flex-row justify-between items-center pt-[50px]">
+              <div className="p-3 rounded-md border cursor-pointer border-cyan-500 hover:bg-green-400 hover:shadow-xl">
+                <Link to="/nhanvien-admin/login" className="">
+                  Nhân Viên
+                </Link>
+              </div>
+              <div className="p-3 rounded-md border cursor-pointer border-cyan-500 hover:bg-yellow-300">
+                <Link to="/shipper/login">Shipper</Link>
+              </div>
+              <div className="p-3 rounded-md border cursor-pointer border-cyan-500 hover:bg-red-400">
+                <Link to="/admin/login">Quản lý</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="w-[350px] text-[#d0d2d6] p-2">
         <div className="bg-[#283046] p-4 rounded-md">
           <h2 className="text-xl mb-3">CHÀO MỪNG ĐẾN VỚI SHOP-VN</h2>
-          <p className="mb-3 items-center justify-center text-center uppercase text-lg">
-           Nhân viên
-          </p>
+          <p className="mb-3 items-center justify-center text-center uppercase text-lg"></p>
           <form onSubmit={submit}>
             <div className="flex flex-col w-full gap-1 mb-3">
               <label htmlFor="email">Email</label>

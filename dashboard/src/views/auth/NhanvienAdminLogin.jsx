@@ -1,21 +1,21 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { PropagateLoader } from "react-spinners";
-import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { nvadmin_login, messageClear } from "../../store/Reducers/authReducer";
-import { Link, useNavigate } from "react-router-dom";
-
-function NhanvienAdminLogin() {
+import { useNavigate } from "react-router-dom";
+import { PropagateLoader } from "react-spinners";
+import { overrideStyle } from "../../utils/utils";
+import { messageClear, seller_login } from "../../store/Reducers/authReducer";
+import toast from "react-hot-toast";
+function Login() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { loader, errorMessage, successMessage } = useSelector(
-    (state) => state.auth
-  );
   const [state, setSatate] = useState({
     email: "",
     password: "",
   });
+  const dispatch = useDispatch();
+  const { loader, errorMessage, successMessage } = useSelector(
+    (state) => state.auth
+  );
   const inputHandle = (e) => {
     setSatate({
       ...state,
@@ -24,46 +24,28 @@ function NhanvienAdminLogin() {
   };
   const submit = (e) => {
     e.preventDefault();
-    dispatch(nvadmin_login(state));
-  };
-  const overrideStyle = {
-    display: "flex",
-    margin: "0 auto",
-    height: "24px",
-    justifyContent: "center",
-    alignItems: "center",
-    color: "#fff",
+    dispatch(seller_login(state));
   };
   useEffect(() => {
-    if (errorMessage) {
-      toast.error(errorMessage);
-      dispatch(messageClear());
-    }
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
       navigate("/");
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
     }
-  }, [errorMessage, successMessage, dispatch, navigate]);
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+  }, [successMessage, errorMessage]);
+
   return (
     <div className="min-w-screen min-h-screen bg-[#161d31] flex justify-center items-center">
       <div className="w-[350px] text-[#d0d2d6] p-2">
         <div className="bg-[#283046] p-4 rounded-md">
-          <h1 className="text-center uppercase text-lg text-green-400">
-            Nhân viên admin
-          </h1>
-          <div className="h-[70px] flex justify-center items-center">
-            <div className="w-[180px] h-[100px]">
-              <img
-                className="w-[200px] h-[100px]"
-                src="/images/shopvn.png"
-                alt="image"
-              />
-            </div>
-          </div>
+          <h2 className="text-xl mb-3">CHÀO MỪNG ĐẾN VỚI SHOP-VN</h2>
+          <p className="mb-3 items-center justify-center text-center uppercase text-lg">
+            Nhân viên
+          </p>
           <form onSubmit={submit}>
             <div className="flex flex-col w-full gap-1 mb-3">
               <label htmlFor="email">Email</label>
@@ -101,12 +83,6 @@ function NhanvienAdminLogin() {
                 "Đăng Nhập"
               )}
             </button>
-            <div className="justify-items-center">
-              Quay lại trang admin?{" "}
-              <Link to={"/admin/login"} className="text-green-500">
-                Admin
-              </Link>
-            </div>
           </form>
         </div>
       </div>
@@ -114,4 +90,4 @@ function NhanvienAdminLogin() {
   );
 }
 
-export default NhanvienAdminLogin;
+export default Login;

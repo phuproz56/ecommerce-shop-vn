@@ -20,7 +20,7 @@ const logProductSchema = new Schema(
     },
     note: {
       type: String,
-      require: true,
+      required: true,
     },
     date: {
       type: String,
@@ -37,8 +37,8 @@ logProductSchema.index(
   },
   {
     weights: {
-      fullname: 5,
-      note: 4,
+      fullname: 2,
+      note: 1,
     },
   }
 );
