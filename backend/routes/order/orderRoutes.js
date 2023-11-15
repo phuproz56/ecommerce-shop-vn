@@ -16,6 +16,10 @@ router.get(
 );
 
 router.get("/home/customer/get-order/:orderId", orderController.get_order);
+router.get(
+  "/home/customer/get-order-review/:orderId",
+  orderController.get_detail_review_order
+);
 router.post("/order/create-payment", orderController.create_payment);
 router.get("/order/confirm/:orderId", orderController.order_confirm);
 router.put("/home/customer/huy-order/:orderId", orderController.huy_order);
@@ -45,5 +49,13 @@ router.put(
 );
 
 router.get("/seller/get-request", orderController.get_request);
+router.get(
+  "/seller/get-all-review-order",
+  orderController.get_all_review_order
+);
+router.get(
+  "/seller/get-detail-review-order/:orderId",
+  orderController.get_detail_review_order
+);
 
 module.exports = router;

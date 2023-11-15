@@ -10,6 +10,7 @@ import {
   get_order,
   messageClear,
   submit_request,
+  get_order_review,
 } from "../../store/reducers/orderReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { MdLocalShipping } from "react-icons/md";
@@ -19,15 +20,18 @@ import { useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import toast from "react-hot-toast";
 import dayjs from "dayjs";
+import ReviewOrder from "../ReviewOrder";
 
 const OrderDetails = () => {
   const [open_request, setOpen_request] = useState(false);
   const navigate = useNavigate();
+  const [open_Order, setOpen_Order] = useState(false);
   const dispatch = useDispatch();
   const { orderId } = useParams();
-  const { myOrder, successMessage, request } = useSelector(
+  const { myOrder, successMessage, request, order_review } = useSelector(
     (state) => state.order
   );
+
   const { userInfo } = useSelector((state) => state.auth);
 
   const [state, setState] = useState({
@@ -43,6 +47,7 @@ const OrderDetails = () => {
 
   useEffect(() => {
     dispatch(get_order(orderId));
+    dispatch(get_order_review(orderId));
   }, [dispatch, orderId]);
 
   const goBack = () => {
@@ -64,6 +69,7 @@ const OrderDetails = () => {
       toast.success(successMessage);
       dispatch(messageClear());
       setOpen_request(false);
+      setOpen_Order(false);
     }
   }, [dispatch, successMessage]);
 
@@ -99,6 +105,26 @@ const OrderDetails = () => {
             </div>
           </div>
         </form>
+      )}
+
+      {open_Order && (
+        <div className="fixed w-full h-screen bg-[#0000004b] top-0 left-0 flex items-center justify-center ">
+          <div className="w-[50%] h-[80vh] pl-[100px] bg-white rounded shadow relative overflow-y-scroll">
+            <div className="w-full flex justify-end p-3">
+              <RxCross1
+                size={30}
+                className="cursor-pointer"
+                onClick={() => setOpen_Order(false)}
+              />
+            </div>
+            <h1 className="text-center text-[25px] font-Poppins">
+              Đánh giá đơn hàng
+            </h1>
+            <div className="w-[50%]">
+              <ReviewOrder order={myOrder} />
+            </div>
+          </div>
+        </div>
       )}
       <div className="flex bg-white w-auto justify-between items-center border-b-2 border-red-400 pb-4 sm:flex-col sm:items-start">
         <button
@@ -257,11 +283,21 @@ const OrderDetails = () => {
         Cảm ơn bạn đã mua hàng của Shop-vn
         <div></div>
       </div>
+      {!order_review ? (
+        <button
+          onClick={() => setOpen_Order(true)}
+          className={`border border-orange-500 hover:bg-slate-300 rounded-md  m-2 p-2 `}
+        >
+          Đánh giá đơn hàng
+        </button>
+      ) : (
+        <p className="font-bold text-slate-500 pt-[20px]">Cảm ơn bạn đã đánh giá ^^!</p>
+      )}
 
       {myOrder?.delivery_status === "Đã Giao Hàng" ? (
         <button
           onClick={() => setOpen_request(true)}
-          className={`border bg-orange-500 text-white rounded-md  m-2 p-2 `}
+          className={`border bg-orange-500 text-white rounded-md justify-end items-end m-2 p-2 `}
         >
           Yêu cầu trả hàng
         </button>

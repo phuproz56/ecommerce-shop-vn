@@ -13,6 +13,7 @@ import Reviews from "../../Reviews";
 import { get_product } from "../../../store/reducers/homeReducer";
 
 import FadeLoader from "react-spinners/FadeLoader";
+import ReviewOrder from "../../ReviewOrder";
 const Hoanthanh = () => {
   const dispatch = useDispatch();
   const { allOrders, successMessage, loader, product_complete } = useSelector(
@@ -82,6 +83,8 @@ const Hoanthanh = () => {
             </div>
           )}
 
+         
+
           <div className="flex justify-between items-center w-full">
             <ul className="w-full">
               {loader ? (
@@ -107,9 +110,13 @@ const Hoanthanh = () => {
                               <b className="border-l-2 text-red-400 uppercase ml-4 pl-2">
                                 hoàn thành
                               </b>
-                            ) : q.delivery_status === "Yêu Cầu Trả Hàng" ?  <b className="border-l-2 text-red-400 uppercase ml-4 pl-2">
-                            Đang chờ yêu cầu trả hàng
-                          </b> : ""}
+                            ) : q.delivery_status === "Yêu Cầu Trả Hàng" ? (
+                              <b className="border-l-2 text-red-400 uppercase ml-4 pl-2">
+                                Đang chờ yêu cầu trả hàng
+                              </b>
+                            ) : (
+                              ""
+                            )}
                           </div>
                         </h2>
 
@@ -180,9 +187,7 @@ const Hoanthanh = () => {
                                         </p>
                                         <p>-{p.discount}%</p>
                                       </div>
-                                      {q.delivery_status === "Đã Giao Hàng"
-                                      
-                                      && (
+                                      {q.delivery_status === "Đã Giao Hàng" && (
                                         <div className="pt-2 flex items-center justify-start md-lg:flex-col">
                                           <Link
                                             onClick={() =>
@@ -205,6 +210,7 @@ const Hoanthanh = () => {
                                           >
                                             Mua lại
                                           </button>
+                                          
                                         </div>
                                       )}
                                     </div>

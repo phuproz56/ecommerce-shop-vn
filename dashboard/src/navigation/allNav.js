@@ -70,6 +70,13 @@ export const allNav = [
     path: "/admin/dashboard/shipper-comfirm",
   },
   {
+    id: 36,
+    title: "Đánh Giá Đơn Hàng",
+    icon: <BsCartDashFill />,
+    role: "admin",
+    path: "/admin/dashboard/all-review-order",
+  },
+  {
     id: 31,
     title: "Người Mua Trả Hàng",
     icon: <BsCartDashFill />,

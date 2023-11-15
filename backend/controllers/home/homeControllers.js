@@ -1,11 +1,14 @@
 const { response } = require("express");
+const formidable = require("formidable");
 const categoryModel = require("../../models/categoryModel");
 const productModel = require("../../models/productModel");
 const { responseReturn } = require("../../utils/response");
 const queryProducts = require("../../utils/queryProducts");
 const reviewModel = require("../../models/reviewModel");
 const brandModel = require("../../models/brandModel");
+const reviewOrder = require("../../models/reviewOrder");
 const moment = require("moment");
+const cloudinary = require("cloudinary").v2;
 const {
   mongo: { ObjectId },
 } = require("mongoose");
@@ -310,6 +313,84 @@ class homeControllers {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  submit_review_order = async (req, res) => {
+    const form = formidable({ multiples: true });
+
+    form.parse(req, async (err, field, files) => {
+      let { name, review, rating, orderId } = field;
+      const { images, videos } = files;
+      name = name.trim();
+
+      cloudinary.config({
+        cloud_name: process.env.cloud_name,
+        api_key: process.env.api_key,
+        api_secret: process.env.api_secret,
+        secure: true,
+      });
+
+      try {
+        let allImageUrl = [];
+        if (images.length === undefined) {
+          const result = await cloudinary.uploader.upload(images.filepath, {
+            folder: "review_order",
+          });
+          allImageUrl = [...allImageUrl, result.url];
+        } else {
+          for (let i = 0; i < images.length; i++) {
+            const result = await cloudinary.uploader.upload(
+              images[i].filepath,
+              {
+                folder: "review_order",
+              }
+            );
+            allImageUrl = [...allImageUrl, result.url];
+          }
+        }
+
+        let allVideoUrl = [];
+
+        if (videos.length === undefined) {
+          const result = await cloudinary.uploader.upload(videos.filepath, {
+            resource_type: "video",
+            folder: "review_order",
+          });
+          allVideoUrl = [...allVideoUrl, result.url];
+        } else {
+          for (let i = 0; i < videos.length; i++) {
+            const result = await cloudinary.uploader.upload(
+              videos[i].filepath,
+              {
+                resource_type: "video",
+                folder: "review_order",
+              }
+            );
+            allVideoUrl = [...allVideoUrl, result.url];
+          }
+        }
+
+        await reviewOrder.create({
+          orderId: orderId,
+          name,
+          review,
+          rating,
+          images: allImageUrl,
+          videos: allVideoUrl,
+        });
+
+        responseReturn(res, 201, {
+          message: "đánh giá đơn hàng thành công!",
+        });
+      } catch (error) {
+        responseReturn(res, 500, "loi server");
+      }
+
+      if (err) {
+        reject(err);
+        return;
+      }
+    });
   };
 }
 

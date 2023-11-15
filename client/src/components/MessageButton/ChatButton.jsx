@@ -20,7 +20,8 @@ import { FaList } from "react-icons/fa";
 
 const socket = io("http://localhost:5000");
 
-const Chat = () => {
+const ChatButton = () => {
+ 
   const scrollRef = useRef();
 
   const dispatch = useDispatch();
@@ -90,7 +91,6 @@ const Chat = () => {
     }
   }, [receverMessage]);
 
-
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [fd_messages]);
@@ -101,7 +101,7 @@ const Chat = () => {
     <div className="bg-white p-3 rounded-md">
       <div className="w-full flex relative">
         <div
-          className={`w-[230px] md-lg:absolute bg-white transition-all md-lg:h-full ${
+          className={`w-[100px] md-lg:absolute bg-white transition-all md-lg:h-full ${
             show ? "left-0" : "-left-[350px]"
           } `}
         >
@@ -114,7 +114,7 @@ const Chat = () => {
           <div className="w-full flex flex-col text-slate-600 py-4 h-[400px] pr-3">
             {my_friends.map((f, i) => (
               <Link
-                to={`/dashboard/chat/${f.fdId}`}
+                // to={`/dashboard/chat/${f.fdId}`}
                 key={i}
                 className={`flex gap-2 justify-start items-center pl-2 py-[5px]`}
               >
@@ -129,7 +129,7 @@ const Chat = () => {
             ))}
           </div>
         </div>
-        <div className="w-[calc(100%-230px)] md-lg:w-full">
+        <div className="w-[calc(100%-100px)] md-lg:w-full">
           {currentFd ? (
             <div className="w-full h-full">
               <div className="flex justify-between items-center text-slate-600 text-xl h-[50px]">
@@ -234,4 +234,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default ChatButton;

@@ -180,8 +180,6 @@ const AddProduct = () => {
     }
   }, [successMessage, errorMessage]);
 
-
-
   const add = (e) => {
     e.preventDefault();
     const formData = new FormData();

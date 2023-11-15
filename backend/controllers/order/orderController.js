@@ -6,8 +6,8 @@ const sellerWallet = require("../../models/sellerWallet");
 const productModel = require("../../models/productModel");
 const couponModel = require("../../models/couponModel");
 const requestModel = require("../../models/requestModel");
-const customerModel = require("../../models/customerModel");
-const shipperModel = require("../../models/shipperModel");
+const reviewOrder = require("../../models/reviewOrder");
+
 const moment = require("moment");
 const { responseReturn } = require("../../utils/response");
 const {
@@ -635,6 +635,27 @@ class orderController {
       console.log(error.message);
     }
   };
+
+  get_all_review_order = async (req, res) => {
+    try {
+      const review_order = await reviewOrder.find({});
+      responseReturn(res, 200, { review_order });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  get_detail_review_order = async (req, res) => {
+    const { orderId } = req.params;
+    try {
+      const order_review_detail = await reviewOrder.findOne({
+        orderId: new ObjectId(orderId),
+      });
+      responseReturn(res, 200, { order_review_detail });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  
 }
 
 module.exports = new orderController();

@@ -38,6 +38,11 @@ const Category = () => {
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [parPage, setParPage] = useState(5);
+
+  const [searchValueBrand, setSearchValueBrand] = useState("");
+  const [currentPageBrand, setCurrentPageBrand] = useState(1);
+  const [parPageBrand, setParPageBrand] = useState(5);
+
   const [show, setShow] = useState(false);
   const [imageShow, setImage] = useState("");
 
@@ -86,7 +91,6 @@ const Category = () => {
       setImage("");
       window.location.reload();
     }
-    
   }, [successMessage, errorMessage]);
 
   useEffect(() => {
@@ -95,9 +99,24 @@ const Category = () => {
       page: parseInt(currentPage),
       searchValue,
     };
+
+    const obj_brand = {
+      parPage: parseInt(parPageBrand),
+      page: parseInt(currentPageBrand),
+      searchValueBrand,
+    };
     dispatch(get_category(obj));
     dispatch(get_brand(obj));
-  }, [searchValue, currentPage, parPage]);
+  }, [
+    searchValue,
+    currentPage,
+    parPage,
+    parPageBrand,
+    currentPageBrand,
+    searchValueBrand,
+  ]);
+
+  useEffect(() => {}, []);
 
   const delete_category = (_id) => {
     dispatch(xoa_category(_id));
@@ -419,13 +438,13 @@ const Category = () => {
                 </table>
               </div>
               <div className="w-full flex justify-end mt-4 bottom-4 right-4">
-                {totalBrand >= parPage && (
+                {totalBrand >= parPageBrand && (
                   <Pagination
-                    pageNumber={currentPage}
-                    setPageNumber={setCurrentPage}
+                    pageNumber={currentPageBrand}
+                    setPageNumber={setCurrentPageBrand}
                     totalItem={totalBrand}
-                    parPage={parPage}
-                    showItem={totalBrand - parPage}
+                    parPage={parPageBrand}
+                    showItem={totalBrand - parPageBrand}
                   />
                 )}
               </div>

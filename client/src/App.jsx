@@ -33,6 +33,7 @@ import Hoanthanh from "./components/dashboard/orders/Hoanthanh";
 import OrderDetails from "./components/dashboard/OrderDetails";
 import Trahang from "./components/dashboard/orders/Trahang.jsx";
 import Coupon from "./components/dashboard/Coupon.jsx";
+import FloatingMessageButton from "./components/MessageButton/FloatingMessageButton .jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -80,6 +81,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
+      <FloatingMessageButton />
     </BrowserRouter>
   );
 }

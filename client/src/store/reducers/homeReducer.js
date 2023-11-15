@@ -107,6 +107,21 @@ export const get_reviews = createAsyncThunk(
   }
 );
 
+export const customer_review_order = createAsyncThunk(
+  "review/customer_review_order",
+  async (info, { fulfillWithValue }) => {
+    try {
+      const { data } = await api.post(
+        "/home/customer/submit-review-order",
+        info
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+);
+
 export const homeReducer = createSlice({
   name: "home",
   initialState: {
@@ -129,6 +144,7 @@ export const homeReducer = createSlice({
     reviews: [],
     sexs: ["Nam", "Nữ"],
     brands: [],
+    review_order: {},
   },
   reducers: {
     messageClear: (state, _) => {
@@ -179,6 +195,16 @@ export const homeReducer = createSlice({
       state.reviews = payload.reviews;
       state.totalReview = payload.totalReview;
       state.rating_review = payload.rating_review;
+    },
+    [customer_review_order.fulfilled]: (state, { payload }) => {
+      state.loader = false;
+      state.successMessage = payload.message;
+    },
+    [customer_review_order.pending]: (state, { payload }) => {
+      state.loader = true;
+    },
+    [customer_review_order.rejected]: (state, { payload }) => {
+      state.errorMessage = payload.message;
     },
   },
 });

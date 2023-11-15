@@ -65,6 +65,20 @@ export const get_order = createAsyncThunk(
   }
 );
 
+export const get_order_review = createAsyncThunk(
+  "order/get_order_review",
+  async (orderId, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/home/customer/get-order-review/${orderId}`
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
 export const get_all_orders = createAsyncThunk(
   "order/get_all_orders",
   async (customerId, { rejectWithValue, fulfillWithValue }) => {
@@ -141,7 +155,8 @@ export const orderReducer = createSlice({
     product_complete: [],
     request: {},
     all_coupon: [],
-    loader: false
+    loader: false,
+    order_review: {},
   },
   reducers: {
     messageClear: (state, _) => {
@@ -175,6 +190,9 @@ export const orderReducer = createSlice({
     },
     [get_all_coupon.fulfilled]: (state, { payload }) => {
       state.all_coupon = payload.all_coupon;
+    },
+    [get_order_review.fulfilled]: (state, { payload }) => {
+      state.order_review = payload.order_review_detail;
     },
   },
 });

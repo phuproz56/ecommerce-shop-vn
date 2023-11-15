@@ -7,6 +7,7 @@ import ShipperDetails from "../../views/admin/ShipperDetails";
 import Products from "../../views/admin/Products";
 import EditProduct from "../../views/admin/EditProduct";
 import DsCustomers from "../../views/admin/DsCustomers";
+import ReviewOrderDetail from "../../views/admin/ReviewOrderDetail";
 const SellerDetails = lazy(() => import("../../views/admin/SellerDetail"));
 const DeactiveSellers = lazy(() => import("../../views/admin/DeactiveSellers"));
 const SellerRequest = lazy(() => import("../../views/admin/SellerRequest"));
@@ -34,6 +35,7 @@ const OrderShipperDetails = lazy(() =>
 );
 const Request = lazy(() => import("../../views/admin/Request"));
 const RequestDetails = lazy(() => import("../../views/admin/RequestDetails"));
+const ReviewOrder = lazy(() => import("../../views/admin/ReviewOrder"));
 
 export const adminRoutes = [
   {
@@ -129,6 +131,16 @@ export const adminRoutes = [
   {
     path: "admin/dashboard/sellers-request",
     element: <SellerRequest />,
+    role: "admin",
+  },
+  {
+    path: "admin/dashboard/all-review-order",
+    element: <ReviewOrder />,
+    role: "admin",
+  },
+  {
+    path: "admin/dashboard/review-order/details/:orderId",
+    element: <ReviewOrderDetail />,
     role: "admin",
   },
   {

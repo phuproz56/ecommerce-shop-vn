@@ -115,6 +115,39 @@ export const get_request = createAsyncThunk(
   }
 );
 
+export const get_all_review_order = createAsyncThunk(
+  "order/get_all_review_order",
+  async (_, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(`/seller/get-all-review-order`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_detail_review_order = createAsyncThunk(
+  "order/get_detail_review_order",
+  async (orderId, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/seller/get-detail-review-order/${orderId}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const OrderReducer = createSlice({
   name: "order",
   initialState: {
@@ -129,6 +162,8 @@ export const OrderReducer = createSlice({
     all_request: [],
     orders_shipper: [],
     requests: [],
+    review_order: [],
+    order_review_detail: {},
   },
   reducers: {
     messageClear: (state, _) => {
@@ -168,6 +203,12 @@ export const OrderReducer = createSlice({
     [get_request.fulfilled]: (state, { payload }) => {
       state.requests = payload.requests;
       state.all_request = payload.order_request;
+    },
+    [get_all_review_order.fulfilled]: (state, { payload }) => {
+      state.review_order = payload.review_order;
+    },
+    [get_detail_review_order.fulfilled]: (state, { payload }) => {
+      state.order_review_detail = payload.order_review_detail;
     },
   },
 });
