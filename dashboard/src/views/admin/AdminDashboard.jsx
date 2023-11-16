@@ -1,18 +1,17 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable jsx-a11y/scope */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { RiProductHuntLine } from "react-icons/ri";
 import { FaUsers } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import Chart from "react-apexcharts";
-import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
-import seller from "../../assets/seller.png";
 
 import { get_admin_dashboard_index_data } from "../../store/Reducers/dashboardIndexReducer";
+
 
 const AdminDashboard = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -23,6 +22,19 @@ const AdminDashboard = () => {
     totalSeller,
     recentOrders,
     recentMessage,
+    total_thunhap_thang,
+    t1,
+    t2,
+    t3,
+    t4,
+    t5,
+    t6,
+    t7,
+    tt8,
+    t9,
+    t10,
+    t11,
+    t12,
   } = useSelector((state) => state.dashboardIndex);
 
   const dispatch = useDispatch();
@@ -31,19 +43,11 @@ const AdminDashboard = () => {
     dispatch(get_admin_dashboard_index_data());
   }, [dispatch]);
 
-  const state = {
+  const [chartData, setChartData] = useState({
     series: [
       {
-        name: "Orders",
-        data: [34, 65, 34, 65, 34, 34, 34, 56, 23, 67, 23, 45],
-      },
-      {
-        name: "Revenue",
-        data: [34, 32, 45, 32, 34, 34, 43, 56, 65, 67, 45, 78],
-      },
-      {
-        name: "Sellers",
-        data: [78, 32, 34, 54, 65, 34, 54, 21, 54, 43, 45, 43],
+        name: "tổng tiền",
+        data: [],
       },
     ],
     options: {
@@ -117,7 +121,38 @@ const AdminDashboard = () => {
         },
       ],
     },
-  };
+  });
+
+  useEffect(() => {
+    // Mảng dữ liệu của bạn
+    if (!Array.isArray(total_thunhap_thang)) {
+      console.error("Data is not an array");
+      return null;
+    }
+    const yourData = total_thunhap_thang;
+
+    // Chuyển đổi dữ liệu của bạn thành định dạng mà apexcharts đòi hỏi
+    const convertedData = yourData.reduce(
+      (acc, item) => {
+        acc[0].data.push(item.totalAmount);
+        return acc;
+      },
+      [{ name: "Tổng Thu Nhập", data: [] }]
+    );
+
+    // Cập nhật state với dữ liệu mới
+    setChartData({
+      ...chartData,
+      series: convertedData,
+      options: {
+        ...chartData.options,
+        xaxis: {
+          categories: yourData.map((item) => item.manth),
+        },
+      },
+    });
+  }, []);
+
   return (
     <div className="px-2 md:px-7 py-5">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-7">
@@ -164,19 +199,27 @@ const AdminDashboard = () => {
         </div>
       </div>
       <div className="w-full flex flex-wrap mt-7">
-        <div className="w-full lg:w-7/12 lg:pr-3">
-          <div className="w-full bg-[#283046] p-4 rounded-md">
+        <div className="w-full ">
+          <div className="w-full bg-[#283046] p-4 rounded-md h-full">
             <h2 className="text-white">Thống kê theo ngày</h2>
-            <div class="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
-              <iframe
+            <div class="bg-[#283046] border-none rounded-2 shadow-md h-full">
+              <div class="bg-[#283046] rounded-lg shadow-md h-[350px]">
+                <Chart
+                  options={chartData.options}
+                  series={chartData.series}
+                  type="bar"
+                  height={350}
+                />
+              </div>
+              {/* <iframe
                 class="w-full h-full"
                 src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=653512a4-c4df-476a-8533-3f3dce2fb8bb&maxDataAge=60&theme=dark&autoRefresh=true"
                 frameborder="0"
-              ></iframe>
+              ></iframe> */}
             </div>
           </div>
         </div>
-        <div className="w-full lg:w-5/12 lg:pl-4 mt-6 lg:mt-0">
+        {/* <div className="w-full lg:w-5/12 lg:pl-4 mt-6 lg:mt-0">
           <div className="w-full bg-[#283046] p-4 rounded-md text-[#d0d2d6]">
             <div className="flex justify-between items-center">
               <h2 className="font-semibold text-lg text-[#d0d2d6] pb-3">
@@ -223,7 +266,7 @@ const AdminDashboard = () => {
               </ol>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="w-full flex mt-7 text-white">
         <div className="w-full lg:w-6/12 lg:pr-3">

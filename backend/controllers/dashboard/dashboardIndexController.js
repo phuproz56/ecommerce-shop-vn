@@ -267,6 +267,54 @@ module.exports.get_admin_dashboard_data = async (req, res) => {
       },
     ]);
 
+    const total_thunhap_thang = await myShopWallet.aggregate([
+      {
+        $group: {
+          _id: {
+            manth: "$manth",
+            year: "$year",
+          },
+          totalAmount: { $sum: "$amount" },
+        },
+      },
+      {
+        $project: {
+          _id: 0, // Bỏ qua _id trong kết quả
+          manth: "$_id.manth",
+          year: "$_id.year",
+          totalAmount: 1,
+        },
+      },
+    ]);
+
+    const result = await myShopWallet.aggregate([
+      {
+        $addFields: {
+          createdAtDate: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$createdAt",
+              timezone: "+07:00",
+            },
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$createdAtDate",
+          totalAmount: { $sum: "$amount" },
+        },
+      },
+      {
+        $sort: { _id: -1 },
+      },
+      {
+        $limit: 10,
+      },
+    ]);
+
+    console.log(result);
+
     const totalProduct = await productModel.find({}).countDocuments();
 
     const totalOrder = await customerOrder.find({}).countDocuments();
@@ -278,6 +326,7 @@ module.exports.get_admin_dashboard_data = async (req, res) => {
     const recentOrders = await customerOrder.find({}).limit(5);
 
     responseReturn(res, 200, {
+      total_thunhap_thang,
       totalOrder,
       totalSale: totalSele.length > 0 ? totalSele[0].totalAmount : 0,
       totalSeller,

@@ -3,32 +3,29 @@ import "./FloatingMessageButton.css"; // You can style this component in a separ
 import ChatButton from "./ChatButton";
 import MessengerIcon from "./MessengerIcon";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { MdOutlineSupportAgent } from "react-icons/md";
 
 const FloatingMessageButton = () => {
   const [isMessageOpen, setIsMessageOpen] = useState(false);
 
   return (
     <div
-      className={`floating-message-button ${
-        isMessageOpen ? "bg-none" : "bg-blue-300"
-      }`}
+      className={`floating-message-button  `}
     >
       {isMessageOpen ? (
-        <div className="message-content">
+        <div className="message-content bg-none">
           {/* Include your message or content here */}
           <ChatButton />
           <button className="justify-start items-start pb-[400px]">
-            <p
-              className="text-lg"
-              onClick={() => setIsMessageOpen(false)}
-            >
+            <p className="text-[30px]" onClick={() => setIsMessageOpen(false)}>
               <IoIosCloseCircleOutline />
             </p>
           </button>
         </div>
       ) : null}
-      <button className={`text-black `} onClick={() => setIsMessageOpen(true)}>
-        <MessengerIcon />
+      <button className={`text-black bg-blue-300 rounded-full p-[10px] hover:p-[15px] hover:transition-all hover:duration-350 hover:bg-green-300`} onClick={() => setIsMessageOpen(true)}>
+        {/* <MessengerIcon /> */}
+        <MdOutlineSupportAgent className={`text-[30px] ${isMessageOpen && "hidden"}`}/>
       </button>
     </div>
   );
