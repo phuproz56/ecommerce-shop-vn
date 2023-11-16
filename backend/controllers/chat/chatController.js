@@ -39,7 +39,7 @@ class chatController {
                 myFriends: {
                   fdId: sellerId,
                   name: "Shop-Vn",
-                  image: seller.image,
+                  image: seller?.image,
                 },
               },
             }
@@ -186,7 +186,9 @@ class chatController {
     const { sellerId } = req.params;
 
     try {
-      const data = await sellerCustomerModel.findOne({ myId: "654366fbba51a942cd41835f" });
+      const data = await sellerCustomerModel.findOne({
+        myId: "654366fbba51a942cd41835f",
+      });
 
       responseReturn(res, 200, {
         customers: data.myFriends,
@@ -198,7 +200,7 @@ class chatController {
 
   get_customer_seller_message = async (req, res) => {
     const { customerId } = req.params;
-    const  id  = "654366fbba51a942cd41835f";
+    const id = "654366fbba51a942cd41835f";
     try {
       const messages = await sellerCustomerMessage.find({
         $or: [

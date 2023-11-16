@@ -32,6 +32,14 @@ const Header = ({ showSidebar, setShowSidebar }) => {
                     ? "Quản Lý"
                     : userInfo.role === "shipper"
                     ? "Shipper"
+                    : userInfo?.role === "nv_donhang"
+                    ? "Duyệt Đơn Hàng"
+                    : userInfo?.role === "nv_nhapkho"
+                    ? "Nhập Kho"
+                    : userInfo?.role === "nv_quanly"
+                    ? "Nhân Viên Quản Lý"
+                    : userInfo?.role === "nv_sanpham"
+                    ? "Quyền Sản Phẩm"
                     : "Nhân Viên"}
                 </span>
               </div>

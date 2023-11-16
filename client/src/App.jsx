@@ -34,6 +34,7 @@ import OrderDetails from "./components/dashboard/OrderDetails";
 import Trahang from "./components/dashboard/orders/Trahang.jsx";
 import Coupon from "./components/dashboard/Coupon.jsx";
 import FloatingMessageButton from "./components/MessageButton/FloatingMessageButton .jsx";
+import MessengerCustomerChat from "react-messenger-customer-chat";
 
 function App() {
   const dispatch = useDispatch();
@@ -82,6 +83,7 @@ function App() {
         </Route>
       </Routes>
       <FloatingMessageButton />
+      <MessengerCustomerChat pageId="61553589753844" appId="2554144901412397" />
     </BrowserRouter>
   );
 }

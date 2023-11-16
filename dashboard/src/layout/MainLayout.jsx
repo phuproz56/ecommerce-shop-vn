@@ -17,9 +17,14 @@ function MainLayout() {
   const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
-    if (userInfo && userInfo.role === "seller") {
-      socket.emit("add_seller", userInfo._id, userInfo);
-    } else {
+    if (
+      userInfo.role === "nv_donhang" ||
+      userInfo.role === "nv_nhapkho" ||
+      userInfo.role === "nv_sanpham" ||
+      userInfo.role === "nv_quanly"
+    ) {
+      socket.emit("add_seller_admin", userInfo._id, userInfo);
+    } else if (userInfo.role === "admin") {
       socket.emit("add_admin", userInfo);
     }
   }, [userInfo]);

@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-concat */
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { FaList } from "react-icons/fa";
@@ -35,13 +35,13 @@ const SellerToCustomer = () => {
 
   const [show, setShow] = useState(false);
 
-
-const id = "654366fbba51a942cd41835f";
+  const id = "654366fbba51a942cd41835f";
 
   useEffect(() => {
     dispatch(get_customers(id));
+    socket.emit("add_seller", id, userInfo);
   }, []);
-  
+
   useEffect(() => {
     if (customerId) {
       dispatch(get_customer_message(customerId));
@@ -55,7 +55,7 @@ const id = "654366fbba51a942cd41835f";
         senderId: "654366fbba51a942cd41835f",
         receverId: customerId,
         text,
-        name: userInfo?.shopInfo?.shopName,
+        name: userInfo?.name,
       })
     );
     setText("");
@@ -70,6 +70,7 @@ const id = "654366fbba51a942cd41835f";
 
   useEffect(() => {
     socket.on("customer_message", (msg) => {
+      console.log("first");
       setReceverMessage(msg);
     });
     // socket.on('activeSeller', (sellers) => {
@@ -79,18 +80,15 @@ const id = "654366fbba51a942cd41835f";
 
   useEffect(() => {
     if (receverMessage) {
-      if (
-        customerId === receverMessage.senderId &&
-        userInfo._id
-      ) {
+      if (customerId === receverMessage.senderId) {
         dispatch(updateMessage(receverMessage));
       } else {
         toast.success(receverMessage.senderName + " " + "send a message");
         dispatch(messageClear());
       }
     }
-  }, [receverMessage]);
-  
+  }, [customerId, dispatch, receverMessage]);
+
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -234,7 +232,7 @@ const id = "654366fbba51a942cd41835f";
                 value={text}
                 className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]"
                 type="text"
-                placeholder="input your message"
+                placeholder="nhập tin nhắn..."
               />
               <button
                 disabled={customerId ? false : true}

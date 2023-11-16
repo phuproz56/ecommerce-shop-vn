@@ -68,6 +68,9 @@ const OrderDetails = () => {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
       setOpen_request(false);
       setOpen_Order(false);
     }
@@ -283,15 +286,19 @@ const OrderDetails = () => {
         Cảm ơn bạn đã mua hàng của Shop-vn
         <div></div>
       </div>
-      {!order_review ? (
+      {!order_review && myOrder?.delivery_status === "Đã Giao Hàng" ? (
         <button
           onClick={() => setOpen_Order(true)}
           className={`border border-orange-500 hover:bg-slate-300 rounded-md  m-2 p-2 `}
         >
           Đánh giá đơn hàng
         </button>
+      ) : order_review ? (
+        <p className="font-bold text-slate-500 pt-[20px]">
+          Cảm ơn bạn đã đánh giá ^^!
+        </p>
       ) : (
-        <p className="font-bold text-slate-500 pt-[20px]">Cảm ơn bạn đã đánh giá ^^!</p>
+        ""
       )}
 
       {myOrder?.delivery_status === "Đã Giao Hàng" ? (

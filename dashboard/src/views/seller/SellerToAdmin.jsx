@@ -35,13 +35,7 @@ const SellerToAdmin = () => {
     );
     setText("");
   };
-
-  useEffect(() => {
-    socket.on("receved_admin_message", (msg) => {
-      dispatch(updateAdminMessage(msg));
-    });
-  }, []);
-
+  
   useEffect(() => {
     if (successMessage) {
       socket.emit(
@@ -51,6 +45,12 @@ const SellerToAdmin = () => {
       dispatch(messageClear());
     }
   }, [successMessage]);
+
+  useEffect(() => {
+    socket.on("receved_admin_message", (msg) => {
+      dispatch(updateAdminMessage(msg));
+    });
+  }, []);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -131,7 +131,7 @@ const SellerToAdmin = () => {
                 value={text}
                 className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]"
                 type="text"
-                placeholder="input your message"
+                placeholder="nhập tin nhắn..."
               />
               <button className="shadow-lg bg-cyan-500 hover:shadow-cyan-500/50 text-semibold w-[75px] h-[35px] rounded-md text-white flex justify-center items-center">
                 Send

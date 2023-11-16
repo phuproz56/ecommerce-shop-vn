@@ -126,7 +126,8 @@ class authControllers {
   };
 
   seller_register = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, district, sub_district } = req.body;
+
     try {
       const getUser = await sellerModel.findOne({ email });
       if (getUser) {
@@ -137,7 +138,10 @@ class authControllers {
           email,
           password: await bcrypt.hash(password, 10),
           method: "menualy",
-          shopInfo: {},
+          shopInfo: {
+            district: district,
+            sub_district: sub_district,
+          },
         });
         await sellerCustomerModel.create({
           myId: "654366fbba51a942cd41835f",
@@ -180,7 +184,7 @@ class authControllers {
   };
 
   nvadmin_register = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, district, sub_district, role } = req.body;
 
     try {
       const getNvAdmin = await sellerModel.findOne({ email });
@@ -193,20 +197,17 @@ class authControllers {
           email,
           password: await bcrypt.hash(password, 10),
           status: "active",
+          role: role,
+          shopInfo: {
+            district: district,
+            sub_district: sub_district,
+          },
         });
         nvAdmin.save();
-
-        // const a = await nvadminModel.create({
-        //   myId: nvAdmin.id,
-        // });
-        // const token = await createToken({
-        //   id: nvAdmin.id,
-        //   role: nvAdmin.role,
-        // });
-        // console.log(token);
-        // res.cookie("accessToken1", token, {
-        //   exprires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        // });
+        
+        await sellerCustomerModel.create({
+          myId: "654366fbba51a942cd41835f",
+        });
 
         responseReturn(res, 201, {
           nvAdmin,

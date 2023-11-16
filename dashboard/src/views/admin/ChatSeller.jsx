@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import { IoMdClose } from "react-icons/io";
 import { FaList } from "react-icons/fa";
@@ -28,6 +27,7 @@ const ChatSeller = () => {
     currentSeller,
     successMessage,
   } = useSelector((state) => state.chat);
+
   const [show, setShow] = useState(false);
   const [recevedMessage, setRecevedMessage] = useState("");
 
@@ -53,7 +53,7 @@ const ChatSeller = () => {
     if (sellerId) {
       dispatch(get_admin_message(sellerId));
     }
-  }, [sellerId]);
+  }, [dispatch, sellerId]);
 
   useEffect(() => {
     if (successMessage) {
@@ -82,7 +82,7 @@ const ChatSeller = () => {
         toast.success(recevedMessage.senderName + " send a message");
       }
     }
-  }, [recevedMessage]);
+  }, [dispatch, recevedMessage, sellerId]);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -111,8 +111,10 @@ const ChatSeller = () => {
                 <Link
                   key={i}
                   to={
-                    userInfo.role === 'admin' ?
-                    `/admin/dashboard/chat-sellers/${s._id}` : `/nhanvien-admin/dashboard/chat-sellers/${s._id}`}
+                    userInfo.role === "admin"
+                      ? `/admin/dashboard/chat-sellers/${s._id}`
+                      : `/nhanvien-admin/dashboard/chat-sellers/${s._id}`
+                  }
                   className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 rounded-sm py-2 cursor-pointer ${
                     sellerId === s._id ? "bg-slate-700" : ""
                   }`}
@@ -213,7 +215,11 @@ const ChatSeller = () => {
                             <div>
                               <img
                                 className="w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]"
-                                src={ userInfo.role === 'admin' ? "/images/admin.jpg" : '/images/nhanvien.jpg'}
+                                src={
+                                  userInfo.role === "admin"
+                                    ? "/images/admin.jpg"
+                                    : "/images/nhanvien.jpg"
+                                }
                                 alt=""
                               />
                             </div>
@@ -239,7 +245,7 @@ const ChatSeller = () => {
                 readOnly={sellerId ? false : true}
                 className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]"
                 type="text"
-                placeholder="input your message"
+                placeholder="nhập tin nhắn..."
               />
               <button
                 disabled={sellerId ? false : true}

@@ -8,7 +8,14 @@ const ProtectRoute = ({ route, children }) => {
   if (role) {
     if (userInfo) {
       if (route.role) {
-        if (userInfo.role === route.role) {
+        if (
+          userInfo.role === "nv_donhang" ||
+          userInfo.role === "nv_nhapkho" ||
+          userInfo.role === "nv_quanly" ||
+          userInfo.role === "nv_sanpham" ||
+          userInfo.role === "admin"||
+          userInfo.role === "shipper"
+        ) {
           if (route.status) {
             if (route.status === userInfo.status) {
               return <Suspense fallback={null}>{children}</Suspense>;

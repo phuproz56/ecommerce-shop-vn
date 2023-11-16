@@ -14,15 +14,26 @@ const RegisterNvAdmin = () => {
   const { loader, errorMessage, successMessage } = useSelector(
     (state) => state.auth
   );
-  const [state, setSatate] = useState({
+  const [state, setState] = useState({
     name: "",
     email: "",
     password: "",
+    district: "",
+    sub_district: "",
+    role: "",
   });
+
   const inputHandle = (e) => {
-    setSatate({
+    setState({
       ...state,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleRoleChange = (e) => {
+    setState({
+      ...state,
+      role: e.target.value,
     });
   };
 
@@ -76,6 +87,58 @@ const RegisterNvAdmin = () => {
               required
             />
           </div>
+
+          <div className="flex flex-col w-full gap-1 mb-3">
+            <label className="flex" htmlFor="email">
+              địa chỉ 1<p className="text-red-500">*</p>
+            </label>
+            <input
+              onChange={inputHandle}
+              value={state.district}
+              className="px-3 py-2 outline-none border border-slate-700 bg-transparent rounded-md text-[#d0d2d6] focus:border-indigo-500 overflow-hidden"
+              type="text"
+              name="district"
+              placeholder="địa chỉ 1"
+              id="district"
+              required
+            />
+          </div>
+
+          <div className="flex flex-col w-full gap-1 mb-3">
+            <label className="flex" htmlFor="email">
+              địa chỉ 2: (tùy chọn)
+            </label>
+            <input
+              onChange={inputHandle}
+              value={state.sub_district}
+              className="px-3 py-2 pb-2 pt-2 outline-none border border-slate-700 bg-transparent rounded-md text-[#d0d2d6] focus:border-indigo-500 overflow-hidden"
+              type="text"
+              name="sub_district"
+              placeholder="địa chỉ 2"
+              id="sub_district"
+            />
+          </div>
+
+          <div className="flex flex-col w-full gap-1 mb-3">
+            <label className="flex" htmlFor="email">
+              Phân Quyền Nhân Viên<p className="text-red-500">*</p>
+            </label>
+            <select
+              value={state.role}
+              onChange={handleRoleChange}
+              className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
+              name={state.role}
+              required
+              id=""
+            >
+              <option value="">--Phân Quyền--</option>
+              <option value="nv_donhang">Duyệt Đơn Hàng</option>
+              <option value="nv_nhapkho">Nhập Kho</option>
+              <option value="nv_quanly">Quản Lý</option>
+              <option value="nv_sanpham">Quyền Sản Phẩm</option>
+            </select>
+          </div>
+
           <div className="flex flex-col w-full gap-1 mb-3">
             <label className="flex" htmlFor="password">
               Mật khẩu <p className="text-red-500">*</p>

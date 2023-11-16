@@ -92,6 +92,13 @@ io.on("connection", (soc) => {
     io.emit("activeAdmin", { status: true });
   });
 
+  soc.on("add_seller_admin", (sellerId, userInfo) => {
+    addSeller(sellerId, soc.id, userInfo);
+    io.emit("activeSeller", allSeller);
+    io.emit("activeCustomer", allCustomer);
+    io.emit("activeAdmin", { status: true });
+  });
+
   soc.on("add_admin", (adminInfo) => {
     delete adminInfo.email;
     admin = adminInfo;
@@ -102,7 +109,6 @@ io.on("connection", (soc) => {
 
   soc.on("send_seller_message", (msg) => {
     const customer = findCustomer(msg.receverId);
-
     if (customer !== undefined) {
       soc.to(customer.socketId).emit("seller_message", msg);
     }

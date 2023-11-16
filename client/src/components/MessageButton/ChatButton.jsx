@@ -1,8 +1,7 @@
 /* eslint-disable no-useless-concat */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-sparse-arrays */
 import React, { useEffect, useState } from "react";
-import { AiOutlineMessage, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus } from "react-icons/ai";
 import { GrEmoji } from "react-icons/gr";
 import { IoSend } from "react-icons/io5";
 import { Link } from "react-router-dom";
@@ -21,7 +20,6 @@ import { FaList } from "react-icons/fa";
 const socket = io("http://localhost:5000");
 
 const ChatButton = () => {
- 
   const scrollRef = useRef();
 
   const dispatch = useDispatch();
@@ -36,12 +34,12 @@ const ChatButton = () => {
 
   useEffect(() => {
     socket.emit("add_user", userInfo.id, userInfo);
-  }, []);
+  }, [userInfo]);
 
   useEffect(() => {
     dispatch(
       add_friend({
-        sellerId: "654366fbba51a942cd41835f",
+        sellerId,
         userId: userInfo.id,
       })
     );
@@ -63,6 +61,7 @@ const ChatButton = () => {
 
   useEffect(() => {
     socket.on("seller_message", (msg) => {
+      console.log("first");
       setReceverMessage(msg);
     });
     socket.on("activeSeller", (sellers) => {
@@ -89,7 +88,7 @@ const ChatButton = () => {
         dispatch(messageClear());
       }
     }
-  }, [receverMessage]);
+  }, [dispatch, receverMessage, userInfo.id]);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -105,16 +104,9 @@ const ChatButton = () => {
             show ? "left-0" : "-left-[350px]"
           } `}
         >
-          <div className="flex justify-center gap-3 items-center text-slate-600 text-xl h-[50px]">
-            <span>
-              <AiOutlineMessage />
-            </span>
-            <span>Tin Nhắn</span>
-          </div>
           <div className="w-full flex flex-col text-slate-600 py-4 h-[400px] pr-3">
             {my_friends.map((f, i) => (
               <Link
-                // to={`/dashboard/chat/${f.fdId}`}
                 key={i}
                 className={`flex gap-2 justify-start items-center pl-2 py-[5px]`}
               >
@@ -124,7 +116,7 @@ const ChatButton = () => {
                   )}
                   <img src="/images/user.png" alt="" />
                 </div>
-                <span>{f.name}</span>
+                <span>Hỗ Trợ</span>
               </Link>
             ))}
           </div>
@@ -132,7 +124,7 @@ const ChatButton = () => {
         <div className="w-[calc(100%-100px)] md-lg:w-full">
           {currentFd ? (
             <div className="w-full h-full">
-              <div className="flex justify-between items-center text-slate-600 text-xl h-[50px]">
+              <div className="flex justify-between items-center text-slate-600 text-xl h-[40px]">
                 <div className="flex gap-2">
                   <div className="w-[30px] h-[30px] rounded-full relative">
                     {activeSeller.some(
@@ -142,7 +134,7 @@ const ChatButton = () => {
                     )}
                     <img src="/images/user.png" alt="" />
                   </div>
-                  <span>{currentFd.name}</span>
+                  <span>Hỗ Trợ</span>
                 </div>
                 <div
                   onClick={() => setShow(!show)}
@@ -151,7 +143,7 @@ const ChatButton = () => {
                   <FaList />
                 </div>
               </div>
-              <div className="h-[400px] w-full bg-slate-100 p-3 rounded-md">
+              <div className="h-[350px] w-full bg-slate-100 p-3 rounded-md">
                 <div className="w-full h-full overflow-y-auto flex flex-col gap-3">
                   {fd_messages.map((m, i) => {
                     if (currentFd?.fdId !== m.receverId) {
@@ -204,7 +196,7 @@ const ChatButton = () => {
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     type="text"
-                    placeholder="input message"
+                    placeholder="Nhập tin nhắn..."
                     className="w-full rounded-full h-full outline-none p-3"
                   />
                   <div className="text-2xl right-2 top-2 absolute cursor-auto">

@@ -82,7 +82,7 @@ const ShipperDetails = () => {
         </div>
         <div className="p-4">
           <div className="flex gap-2 text-lg text-[#d0d2d6]">
-            <h2>#{order?._id}</h2>
+            <h2>Mã Đơn Hàng: {order?._id?.substring(0, 10).toUpperCase()}</h2>
             <span>{order?.date}</span>
           </div>
           <div className="flex flex-wrap">
@@ -91,6 +91,8 @@ const ShipperDetails = () => {
                 <div className="flex flex-col gap-1">
                   <h2 className="pb-2 font-semibold">
                     Tên khách hàng: {order?.shippingInfo?.name}
+                  </h2><h2 className="pb-2 font-semibold">
+                    số điện thoại: {order?.shippingInfo?.phoneNumber}
                   </h2>
                   <p>
                     <span className="text-sm">

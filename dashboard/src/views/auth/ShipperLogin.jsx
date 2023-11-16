@@ -43,9 +43,7 @@ function ShipperLogin() {
       toast.success(successMessage);
       dispatch(messageClear());
       navigate("/shipper/dashboard");
-      setTimeout(() => {
-        navigate("/shipper/dashboard");
-      }, 1000);
+      
     }
   }, [errorMessage, successMessage, dispatch, navigate]);
   return (

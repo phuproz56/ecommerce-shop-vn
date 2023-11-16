@@ -11,7 +11,7 @@ import {
 const SellerDetails = () => {
   const dispatch = useDispatch();
   const { seller, successMessage } = useSelector((state) => state.seller);
-  
+
   const { sellerId } = useParams();
   useEffect(() => {
     dispatch(get_seller(sellerId));
@@ -71,14 +71,24 @@ const SellerDetails = () => {
                     <span>Email : </span>
                     <span>{seller?.email}</span>
                   </div>
-                  
+
                   <div className="flex gap-2">
                     <span>trạng thái : </span>
                     <span>{seller?.status}</span>
                   </div>
                   <div className="flex gap-2">
-                    <span>tài khoản ngân hàng: </span>
-                    <span>{seller?.payment}</span>
+                    <span>Chức vụ: </span>
+                    <span>
+                      {seller?.role === "nv_donhang"
+                        ? "Duyệt Đơn Hàng"
+                        : seller?.role === "nv_nhapkho"
+                        ? "Nhập Kho"
+                        : seller?.role === "nv_quanly"
+                        ? "Quản Lý"
+                        : seller?.role === "nv_sanpham"
+                        ? "Quyền Sản Phẩm"
+                        : ""}
+                    </span>
                   </div>
                 </div>
               </div>

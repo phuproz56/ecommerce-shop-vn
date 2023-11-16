@@ -34,6 +34,7 @@ import FadeLoader from "react-spinners/FadeLoader";
 import io from "socket.io-client";
 import { messageClear, updateMessage } from "../store/reducers/ChatReducer";
 import toast from "react-hot-toast";
+
 const socket = io("http://localhost:5000");
 
 const Headers = ({ isFixed }) => {
@@ -124,7 +125,7 @@ const Headers = ({ isFixed }) => {
         sellerId === receverMessage.senderId &&
         userInfo.id === receverMessage.receverId
       ) {
-        toast.success("Bạn có 1 tin nhắn mới!")
+        toast.success("Bạn có 1 tin nhắn mới!");
         dispatch(updateMessage(receverMessage));
       } else {
         toast.success(receverMessage.senderName + " " + "send a message");
@@ -139,6 +140,9 @@ const Headers = ({ isFixed }) => {
       className={`w-full bg-white z-40 pb-5 top-0 left-0`}
     >
       <div className="header-top bg-[#eeeeee] md-lg:hidden">
+      <div>
+      
+    </div>
         <div className="w-[85%] lg:w-[90%] mx-auto">
           <div className="flex w-full justify-between items-center h-[50px] text-slate-500">
             <ul className="flex justify-start items-center gap-8">

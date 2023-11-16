@@ -35,7 +35,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
         }`}
       >
         <div className="h-[70px] flex justify-center items-center">
-          <Link to="/" className="w-[180px] h-[100px]">
+          <Link className="w-[180px] h-[100px]">
             <img className="w-[100px] h-[100px]" src={logo} alt="" />
           </Link>
         </div>

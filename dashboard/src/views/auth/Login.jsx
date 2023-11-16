@@ -112,14 +112,6 @@ function Login() {
                 "Đăng Nhập"
               )}
             </button>
-            <div className="flex items-center mb-3 gap-3 justify-center">
-              <p>
-                Bạn chưa từng có tài khoản ?{" "}
-                <Link to="/register" className="text-green-500 ">
-                  Đăng ký ngay
-                </Link>
-              </p>
-            </div>
           </form>
         </div>
       </div>

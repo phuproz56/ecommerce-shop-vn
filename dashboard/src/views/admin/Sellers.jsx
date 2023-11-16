@@ -15,7 +15,7 @@ import { RxCross1 } from "react-icons/rx";
 const Sellers = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
   const { sellers, totalSeller, successMessage } = useSelector(
@@ -55,7 +55,7 @@ const Sellers = () => {
                 <RxCross1
                   size={30}
                   className="cursor-pointer"
-                  onClick={() => setOpen(false)}
+                  onClick={() => setOpen("")}
                 />
               </div>
               <h1 className="text-center text-[25px] font-Poppins">
@@ -63,13 +63,13 @@ const Sellers = () => {
               </h1>
               <div className="p-[100px] flex justify-between items-center pt-4">
                 <button
-                  onClick={() => setOpen(false)}
+                  onClick={() => setOpen("")}
                   className="flex border p-2 bg-red-500 rounded-md text-white"
                 >
                   Không
                 </button>
                 <button
-                  onClick={() => delete_seller(u._id)}
+                  onClick={() => delete_seller(open)}
                   className="flex border p-2 bg-green-500 rounded-md text-white"
                 >
                   Có
@@ -109,7 +109,9 @@ const Sellers = () => {
                 <th scope="col" className="py-3 px-4">
                   tên
                 </th>
-
+                <th scope="col" className="py-3 px-4">
+                  chức vụ
+                </th>
                 <th scope="col" className="py-3 px-4">
                   Email
                 </th>
@@ -146,7 +148,22 @@ const Sellers = () => {
                   >
                     <span>{d.name}</span>
                   </th>
-
+                  <th
+                    scope="row"
+                    className="py-1 px-4 font-medium whitespace-nowrap"
+                  >
+                    <span>
+                      {d?.role === "nv_donhang"
+                        ? "Duyệt Đơn Hàng"
+                        : d?.role === "nv_nhapkho"
+                        ? "Nhập Kho"
+                        : d?.role === "nv_quanly"
+                        ? "Quản Lý"
+                        : d?.role === "nv_sanpham"
+                        ? "Quyền Sản Phẩm"
+                        : ""}
+                    </span>
+                  </th>
                   <th
                     scope="row"
                     className="py-1 px-4 font-medium whitespace-nowrap"
@@ -179,7 +196,7 @@ const Sellers = () => {
                       </Tooltip>
                       <Tooltip title="Xóa Nhân Viên">
                         <Link
-                          onClick={() => setOpen(true)}
+                          onClick={() => setOpen(d._id)}
                           // onClick={() => delete_seller(d._id)}
                           className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50"
                         >
@@ -200,7 +217,7 @@ const Sellers = () => {
               setPageNumber={setCurrentPage}
               totalItem={totalSeller}
               parPage={parPage}
-              showItem={4}
+              showItem={Math.floor(totalSeller / parPage)}
             />
           </div>
         ) : (

@@ -13,7 +13,7 @@ function Login() {
     password: "",
   });
   const dispatch = useDispatch();
-  const { loader, errorMessage, successMessage } = useSelector(
+  const { loader, errorMessage, successMessage, userInfo } = useSelector(
     (state) => state.auth
   );
   const inputHandle = (e) => {
@@ -30,7 +30,18 @@ function Login() {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
-      navigate("/");
+      if (userInfo.role === "nv_donhang") {
+        navigate("/seller/dashboard/orders");
+      }
+      if (userInfo.role === "nv_nhapkho") {
+        navigate("/seller/dashboard/log-product");
+      }
+      if (userInfo.role === "nv_quanly") {
+        navigate("/seller/dashboard");
+      }
+      if (userInfo.role === "nv_sanpham") {
+        navigate("/seller/dashboard/add-product");
+      }
     }
     if (errorMessage) {
       toast.error(errorMessage);
