@@ -101,6 +101,7 @@ export const dashboardIndexReducer = createSlice({
     Total_TimShipper: 0,
     Total_Complete: 0,
     total_thunhap_thang: [],
+    result_ngay: [],
     t1: 0,
     t2: 0,
     t3: 0,
@@ -175,6 +176,7 @@ export const dashboardIndexReducer = createSlice({
       state.recentOrders = payload.recentOrders;
       state.recentMessage = payload.messages;
       state.total_thunhap_thang = payload.total_thunhap_thang;
+      state.result_ngay = payload.result_ngay;
     },
     [get_shipper_new_order.fulfilled]: (state, { payload }) => {
       state.orders = payload.orders;

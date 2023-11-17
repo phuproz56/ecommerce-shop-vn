@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { BsImages } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
@@ -11,6 +10,8 @@ import toast from "react-hot-toast";
 import { PropagateLoader } from "react-spinners";
 import Select from "react-select";
 import Multiselect from "multiselect-react-dropdown";
+// import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 const AddProduct = () => {
   const dispatch = useDispatch();
   const { categorys, brands } = useSelector((state) => state.category);
@@ -43,12 +44,12 @@ const AddProduct = () => {
     );
     dispatch(
       get_brand({
-        searchValue: "",
-        parPage: "",
-        page: "",
+        searchValueBrand: "",
+        parPageBrand: "",
+        currentPageBrand: "",
       })
     );
-  }, []);
+  }, [dispatch]);
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
   const [allCategory, setAllCategory] = useState(categorys);
@@ -73,12 +74,12 @@ const AddProduct = () => {
     const value = e.target.value;
     setSearchValueBrand(value);
     if (value) {
-      let srcValue = allCategory.filter(
+      let srcValue = allBrand.filter(
         (c) => c.name.toLowerCase().indexOf(value.toLowerCase()) > -1
       );
       setAllBrand(srcValue);
     } else {
-      setAllBrand(categorys);
+      setAllBrand(brands);
     }
   };
 
@@ -131,6 +132,10 @@ const AddProduct = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  // const inputHandle_description = (e) => {
+  //   setState({ ...state, description: e });
+  // };
 
   useEffect(() => {
     setAllCategory(categorys);
@@ -204,7 +209,7 @@ const AddProduct = () => {
       setCategory("");
       setBrand("");
     }
-  }, [successMessage, errorMessage]);
+  }, [successMessage, errorMessage, dispatch]);
 
   const add = (e) => {
     e.preventDefault();
@@ -448,7 +453,6 @@ const AddProduct = () => {
               <label htmlFor="sex">Chọn giới tính</label>
 
               <Select
-              
                 className="text-slate-500 bg-green-500"
                 theme={(theme) => ({
                   ...theme,
@@ -477,6 +481,15 @@ const AddProduct = () => {
                 onChange={inputHandle}
                 value={state.description}
               ></textarea>
+              {/* <ReactQuill
+                className="px-4 py-2 bg-white focus:border-indigo-500 outline-none mb-4 rounded-md text-black"
+                theme="snow"
+                rows={4}
+                name="description"
+                id="description"
+                value={state.description}
+                onChange={inputHandle_description}
+              /> */}
             </div>
 
             <div className="grid lg:grid-cols-4 grid-cols-1 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 md:gap-4 xs:gap-4 gap-3 w-full text-[#d0d2d6] mb-4">

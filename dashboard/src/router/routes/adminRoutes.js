@@ -36,6 +36,7 @@ const OrderShipperDetails = lazy(() =>
 const Request = lazy(() => import("../../views/admin/Request"));
 const RequestDetails = lazy(() => import("../../views/admin/RequestDetails"));
 const ReviewOrder = lazy(() => import("../../views/admin/ReviewOrder"));
+const ReviewProduct = lazy(() => import("../../views/admin/SeeReviewCustomer"));
 
 export const adminRoutes = [
   {
@@ -128,6 +129,7 @@ export const adminRoutes = [
     element: <DeactiveSellers />,
     role: "admin",
   },
+
   {
     path: "admin/dashboard/sellers-request",
     element: <SellerRequest />,
@@ -136,6 +138,11 @@ export const adminRoutes = [
   {
     path: "admin/dashboard/all-review-order",
     element: <ReviewOrder />,
+    role: "admin",
+  },
+  {
+    path: "admin/dashboard/all-review-product",
+    element: <ReviewProduct />,
     role: "admin",
   },
   {

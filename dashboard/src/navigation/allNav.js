@@ -77,6 +77,13 @@ export const allNav = [
     path: "/admin/dashboard/all-review-order",
   },
   {
+    id: 37,
+    title: "Đánh Giá Sản Phẩm",
+    icon: <BsCartDashFill />,
+    role: "admin",
+    path: "/admin/dashboard/all-review-product",
+  },
+  {
     id: 31,
     title: "Người Mua Trả Hàng",
     icon: <BsCartDashFill />,
@@ -140,13 +147,13 @@ export const allNav = [
     role: "admin",
     path: "/admin/dashboard/ds-customers",
   },
-  {
-    id: 11,
-    title: "Dashboard",
-    icon: <AiFillDashboard />,
-    role: "nv_quanly",
-    path: "/seller/dashboard",
-  },
+  // {
+  //   id: 11,
+  //   title: "Dashboard",
+  //   icon: <AiFillDashboard />,
+  //   role: "nv_quanly",
+  //   path: "/seller/dashboard",
+  // },
   {
     id: 12,
     title: "Thêm Sản Phẩm",

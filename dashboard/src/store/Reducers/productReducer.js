@@ -129,6 +129,34 @@ export const get_logproduct = createAsyncThunk(
   }
 );
 
+export const get_review_products = createAsyncThunk(
+  "product/get_review_products",
+  async (_, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(`/get-review-products`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const xoa_review = createAsyncThunk(
+  "product/xoa_review",
+  async (_id, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.delete(`/delete-review/${_id}`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const productReducer = createSlice({
   name: "product",
   initialState: {
@@ -140,6 +168,7 @@ export const productReducer = createSlice({
     totalProduct: 0,
     logProduct: [],
     totallogProduct: 0,
+    total_product_find: 0,
   },
   reducers: {
     messageClear: (state, _) => {
@@ -192,6 +221,18 @@ export const productReducer = createSlice({
     [get_logproduct.fulfilled]: (state, { payload }) => {
       state.logProduct = payload.logProduct;
       state.totallogProduct = payload.totallogProduct;
+    },
+    [get_review_products.fulfilled]: (state, { payload }) => {
+      state.loader = false;
+      state.product_find = payload.product_find;
+      state.total_product_find = payload.total_product_find;
+    },
+    [get_review_products.pending]: (state, { payload }) => {
+      state.loader = true;
+     
+    },
+    [xoa_review.fulfilled]: (state, { payload }) => {
+      state.successMessage = payload.message;
     },
   },
 });

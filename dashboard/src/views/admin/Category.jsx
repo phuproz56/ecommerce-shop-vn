@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/scope */
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { PropagateLoader } from "react-spinners";
@@ -100,21 +99,17 @@ const Category = () => {
       searchValue,
     };
 
+    dispatch(get_category(obj));
+  }, [searchValue, currentPage, parPage, dispatch]);
+
+  useEffect(() => {
     const obj_brand = {
-      parPage: parseInt(parPageBrand),
-      page: parseInt(currentPageBrand),
+      parPageBrand: parseInt(parPageBrand),
+      currentPageBrand: parseInt(currentPageBrand),
       searchValueBrand,
     };
-    dispatch(get_category(obj));
-    dispatch(get_brand(obj));
-  }, [
-    searchValue,
-    currentPage,
-    parPage,
-    parPageBrand,
-    currentPageBrand,
-    searchValueBrand,
-  ]);
+    dispatch(get_brand(obj_brand));
+  }, [currentPageBrand, dispatch, parPageBrand, searchValueBrand]);
 
   useEffect(() => {}, []);
 
@@ -383,9 +378,9 @@ const Category = () => {
           <div className="w-full lg:w-7/12">
             <div className="w-full p-4  bg-[#283046] rounded-md">
               <Search
-                setParPage={setParPage}
-                setSearchValue={setSearchValue}
-                searchValue={searchValue}
+                setParPage={setParPageBrand}
+                setSearchValue={setSearchValueBrand}
+                searchValue={searchValueBrand}
               />
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left text-[#d0d2d6]">

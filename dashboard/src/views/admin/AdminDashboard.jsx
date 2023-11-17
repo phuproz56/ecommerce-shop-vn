@@ -11,7 +11,8 @@ import Chart from "react-apexcharts";
 import { useSelector, useDispatch } from "react-redux";
 
 import { get_admin_dashboard_index_data } from "../../store/Reducers/dashboardIndexReducer";
-
+import RevenueChart from "../components/RevenueChart";
+import RevenueTable from "../components/RevenueTable";
 
 const AdminDashboard = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -23,6 +24,7 @@ const AdminDashboard = () => {
     recentOrders,
     recentMessage,
     total_thunhap_thang,
+    result_ngay,
     t1,
     t2,
     t3,
@@ -124,14 +126,12 @@ const AdminDashboard = () => {
   });
 
   useEffect(() => {
-    // Mảng dữ liệu của bạn
     if (!Array.isArray(total_thunhap_thang)) {
       console.error("Data is not an array");
       return null;
     }
     const yourData = total_thunhap_thang;
 
-    // Chuyển đổi dữ liệu của bạn thành định dạng mà apexcharts đòi hỏi
     const convertedData = yourData.reduce(
       (acc, item) => {
         acc[0].data.push(item.totalAmount);
@@ -140,7 +140,6 @@ const AdminDashboard = () => {
       [{ name: "Tổng Thu Nhập", data: [] }]
     );
 
-    // Cập nhật state với dữ liệu mới
     setChartData({
       ...chartData,
       series: convertedData,
@@ -151,7 +150,7 @@ const AdminDashboard = () => {
         },
       },
     });
-  }, []);
+  }, [chartData, total_thunhap_thang]);
 
   return (
     <div className="px-2 md:px-7 py-5">
@@ -199,92 +198,50 @@ const AdminDashboard = () => {
         </div>
       </div>
       <div className="w-full flex flex-wrap mt-7">
-        <div className="w-full ">
-          <div className="w-full bg-[#283046] p-4 rounded-md h-full">
+        <div className="w-full lg:pr-3">
+          <div className="w-full bg-[#283046] p-4 rounded-md">
             <h2 className="text-white">Thống kê theo ngày</h2>
             <div class="bg-[#283046] border-none rounded-2 shadow-md h-full">
-              <div class="bg-[#283046] rounded-lg shadow-md h-[350px]">
-                <Chart
-                  options={chartData.options}
-                  series={chartData.series}
-                  type="bar"
-                  height={350}
-                />
-              </div>
-              {/* <iframe
+              <div className="bg-[#283046] rounded-lg shadow-md h-[350px]">
+                {/* <RevenueChart chartData={result_ngay} />
+                 */}
+                  {/* <RevenueTable className="text-white" tableData={result_ngay} /> */}
+                  <iframe
                 class="w-full h-full"
                 src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=653512a4-c4df-476a-8533-3f3dce2fb8bb&maxDataAge=60&theme=dark&autoRefresh=true"
+                frameborder="0"
+              ></iframe>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="w-full flex mt-7">
+        <div className="w-full lg:pr-3">
+          <div className="w-full bg-[#283046] p-4 rounded-md">
+            <h2 className="text-white">Thống kê theo tháng</h2>
+            <div className=" border-none rounded-2 shadow-md h-[350px]">
+              <Chart
+                options={chartData.options}
+                series={chartData.series}
+                type="bar"
+                height={350}
+              />
+              {/* <iframe
+                class="w-full h-full"
+                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=65350d57-8afe-46d3-82fe-6fddd28ca39d&maxDataAge=300&theme=dark&autoRefresh=true"
                 frameborder="0"
               ></iframe> */}
             </div>
           </div>
         </div>
-        {/* <div className="w-full lg:w-5/12 lg:pl-4 mt-6 lg:mt-0">
-          <div className="w-full bg-[#283046] p-4 rounded-md text-[#d0d2d6]">
-            <div className="flex justify-between items-center">
-              <h2 className="font-semibold text-lg text-[#d0d2d6] pb-3">
-                Tin Nhắn Người Bán Gần Đây
-              </h2>
-              <Link className="font-semibold text-sm text-[#d0d2d6] hover:text-green-400">
-                Xem Tất Cả
-              </Link>
-            </div>
-            <div className="flex flex-col gap-2 pt-6 text-[#d0d2d6]">
-              <ol className="relative border-1 border-slate-600 ml-4">
-                {recentMessage.map((m, i) => (
-                  <li key={i} className="mb-3 ml-6">
-                    <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-[#00d1e848] rounded-full z-10">
-                      {m.senderId === userInfo._id ? (
-                        <img
-                          className="w-full rounded-full h-full shadow-lg"
-                          src={userInfo.image}
-                          alt=""
-                        />
-                      ) : (
-                        <img
-                          className="w-full rounded-full h-full shadow-lg"
-                          src={seller}
-                          alt=""
-                        />
-                      )}
-                    </div>
-                    <div className="p-3 bg-slate-800 rounded-lg border border-slate-600 shadow-sm">
-                      <div className="flex justify-between items-center mb-2">
-                        <Link className="text-md font-normal">
-                          {m.senderName}
-                        </Link>
-                        <time className="mb-1 text-sm font-normal sm:order-last sm:mb-0">
-                          {moment(m.createdAt).startOf("hour").fromNow()}
-                        </time>
-                      </div>
-                      <div className="p-2 text-xs font-normal bg-slate-700 rounded-lg border border-slate-800">
-                        {m.message}
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        </div> */}
       </div>
-      <div className="w-full flex mt-7 text-white">
-        <div className="w-full lg:w-6/12 lg:pr-3">
-          <div className="w-full bg-[#283046] p-4 rounded-md">
-            <h2>Thống kê theo tháng</h2>
-            <div class="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
-              <iframe
-                class="w-full h-full"
-                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=65350d57-8afe-46d3-82fe-6fddd28ca39d&maxDataAge=300&theme=dark&autoRefresh=true"
-                frameborder="0"
-              ></iframe>
-            </div>
-          </div>
-        </div>
-        <div className="w-full lg:w-6/12 lg:pr-3">
+      <div className="w-full flex mt-7">
+        <div className="w-full lg:pr-3">
           <div className="w-full bg-[#283046] p-4 rounded-md">
             <h2>Thống kê theo năm</h2>
-            <div class="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
+            <div className="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
               <iframe
                 class="w-full h-full"
                 src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=65351768-8afe-44a0-8a28-6fddd294071c&maxDataAge=3600&theme=dark&autoRefresh=true"

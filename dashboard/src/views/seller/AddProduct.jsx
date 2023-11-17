@@ -18,7 +18,7 @@ const AddProduct = () => {
   const { loader, successMessage, errorMessage } = useSelector(
     (state) => state.product
   );
-
+  
   const optionsSizes = [
     { value: "XXS" },
     { value: "XS" },
@@ -417,6 +417,7 @@ const AddProduct = () => {
                 value={state.description}
               ></textarea>
             </div>
+           
 
             <div className="grid lg:grid-cols-4 grid-cols-1 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 md:gap-4 xs:gap-4 gap-3 w-full text-[#d0d2d6] mb-4">
               {imageShow.map((img, i) => (

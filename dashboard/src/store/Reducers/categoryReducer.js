@@ -54,12 +54,12 @@ export const get_category = createAsyncThunk(
 export const get_brand = createAsyncThunk(
   "category/get_brand",
   async (
-    { parPage, page, searchValue },
+    { parPageBrand, currentPageBrand, searchValueBrand },
     { rejectWithValue, fulfillWithValue }
   ) => {
     try {
       const { data } = await api.get(
-        `/brand-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
+        `/brand-get?page=${currentPageBrand}&&searchValue=${searchValueBrand}&&parPage=${parPageBrand}`,
         { withCredentials: true }
       );
       return fulfillWithValue(data);
