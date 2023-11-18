@@ -53,7 +53,7 @@ const Payment = () => {
       update_payment();
       setTimeout(() => {
         navigate("/dashboard/tatca");
-      }, 3000);
+      }, 1000);
     }
   }, [message]);
   console.log(message);

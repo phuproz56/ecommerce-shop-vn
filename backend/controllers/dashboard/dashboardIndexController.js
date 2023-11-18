@@ -287,7 +287,7 @@ module.exports.get_admin_dashboard_data = async (req, res) => {
       },
     ]);
 
-    const result = await myShopWallet.aggregate([
+    const result_ngay = await myShopWallet.aggregate([
       {
         $addFields: {
           createdAtDate: {
@@ -313,6 +313,61 @@ module.exports.get_admin_dashboard_data = async (req, res) => {
       },
     ]);
 
+    // const result = await customerOrder.aggregate([
+    //   {
+    //     $unwind: "$products",
+    //   },
+    //   {
+    //     $group: {
+    //       _id: {
+    //         date: "$date",
+    //         productId: "$products.productId",
+    //       },
+    //       totalAmount: { $sum: "$price" },
+    //     },
+    //   },
+    //   {
+    //     $project: {
+    //       _id: 0,
+    //       date: "$_id.date",
+    //       productId: "$_id.productId",
+    //       totalAmount: 1,
+    //     },
+    //   },
+    //   {
+    //     $sort: {
+    //       date: -1, // Sắp xếp theo ngày giảm dần
+    //     },
+    //   },
+    //   {
+    //     $limit: 10,
+    //   },
+    // ]);
+    const result = await customerOrder.aggregate([
+      {
+        $unwind: "$products", // Mở rộng đối tượng products thành nhiều bản ghi
+      },
+      {
+        $group: {
+          _id: {
+            date: "$date", // Nhóm theo ngày
+            product: "$products.productId", // Nhóm theo ID sản phẩm
+          },
+          totalAmount: { $sum: "$price" }, // Tính tổng doanh thu cho mỗi nhóm
+        },
+      },
+      {
+        $project: {
+          _id: 0, // Loại bỏ trường _id của kết quả
+          date: "$_id.date", // Chọn lại trường date
+          product: "$_id.product", // Chọn lại trường product
+          totalAmount: 1, // Giữ lại trường totalAmount
+        },
+      },
+      {
+        $sort: { date: 1 }, // Sắp xếp theo ngày tăng dần
+      },
+    ]);
     console.log(result);
 
     const totalProduct = await productModel.find({}).countDocuments();
@@ -326,6 +381,7 @@ module.exports.get_admin_dashboard_data = async (req, res) => {
     const recentOrders = await customerOrder.find({}).limit(5);
 
     responseReturn(res, 200, {
+      result_ngay,
       total_thunhap_thang,
       totalOrder,
       totalSale: totalSele.length > 0 ? totalSele[0].totalAmount : 0,

@@ -4,8 +4,11 @@ const productModel = require("../../models/productModel");
 const logProductModel = require("../../models/logProduct");
 const { responseReturn } = require("../../utils/response");
 const couponModel = require("../../models/couponModel");
+const reviewModel = require("../../models/reviewModel");
 const moment = require("moment");
-
+const {
+  mongo: { ObjectId },
+} = require("mongoose");
 class productController {
   add_product = async (req, res) => {
     const id = "654366fbba51a942cd41835f";
@@ -53,7 +56,7 @@ class productController {
           name: name,
         });
 
-        if (name_product) {
+        if (name_product.length) {
           responseReturn(res, 201, { message: "Tên sản phẩm đã tồn tại!" });
         } else {
           await productModel.create({
@@ -374,6 +377,73 @@ class productController {
         success: true,
         couponCode,
       });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  get_review_products = async (req, res) => {
+    try {
+      let product_find = [];
+      const review = await reviewModel.find({});
+      for (let i = 0; i < review.length; i++) {
+        const product = await productModel.findOne({
+          _id: new ObjectId(review[i].productId),
+        });
+        if (product) {
+          const productReview = {
+            product: product,
+            review: review[i],
+          };
+          product_find.push(productReview);
+        }
+      }
+      const total_product_find = product_find.length;
+      responseReturn(res, 200, { product_find, total_product_find });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  xoa_review = async (req, res) => {
+    const { _id } = req.params;
+    try {
+      let delete_rating = 0;
+      const review = await reviewModel.findById(_id);
+
+      delete_rating = review.rating;
+
+      const product_Id = review.productId.toString();
+
+      let rat = 0;
+      const reviews = await reviewModel.find({
+        productId: new ObjectId(review.productId),
+      });
+
+      for (let i = 0; i < reviews.length; i++) {
+        rat = rat + reviews[i].rating;
+      }
+
+      let productRating = 0;
+
+      if (reviews.length !== 0) {
+        if (reviews.length === 1) {
+          productRating = 0;
+        } else {
+          productRating = (
+            (rat - delete_rating) /
+            (reviews.length - 1)
+          ).toFixed(1);
+        }
+      }
+
+      await productModel.findByIdAndUpdate(product_Id, {
+        rating: productRating,
+      });
+
+      await reviewModel.findByIdAndDelete(_id);
+
+      responseReturn(res, 200, { message: "Xóa thành công!!!" });
     } catch (error) {
       console.log(error.message);
     }

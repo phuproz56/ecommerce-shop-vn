@@ -40,7 +40,6 @@ const Reviews = ({ product }) => {
     };
     dispatch(customer_review(obj));
   };
-  // console.log(product)
 
   useEffect(() => {
     if (successMessage) {

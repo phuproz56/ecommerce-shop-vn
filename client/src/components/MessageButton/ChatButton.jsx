@@ -100,7 +100,7 @@ const ChatButton = () => {
     <div className="bg-white p-3 rounded-md">
       <div className="w-full flex relative">
         <div
-          className={`w-[100px] md-lg:absolute bg-white transition-all md-lg:h-full ${
+          className={`w-[100px] md:hidden bg-white transition-all ${
             show ? "left-0" : "-left-[350px]"
           } `}
         >
@@ -138,12 +138,12 @@ const ChatButton = () => {
                 </div>
                 <div
                   onClick={() => setShow(!show)}
-                  className="w-[40px] h-[40px] cursor-pointer hidden md-lg:flex rounded-sm justify-center items-center bg-sky-600 text-white"
+                  className="w-[40px] h-[40px] cursor-pointer hidden rounded-sm justify-center items-center bg-sky-600 text-white"
                 >
                   <FaList />
                 </div>
               </div>
-              <div className="h-[350px] w-full bg-slate-100 p-3 rounded-md">
+              <div className="h-[350px] w-full bg-slate-100 p-3 rounded-md md:h-[250px]">
                 <div className="w-full h-full overflow-y-auto flex flex-col gap-3">
                   {fd_messages.map((m, i) => {
                     if (currentFd?.fdId !== m.receverId) {
@@ -185,12 +185,12 @@ const ChatButton = () => {
                 </div>
               </div>
               <div className="flex p-2 justify-between items-center w-full">
-                <div className="w-[40px] h-[40px] border p-2 justify-center items-center flex rounded-full">
+                {/* <div className="w-[40px] h-[40px] border p-2 justify-center items-center flex rounded-full">
                   <label className="cursor-pointer" htmlFor="">
                     <AiOutlinePlus />
                   </label>
                   <input className="hidden" type="file" />
-                </div>
+                </div> */}
                 <div className="border h-[40px] p-0 ml-2 w-[calc(100%-90px)] rounded-full relative">
                   <input
                     value={text}
@@ -199,11 +199,11 @@ const ChatButton = () => {
                     placeholder="Nhập tin nhắn..."
                     className="w-full rounded-full h-full outline-none p-3"
                   />
-                  <div className="text-2xl right-2 top-2 absolute cursor-auto">
+                  {/* <div className="text-2xl right-2 top-2 absolute cursor-auto">
                     <span>
                       <GrEmoji />
                     </span>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="w-[40px] p-2 justify-center items-center rounded-full">
                   <div onClick={send} className="text-2xl cursor-pointer">

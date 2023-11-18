@@ -6,10 +6,7 @@
   --content-height: 450px;
 }
 
-.message-content {
-  width: var(--content-width);
-  height: var(--content-height);
-}
+
 
 * {
   margin: 0;
@@ -47,10 +44,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: auto;
-  height: 450px;
   /* background-color: #ffffff; */
   color: #333;
-  margin-top: 100px;
-  padding: 10px;
 }

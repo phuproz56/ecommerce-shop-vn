@@ -26,6 +26,12 @@ router.delete(
   productController.delete_product
 );
 
+router.delete(
+  "/delete-review/:_id",
+  authMiddleware,
+  productController.xoa_review
+);
+
 router.post(
   "/logproduct-update",
   authMiddleware,
@@ -36,6 +42,12 @@ router.get(
   "/logproduct-get/:productId",
   authMiddleware,
   productController.get_logproduct
+);
+
+router.get(
+  "/get-review-products",
+  authMiddleware,
+  productController.get_review_products
 );
 
 // thêm coupon sản phẩm

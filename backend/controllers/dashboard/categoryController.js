@@ -33,7 +33,7 @@ class categoryController {
           });
 
           if (result) {
-            if (name_category) {
+            if (name_category.length) {
               responseReturn(res, 400, {
                 message: "Tên danh mục đã tồn tại!",
               });
@@ -66,13 +66,12 @@ class categoryController {
       } else {
         let { name } = fields;
         name = name.trim();
-
         try {
           const name_brand = await brandModel.find({
             name: name,
           });
 
-          if (name_brand) {
+          if (name_brand.length) {
             responseReturn(res, 400, {
               message: "Tên thương hiệu đã tồn tại!!!",
             });
@@ -135,6 +134,7 @@ class categoryController {
 
   get_brand = async (req, res) => {
     const { page, searchValue, parPage } = req.query;
+
     try {
       let skipPage = "";
       if (parPage && page) {

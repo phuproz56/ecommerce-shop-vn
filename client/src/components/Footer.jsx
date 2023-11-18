@@ -142,7 +142,7 @@ const Footer = () => {
           </a>
         </span>
       </div>
-      <div className="hidden fixed md-lg:block w-[50px] bottom-3 h-[110px] right-2 bg-white rounded-full p-2">
+      <div className="hidden fixed md-lg:block w-[50px] bottom-14 h-[110px] right-2 bg-white rounded-full p-2">
         <div className="w-full h-full flex gap-2 flex-col justify-center items-center">
           <div
             onClick={() => navigate(userInfo ? "/cart" : "/login")}

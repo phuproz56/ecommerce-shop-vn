@@ -9,23 +9,29 @@ const FloatingMessageButton = () => {
   const [isMessageOpen, setIsMessageOpen] = useState(false);
 
   return (
-    <div
-      className={`floating-message-button  `}
-    >
+    <div className={`floating-message-button  `}>
       {isMessageOpen ? (
-        <div className="message-content bg-none">
+        <div className="message-content bg-none h-[450px] md:h-[350px]">
           {/* Include your message or content here */}
-          <ChatButton />
-          <button className="justify-start items-start pb-[400px]">
+          <div className="md:justify-between md:items-center">
+            <ChatButton />
+          </div>
+
+          <button className="justify-start items-start pb-[400px] md:pb-[300px]">
             <p className="text-[30px]" onClick={() => setIsMessageOpen(false)}>
               <IoIosCloseCircleOutline />
             </p>
           </button>
         </div>
       ) : null}
-      <button className={`text-black bg-blue-300 rounded-full p-[10px] hover:p-[15px] hover:transition-all hover:duration-350 hover:bg-green-300`} onClick={() => setIsMessageOpen(true)}>
+      <button
+        className={`text-black  bg-blue-300 rounded-full p-[10px] hover:p-[15px] hover:transition-all hover:duration-350 hover:bg-green-300`}
+        onClick={() => setIsMessageOpen(true)}
+      >
         {/* <MessengerIcon /> */}
-        <MdOutlineSupportAgent className={`text-[30px] ${isMessageOpen && "hidden"}`}/>
+        <MdOutlineSupportAgent
+          className={`text-[30px] ${isMessageOpen && "hidden"}`}
+        />
       </button>
     </div>
   );
