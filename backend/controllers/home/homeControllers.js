@@ -127,6 +127,9 @@ class homeControllers {
           ],
         })
         .limit(3);
+
+        
+
       responseReturn(res, 200, {
         product,
         relatedProducts,
@@ -204,13 +207,15 @@ class homeControllers {
     const { name, rating, review, productId } = req.body;
 
     try {
-      await reviewModel.create({
+      const newComment = new reviewModel({
         productId,
         name,
         rating,
         review,
         date: moment(Date.now()).format("LL"),
       });
+
+      await newComment.save();
 
       let rat = 0;
       const reviews = await reviewModel.find({
@@ -230,7 +235,7 @@ class homeControllers {
       });
 
       responseReturn(res, 201, {
-        message: "Đánh giá thành công!",
+        message: "Đánh giá đã được gửi và đang chờ phê duyệt!",
       });
     } catch (error) {
       console.log(error);
@@ -255,6 +260,7 @@ class homeControllers {
                 $size: 0,
               },
             },
+            approved: true, // Thêm điều kiện approved: true ở đây
           },
         },
         {
@@ -299,14 +305,19 @@ class homeControllers {
           }
         }
       }
-      const getAll = await reviewModel.find({ productId });
+      const getAll = await reviewModel.find({ productId, approved: true });
+
       const reviews = await reviewModel
-        .find({ productId })
+        .find({
+          productId,
+          approved: true,
+        })
         .skip(skipPage)
         .limit(limit)
         .sort({ createdAt: -1 });
+
       responseReturn(res, 200, {
-        reviews,
+        reviews: reviews,
         totalReview: getAll.length,
         rating_review,
       });

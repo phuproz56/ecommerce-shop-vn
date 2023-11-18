@@ -14,13 +14,14 @@ const LogProductDetail = () => {
   const navigate = useNavigate();
   const { productId } = useParams();
   const dispatch = useDispatch();
-  const { product, loader, successMessage } = useSelector(
+  const { product, loader, successMessage, get_all_nhacungcap } = useSelector(
     (state) => state.product
   );
   const [fullname, setFullname] = useState("");
   const [stock, setStock] = useState();
   const [note, setNote] = useState("");
   const [price, setPrice] = useState(product?.price);
+  const [nhacungcap, setNhacungcap] = useState();
 
   useEffect(() => {
     dispatch(get_product(productId));
@@ -34,6 +35,7 @@ const LogProductDetail = () => {
       price: price,
       note: note,
       productId: product._id,
+      ten_nhacungcap: nhacungcap,
     };
     dispatch(update_logproduct(obj));
   };
@@ -52,8 +54,11 @@ const LogProductDetail = () => {
   return (
     <div className="px-2 lg:px-7 pt-5 ">
       <div className="w-full p-4  bg-[#283046] rounded-md">
-        <div onClick={rollback} className="text-white cursor-pointer uppercase">
-          <p className="p-2 border w-[100px] text-center rounded-md border-slate-500 hover:bg-green-400 hover:text-slate-600 transition-all duration-300">
+        <div className="text-white cursor-pointer uppercase">
+          <p
+            onClick={rollback}
+            className="p-2 border w-[100px] text-center rounded-md border-slate-500 hover:bg-green-400 hover:text-slate-600 transition-all duration-300"
+          >
             Quay Lại
           </p>
         </div>
@@ -66,26 +71,30 @@ const LogProductDetail = () => {
           <form onSubmit={update}>
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="price">Người lập phiếu</label>
+                <label htmlFor="price">
+                  Người lập phiếu<span className="text-red-500">*</span>
+                </label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={(e) => setFullname(e.target.value)}
                   value={fullname}
                   type="text"
-                  placeholder="name"
+                  placeholder="tên"
                   name="name"
                   id="name"
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="stock">Thêm số lượng hàng</label>
+                <label htmlFor="stock">
+                  Thêm số lượng hàng<span className="text-red-500">*</span>
+                </label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={(e) => setStock(e.target.value)}
                   value={stock}
                   type="number"
                   min="0"
-                  placeholder="Add to stock"
+                  placeholder="thêm hàng"
                   name="stock"
                   id="stock"
                 />
@@ -93,29 +102,50 @@ const LogProductDetail = () => {
             </div>
             <div className="flex flex-col mb-3 md:flex-row gap-4 w-full text-[#d0d2d6]">
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="price">Thay đổi giá bán</label>
+                <label htmlFor="price">
+                  Thay đổi giá bán<span className="text-red-500">*</span>
+                </label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={(e) => setPrice(e.target.value)}
                   value={price}
                   type="text"
-                  placeholder="price"
+                  placeholder="giá"
                   name="price"
                   id="price"
                 />
               </div>
               <div className="flex flex-col w-full gap-1">
-                <label htmlFor="stock">Ghi chú</label>
+                <label htmlFor="stock">
+                  Ghi chú<span className="text-red-500">*</span>
+                </label>
                 <input
                   className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
                   onChange={(e) => setNote(e.target.value)}
                   value={note}
                   type="text"
-                  placeholder="Note to text"
+                  placeholder="thêm ghi chú"
                   name="note"
                   id="note"
                 />
               </div>
+            </div>
+            <div className="flex flex-col w-full gap-1 mb-4 text-white">
+              <label htmlFor="stock">
+                Ghi chú<span className="text-red-500">*</span>
+              </label>
+              <select
+                className="border text-black border-slate-500 p-2 rounded-md ml-2"
+                onChange={(e) => setNhacungcap(e.target.value)}
+                name="status"
+                id="status"
+              >
+                <option value="">--- chọn nhà cung cấp ---</option>
+                {get_all_nhacungcap &&
+                  get_all_nhacungcap.map((u) => (
+                    <option value={nhacungcap}>{u.name}</option>
+                  ))}
+              </select>
             </div>
             <div className="flex">
               <button

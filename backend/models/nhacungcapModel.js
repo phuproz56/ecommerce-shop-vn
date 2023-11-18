@@ -1,27 +1,24 @@
 const { Schema, model } = require("mongoose");
-const reviewSchema = new Schema(
+
+const nhacungcapSchema = new Schema(
   {
-    productId: {
-      type: Schema.ObjectId,
-      required: true,
-    },
     name: {
       type: String,
       required: true,
     },
-    rating: {
-      type: Number,
-      required: true,
-    },
-    review: {
+    email: {
       type: String,
       required: true,
     },
-    approved: {
-      type: Boolean,
-      default: false,
+    phoneNumber: {
+      type: Number,
+      required: true,
     },
-    date: {
+    address: {
+      type: String,
+      required: true,
+    },
+    status: {
       type: String,
       required: true,
     },
@@ -29,4 +26,8 @@ const reviewSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("reviews", reviewSchema);
+nhacungcapSchema.index({
+  name: "text",
+});
+
+module.exports = model("nhacungcap", nhacungcapSchema);

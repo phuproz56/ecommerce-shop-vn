@@ -11,6 +11,7 @@ import { BsChat, BsCartDashFill } from "react-icons/bs";
 import { RiProductHuntLine } from "react-icons/ri";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { FaShippingFast, FaUserAstronaut } from "react-icons/fa";
+import { MdOutlineLocalShipping } from "react-icons/md";
 import { HiUsers } from "react-icons/hi2";
 export const allNav = [
   {
@@ -54,6 +55,13 @@ export const allNav = [
     icon: <RiProductHuntLine />,
     role: "admin",
     path: "/admin/dashboard/discount-products",
+  },
+  {
+    id: 38,
+    title: "Nhà Cung Cấp",
+    icon: <MdOutlineLocalShipping />,
+    role: "admin",
+    path: "/admin/dashboard/nhacungcap",
   },
   {
     id: 15,

@@ -5,6 +5,7 @@ const logProductModel = require("../../models/logProduct");
 const { responseReturn } = require("../../utils/response");
 const couponModel = require("../../models/couponModel");
 const reviewModel = require("../../models/reviewModel");
+const nhacungcapModel = require("../../models/nhacungcapModel");
 const moment = require("moment");
 const {
   mongo: { ObjectId },
@@ -124,8 +125,9 @@ class productController {
     };
     try {
       const product = await productModel.findById(productId);
+      const get_all_nhacungcap = await nhacungcapModel.find({});
 
-      responseReturn(res, 200, { product, updateDate });
+      responseReturn(res, 200, { product, updateDate, get_all_nhacungcap });
     } catch (error) {
       console.log(error.message);
     }
@@ -172,6 +174,7 @@ class productController {
         sex,
         __v: version + 1,
       });
+
       responseReturn(res, 200, {
         product,
         message: "Update sản phẩm thành công!",
@@ -237,13 +240,15 @@ class productController {
   };
 
   logproduct_update = async (req, res) => {
-    const { productId, fullname, stock, price, note } = req.body;
+    const { productId, fullname, stock, price, note, ten_nhacungcap } =
+      req.body;
     try {
       await logProductModel.create({
         productId,
         fullname: fullname.trim(),
         stock: parseInt(stock),
         price: parseInt(price),
+        ten_nhacungcap: ten_nhacungcap.trim(),
         note: note.trim(),
         date: moment(Date.now()).format("LLL"),
       });
@@ -446,6 +451,100 @@ class productController {
       responseReturn(res, 200, { message: "Xóa thành công!!!" });
     } catch (error) {
       console.log(error.message);
+    }
+  };
+
+  commit_review = async (req, res) => {
+    const { _id } = req.params;
+    try {
+      const comment = await reviewModel.findById(_id);
+
+      if (!comment) {
+        return res.status(404).json({ message: "Không tìm thấy bình luận." });
+      }
+      comment.approved = true;
+      await comment.save();
+
+      res.json({ message: "Bình luận đã được duyệt thành công." });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Đã xảy ra lỗi." });
+    }
+  };
+  get_nhacungcap = async (req, res) => {
+    let { page, parPage, searchValue } = req.query;
+    page = parseInt(page);
+    parPage = parseInt(parPage);
+
+    const skipPage = parPage * (page - 1);
+    try {
+      if (searchValue) {
+        const all_nhacungcap = await nhacungcapModel
+          .find({
+            $text: { $search: searchValue },
+          })
+          .skip(skipPage)
+          .limit(parPage)
+          .sort({ createdAt: -1 });
+
+        const count_nhacungcap = await nhacungcapModel
+          .find({
+            $text: { $search: searchValue },
+          })
+          .countDocuments();
+
+        responseReturn(res, 200, { count_nhacungcap, all_nhacungcap });
+      } else {
+        const all_nhacungcap = await nhacungcapModel
+          .find({})
+          .skip(skipPage)
+          .limit(parPage)
+          .sort({ createdAt: -1 });
+
+        const count_nhacungcap = await nhacungcapModel
+          .find({})
+          .countDocuments();
+
+        responseReturn(res, 200, { count_nhacungcap, all_nhacungcap });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  submit_nhacungcap = async (req, res) => {
+    const { name, email, phoneNumber, address, status } = req.body;
+    try {
+      const check = await nhacungcapModel.findOne({
+        name: name,
+      });
+      if (check) {
+        responseReturn(res, 404, {
+          message: "đã có tên nhà cung cấp này rồi!!!",
+        });
+      } else {
+        await nhacungcapModel.create({
+          name: name,
+          email: email,
+          phoneNumber: phoneNumber,
+          address: address,
+          status: status,
+        });
+      }
+
+      responseReturn(res, 200, { message: "thêm nhà cung cấp thành công!!" });
+    } catch (error) {
+      responseReturn(res, 500, { message: "Lỗi máy chủ" });
+    }
+  };
+
+  xoa_nhacungcap = async (req, res) => {
+    const { _id } = req.params;
+    try {
+      await nhacungcapModel.findByIdAndDelete(_id);
+      responseReturn(res, 200, { message: "xóa thành công!!!" });
+    } catch (error) {
+      responseReturn(res, 500, { message: "Lỗi máy chủ" });
     }
   };
 }

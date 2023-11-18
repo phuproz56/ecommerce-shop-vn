@@ -37,6 +37,7 @@ const Request = lazy(() => import("../../views/admin/Request"));
 const RequestDetails = lazy(() => import("../../views/admin/RequestDetails"));
 const ReviewOrder = lazy(() => import("../../views/admin/ReviewOrder"));
 const ReviewProduct = lazy(() => import("../../views/admin/SeeReviewCustomer"));
+const ThemNhaCungCap = lazy(() => import("../../views/admin/ThemNhaCungCap"));
 
 export const adminRoutes = [
   {
@@ -77,6 +78,11 @@ export const adminRoutes = [
   {
     path: "/admin/dashboard/discount-products",
     element: <DiscountProducts />,
+    role: "admin",
+  },
+  {
+    path: "/admin/dashboard/nhacungcap",
+    element: <ThemNhaCungCap />,
     role: "admin",
   },
   {

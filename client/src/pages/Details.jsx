@@ -432,12 +432,12 @@ const Details = () => {
                 ) : (
                   ""
                 )}
-                <button
+                {/* <button
                   onClick={() => chat_to_shop(product.sellerId)}
                   className="px-8 py-3 sm:h-full h-[50px] cursor-pointer hover:shadow-lg hover:shadow-orange-500/40 bg-orange-500 text-white block"
                 >
                   Chat với Người Bán
-                </button>
+                </button> */}
               </div>
             </div>
           </div>

@@ -14,6 +14,21 @@ router.post(
   authMiddleware,
   productController.product_update
 );
+
+router.get("/nhacungcap", authMiddleware, productController.get_nhacungcap);
+
+router.delete(
+  "/xoa-nhacungcap/:_id",
+  authMiddleware,
+  productController.xoa_nhacungcap
+);
+
+router.post(
+  "/submit-nhacungcap",
+  authMiddleware,
+  productController.submit_nhacungcap
+);
+
 router.post(
   "/product-image-update",
   authMiddleware,
@@ -31,6 +46,8 @@ router.delete(
   authMiddleware,
   productController.xoa_review
 );
+
+router.put("/commit-review/:_id", productController.commit_review);
 
 router.post(
   "/logproduct-update",

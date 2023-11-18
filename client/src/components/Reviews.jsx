@@ -41,19 +41,25 @@ const Reviews = ({ product }) => {
     dispatch(customer_review(obj));
   };
 
+  const find_approved = reviews.filter((item) => item.approved === true);
+  console.log(find_approved.length);
+
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
-      dispatch(
-        get_reviews({
-          productId: product._id,
-          pageNumber,
-        })
-      );
-      dispatch(get_product(product.slug));
-      setRat("");
-      setRe("");
-      dispatch(messageClear());
+      if (!find_approved.length) {
+        dispatch(
+          get_reviews({
+            productId: product._id,
+            pageNumber,
+          })
+        );
+
+        dispatch(get_product(product.slug));
+        setRat("");
+        setRe("");
+        dispatch(messageClear());
+      }
     }
   }, [successMessage]);
 
@@ -202,6 +208,7 @@ const Reviews = ({ product }) => {
               <div className="flex gap-1 text-xl">
                 <RatingTemp rating={r.rating} />
               </div>
+
               <span className="text-slate-600">{r.date}</span>
             </div>
             <span className="text-slate-600 text-md">{r.name}</span>

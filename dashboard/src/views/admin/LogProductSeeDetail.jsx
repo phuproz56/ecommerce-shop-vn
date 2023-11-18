@@ -62,6 +62,9 @@ const LogProductSeeDetail = () => {
                 <p>id phiếu: {u._id}</p>
               </div>
               <div className="text-white">
+                <p>nhà cung cấp: {u.ten_nhacungcap}</p>
+              </div>
+              <div className="text-white">
                 <p>Tên người lập phiếu: {u.fullname}</p>
               </div>
               <div className="text-white">

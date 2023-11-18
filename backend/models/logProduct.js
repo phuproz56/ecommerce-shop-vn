@@ -18,6 +18,10 @@ const logProductSchema = new Schema(
       type: Number,
       required: true,
     },
+    ten_nhacungcap: {
+      type: String,
+      required: true,
+    },
     note: {
       type: String,
       required: true,

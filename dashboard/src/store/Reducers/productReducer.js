@@ -157,6 +157,68 @@ export const xoa_review = createAsyncThunk(
   }
 );
 
+export const commit_review = createAsyncThunk(
+  "product/commit_review",
+  async (_id, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.put(`/commit-review/${_id}`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_nhacungcap = createAsyncThunk(
+  "product/get_nhacungcap",
+  async (
+    { parPage, page, searchValue },
+    { rejectWithValue, fulfillWithValue }
+  ) => {
+    try {
+      const { data } = await api.get(
+        `/nhacungcap?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
+        {
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const submit_nhacungcap = createAsyncThunk(
+  "product/submit_nhacungcap",
+  async (info, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.post(`/submit-nhacungcap`, info, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const xoa_nhacungcap = createAsyncThunk(
+  "product/xoa_nhacungcap",
+  async (_id, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.delete(`/xoa-nhacungcap/${_id}`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const productReducer = createSlice({
   name: "product",
   initialState: {
@@ -169,6 +231,9 @@ export const productReducer = createSlice({
     logProduct: [],
     totallogProduct: 0,
     total_product_find: 0,
+    all_nhacungcap: [],
+    count_nhacungcap: 0,
+    get_all_nhacungcap: [],
   },
   reducers: {
     messageClear: (state, _) => {
@@ -195,6 +260,7 @@ export const productReducer = createSlice({
     [get_product.fulfilled]: (state, { payload }) => {
       state.product = payload.product;
       state.updateDate = payload.updateDate;
+      state.get_all_nhacungcap = payload.get_all_nhacungcap;
     },
     [update_product.pending]: (state, _) => {
       state.loader = true;
@@ -229,9 +295,21 @@ export const productReducer = createSlice({
     },
     [get_review_products.pending]: (state, { payload }) => {
       state.loader = true;
-     
     },
     [xoa_review.fulfilled]: (state, { payload }) => {
+      state.successMessage = payload.message;
+    },
+    [commit_review.fulfilled]: (state, { payload }) => {
+      state.successMessage = payload.message;
+    },
+    [submit_nhacungcap.fulfilled]: (state, { payload }) => {
+      state.successMessage = payload.message;
+    },
+    [get_nhacungcap.fulfilled]: (state, { payload }) => {
+      state.all_nhacungcap = payload.all_nhacungcap;
+      state.count_nhacungcap = payload.count_nhacungcap;
+    },
+    [xoa_nhacungcap.fulfilled]: (state, { payload }) => {
       state.successMessage = payload.message;
     },
   },
