@@ -327,6 +327,34 @@ class productController {
     }
   };
 
+  checkCouponExpiration = async (req, res, next) => {
+    try {
+      const coupon = await couponModel.findOne({
+        name: req.body.name,
+      });
+
+      if (!coupon) {
+        return responseReturn(res, 400, {
+          message: "Mã giảm giá không tồn tại!",
+        });
+      }
+
+      const currentDate = new Date();
+      const expirationDate = new Date(coupon.endDate);
+
+      if (currentDate > expirationDate) {
+        return responseReturn(res, 400, { message: "Mã giảm giá đã hết hạn!" });
+      }
+
+      // Gọi next để tiếp tục xử lý các middleware hoặc route khác
+      next();
+    } catch (error) {
+      return responseReturn(res, 500, {
+        message: "Đã xảy ra lỗi khi kiểm tra mã giảm giá!",
+      });
+    }
+  };
+
   create_coupon_code = async (req, res) => {
     try {
       const isCoupounCodeExists = await couponModel.find({

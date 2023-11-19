@@ -47,6 +47,7 @@ class orderController {
       shipping_fee,
       shippingInfo,
       discountPrice,
+      couponCode,
       userId,
     } = req.body;
 
@@ -70,11 +71,19 @@ class orderController {
 
     try {
       if (discountPrice) {
+        const coupon = await couponModel.findOne({ name: couponCode });
+      
+
+        await couponModel.findByIdAndUpdate((coupon._id).toString(), {
+          count: coupon.count - 1,
+        });
+
         const order = await customerOrder.create({
           customerId: userId,
           shippingInfo,
           products: customerOrderProduct,
           price: price + shipping_fee - discountPrice,
+          applyCoupon: couponCode,
           delivery_status: "Chưa Xử Lí",
           payment_status: "unpaid",
           shipperInfo: {},
@@ -655,7 +664,6 @@ class orderController {
       console.log(error.message);
     }
   };
-  
 }
 
 module.exports = new orderController();

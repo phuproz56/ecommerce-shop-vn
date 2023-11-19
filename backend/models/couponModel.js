@@ -9,6 +9,10 @@ const couponSchema = new Schema(
       type: Number,
       required: true,
     },
+    count: {
+      type: Number,
+      required: true,
+    },
     minAmount: {
       type: Number,
     },

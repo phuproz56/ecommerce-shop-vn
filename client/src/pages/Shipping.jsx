@@ -69,30 +69,6 @@ const Shipping = () => {
     }
   };
 
-  const placeOrder = () => {
-    const data = {
-      userId: userInfo.id,
-      name: userInfo.name,
-      email: userInfo.email,
-      address1: address1,
-      city: city,
-      country: country,
-      phoneNumber: userInfo.phoneNumber,
-    };
-    dispatch(
-      place_order({
-        price,
-        products,
-        shipping_fee,
-        shippingInfo: data,
-        userId: userInfo.id,
-        discountPrice,
-        navigate,
-        items,
-      })
-    );
-  };
-
   const subTotalPrice = price;
 
   const handleSubmit = async (e) => {
@@ -134,6 +110,31 @@ const Shipping = () => {
   const totalPrice = couponCodeData
     ? subTotalPrice + shipping_fee - discountPercentenge
     : subTotalPrice + shipping_fee;
+
+  const placeOrder = () => {
+    const data = {
+      userId: userInfo.id,
+      name: userInfo.name,
+      email: userInfo.email,
+      address1: address1,
+      city: city,
+      country: country,
+      phoneNumber: userInfo.phoneNumber,
+    };
+    dispatch(
+      place_order({
+        price,
+        products,
+        shipping_fee,
+        shippingInfo: data,
+        userId: userInfo.id,
+        discountPrice,
+        couponCode,
+        navigate,
+        items,
+      })
+    );
+  };
 
   return (
     <div>

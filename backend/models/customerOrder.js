@@ -26,6 +26,9 @@ const customerOrder = new Schema(
       type: String,
       required: true,
     },
+    applyCoupon: {
+      type: String,
+    },
     date: {
       type: String,
       required: true,

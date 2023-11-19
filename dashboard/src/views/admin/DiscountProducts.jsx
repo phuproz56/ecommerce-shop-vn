@@ -20,6 +20,7 @@ const DiscountProducts = () => {
   const [maxAmount, setMaxAmount] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [value, setValue] = useState(null);
+  const [count, setCount] = useState(0);
   const { userInfo } = useSelector((state) => state.auth);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -76,6 +77,7 @@ const DiscountProducts = () => {
           minAmount,
           maxAmount,
           selectedProduct,
+          count,
           value,
           endDate,
           shopId: id,
@@ -107,6 +109,12 @@ const DiscountProducts = () => {
       flex: 0.6,
     },
     {
+      field: "count",
+      headerName: "Số lượng",
+      minWidth: 100,
+      flex: 0.6,
+    },
+    {
       field: "Xóa",
       flex: 0.8,
       minWidth: 120,
@@ -134,6 +142,7 @@ const DiscountProducts = () => {
       row.push({
         id: item._id,
         name: item.name,
+        count: item.count,
         price: item.value + " %",
         sold: 10,
       });
@@ -172,7 +181,7 @@ const DiscountProducts = () => {
           </div>
           {open && (
             <div className="fixed top-0 left-0 w-full h-screen bg-[#00000062] z-[20000] flex items-center justify-center">
-              <div className="w-[90%] 800px:w-[40%] h-[80vh] bg-white rounded-md shadow p-4">
+              <div className="w-full 800px:w-[40%] h-[80vh] bg-white rounded-md shadow p-4">
                 <div className="w-full flex justify-end">
                   <RxCross1
                     size={30}
@@ -185,7 +194,6 @@ const DiscountProducts = () => {
                 </h5>
                 {/* create coupoun code */}
                 <form onSubmit={handleSubmit} aria-required={true}>
-                  <br />
                   <div>
                     <label className="pb-2">
                       Tên <span className="text-red-500">*</span>
@@ -200,7 +208,6 @@ const DiscountProducts = () => {
                       placeholder="Thêm tên mã giảm giá..."
                     />
                   </div>
-                  <br />
                   <div>
                     <label className="pb-2">
                       Số lượng giảm (%) <span className="text-red-500">*</span>
@@ -215,7 +222,22 @@ const DiscountProducts = () => {
                       placeholder="Nhập % giảm giá (% < 100%)..."
                     />
                   </div>
-                  <br />
+
+                  <div>
+                    <label className="pb-2">
+                      Số lượng coupon <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      name="count"
+                      value={count}
+                      required
+                      className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      onChange={(e) => setCount(e.target.value)}
+                      placeholder="Nhập số lượng coupon..."
+                    />
+                  </div>
+
                   <div>
                     <label className="pb-2">Số tiền tổi thiểu</label>
                     <input
@@ -227,9 +249,10 @@ const DiscountProducts = () => {
                       placeholder="Nhập số tiền tối thiểu có thể giảm giá..."
                     />
                   </div>
-                  <br />
+
                   <div>
-                    <label className="pb-2">Số tiền tối đa</label>
+                    <label className="pb-2">Số tiền tối đa</label>{" "}
+                    <span className="text-red-500">*</span>
                     <input
                       type="number"
                       name="value"
@@ -239,7 +262,7 @@ const DiscountProducts = () => {
                       placeholder="Nhập số tiền tối đa có thể giảm giá..."
                     />
                   </div>
-                  <br />
+
                   <div>
                     <label className="pb-2">
                       Ngày kết thúc <span className="text-red-500">*</span>
@@ -256,7 +279,6 @@ const DiscountProducts = () => {
                     />
                   </div>
 
-                  <br />
                   <div>
                     <input
                       type="submit"
