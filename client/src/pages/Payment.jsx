@@ -9,14 +9,15 @@ import FadeLoader from "react-spinners/FadeLoader";
 import success from "../assets/success.png";
 import { useDispatch, useSelector } from "react-redux";
 import { get_order } from "../store/reducers/orderReducer";
-
+import { FaQuestionCircle } from "react-icons/fa";
+import { Tooltip } from "antd";
 const Payment = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
     state: { price, orderId },
   } = useLocation();
-  const { myOrder } = useSelector((state) => state.order);
+  const { myOrder, coupon } = useSelector((state) => state.order);
   const location = useLocation();
   const [paymentMethod, setPaymentMethod] = useState("stripe");
   const [loader, setLoader] = useState(false);
@@ -31,7 +32,9 @@ const Payment = () => {
 
     if (orderId) {
       try {
-        await axios.get(`http://localhost:5000/api/order/confirm/${orderId}`);
+        await axios.post(`http://localhost:5000/api/order/confirm/${orderId}`, {
+          paymentMethod,
+        });
         setLoader(false);
         localStorage.removeItem("orderId");
       } catch (error) {
@@ -56,7 +59,7 @@ const Payment = () => {
       }, 1000);
     }
   }, [message]);
-  console.log(message);
+
   return (
     <div>
       <Headers />
@@ -143,6 +146,30 @@ const Payment = () => {
                         style: "currency",
                         currency: "VND",
                       })}{" "}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span> Mã giảm áp dụng: </span>
+                    <span className="flex">
+                      {myOrder?.applyCoupon
+                        ? myOrder?.applyCoupon?.toLocaleString("vi", {
+                            style: "currency",
+                            currency: "VND",
+                          })
+                        : "không áp dụng mã"}{" "}
+                      <b className={`${myOrder?.applyCoupon ? "" : "hidden"}`}>
+                        <Tooltip
+                          title={`giảm ${coupon.value}% tối đa giảm ${
+                            coupon.maxAmount &&
+                            coupon.maxAmount.toLocaleString("vi", {
+                              style: "currency",
+                              currency: "VND",
+                            })
+                          }`}
+                        >
+                          <FaQuestionCircle />
+                        </Tooltip>
+                      </b>
                     </span>
                   </div>
                   <div className="flex justify-between items-center font-semibold">

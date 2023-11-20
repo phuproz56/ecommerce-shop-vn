@@ -13,6 +13,7 @@ import {
   get_product,
   get_reviews,
   messageClear,
+  check_review_customer,
 } from "../store/reducers/homeReducer";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -23,10 +24,11 @@ const Reviews = ({ product }) => {
   const [rat, setRat] = useState();
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerpage] = useState(10);
-  const { successMessage, reviews, totalReview, rating_review } = useSelector(
-    (state) => state.home
-  );
+  const { successMessage, reviews, totalReview, rating_review, check_review } =
+    useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
+
+  console.log(check_review);
 
   const [re, setRe] = useState();
 
@@ -42,7 +44,6 @@ const Reviews = ({ product }) => {
   };
 
   const find_approved = reviews.filter((item) => item.approved === true);
-  console.log(find_approved.length);
 
   useEffect(() => {
     if (successMessage) {
@@ -228,6 +229,7 @@ const Reviews = ({ product }) => {
         </div>
       </div>
       <div>
+        {check_review === 0 && <p className="text-red-500">bạn cần mua sản phẩm để được đánh giá sản phẩm!</p>}
         {userInfo ? (
           <div className="flex flex-col gap-3">
             <div className="flex gap-1">
@@ -246,16 +248,22 @@ const Reviews = ({ product }) => {
                 }
               />
             </div>
-            <form onSubmit={review_submit}>
+            <form
+              onSubmit={review_submit}
+              className={`${check_review > 0 ? "" : "cursor-not-allowed"}`}
+            >
               <textarea
                 value={re}
                 required
                 onChange={(e) => setRe(e.target.value)}
-                className="border outline-0 p-3 w-full"
+                className={`border outline-0 p-3 w-full ${
+                  check_review > 0 ? "" : "cursor-not-allowed"
+                }`}
                 name=""
                 id=""
                 cols="30"
                 rows="5"
+                readOnly={check_review > 0 ? false : true}
               ></textarea>
               <div>
                 <button className="py-1 px-5 bg-indigo-500 text-white rounded-sm">

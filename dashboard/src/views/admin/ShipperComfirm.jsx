@@ -121,7 +121,7 @@ const ShipperComfirm = () => {
                       >
                         <Tooltip title="Xem Chi Tiết Đơn Hàng">
                           <Link
-                            to={`/seller/dashboard/shipper-comfirm/details/${d._id}`}
+                            to={`/admin/dashboard/shipper-comfirm/details/${d._id}`}
                             className="p-[6px] w-[30px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50 flex justify-center items-center"
                           >
                             <FaEye />

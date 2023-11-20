@@ -46,6 +46,7 @@ const Coupon = () => {
                 currency: "VND",
               })}
             </b>
+            <p> số lượng: {u.count}</p>
             <p>
               HSD: {u?.endDate ? dayjs(u?.endDate).format("D/MM/YYYY") : ""}
             </p>

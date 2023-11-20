@@ -72,9 +72,8 @@ class orderController {
     try {
       if (discountPrice) {
         const coupon = await couponModel.findOne({ name: couponCode });
-      
 
-        await couponModel.findByIdAndUpdate((coupon._id).toString(), {
+        await couponModel.findByIdAndUpdate(coupon._id.toString(), {
           count: coupon.count - 1,
         });
 
@@ -296,8 +295,14 @@ class orderController {
 
     try {
       const order = await customerOrder.findById(orderId);
+
+      const coupon = await couponModel.find({
+        name: order.applyCoupon,
+      });
+
       responseReturn(res, 200, {
         order,
+        coupon: coupon.length ? coupon[0] : 0,
       });
     } catch (error) {
       console.log(error.message);
@@ -500,6 +505,12 @@ class orderController {
         }
       }
 
+      if (status === "Giao Hàng Thành Công") {
+        await customerOrder.findByIdAndUpdate(_id, {
+          payment_status: "paid",
+        });
+      }
+
       responseReturn(res, 200, {
         message: "thay đổi trạng thái đơn hàng thành công!",
       });
@@ -526,55 +537,107 @@ class orderController {
   };
 
   order_confirm = async (req, res) => {
+    const { paymentMethod } = req.body;
     const { orderId } = req.params;
+
+    console.log(paymentMethod);
+
     try {
-      await customerOrder.findByIdAndUpdate(orderId, {
-        payment_status: "paid",
-        delivery_status: "Chưa Xử Lí",
-      });
-      await authOrderModel.updateMany(
-        { orderId: new ObjectId(orderId) },
-        {
-          payment_status: "paid",
+      if (paymentMethod === "now") {
+        await customerOrder.findByIdAndUpdate(orderId, {
+          payment_status: "Thanh toán khi nhận hàng",
           delivery_status: "Chưa Xử Lí",
-        }
-      );
-      const cuOrder = await customerOrder.findById(orderId);
+        });
+        await authOrderModel.updateMany(
+          { orderId: new ObjectId(orderId) },
+          {
+            payment_status: "Thanh toán khi nhận hàng",
+            delivery_status: "Chưa Xử Lí",
+          }
+        );
+        const cuOrder = await customerOrder.findById(orderId);
 
-      const auOrder = await authOrderModel.find({
-        orderId: new ObjectId(orderId),
-      });
+        const auOrder = await authOrderModel.find({
+          orderId: new ObjectId(orderId),
+        });
 
-      const time = moment(Date.now()).format("l");
+        const time = moment(Date.now()).format("l");
 
-      const splitTime = time.split("/");
+        const splitTime = time.split("/");
 
-      await myShopWallet.create({
-        amount: cuOrder.price,
-        manth: splitTime[0],
-        year: splitTime[2],
-      });
-
-      for (let i = 0; i < auOrder.length; i++) {
-        await sellerWallet.create({
-          sellerId: auOrder[i].sellerId.toString(),
-          amount: auOrder[i].price,
+        await myShopWallet.create({
+          amount: cuOrder.price,
           manth: splitTime[0],
           year: splitTime[2],
         });
-      }
-      const customerOrderProduct = cuOrder.products;
 
-      for (let i = 0; i < customerOrderProduct.length; i++) {
-        const id = customerOrderProduct[i]._id;
+        for (let i = 0; i < auOrder.length; i++) {
+          await sellerWallet.create({
+            sellerId: auOrder[i].sellerId.toString(),
+            amount: auOrder[i].price,
+            manth: splitTime[0],
+            year: splitTime[2],
+          });
+        }
+        const customerOrderProduct = cuOrder.products;
 
-        await productModel.findByIdAndUpdate(id, {
-          stock:
-            customerOrderProduct[i].stock - customerOrderProduct[i].quantity,
+        for (let i = 0; i < customerOrderProduct.length; i++) {
+          const id = customerOrderProduct[i]._id;
+
+          await productModel.findByIdAndUpdate(id, {
+            stock:
+              customerOrderProduct[i].stock - customerOrderProduct[i].quantity,
+          });
+        }
+        responseReturn(res, 200, { message: "Thành công!" });
+      } else {
+        await customerOrder.findByIdAndUpdate(orderId, {
+          payment_status: "paid",
+          delivery_status: "Chưa Xử Lí",
         });
-      }
+        await authOrderModel.updateMany(
+          { orderId: new ObjectId(orderId) },
+          {
+            payment_status: "paid",
+            delivery_status: "Chưa Xử Lí",
+          }
+        );
+        const cuOrder = await customerOrder.findById(orderId);
 
-      responseReturn(res, 200, { message: "Thành công!" });
+        const auOrder = await authOrderModel.find({
+          orderId: new ObjectId(orderId),
+        });
+
+        const time = moment(Date.now()).format("l");
+
+        const splitTime = time.split("/");
+
+        await myShopWallet.create({
+          amount: cuOrder.price,
+          manth: splitTime[0],
+          year: splitTime[2],
+        });
+
+        for (let i = 0; i < auOrder.length; i++) {
+          await sellerWallet.create({
+            sellerId: auOrder[i].sellerId.toString(),
+            amount: auOrder[i].price,
+            manth: splitTime[0],
+            year: splitTime[2],
+          });
+        }
+        const customerOrderProduct = cuOrder.products;
+
+        for (let i = 0; i < customerOrderProduct.length; i++) {
+          const id = customerOrderProduct[i]._id;
+
+          await productModel.findByIdAndUpdate(id, {
+            stock:
+              customerOrderProduct[i].stock - customerOrderProduct[i].quantity,
+          });
+        }
+        responseReturn(res, 200, { message: "Thành công!" });
+      }
     } catch (error) {
       console.log(error.message);
     }

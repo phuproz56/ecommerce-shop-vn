@@ -185,21 +185,47 @@ class customerAuthController {
         userInfo.addresses.push(req.body);
       }
 
-      const token = await createToken({
-        id: userInfo.id,
-        name: userInfo.name,
-        email: userInfo.email,
-        method: userInfo.method,
-        phoneNumber: userInfo.phoneNumber,
-        addresses: userInfo.addresses,
-      });
-      res.cookie("customerToken", token, {
-        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      });
+      if (userInfo.email_verified) {
+        const token = await createToken({
+          id: userInfo.id,
+          name: userInfo.name,
+          email: userInfo.email,
+          method: userInfo.method,
+          email_verified: true,
+          phoneNumber: userInfo.phoneNumber,
+          addresses: userInfo.addresses,
+        });
+        res.cookie("customerToken", token, {
+          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        });
 
-      userInfo.save();
+        userInfo.save();
 
-      responseReturn(res, 201, { message: "Thêm địa chỉ thành công!", token });
+        responseReturn(res, 201, {
+          message: "Thêm địa chỉ thành công!",
+          token,
+        });
+      } else {
+        const token = await createToken({
+          id: userInfo.id,
+          name: userInfo.name,
+          email: userInfo.email,
+          method: userInfo.method,
+          email_verified: false,
+          phoneNumber: userInfo.phoneNumber,
+          addresses: userInfo.addresses,
+        });
+        res.cookie("customerToken", token, {
+          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        });
+
+        userInfo.save();
+
+        responseReturn(res, 201, {
+          message: "Thêm địa chỉ thành công!",
+          token,
+        });
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -219,21 +245,47 @@ class customerAuthController {
 
       const userInfo = await customerModel.findById(userId);
 
-      const token = await createToken({
-        id: userInfo.id,
-        name: userInfo.name,
-        email: userInfo.email,
-        method: userInfo.method,
-        phoneNumber: userInfo.phoneNumber,
-        addresses: userInfo.addresses,
-      });
-      res.cookie("customerToken", token, {
-        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      });
+      if (userInfo.email_verified) {
+        const token = await createToken({
+          id: userInfo.id,
+          name: userInfo.name,
+          email: userInfo.email,
+          method: userInfo.method,
+          email_verified: true,
+          phoneNumber: userInfo.phoneNumber,
+          addresses: userInfo.addresses,
+        });
+        res.cookie("customerToken", token, {
+          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        });
 
-      userInfo.save();
+        userInfo.save();
 
-      responseReturn(res, 201, { message: "Xoá thành công!", token });
+        responseReturn(res, 201, {
+          message: "xóa thành công!",
+          token,
+        });
+      } else {
+        const token = await createToken({
+          id: userInfo.id,
+          name: userInfo.name,
+          email: userInfo.email,
+          method: userInfo.method,
+          email_verified: false,
+          phoneNumber: userInfo.phoneNumber,
+          addresses: userInfo.addresses,
+        });
+        res.cookie("customerToken", token, {
+          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        });
+
+        userInfo.save();
+
+        responseReturn(res, 201, {
+          message: "xóa thành công!",
+          token,
+        });
+      }
     } catch (error) {
       console.log(error.message);
     }

@@ -116,7 +116,7 @@ export const adminRoutes = [
     role: "admin",
   },
   {
-    path: "/seller/dashboard/request/details/:orderId",
+    path: "/admin/dashboard/request/details/:orderId",
     element: <RequestDetails />,
     role: "admin",
   },

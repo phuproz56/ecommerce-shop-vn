@@ -275,11 +275,11 @@ const Shipping = () => {
                         </div>
                       </form>
                       <h5
-
                         className="text-[18px] cursor-pointer inline-block mt-4"
                         onClick={() => setUser(!user)}
                       >
-                        Chọn địa chỉ mà bạn đã lưu: <b>(địa chỉ mặc định sẽ tự động lưu)</b>
+                        Chọn địa chỉ mà bạn đã lưu:{" "}
+                        <b>(địa chỉ mặc định sẽ tự động lưu)</b>
                         <h5 className="text-[#027df0fd]">
                           (Nhấn vào đây để chọn)
                         </h5>

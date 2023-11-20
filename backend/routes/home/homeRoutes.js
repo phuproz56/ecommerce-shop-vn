@@ -11,9 +11,16 @@ router.get("/query-products", homeControllers.query_products);
 
 router.post("/customer/submit-review", homeControllers.submit_review);
 
-router.post("/customer/submit-review-order", homeControllers.submit_review_order);
+router.post(
+  "/customer/submit-review-order",
+  homeControllers.submit_review_order
+);
+
+router.get(
+  "/customer/check-review-customer/:customerId/:productId",
+  homeControllers.check_review_customer
+);
 
 router.get("/customer/get-reviews/:productId", homeControllers.get_reviews);
-
 
 module.exports = router;

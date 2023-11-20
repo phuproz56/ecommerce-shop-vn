@@ -159,6 +159,7 @@ export const orderReducer = createSlice({
     all_coupon: [],
     loader: false,
     order_review: {},
+    coupon: {},
   },
   reducers: {
     messageClear: (state, _) => {
@@ -173,6 +174,7 @@ export const orderReducer = createSlice({
     },
     [get_order.fulfilled]: (state, { payload }) => {
       state.myOrder = payload.order;
+      state.coupon = payload.coupon;
     },
     [get_all_orders.pending]: (state, { payload }) => {
       state.loader = true;

@@ -12,6 +12,7 @@ const cloudinary = require("cloudinary").v2;
 const {
   mongo: { ObjectId },
 } = require("mongoose");
+const customerOrder = require("../../models/customerOrder");
 class homeControllers {
   formateProduct = (products) => {
     const productArray = [];
@@ -120,15 +121,13 @@ class homeControllers {
               },
             },
             {
-              sellerId: {
-                $eq: product.sellerId,
+              category: {
+                $eq: product.category,
               },
             },
           ],
         })
         .limit(3);
-
-        
 
       responseReturn(res, 200, {
         product,
@@ -402,6 +401,21 @@ class homeControllers {
         return;
       }
     });
+  };
+
+  check_review_customer = async (req, res) => {
+    const { customerId, productId } = req.params;
+    try {
+      const count = await customerOrder.countDocuments({
+        customerId: new ObjectId(customerId),
+        products: { $elemMatch: { _id: productId } },
+      });
+
+      responseReturn(res, 200, { count: count > 0 ? count : 0 });
+    } catch (error) {
+      console.error("Error checking customer purchase:", error);
+      return false;
+    }
   };
 }
 

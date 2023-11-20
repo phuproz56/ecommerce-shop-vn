@@ -217,7 +217,7 @@ const ChatButton = () => {
               onClick={() => setShow(!show)}
               className="w-full h-[400px] flex justify-center items-center text-lg ont-bold text-slate-600"
             >
-              <span className="cursor-pointer">Chọn Người Bán Muốn Chat</span>
+              <span className="cursor-pointer">Cần đăng nhập để bắt đầu chat</span>
             </div>
           )}
         </div>

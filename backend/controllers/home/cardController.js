@@ -140,6 +140,7 @@ class cardController {
           }
         }
       }
+
       const { sellerId } = req.params;
       const shopInfo = await sellerModel.find({ sellerId });
 

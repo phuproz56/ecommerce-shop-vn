@@ -181,10 +181,11 @@ const OrderDetails = () => {
             }  rounded-full`}
             style={{ fontSize: "80px" }}
           />
-          Đã Xác Nhận Thông Tin Thanh Toán
+         {myOrder.payment_status === "paid" ? 
           <p className="text-slate-400">
+            Đã Xác Nhận Thông Tin Thanh Toán
             {moment(myOrder?.updatedAt).format("LLL")}
-          </p>
+          </p> : "Thanh toán sau khi nhận hàng"}
         </div>
         <div
           className={`w-full sm:hidden border-t-4 ${

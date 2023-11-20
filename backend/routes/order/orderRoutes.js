@@ -21,7 +21,7 @@ router.get(
   orderController.get_detail_review_order
 );
 router.post("/order/create-payment", orderController.create_payment);
-router.get("/order/confirm/:orderId", orderController.order_confirm);
+router.post("/order/confirm/:orderId", orderController.order_confirm);
 router.put("/home/customer/huy-order/:orderId", orderController.huy_order);
 router.post("/home/customer/submit-request", orderController.submit_request);
 router.get("/home/customer/get-all-coupon", orderController.get_all_coupon);

@@ -9,6 +9,8 @@ import {
 } from "../../../store/reducers/orderReducer";
 import toast from "react-hot-toast";
 import FadeLoader from "react-spinners/FadeLoader";
+import { Tooltip } from "antd";
+import { FaQuestionCircle } from "react-icons/fa";
 
 const Tatca = () => {
   const dispatch = useDispatch();
@@ -59,7 +61,7 @@ const Tatca = () => {
                       <div className="p-5 flex flex-col justify-items-center pl-3">
                         <h2 className="text-slate-600 font-semibold">
                           Đã mua vào ngày: <span>{q.date}</span>{" "}
-                          <div className="text-end">
+                          <div className="flex justify-end items-end text-end">
                             <Link
                               to={`/dashboard/order/${q._id}`}
                               className="pl-[100px] text-green-500"
@@ -79,6 +81,11 @@ const Tatca = () => {
                                 q.delivery_status
                               )}
                             </Link>
+                            <b className="flex justify-between items-center pl-1">
+                              <Tooltip title="Bấm vào chữ kế bên để xem thông tin chi tiết đơn hàng hoặc trả hàng nếu cần">
+                                <FaQuestionCircle />
+                              </Tooltip>
+                            </b>
                             {q.delivery_status === "Đã Giao Hàng" && (
                               <b className="border-l-2 text-red-400 uppercase ml-4 pl-3">
                                 hoàn thành
@@ -135,7 +142,7 @@ const Tatca = () => {
                                               Số lượng: {p.quantity}
                                             </span>
                                           </p>
-                                          <span>Tên Shop: {p.shopName}</span>
+                                          {/* <span>Tên Shop: {p.shopName}</span> */}
                                         </div>
                                       </div>
                                       <div className="pl-4">

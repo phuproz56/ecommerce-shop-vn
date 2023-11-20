@@ -17,7 +17,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { useDispatch, useSelector } from "react-redux";
-import { get_product } from "../store/reducers/homeReducer";
+import {
+  get_product,
+  check_review_customer,
+} from "../store/reducers/homeReducer";
 import {
   add_to_card,
   messageClear,
@@ -30,7 +33,7 @@ import Select from "react-select";
 const Details = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { product, relatedProducts, moreProducts, totalReview } = useSelector(
+  const { product, relatedProducts, moreProducts, totalReview, check_review } = useSelector(
     (state) => state.home
   );
   const { slug } = useParams();
@@ -43,6 +46,15 @@ const Details = () => {
   const { errorMessage, successMessage } = useSelector((state) => state.card);
 
   const location = useLocation();
+
+  useEffect(() => {
+    dispatch(
+      check_review_customer({
+        customerId: userInfo.id,
+        productId: product._id,
+      })
+    );
+  }, [dispatch, userInfo.id, product._id]);
 
   useEffect(() => {
     window.scrollTo({
@@ -482,7 +494,7 @@ const Details = () => {
             <div className="w-[28%] md-lg:w-full">
               <div className="pl-4 md-lg:pl-0">
                 <div className="px-3 py-2 text-slate-600 bg-slate-200">
-                  <h2> Từ Shop-Vn</h2>
+                  <h2> Sản Phẩm Cùng Loại</h2>
                 </div>
                 <div className="flex flex-col gap-5 mt-3 border p-3">
                   {moreProducts.map((p, i) => {

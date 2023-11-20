@@ -254,7 +254,7 @@ const AdminDashboard = () => {
       <div className="w-full p-4  bg-[#283046] rounded-md mt-6">
         <div className="flex justify-between items-center">
           <h2 className="font-semibold text-lg text-[#d0d2d6] pb-3">
-            Đơn Hàng Gần Nhất
+            sản phẩm bán chạy nhất
           </h2>
           <Link className="font-semibold text-sm text-[#d0d2d6] hover:text-green-400">
             Xem tất cả

@@ -136,7 +136,7 @@ const OrderDetails = () => {
                 <div className="flex justify-start items-center gap-3">
                   <h2>Trạng Thái Thanh Toán : </h2>
                   <span className="text-base">
-                    {order?.payment_status === "paid" && "Đã Thanh Toán"}
+                    {order?.payment_status === "paid" ? "Đã Thanh Toán" : order?.payment_status}
                   </span>
                 </div>
                 <span>

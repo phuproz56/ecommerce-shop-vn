@@ -91,7 +91,8 @@ const ShipperDetails = () => {
                 <div className="flex flex-col gap-1">
                   <h2 className="pb-2 font-semibold">
                     Tên khách hàng: {order?.shippingInfo?.name}
-                  </h2><h2 className="pb-2 font-semibold">
+                  </h2>
+                  <h2 className="pb-2 font-semibold">
                     số điện thoại: {order?.shippingInfo?.phoneNumber}
                   </h2>
                   <p>

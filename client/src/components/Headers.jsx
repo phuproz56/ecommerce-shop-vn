@@ -268,8 +268,8 @@ const Headers = ({ isFixed }) => {
               </div>
             </div>
             <div className="md-lg:w-full w-9/12">
-              <div className="flex justify-between md-lg:justify-center items-center flex-wrap pl-8">
-                <ul className="flex justify-start items-start gap-8 text-sm font-bold uppercase md-lg:hidden">
+              <div className="flex justify-between md-lg:justify-center items-center flex-wrap pl-[100px]">
+                <ul className="flex justify-center items-center gap-8 text-lg font-bold uppercase md-lg:hidden">
                   <li>
                     <Link
                       to="/"
