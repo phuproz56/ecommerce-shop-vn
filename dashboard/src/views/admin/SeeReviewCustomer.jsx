@@ -163,7 +163,7 @@ const SeeReviewCustomer = () => {
                       className="py-1 px-4 font-medium whitespace-nowrap"
                     >
                       <div className="flex justify-start items-center gap-4">
-                       { d.review.approved ? "Đã duyệt" : <Tooltip title="duyệt đánh giá">
+                       { d.review.approved ? <p className="p-2 bg-green-400 border rounded-md text-black">Đã duyệt</p> : <Tooltip title="duyệt đánh giá">
                           <Link
                             onClick={() => pheduyet(d?.review?._id)}
                             className="p-[10px] bg-green-500 text-white rounded hover:shadow-lg hover:shadow-yellow-500/50"

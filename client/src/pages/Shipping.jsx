@@ -145,11 +145,11 @@ const Shipping = () => {
             <div className="flex flex-col justify-center gap-1 items-center h-full w-full text-white">
               <h2 className="text-3xl font-bold">shop.my</h2>
               <div className="flex justify-center items-center gap-2 text-2xl w-full">
-                <Link to="/cart">Cart</Link>
+                <Link to="/cart">Giỏ Hàng</Link>
                 <span className="pt-2">
                   <MdOutlineKeyboardArrowRight />
                 </span>
-                <span>Place Order</span>
+                <span>Đặt Hàng</span>
               </div>
             </div>
           </div>
@@ -275,10 +275,11 @@ const Shipping = () => {
                         </div>
                       </form>
                       <h5
-                        className="text-[18px] cursor-pointer inline-block"
+
+                        className="text-[18px] cursor-pointer inline-block mt-4"
                         onClick={() => setUser(!user)}
                       >
-                        Chọn địa chỉ mà bạn đã lưu:{" "}
+                        Chọn địa chỉ mà bạn đã lưu: <b>(địa chỉ mặc định sẽ tự động lưu)</b>
                         <h5 className="text-[#027df0fd]">
                           (Nhấn vào đây để chọn)
                         </h5>

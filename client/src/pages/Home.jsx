@@ -30,7 +30,7 @@ const Home = () => {
         <Categorys />
       </div>
       <div className="py-[45px]">
-        <FeatureProducts products={relatedProducts} />
+        <FeatureProducts products={products} />
       </div>
       <div className="py-10">
         <div className="w-[85%] flex flex-wrap mx-auto">

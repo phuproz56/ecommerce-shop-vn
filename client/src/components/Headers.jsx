@@ -304,7 +304,7 @@ const Headers = ({ isFixed }) => {
                       Sự Kiện Khuyến Mãi
                     </Link>
                   </li> */}
-                  <li>
+                  {/* <li>
                     <Link
                       className={`p-2 block ${
                         pathname === "/about"
@@ -325,7 +325,7 @@ const Headers = ({ isFixed }) => {
                     >
                       liên hệ
                     </Link>
-                  </li>
+                  </li> */}
                 </ul>
                 <div className="flex md-lg:hidden justify-center items-center gap-5">
                   <div className="flex justify-center gap-5">
