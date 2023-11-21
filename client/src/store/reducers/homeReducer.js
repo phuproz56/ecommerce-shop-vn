@@ -49,6 +49,18 @@ export const get_product = createAsyncThunk(
   }
 );
 
+export const recommendations = createAsyncThunk(
+  "product/recommendations",
+  async (id, { fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(`/home/recommendations/${id}`);
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+);
+
 export const price_range_product = createAsyncThunk(
   "product/price_range_product",
   async (_, { fulfillWithValue }) => {
@@ -80,6 +92,8 @@ export const query_products = createAsyncThunk(
     }
   }
 );
+
+
 
 export const customer_review = createAsyncThunk(
   "review/customer_review",

@@ -34,6 +34,7 @@ import FadeLoader from "react-spinners/FadeLoader";
 import io from "socket.io-client";
 import { messageClear, updateMessage } from "../store/reducers/ChatReducer";
 import toast from "react-hot-toast";
+import FacebookChat from "./FacebookChat";
 
 const socket = io("http://localhost:5000");
 
@@ -139,6 +140,8 @@ const Headers = ({ isFixed }) => {
       style={headerStyle}
       className={`w-full bg-white z-40 pb-5 top-0 left-0`}
     >
+
+      <FacebookChat />
       <div className="header-top bg-[#eeeeee] md-lg:hidden">
       <div>
       

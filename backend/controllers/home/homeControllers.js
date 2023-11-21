@@ -6,6 +6,7 @@ const { responseReturn } = require("../../utils/response");
 const queryProducts = require("../../utils/queryProducts");
 const reviewModel = require("../../models/reviewModel");
 const brandModel = require("../../models/brandModel");
+const customerModel = require("../../models/customerModel");
 const reviewOrder = require("../../models/reviewOrder");
 const moment = require("moment");
 const cloudinary = require("cloudinary").v2;
@@ -416,6 +417,43 @@ class homeControllers {
       console.error("Error checking customer purchase:", error);
       return false;
     }
+  };
+
+  recommendations = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const customer = await customerModel.findById(id);
+      if (!customer) {
+        return res.status(404).json({ message: "Không tìm thấy người dùng" });
+      }
+
+      const recommendations = await productModel.aggregate([
+        {
+          $match:{
+            
+          }
+        },
+        {
+          $addFields: {
+            distance: {
+              $sqrt: {
+                $sum: customer.sex === "$sex" ? 0 : 1, // Khoảng cách giữa giới tính người dùng và sản phẩm
+                // $pow: [{ $subtract: ["$price", customer.price] }, 2], // Ví dụ về khoảng cách với giá
+                // Thêm các trường khoảng cách cho các thuộc tính khác tùy ý
+              },
+            },
+          },
+        },
+        {
+          $sort: { distance: 1 }, // Sắp xếp theo khoảng cách tăng dần
+        },
+        {
+          $limit: 10, // Giới hạn số lượng sản phẩm trả về
+        },
+      ]);
+
+      console.log(recommendations);
+    } catch (error) {}
   };
 }
 

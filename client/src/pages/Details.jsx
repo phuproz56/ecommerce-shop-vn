@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   get_product,
   check_review_customer,
+  recommendations,
 } from "../store/reducers/homeReducer";
 import {
   add_to_card,
@@ -33,9 +34,8 @@ import Select from "react-select";
 const Details = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { product, relatedProducts, moreProducts, totalReview, check_review } = useSelector(
-    (state) => state.home
-  );
+  const { product, relatedProducts, moreProducts, totalReview, check_review } =
+    useSelector((state) => state.home);
   const { slug } = useParams();
   const [image, setImage] = useState("");
   const [state, setState] = useState("reviews");
@@ -46,6 +46,10 @@ const Details = () => {
   const { errorMessage, successMessage } = useSelector((state) => state.card);
 
   const location = useLocation();
+
+  useEffect(() => {
+    dispatch(recommendations(userInfo.id));
+  }, [userInfo.id, dispatch]);
 
   useEffect(() => {
     dispatch(

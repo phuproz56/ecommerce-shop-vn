@@ -16,6 +16,7 @@
     "country-state-city": "^3.2.1",
     "dayjs": "^1.11.10",
     "gapi-script": "^1.2.0",
+    "gh-pages": "^6.1.0",
     "i18next": "^23.5.1",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
