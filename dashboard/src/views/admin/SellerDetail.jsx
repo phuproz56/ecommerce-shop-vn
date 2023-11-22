@@ -17,7 +17,8 @@ const SellerDetails = () => {
     dispatch(get_seller(sellerId));
   }, [sellerId, dispatch]);
 
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(seller?.status);
+  const [role, setRole] = useState(seller?.role);
 
   const submit = (e) => {
     e.preventDefault();
@@ -74,7 +75,11 @@ const SellerDetails = () => {
 
                   <div className="flex gap-2">
                     <span>trạng thái : </span>
-                    <span>{seller?.status}</span>
+                    <span>
+                      {seller?.status === "active"
+                        ? "Hoạt Động"
+                        : "Ngừng Hoạt Động"}
+                    </span>
                   </div>
                   <div className="flex gap-2">
                     <span>Chức vụ: </span>
@@ -93,22 +98,22 @@ const SellerDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="w-4/12">
+            <div className="w-5/12">
               <div className="px-0 md:px-5 py-2">
                 <div className="py-2 text-lg">
                   <h2>Địa chỉ</h2>
                 </div>
                 <div className="flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md">
-                  <div className="flex gap-2">
+                  {/* <div className="flex gap-2">
                     <span>Tên shop : </span>
                     <span>Shop-vn</span>
-                  </div>
+                  </div> */}
                   {/* <div className="flex gap-2">
                     <span>Phân công : </span>
                     <span>{seller?.shopInfo?.division}</span>
                   </div> */}
                   <div className="flex gap-2">
-                    <span>Địa chỉ 1 : </span>
+                    <span>Địa chỉ 1: </span>
                     <span>{seller?.shopInfo?.district}</span>
                   </div>
                   <div className="flex gap-2">
@@ -130,9 +135,26 @@ const SellerDetails = () => {
                   required
                   id=""
                 >
-                  <option value="">--Chọn trạng thái--</option>
-                  <option value="active">Active</option>
-                  <option value="deactive">Deactive</option>
+                  <option value="active">Hoạt Động</option>
+                  <option value="deactive">Ngừng Hoạt Động</option>
+                </select>
+                <button className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 w-[170px] ">
+                  Xác Nhận
+                </button>
+              </div>
+              <div className="flex gap-4 py-3">
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
+                  name=""
+                  required
+                  id=""
+                >
+                  <option value={role}>--- Thay Đổi Chức Vụ</option>
+                  <option value="nv_nhapkho">Nhân Viên Nhập Kho</option>
+                  <option value="nv_sanpham">Nhân Viên Sản Phẩm</option>
+                  <option value="nv_quanly">Nhân Viên Quản Lý</option>
                 </select>
                 <button className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 w-[170px] ">
                   Xác Nhận

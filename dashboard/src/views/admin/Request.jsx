@@ -12,6 +12,8 @@ const Request = () => {
 
   const { requests, all_request } = useSelector((state) => state.order);
 
+  console.log(all_request);
+
   useEffect(() => {
     dispatch(get_request());
   }, []);
@@ -19,9 +21,6 @@ const Request = () => {
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4  bg-[#283046] rounded-md">
-        {!all_request.length && (
-          <p className="text-lg text-white">Chưa có yêu cầu trả hàng</p>
-        )}
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left text-[#d0d2d6]">
             <thead className="text-xs text-[#d0d2d6] uppercase border-b border-slate-700">
@@ -44,6 +43,11 @@ const Request = () => {
                 <th scope="col" className="py-3 px-4"></th>
               </tr>
             </thead>
+            {all_request.length === 0 && (
+              <p className="text-lg text-red-500 pt-[20px]">
+                Chưa có yêu cầu trả hàng!!
+              </p>
+            )}
             <tbody className="text-sm font-normal">
               {all_request?.map((d, i) => (
                 <tr key={i}>

@@ -34,6 +34,7 @@ import OrderDetails from "./components/dashboard/OrderDetails";
 import Trahang from "./components/dashboard/orders/Trahang.jsx";
 import Coupon from "./components/dashboard/Coupon.jsx";
 import FloatingMessageButton from "./components/MessageButton/FloatingMessageButton .jsx";
+import Chitieu from "./components/dashboard/Chitieu.jsx";
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
           <Route path="" element={<Dashboard />}>
             <Route path="" element={<Index />} />
             <Route path="address" element={<Address />} />
+            <Route path="chitieu" element={<Chitieu />} />
             <Route path="coupon" element={<Coupon />} />
             <Route path="my-orders" element={<Orders />} />
 

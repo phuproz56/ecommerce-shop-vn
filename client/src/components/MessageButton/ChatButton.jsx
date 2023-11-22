@@ -124,9 +124,9 @@ const ChatButton = () => {
         <div className="w-[calc(100%-100px)] md-lg:w-full">
           {currentFd ? (
             <div className="w-full h-full">
-              <div className="flex justify-between items-center text-slate-600 text-xl h-[40px]">
+              <div className="flex justify-between items-center text-slate-600 text-xl h-[50px]">
                 <div className="flex gap-2">
-                  <div className="w-[30px] h-[30px] rounded-full relative">
+                  <div className="w-[30px] h-[30px] rounded-full relative md:hidden">
                     {activeSeller.some(
                       (c) => c.sellerId === currentFd.fdId
                     ) && (
@@ -143,7 +143,7 @@ const ChatButton = () => {
                   <FaList />
                 </div>
               </div>
-              <div className="h-[350px] w-full bg-slate-100 p-3 rounded-md md:h-[250px]">
+              <div className="h-[350px] w-full bg-slate-100 p-3 rounded-md md:h-[350px]">
                 <div className="w-full h-full overflow-y-auto flex flex-col gap-3">
                   {fd_messages.map((m, i) => {
                     if (currentFd?.fdId !== m.receverId) {
@@ -188,10 +188,10 @@ const ChatButton = () => {
                 {/* <div className="w-[40px] h-[40px] border p-2 justify-center items-center flex rounded-full">
                   <label className="cursor-pointer" htmlFor="">
                     <AiOutlinePlus />
+                    <input className="" type="file" />
                   </label>
-                  <input className="hidden" type="file" />
                 </div> */}
-                <div className="border h-[40px] p-0 ml-2 w-[calc(100%-90px)] rounded-full relative">
+                <div className="border h-[40px] p-0 ml-2 w-[300px] sm:w-[250px] rounded-full relative">
                   <input
                     value={text}
                     onChange={(e) => setText(e.target.value)}
@@ -199,6 +199,7 @@ const ChatButton = () => {
                     placeholder="Nhập tin nhắn..."
                     className="w-full rounded-full h-full outline-none p-3"
                   />
+                 
                   {/* <div className="text-2xl right-2 top-2 absolute cursor-auto">
                     <span>
                       <GrEmoji />
@@ -217,7 +218,9 @@ const ChatButton = () => {
               onClick={() => setShow(!show)}
               className="w-full h-[400px] flex justify-center items-center text-lg ont-bold text-slate-600"
             >
-              <span className="cursor-pointer">Cần đăng nhập để bắt đầu chat</span>
+              <span className="cursor-pointer">
+                Cần đăng nhập để bắt đầu chat
+              </span>
             </div>
           )}
         </div>

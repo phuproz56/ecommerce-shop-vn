@@ -253,6 +253,7 @@ export const authReducer = createSlice({
     nvAdmin: [],
     customers: [],
     totalCustomers: 0,
+    count_order: 0,
   },
   reducers: {
     messageClear: (state, _) => {
@@ -339,6 +340,7 @@ export const authReducer = createSlice({
       state.loader = false;
       state.userInfo = payload.userInfo;
       state.role = payload.userInfo.role;
+      state.count_order = payload.count_order;
     },
     [get_nvadmin.fulfilled]: (state, { payload }) => {
       state.loader = false;

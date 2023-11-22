@@ -351,7 +351,7 @@ const Cart = () => {
           ) : (
             <div>
               <Link to="/shops" className="px-4 py-1 bg-indigo-500 text-white">
-                Show Now
+                Mua Sắm Ngay
               </Link>
             </div>
           )}

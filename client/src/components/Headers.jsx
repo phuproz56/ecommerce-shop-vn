@@ -17,7 +17,6 @@ import {
   AiFillGithub,
   AiFillHeart,
   AiFillShopping,
-  AiOutlineBell,
 } from "react-icons/ai";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,15 +29,15 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import loading2 from "react-useanimations/lib/loading2";
 import UseAnimations from "react-useanimations";
-import FadeLoader from "react-spinners/FadeLoader";
 import io from "socket.io-client";
 import { messageClear, updateMessage } from "../store/reducers/ChatReducer";
 import toast from "react-hot-toast";
-import FacebookChat from "./FacebookChat";
-
+import { useMediaQuery } from 'react-responsive';
 const socket = io("http://localhost:5000");
-
 const Headers = ({ isFixed }) => {
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+  const isSmallScreen = useMediaQuery({ maxWidth: 767 });
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const sellerId = "654366fbba51a942cd41835f";
@@ -56,7 +55,6 @@ const Headers = ({ isFixed }) => {
 
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("");
-  const [notification, setNotification] = useState(true);
 
   useEffect(() => {
     if (userInfo) {
@@ -67,7 +65,7 @@ const Headers = ({ isFixed }) => {
 
   useEffect(() => {
     socket.emit("add_user", userInfo.id, userInfo);
-  }, []);
+  }, [userInfo]);
 
   const {
     transcript,
@@ -109,7 +107,7 @@ const Headers = ({ isFixed }) => {
     setFilteredUsers("");
   }, [category, listening, navigate, transcript]);
 
-  const headerStyle = isFixed ? { position: "fixed" } : {};
+  const headerStyle =isLargeScreen && isFixed ? { position: "fixed" } : {};
 
   useEffect(() => {
     socket.on("seller_message", (msg) => {
@@ -129,23 +127,19 @@ const Headers = ({ isFixed }) => {
         toast.success("Bạn có 1 tin nhắn mới!");
         dispatch(updateMessage(receverMessage));
       } else {
+        // eslint-disable-next-line no-useless-concat
         toast.success(receverMessage.senderName + " " + "send a message");
         dispatch(messageClear());
       }
     }
-  }, [receverMessage]);
+  }, [dispatch, receverMessage, userInfo.id]);
 
   return (
     <div
       style={headerStyle}
       className={`w-full bg-white z-40 pb-5 top-0 left-0`}
     >
-
-      <FacebookChat />
       <div className="header-top bg-[#eeeeee] md-lg:hidden">
-      <div>
-      
-    </div>
         <div className="w-[85%] lg:w-[90%] mx-auto">
           <div className="flex w-full justify-between items-center h-[50px] text-slate-500">
             <ul className="flex justify-start items-center gap-8">
@@ -560,7 +554,7 @@ const Headers = ({ isFixed }) => {
             <div className="flex flex-wrap w-full justify-start items-start">
               <div className="w-8/12 md-lg:w-10/12">
                 <div className="flex border h-[50px] items-center relative gap-5">
-                  <div className="relative after:absolute w-6/12 after:h-[25px] after:w-[1px] after:bg-[#afafaf] after:-right-[15px] md:hidden">
+                  {/* <div className="relative after:absolute w-6/12 after:h-[25px] after:w-[1px] after:bg-[#afafaf] after:-right-[15px] md:hidden">
                     <select
                       onChange={(e) => setCategory(e.target.value)}
                       className="w-full text-slate-600 font-semibold bg-transparent px-2 h-full outline-0 border-none"
@@ -574,7 +568,7 @@ const Headers = ({ isFixed }) => {
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </div> */}
 
                   {listening ? (
                     <div className="flex w-full pr-[20px]">
@@ -645,8 +639,8 @@ const Headers = ({ isFixed }) => {
                 <div className="w-8/12 md-lg:w-9/12">
                   <div className="flex w-[655px] flex-wrap border items-center relative gap-5">
                     <ul className="flex p-4 flex-wrap w-auto">
-                      {filteredUsers.map((product) => (
-                        <Link to={`/product/details/${product.slug}`}>
+                      {filteredUsers.map((product, i) => (
+                        <Link key={i} to={`/product/details/${product.slug}`}>
                           <li
                             className="flex flex-wrap w-[655px]"
                             key={product.id}

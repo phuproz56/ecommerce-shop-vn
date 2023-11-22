@@ -418,7 +418,7 @@ class productController {
   get_review_products = async (req, res) => {
     try {
       let product_find = [];
-      const review = await reviewModel.find({});
+      const review = await reviewModel.find({}).sort({ createdAt: -1 });
       for (let i = 0; i < review.length; i++) {
         const product = await productModel.findOne({
           _id: new ObjectId(review[i].productId),

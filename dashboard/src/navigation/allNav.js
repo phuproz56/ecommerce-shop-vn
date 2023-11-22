@@ -37,7 +37,7 @@ export const allNav = [
   },
   {
     id: 2,
-    title: "Đặt Hàng",
+    title: "Đơn Hàng",
     icon: <AiOutlineShoppingCart />,
     role: "admin",
     path: "/admin/dashboard/orders",
@@ -97,6 +97,13 @@ export const allNav = [
     icon: <BsCartDashFill />,
     role: "admin",
     path: "/admin/dashboard/request",
+  },
+  {
+    id: 18,
+    title: "Chat Với Người Mua",
+    icon: <BsChat />,
+    role: "admin",
+    path: "/seller/dashboard/chat-customer",
   },
   {
     id: 4,

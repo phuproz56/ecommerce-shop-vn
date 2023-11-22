@@ -8,6 +8,7 @@ import Products from "../../views/admin/Products";
 import EditProduct from "../../views/admin/EditProduct";
 import DsCustomers from "../../views/admin/DsCustomers";
 import ReviewOrderDetail from "../../views/admin/ReviewOrderDetail";
+import SellerToCustomer from "../../views/seller/SellerToCustomer";
 const SellerDetails = lazy(() => import("../../views/admin/SellerDetail"));
 const DeactiveSellers = lazy(() => import("../../views/admin/DeactiveSellers"));
 const SellerRequest = lazy(() => import("../../views/admin/SellerRequest"));
@@ -113,6 +114,16 @@ export const adminRoutes = [
   {
     path: "/admin/dashboard/request",
     element: <Request />,
+    role: "admin",
+  },
+  {
+    path: "/seller/dashboard/chat-customer",
+    element: <SellerToCustomer />,
+    role: "admin",
+  },
+  {
+    path: "/seller/dashboard/chat-customer/:customerId",
+    element: <SellerToCustomer />,
     role: "admin",
   },
   {

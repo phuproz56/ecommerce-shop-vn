@@ -240,7 +240,7 @@ const AdminDashboard = () => {
       <div className="w-full flex mt-7">
         <div className="w-full lg:pr-3">
           <div className="w-full bg-[#283046] p-4 rounded-md">
-            <h2>Thống kê theo năm</h2>
+            <h2 className="text-white">Thống kê theo năm</h2>
             <div className="bg-[#283046] border-none rounded-2 shadow-md h-[350px]">
               <iframe
                 class="w-full h-full"

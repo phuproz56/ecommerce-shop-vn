@@ -7,7 +7,7 @@ import { FaAddressBook } from "react-icons/fa6";
 import { RxDashboard } from "react-icons/rx";
 import { RiProductHuntLine } from "react-icons/ri";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { BsChat, BsHeart } from "react-icons/bs";
+import { BsHeart } from "react-icons/bs";
 import { TfiLock } from "react-icons/tfi";
 import { BiLogInCircle } from "react-icons/bi";
 import { RiCoupon2Line } from "react-icons/ri";
@@ -17,6 +17,7 @@ import { user_reset } from "../store/reducers/authReducer";
 import { reset_count } from "../store/reducers/cardReducer";
 import { ImProfile } from "react-icons/im";
 import toast from "react-hot-toast";
+import { FaRankingStar } from "react-icons/fa6";
 
 const Dashboard = () => {
   const { pathname } = useLocation();
@@ -37,7 +38,7 @@ const Dashboard = () => {
       console.log(error.response.data);
     }
   };
-  console.log(userInfo.email_verified)
+  console.log(userInfo.email_verified);
 
   return (
     <div>
@@ -97,6 +98,25 @@ const Dashboard = () => {
                     }`}
                   >
                     Địa Chỉ
+                  </Link>
+                </li>
+                <li
+                  className={`flex justify-start items-center gap-2 py-2 ${
+                    pathname === "/dashboard/chitieu" ? "text-green-500" : ""
+                  }`}
+                >
+                  <span className="text-xl">
+                    <FaRankingStar />
+                  </span>
+                  <Link
+                    to="/dashboard/chitieu"
+                    className={`block ${
+                      pathname === "/dashboard/chitieu"
+                        ? "border-b-2 border-green-500"
+                        : ""
+                    }`}
+                  >
+                    Xếp Hạng Thành Viên
                   </Link>
                 </li>
                 <li
@@ -210,7 +230,9 @@ const Dashboard = () => {
                     Thông tin
                   </Link>
                 </li>
-                {userInfo.email_verified ? "" : (
+                {userInfo.email_verified ? (
+                  ""
+                ) : (
                   <li
                     className={`flex justify-start items-center gap-2 py-2 ${
                       pathname === "/dashboard/change-password"

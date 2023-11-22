@@ -180,7 +180,7 @@ class homeControllers {
         .ratingQuery()
         .sortByPrice()
         .countProducts();
-
+      
       const result = new queryProducts(products, req.query)
         .categoryQuery()
         .categorySex()
@@ -192,6 +192,7 @@ class homeControllers {
         .skip()
         .limit()
         .getProducts();
+
 
       responseReturn(res, 200, {
         products: result,
@@ -452,7 +453,7 @@ class homeControllers {
         },
       ]);
 
-      console.log(recommendations);
+
     } catch (error) {}
   };
 }

@@ -12,7 +12,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { role } = useSelector((state) => state.auth);
+  const { role, count_order } = useSelector((state) => state.auth);
 
   const { pathname } = useLocation();
   const [allNav, setAllNav] = useState([]);
@@ -51,6 +51,13 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                       : "text-[#d0d2d6] font-normal duration-200"
                   } px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-[12px] hover:pl-4 transition-all w-full mb-1 `}
                 >
+                  <span>
+                    {n.title === "Đơn Hàng" && (
+                      <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center">
+                        {count_order}
+                      </div>
+                    )}
+                  </span>
                   <span>{n.icon}</span>
                   <span>{n.title}</span>
                 </Link>

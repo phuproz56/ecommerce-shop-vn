@@ -132,7 +132,7 @@ const LogProductDetail = () => {
             </div>
             <div className="flex flex-col w-full gap-1 mb-4 text-white">
               <label htmlFor="stock">
-                Ghi chú<span className="text-red-500">*</span>
+                chọn nhà cung cấp<span className="text-red-500">*</span>
               </label>
               <select
                 className="border text-black border-slate-500 p-2 rounded-md ml-2"

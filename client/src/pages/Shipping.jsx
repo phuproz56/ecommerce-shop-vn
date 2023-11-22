@@ -465,7 +465,7 @@ const Shipping = () => {
                       res ? "bg-orange-500" : "bg-orange-200"
                     }  text-sm text-white uppercase`}
                   >
-                    Đặt Hàng
+                    Tiến Hành Thanh Toán
                   </button>
                 </div>
               </div>

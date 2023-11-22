@@ -540,8 +540,6 @@ class orderController {
     const { paymentMethod } = req.body;
     const { orderId } = req.params;
 
-    console.log(paymentMethod);
-
     try {
       if (paymentMethod === "now") {
         await customerOrder.findByIdAndUpdate(orderId, {

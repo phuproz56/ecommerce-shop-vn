@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./FloatingMessageButton.css"; // You can style this component in a separate CSS file
 import ChatButton from "./ChatButton";
-import MessengerIcon from "./MessengerIcon";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdOutlineSupportAgent } from "react-icons/md";
 

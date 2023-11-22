@@ -4,6 +4,7 @@ const sellerModel = require("../models/sellerModel");
 const shipperModel = require("../models/shipperModel");
 const sellerCustomerModel = require("../models/chat/sellerCustomerModel");
 const customerModel = require("../models/customerModel");
+const customerOrder = require("../models/customerOrder");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { responseReturn } = require("../utils/response");
@@ -204,7 +205,7 @@ class authControllers {
           },
         });
         nvAdmin.save();
-        
+
         await sellerCustomerModel.create({
           myId: "654366fbba51a942cd41835f",
         });
@@ -224,8 +225,13 @@ class authControllers {
     const { id, role } = req;
     try {
       if (role === "admin") {
+        const count_order = await customerOrder
+          .find({
+            delivery_status: "Chưa Xử Lí",
+          })
+          .countDocuments();
         const user = await adminModel.findById(id);
-        responseReturn(res, 200, { userInfo: user });
+        responseReturn(res, 200, { userInfo: user, count_order });
       } else if (role === "nhanvien_admin") {
         const user = await nvadminModel.findById(id);
         responseReturn(res, 200, { userInfo: user });
@@ -234,7 +240,12 @@ class authControllers {
         responseReturn(res, 200, { userInfo: user });
       } else {
         const seller = await sellerModel.findById(id);
-        responseReturn(res, 200, { userInfo: seller });
+        const count_order = await customerOrder
+          .find({
+            delivery_status: "Chưa Xử Lí",
+          })
+          .countDocuments();
+        responseReturn(res, 200, { userInfo: seller, count_order });
       }
     } catch (error) {
       responseReturn(res, 500, { error: "Lỗi Máy chủ!" });

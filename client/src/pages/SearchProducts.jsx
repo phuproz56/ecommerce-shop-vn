@@ -36,7 +36,8 @@ const SearchProducts = () => {
   });
   const [rating, setRatingQ] = useState("");
   const [sortPrice, setSortPrice] = useState("");
-
+  const [sex, setSex] = useState("");
+  const [brand, setBrand] = useState("");
   useEffect(() => {
     dispatch(price_range_product());
   }, []);
@@ -53,6 +54,8 @@ const SearchProducts = () => {
         high: state.values[1] || "",
         category,
         rating,
+        sex,
+        brand,
         sortPrice,
         searchValue,
         pageNumber,
@@ -62,6 +65,8 @@ const SearchProducts = () => {
     state.values[0],
     state.values[1],
     category,
+    sex,
+    brand,
     rating,
     pageNumber,
     sortPrice,
@@ -83,7 +88,7 @@ const SearchProducts = () => {
   };
   return (
     <div className="pt-[200px]">
-      <Headers isFixed={true}/>
+      <Headers isFixed={true} />
       <section className='bg-[url("http://localhost:3000/images/banner/shop.gif")] h-[220px] mt-6 bg-cover bg-no-repeat relative bg-left'>
         <div className="absolute left-0 top-0 w-full h-full bg-[#2422228a]">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
@@ -94,7 +99,7 @@ const SearchProducts = () => {
                 <span className="pt-1">
                   <MdOutlineKeyboardArrowRight />
                 </span>
-                <span>Products</span>
+                <span>Sản Phẩm</span>
               </div>
             </div>
           </div>
@@ -145,7 +150,7 @@ const SearchProducts = () => {
                 />
                 <div>
                   <span className="text-red-500 font-bold text-lg">
-                    {Math.floor(state.values[0])} đ - 
+                    {Math.floor(state.values[0])} đ -
                     {Math.floor(state.values[1])} đ
                   </span>
                 </div>
