@@ -22,13 +22,19 @@ const SellerDetails = () => {
 
   const submit = (e) => {
     e.preventDefault();
-    dispatch(
-      seller_status_update({
-        sellerId,
-        status,
-      })
-    );
+    if (role === "") {
+      toast.error("Cần Chọn Chức Vụ Khi Xác Nhận!");
+    } else {
+      dispatch(
+        seller_status_update({
+          sellerId,
+          status,
+          role,
+        })
+      );
+    }
   };
+
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
@@ -77,7 +83,7 @@ const SellerDetails = () => {
                     <span>trạng thái : </span>
                     <span>
                       {seller?.status === "active"
-                        ? "Hoạt Động"
+                        ? "Đang Hoạt Động"
                         : "Ngừng Hoạt Động"}
                     </span>
                   </div>
@@ -135,7 +141,7 @@ const SellerDetails = () => {
                   required
                   id=""
                 >
-                  <option value="active">Hoạt Động</option>
+                  <option value="active">Đang Hoạt Động</option>
                   <option value="deactive">Ngừng Hoạt Động</option>
                 </select>
                 <button className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 w-[170px] ">
@@ -151,10 +157,11 @@ const SellerDetails = () => {
                   required
                   id=""
                 >
-                  <option value={role}>--- Thay Đổi Chức Vụ</option>
+                  <option value="">--- Thay Đổi Chức Vụ ---</option>
                   <option value="nv_nhapkho">Nhân Viên Nhập Kho</option>
                   <option value="nv_sanpham">Nhân Viên Sản Phẩm</option>
                   <option value="nv_quanly">Nhân Viên Quản Lý</option>
+                  <option value="nv_donhang">Nhân Viên Đơn Hàng</option>
                 </select>
                 <button className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 w-[170px] ">
                   Xác Nhận

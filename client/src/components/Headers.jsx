@@ -635,7 +635,7 @@ const Headers = ({ isFixed }) => {
               </div>
             </div>
             {filteredUsers.length ? (
-              <div className="flex flex-wrap w-auto justify-start items-start fixed bg-white">
+              <div className="flex relative flex-wrap w-auto justify-start items-start bg-white z-9999">
                 <div className="w-8/12 md-lg:w-9/12">
                   <div className="flex w-[655px] flex-wrap border items-center relative gap-5">
                     <ul className="flex p-4 flex-wrap w-auto">

@@ -165,6 +165,10 @@ app.use("/api", require("./routes/dashboard/sellerRoutes"));
 app.use("/api", require("./routes/dashboard/shipperRoutes"));
 app.use("/api", require("./routes/dashboard/dashboardIndexRoutes"));
 
+// chatbot
+
+app.use("/api/chatbot", require("./routes/route_chatbot/chatbot"));
+
 // app.get("/", (req, res) => res.send("Hello World!"));
 
 dbConnect();

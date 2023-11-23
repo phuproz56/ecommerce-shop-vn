@@ -312,7 +312,9 @@ module.exports.get_admin_dashboard_data = async (req, res) => {
         $limit: 10,
       },
     ]);
-    
+
+    console.log(result_ngay)
+
     const totalProduct = await productModel.find({}).countDocuments();
 
     const totalOrder = await customerOrder.find({}).countDocuments();

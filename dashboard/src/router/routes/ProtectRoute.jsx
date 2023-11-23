@@ -7,7 +7,6 @@ const ProtectRoute = ({ route, children }) => {
 
   if (role) {
     if (userInfo) {
-      console.log(route)
       if (route.role) {
         if (
           userInfo.role === "nv_donhang" ||

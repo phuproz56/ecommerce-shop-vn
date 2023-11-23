@@ -437,8 +437,9 @@ const Shipping = () => {
                       />
                     </form>
                   ) : couponCodeData && openVoucher ? (
-                    <div className="border-b-2 pb-2 border-slate-500">
+                    <div className="flex border-b-2 pb-2 border-slate-500">
                       <p>Đã áp dụng mã voucher giảm {couponCodeData.value}%</p>
+                      <span onClick={()=>setOpenVoucher(false)} className="text-blue-400 cursor-pointer">Thay đổi</span>
                     </div>
                   ) : (
                     ""

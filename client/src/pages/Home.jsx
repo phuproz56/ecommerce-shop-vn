@@ -15,7 +15,6 @@ const Home = () => {
     latest_products,
     topRated_products,
     discount_products,
-    relatedProducts,
   } = useSelector((state) => state.home);
   useEffect(() => {
     dispatch(get_categorys());
@@ -24,7 +23,7 @@ const Home = () => {
 
   return (
     <div className="w-full">
-      <Headers isFixed={true} />
+      <Headers />
       <Banner />
       <div className="my-4">
         <Categorys />

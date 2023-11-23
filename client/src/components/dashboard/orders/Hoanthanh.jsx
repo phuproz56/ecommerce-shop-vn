@@ -13,7 +13,6 @@ import Reviews from "../../Reviews";
 import { get_product } from "../../../store/reducers/homeReducer";
 
 import FadeLoader from "react-spinners/FadeLoader";
-import ReviewOrder from "../../ReviewOrder";
 const Hoanthanh = () => {
   const dispatch = useDispatch();
   const { allOrders, successMessage, loader, product_complete } = useSelector(
@@ -202,7 +201,7 @@ const Hoanthanh = () => {
                                             className={`border border-slate-500 rounded-md   m-2 p-2 `}
                                             to={`/dashboard/chat/${p.sellerId}`}
                                           >
-                                            Liên hệ người bán
+                                            Liên hệ hỗ trợ
                                           </Link>
                                           <button
                                             // onClick={buyagain}

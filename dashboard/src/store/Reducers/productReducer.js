@@ -131,11 +131,17 @@ export const get_logproduct = createAsyncThunk(
 
 export const get_review_products = createAsyncThunk(
   "product/get_review_products",
-  async (_, { rejectWithValue, fulfillWithValue }) => {
+  async (
+    _,
+    { rejectWithValue, fulfillWithValue }
+  ) => {
     try {
-      const { data } = await api.get(`/get-review-products`, {
-        withCredentials: true,
-      });
+      const { data } = await api.get(
+        `/get-review-products`,
+        {
+          withCredentials: true,
+        }
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

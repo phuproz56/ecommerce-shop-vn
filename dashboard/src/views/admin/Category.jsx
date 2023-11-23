@@ -31,6 +31,7 @@ const Category = () => {
     totalCategory,
     brands,
     totalBrand,
+    loaderBrand
   } = useSelector((state) => state.category);
   const [open, setOpen] = useState("");
   const [openB, setOpenB] = useState("");
@@ -111,7 +112,6 @@ const Category = () => {
     dispatch(get_brand(obj_brand));
   }, [currentPageBrand, dispatch, parPageBrand, searchValueBrand]);
 
-  useEffect(() => {}, []);
 
   const delete_category = (_id) => {
     dispatch(xoa_category(_id));
@@ -241,7 +241,7 @@ const Category = () => {
                   setPageNumber={setCurrentPage}
                   totalItem={totalCategory}
                   parPage={parPage}
-                  showItem={totalCategory - parPage}
+                  showItem={Math.floor(totalCategory / parPage)}
                 />
               )}
             </div>
@@ -439,7 +439,7 @@ const Category = () => {
                     setPageNumber={setCurrentPageBrand}
                     totalItem={totalBrand}
                     parPage={parPageBrand}
-                    showItem={totalBrand - parPageBrand}
+                    showItem={Math.floor(totalBrand / parPageBrand)}
                   />
                 )}
               </div>
@@ -481,10 +481,10 @@ const Category = () => {
                   </div>
                   <div className="mt-4">
                     <button
-                      disabled={loader ? true : false}
+                      disabled={loaderBrand ? true : false}
                       className="bg-blue-500 w-full hover:shadow-blue-500/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3"
                     >
-                      {loader ? (
+                      {loaderBrand ? (
                         <PropagateLoader
                           color="#fff"
                           cssOverride={overrideStyle}

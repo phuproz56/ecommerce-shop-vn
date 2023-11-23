@@ -107,6 +107,7 @@ export const categoryReducer = createSlice({
     totalCategory: 0,
     brands: [],
     totalBrand: 0,
+    loaderBrand: false,
   },
   reducers: {
     messageClear: (state, _) => {
@@ -138,20 +139,23 @@ export const categoryReducer = createSlice({
     // thương hiệu
 
     [brandAdd.pending]: (state, _) => {
-      state.loader = true;
+      state.loaderBrand = true;
     },
     [brandAdd.rejected]: (state, { payload }) => {
-      state.loader = false;
+      state.loaderBrand = false;
       state.errorMessage = payload.message;
     },
     [brandAdd.fulfilled]: (state, { payload }) => {
-      state.loader = false;
+      state.loaderBrand = false;
       state.successMessage = payload.message;
       state.brands = [...state.brands, payload.brand];
     },
     [get_brand.fulfilled]: (state, { payload }) => {
       state.totalBrand = payload.totalBrand;
       state.brands = payload.brand;
+    },
+    [xoa_brand.fulfilled]: (state, { payload }) => {
+      state.successMessage = payload.message;
     },
   },
 });

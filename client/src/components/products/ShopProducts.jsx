@@ -1,35 +1,19 @@
 import React, { useEffect } from "react";
-import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
+import { AiFillHeart } from "react-icons/ai";
 import { FaEye } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Ratings from "../Ratings";
 import { useDispatch, useSelector } from "react-redux";
 import {
   add_to_wishlist,
   messageClear,
-  add_to_card,
 } from "../../store/reducers/cardReducer";
 import toast from "react-hot-toast";
 
 const ShopProducts = ({ styles, products }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
   const { successMessage, errorMessage } = useSelector((state) => state.card);
-
-  const add_card = (id) => {
-    if (userInfo) {
-      dispatch(
-        add_to_card({
-          userId: userInfo.id,
-          quantity: 1,
-          productId: id,
-        })
-      );
-    } else {
-      navigate("/login");
-    }
-  };
 
   useEffect(() => {
     if (successMessage) {

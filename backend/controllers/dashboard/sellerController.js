@@ -33,14 +33,15 @@ class sellerController {
     }
   };
   seller_status_update = async (req, res) => {
-    const { sellerId, status } = req.body;
+    const { sellerId, status, role } = req.body;
     try {
       const seller = await sellerModel.findByIdAndUpdate(sellerId, {
         status,
+        role,
       });
       responseReturn(res, 200, {
         seller,
-        message: "cập nhật trạng thái người bán thành công!",
+        message: "cập nhật thành công!",
       });
     } catch (error) {
       responseReturn(res, 500, { error: error.message });

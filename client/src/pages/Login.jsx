@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Headers from "../components/Headers";
 import Footer from "../components/Footer";
@@ -11,13 +10,9 @@ import {
 } from "../store/reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
 import FadeLoader from "react-spinners/FadeLoader";
-import { gapi } from "gapi-script";
-import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
 import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
-import api from "../api/api";
 const Login = () => {
   const { loader, successMessage, errorMessage, userInfo } = useSelector(
     (state) => state.auth
@@ -54,7 +49,7 @@ const Login = () => {
     if (userInfo) {
       navigate("/");
     }
-  }, [successMessage, errorMessage, messageClear]);
+  }, [successMessage, errorMessage, userInfo, dispatch, navigate]);
 
   useEffect(() => {
     window.scrollTo({

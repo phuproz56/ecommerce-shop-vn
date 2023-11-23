@@ -1,8 +1,5 @@
 /* eslint-disable no-useless-concat */
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
-import { GrEmoji } from "react-icons/gr";
 import { IoSend } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,7 +40,7 @@ const ChatButton = () => {
         userId: userInfo.id,
       })
     );
-  }, [sellerId]);
+  }, [dispatch, sellerId, userInfo.id]);
 
   const send = () => {
     if (text) {
@@ -74,7 +71,7 @@ const ChatButton = () => {
       socket.emit("send_customer_message", fd_messages[fd_messages.length - 1]);
       dispatch(messageClear());
     }
-  }, [successMessage]);
+  }, [dispatch, fd_messages, successMessage]);
 
   useEffect(() => {
     if (receverMessage) {

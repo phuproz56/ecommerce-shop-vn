@@ -1,5 +1,6 @@
 import pandas as pd 
 import numpy as np
+from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy import sparse 
 import xlsxwriter
@@ -7,14 +8,26 @@ class CF(object):
     """docstring for CF"""
     def __init__(self, Y_data, k, dist_func = cosine_similarity, uuCF = 1):
         self.uuCF = uuCF # user-user (1) or item-item (0) CF
+        self.label_encoder_user = LabelEncoder()
+        self.label_encoder_item = LabelEncoder()
         self.Y_data = Y_data if uuCF else Y_data[:, [1, 0, 2]] 
-        self.Y_data = self.Y_data.astype(float)
+    # Handle non-numeric values in the data
+        try:
+            self.Y_data = self.Y_data.astype(float)
+        except ValueError as e:
+            print(f"Error converting data to float: {e}")
+            print("Attempting to replace non-numeric values with NaN")
+            self.Y_data = pd.to_numeric(self.Y_data.flatten(), errors='coerce').reshape(self.Y_data.shape)
+        #self.Y_data = self.Y_data.astype(float)
         self.k = k
         self.dist_func = dist_func
         self.Ybar_data = None
         # number of users and items. Remember to add 1 since id starts from 0
-        self.n_users = int(np.max(self.Y_data[:, 0])) + 1 
-        self.n_items = int(np.max(self.Y_data[:, 1])) + 1
+        self.n_users = int(np.nanmax(self.Y_data[:, 0].astype(float).astype(np.float64).astype('int'), initial=0)) + 1
+        self.n_items = int(np.nanmax(self.Y_data[:, 1].astype(float).astype(np.float64).astype('int'), initial=0)) + 1
+        #self.n_users = int(np.max(self.Y_data[:, 0])) + 1 
+        #self.n_items = int(np.max(self.Y_data[:, 1])) + 1
+        
     
     def add(self, new_data):
         """

@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
-import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai";
+import { AiFillHeart } from "react-icons/ai";
 import { FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Ratings from "../Ratings";
@@ -21,14 +20,14 @@ const Wishlist = () => {
 
   useEffect(() => {
     dispatch(get_wishlist_products(userInfo.id));
-  }, [dispatch]);
+  }, [dispatch, userInfo.id]);
 
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
       dispatch(messageClear());
     }
-  }, [successMessage]);
+  }, [dispatch, successMessage]);
 
   return (
     <div className="w-full grid grid-cols-4 md-lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6">

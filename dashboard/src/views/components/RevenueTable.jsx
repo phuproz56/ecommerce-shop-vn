@@ -12,6 +12,14 @@ const RevenueTable = ({ tableData }) => {
       {
         Header: "Doanh Thu",
         accessor: "totalAmount",
+        Cell: ({ value }) => (
+          <span>
+            {new Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(value)}
+          </span>
+        ),
       },
     ],
     []
@@ -23,14 +31,20 @@ const RevenueTable = ({ tableData }) => {
     useTable({ columns, data }, useSortBy);
 
   return (
-    <table className="text-white" {...getTableProps()} style={{ width: "100%" }}>
+    <table {...getTableProps()} className="w-full table-auto text-white">
       <thead>
         {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
+          <tr
+            {...headerGroup.getHeaderGroupProps()}
+            className="bg-gray-800 text-white"
+          >
             {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+              <th
+                {...column.getHeaderProps(column.getSortByToggleProps())}
+                className="py-2 px-4 border-b border-gray-600 text-left text-sm"
+              >
                 {column.render("Header")}
-                <span>
+                <span className="ml-1">
                   {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}
                 </span>
               </th>
@@ -39,12 +53,20 @@ const RevenueTable = ({ tableData }) => {
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
+        {rows.map((row, index) => {
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()}>
+            <tr
+              {...row.getRowProps()}
+              className={index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"}
+            >
               {row.cells.map((cell) => (
-                <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                <td
+                  {...cell.getCellProps()}
+                  className="py-2 px-4 border-b border-gray-600 text-left text-sm"
+                >
+                  {cell.render("Cell")}
+                </td>
               ))}
             </tr>
           );

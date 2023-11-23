@@ -202,17 +202,16 @@ const AdminDashboard = () => {
           <div className="w-full bg-[#283046] p-4 rounded-md">
             <h2 className="text-white">Thống kê theo ngày</h2>
             <div class="bg-[#283046] border-none rounded-2 shadow-md h-full">
-              <div className="bg-[#283046] rounded-lg shadow-md h-[350px]">
-                {/* <RevenueChart chartData={result_ngay} />
-                 */}
-                  {/* <RevenueTable className="text-white" tableData={result_ngay} /> */}
-                  <iframe
-                class="w-full h-full"
-                src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=653512a4-c4df-476a-8533-3f3dce2fb8bb&maxDataAge=60&theme=dark&autoRefresh=true"
-                frameborder="0"
-              ></iframe>
+              <div className="bg-[#283046] rounded-lg shadow-md h-[400px]">
+                {/* <RevenueChart chartData={result_ngay} /> */}
+                
+                <RevenueTable className="text-white" tableData={result_ngay} />
+                {/* <iframe
+                  class="w-full h-full"
+                  src="https://charts.mongodb.com/charts-shop-vn-nlzmx/embed/charts?id=653512a4-c4df-476a-8533-3f3dce2fb8bb&maxDataAge=60&theme=dark&autoRefresh=true"
+                  frameborder="0"
+                ></iframe> */}
               </div>
-              
             </div>
           </div>
         </div>
