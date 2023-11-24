@@ -482,23 +482,23 @@ class productController {
     }
   };
 
-  commit_review = async (req, res) => {
-    const { _id } = req.params;
-    try {
-      const comment = await reviewModel.findById(_id);
+  // commit_review = async (req, res) => {
+  //   const { _id } = req.params;
+  //   try {
+  //     const comment = await reviewModel.findById(_id);
 
-      if (!comment) {
-        return res.status(404).json({ message: "Không tìm thấy bình luận." });
-      }
-      comment.approved = true;
-      await comment.save();
+  //     if (!comment) {
+  //       return res.status(404).json({ message: "Không tìm thấy bình luận." });
+  //     }
+  //     comment.approved = true;
+  //     await comment.save();
 
-      res.json({ message: "Bình luận đã được duyệt thành công." });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Đã xảy ra lỗi." });
-    }
-  };
+  //     res.json({ message: "Bình luận đã được duyệt thành công." });
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).json({ message: "Đã xảy ra lỗi." });
+  //   }
+  // };
   get_nhacungcap = async (req, res) => {
     let { page, parPage, searchValue } = req.query;
     page = parseInt(page);

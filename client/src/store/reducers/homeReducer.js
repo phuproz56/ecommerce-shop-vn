@@ -93,8 +93,6 @@ export const query_products = createAsyncThunk(
   }
 );
 
-
-
 export const customer_review = createAsyncThunk(
   "review/customer_review",
   async (info, { fulfillWithValue }) => {
@@ -174,6 +172,7 @@ export const homeReducer = createSlice({
     brands: [],
     review_order: {},
     check_review: 0,
+    search_products: [],
   },
   reducers: {
     messageClear: (state, _) => {
@@ -198,6 +197,7 @@ export const homeReducer = createSlice({
       state.topRated_products = payload.topRated_products;
       state.discount_products = payload.discount_products;
       state.relatedProducts = payload.relatedProducts;
+      state.search_products = payload.search_products;
     },
     [get_product.fulfilled]: (state, { payload }) => {
       state.product = payload.product;
@@ -213,6 +213,7 @@ export const homeReducer = createSlice({
     },
     [query_products.fulfilled]: (state, { payload }) => {
       state.loader = false;
+      state.search_products = payload.search_products;
       state.products = payload.products;
       state.totalProduct = payload.totalProduct;
       state.parPage = payload.parPage;
@@ -236,7 +237,7 @@ export const homeReducer = createSlice({
       state.errorMessage = payload.message;
     },
     [check_review_customer.fulfilled]: (state, { payload }) => {
-      state.check_review = payload.count;
+      state.check_review = payload.count !== "undefined" ? payload.count : 0;
     },
   },
 });

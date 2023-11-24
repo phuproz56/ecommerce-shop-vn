@@ -708,7 +708,7 @@ class orderController {
 
   get_all_review_order = async (req, res) => {
     try {
-      const review_order = await reviewOrder.find({});
+      const review_order = await reviewOrder.find({}).sort({ createdAt: -1 });
       responseReturn(res, 200, { review_order });
     } catch (error) {
       console.log(error.message);

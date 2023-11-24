@@ -75,9 +75,9 @@ const ShipperDetails = () => {
               <option value="Giao Hàng Thành Công">Giao Hàng Thành Công</option>
             ) : order.delivery_status === "Giao Hàng Thành Công" ? (
               ""
-            ) : (
+            ) : order.delivery_status === "Đang Giao Hàng" ? (
               <option value="Giao Hàng Thất Bại">Giao Hàng Thất Bại</option>
-            )}
+            ) : ""}
           </select>
         </div>
         <div className="p-4">

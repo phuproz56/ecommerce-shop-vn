@@ -25,7 +25,8 @@ class CF(object):
         # number of users and items. Remember to add 1 since id starts from 0
         self.n_users = int(np.nanmax(self.Y_data[:, 0].astype(float).astype(np.float64).astype('int'), initial=0)) + 1
         self.n_items = int(np.nanmax(self.Y_data[:, 1].astype(float).astype(np.float64).astype('int'), initial=0)) + 1
-        #self.n_users = int(np.max(self.Y_data[:, 0])) + 1 
+
+        #self.n_users = int(np.max(self.Y_data[:, 0])) + 1
         #self.n_items = int(np.max(self.Y_data[:, 1])) + 1
         
     
@@ -55,7 +56,7 @@ class CF(object):
             self.mu[n] = m
 
             # normalize
-            self.Ybar_data[ids, 2] = ratings - self.mu[n]
+            self.Ybar_data[ids, 2] = np.nan_to_num(ratings - self.mu[n])
 
         ################################################
         # form the rating matrix as a sparse matrix. Sparsity is important 
@@ -63,8 +64,9 @@ class CF(object):
         # #item = 100k, then shape of the rating matrix would be (100k, 1M), 
         # you may not have enough memory to store this. Then, instead, we store 
         # nonzeros only, and, of course, their locations.
-        self.Ybar = sparse.coo_matrix((self.Ybar_data[:, 2],
-            (self.Ybar_data[:, 1], self.Ybar_data[:, 0])), (self.n_items, self.n_users))
+        self.Ybar = sparse.coo_matrix((np.nan_to_num(self.Ybar_data[:, 2]),
+                                       (self.Ybar_data[:, 1], self.Ybar_data[:, 0])),
+                                      (self.n_items, self.n_users))
         self.Ybar = self.Ybar.tocsr()
 
     def similarity(self):

@@ -2,6 +2,7 @@ const { responseReturn } = require("../../utils/response");
 const cardModel = require("../../models/cardModel");
 const wishlistModel = require("../../models/wishlistModel");
 const sellerModel = require("../../models/sellerModel");
+const customerModel = require("../../models/customerModel");
 
 const {
   mongo: { ObjectId },
@@ -203,11 +204,17 @@ class cardController {
   };
 
   add_to_wishlist = async (req, res) => {
-    const { slug } = req.body;
+    const { slug, userId } = req.body;
     try {
       const product = await wishlistModel.findOne({ slug });
-      if (product) {
-        responseReturn(res, 404, { error: "Đã thêm!" });
+      const userInfo = await customerModel.findById({ _id: userId });
+
+      if (userInfo && product) {
+        responseReturn(res, 400, { error: "Đã thêm!" });
+      } else if (!userInfo) {
+        responseReturn(res, 404, {
+          message: "Cần đăng nhập để thêm vào yêu thích!!",
+        });
       } else {
         await wishlistModel.create(req.body);
         responseReturn(res, 201, { message: "thêm vào yêu thích thành công!" });

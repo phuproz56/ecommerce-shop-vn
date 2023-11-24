@@ -35,7 +35,7 @@ import Trahang from "./components/dashboard/orders/Trahang.jsx";
 import Coupon from "./components/dashboard/Coupon.jsx";
 import FloatingMessageButton from "./components/MessageButton/FloatingMessageButton .jsx";
 import Chitieu from "./components/dashboard/Chitieu.jsx";
-import Bot from "./components/chatbot/Bot.js";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -84,7 +84,6 @@ function App() {
           </Route>
         </Route>
       </Routes>
-      <Bot />
       <FloatingMessageButton />
     </BrowserRouter>
   );

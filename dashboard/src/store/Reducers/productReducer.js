@@ -163,19 +163,19 @@ export const xoa_review = createAsyncThunk(
   }
 );
 
-export const commit_review = createAsyncThunk(
-  "product/commit_review",
-  async (_id, { rejectWithValue, fulfillWithValue }) => {
-    try {
-      const { data } = await api.put(`/commit-review/${_id}`, {
-        withCredentials: true,
-      });
-      return fulfillWithValue(data);
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
+// export const commit_review = createAsyncThunk(
+//   "product/commit_review",
+//   async (_id, { rejectWithValue, fulfillWithValue }) => {
+//     try {
+//       const { data } = await api.put(`/commit-review/${_id}`, {
+//         withCredentials: true,
+//       });
+//       return fulfillWithValue(data);
+//     } catch (error) {
+//       return rejectWithValue(error.response.data);
+//     }
+//   }
+// );
 
 export const get_nhacungcap = createAsyncThunk(
   "product/get_nhacungcap",
@@ -305,9 +305,9 @@ export const productReducer = createSlice({
     [xoa_review.fulfilled]: (state, { payload }) => {
       state.successMessage = payload.message;
     },
-    [commit_review.fulfilled]: (state, { payload }) => {
-      state.successMessage = payload.message;
-    },
+    // [commit_review.fulfilled]: (state, { payload }) => {
+    //   state.successMessage = payload.message;
+    // },
     [submit_nhacungcap.fulfilled]: (state, { payload }) => {
       state.successMessage = payload.message;
     },

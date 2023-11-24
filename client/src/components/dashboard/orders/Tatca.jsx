@@ -1,6 +1,6 @@
 import Orders from "../Orders";
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   get_all_orders,
@@ -13,6 +13,7 @@ import { Tooltip } from "antd";
 import { FaQuestionCircle } from "react-icons/fa";
 
 const Tatca = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { allOrders, successMessage, loader } = useSelector(
     (state) => state.order
@@ -39,6 +40,20 @@ const Tatca = () => {
       messageClear();
     }
   }, [successMessage]);
+
+  const redirect = (ord) => {
+    let items = 0;
+    for (let i = 0; i < ord.length; i++) {
+      items = ord.products[i].quantity + items;
+    }
+    navigate("/payment", {
+      state: {
+        price: ord.price,
+        items,
+        orderId: ord._id,
+      },
+    });
+  };
 
   return (
     <div>
@@ -112,6 +127,28 @@ const Tatca = () => {
                             <p className="text-slate-600 text-sm font-semibold">
                               Email: {userInfo.email}
                             </p>
+                          </div>
+                          <div className="w-full flex">
+                            Trạng thái thanh toán:{" "}
+                            {q?.payment_status === "unpaid" ? (
+                              <p className="flex pl-2 text-red-500 w-auto">
+                                Chưa chọn hình thức thanh toán{" "}
+                                <span
+                                  onClick={() => redirect(q)}
+                                  className="bg-green-100 text-green-800 text-sm font-normal mr-2 px-2.5 py-[1px] rounded cursor-pointer"
+                                >
+                                  Chọn Ngay
+                                </span>
+                              </p>
+                            ) : q?.payment_status === "paid" ? (
+                              <p className="pl-2 text-green-500">
+                                Đã Thanh Toán
+                              </p>
+                            ) : (
+                              <p className="pl-2 text-green-500">
+                                Thanh Toán Khi Nhận Hàng
+                              </p>
+                            )}
                           </div>
                         </div>
 

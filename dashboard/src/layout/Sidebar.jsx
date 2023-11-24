@@ -52,7 +52,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                   } px-[12px] py-[9px] rounded-sm flex justify-start items-center gap-[12px] hover:pl-4 transition-all w-full mb-1 `}
                 >
                   <span>
-                    {n.title === "Đơn Hàng" && (
+                    {(n.title === "Đơn Hàng" && role === "admin") && (
                       <div className="w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center">
                         {count_order}
                       </div>

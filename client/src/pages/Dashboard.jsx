@@ -100,7 +100,7 @@ const Dashboard = () => {
                     Địa Chỉ
                   </Link>
                 </li>
-                <li
+                {/* <li
                   className={`flex justify-start items-center gap-2 py-2 ${
                     pathname === "/dashboard/chitieu" ? "text-green-500" : ""
                   }`}
@@ -118,7 +118,7 @@ const Dashboard = () => {
                   >
                     Xếp Hạng Thành Viên
                   </Link>
-                </li>
+                </li> */}
                 <li
                   className={`flex justify-start items-center gap-2 py-2 ${
                     pathname === "/dashboard/coupon" ? "text-green-500" : ""

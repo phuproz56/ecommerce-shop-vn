@@ -82,8 +82,6 @@ const Hoanthanh = () => {
             </div>
           )}
 
-         
-
           <div className="flex justify-between items-center w-full">
             <ul className="w-full">
               {loader ? (
@@ -137,6 +135,22 @@ const Hoanthanh = () => {
                             <p className="text-slate-600 text-sm font-semibold">
                               Email: {userInfo.email}
                             </p>
+                          </div>
+                          <div className="w-full flex">
+                            Trạng thái thanh toán:{" "}
+                            {q?.payment_status === "unpaid" ? (
+                              <p className="flex pl-2 text-red-500 w-auto">
+                                Chưa chọn hình thức thanh toán{" "}
+                              </p>
+                            ) : q?.payment_status === "paid" ? (
+                              <p className="pl-2 text-green-500">
+                                Đã Thanh Toán
+                              </p>
+                            ) : (
+                              <p className="pl-2 text-green-500">
+                                Thanh Toán Khi Nhận Hàng
+                              </p>
+                            )}
                           </div>
                         </div>
 
@@ -209,7 +223,6 @@ const Hoanthanh = () => {
                                           >
                                             Mua lại
                                           </button>
-                                          
                                         </div>
                                       )}
                                     </div>

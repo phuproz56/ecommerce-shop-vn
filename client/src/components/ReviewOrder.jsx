@@ -101,6 +101,9 @@ const ReviewOrder = ({ order }) => {
           <FadeLoader />
         ) : (
           <div className="flex flex-col gap-3">
+            <b className="text-black">
+              chọn số sao đánh giá <b className="text-red-500">*</b>
+            </b>
             <div className="flex gap-1">
               <RatingReact
                 onChange={(e) => setRat(e)}
@@ -118,6 +121,9 @@ const ReviewOrder = ({ order }) => {
               />
             </div>
             <form onSubmit={review_order_submit}>
+              <b className="text-black">
+                Để lại bình luận đánh giá <b className="text-red-500">*</b>
+              </b>
               <textarea
                 value={re}
                 required
@@ -154,8 +160,11 @@ const ReviewOrder = ({ order }) => {
                       </span>
                     </div>
                   ))}
+                  <b className="text-black">
+                    Chọn hình ảnh để gửi đánh giá (tùy chọn):
+                  </b>
                   <label
-                    className="flex justify-center items-center flex-col h-[180px] cursor-pointer border border-dashed hover:border-indigo-500 w-full text-[#d0d2d6]"
+                    className="flex justify-center items-center flex-col w-[200px] h-[150px] cursor-pointer border border-dashed hover:border-indigo-500 text-[#d0d2d6]"
                     htmlFor="image"
                   >
                     <span>
@@ -171,8 +180,11 @@ const ReviewOrder = ({ order }) => {
                     id="image"
                   />
                 </div>
+                <b className="text-black">
+                  Chọn video để gửi đánh giá (tùy chọn):
+                </b>
                 <label
-                  className="flex justify-center items-center flex-col h-[180px] cursor-pointer border border-dashed hover:border-indigo-500 w-full text-[#d0d2d6]"
+                  className="flex justify-center items-center flex-col w-[200px] h-[150px] cursor-pointer border border-dashed hover:border-indigo-500 text-[#d0d2d6]"
                   htmlFor="video"
                 >
                   <span>
@@ -192,7 +204,7 @@ const ReviewOrder = ({ order }) => {
               </div>
               <div>
                 <button className="py-1 justify-center items-center px-5 mt-4 bg-indigo-500 text-white rounded-sm mb-2">
-                  Lưu
+                  Gửi
                 </button>
               </div>
             </form>

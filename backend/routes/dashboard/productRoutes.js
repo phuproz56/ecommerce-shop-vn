@@ -47,7 +47,7 @@ router.delete(
   productController.xoa_review
 );
 
-router.put("/commit-review/:_id", productController.commit_review);
+// router.put("/commit-review/:_id", productController.commit_review);
 
 router.post(
   "/logproduct-update",

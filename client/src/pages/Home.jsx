@@ -7,7 +7,7 @@ import Products from "../components/products/Products";
 import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { get_categorys, get_products } from "../store/reducers/homeReducer";
-
+import Bot from "../components/chatbot/Bot.js";
 const Home = () => {
   const dispatch = useDispatch();
   const {
@@ -53,6 +53,7 @@ const Home = () => {
         </div>
       </div>
       <Footer />
+      <Bot />
     </div>
   );
 };

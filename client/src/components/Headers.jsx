@@ -32,7 +32,7 @@ import UseAnimations from "react-useanimations";
 import io from "socket.io-client";
 import { messageClear, updateMessage } from "../store/reducers/ChatReducer";
 import toast from "react-hot-toast";
-import { useMediaQuery } from 'react-responsive';
+import { useMediaQuery } from "react-responsive";
 const socket = io("http://localhost:5000");
 const Headers = ({ isFixed }) => {
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
@@ -42,7 +42,9 @@ const Headers = ({ isFixed }) => {
   const navigate = useNavigate();
   const sellerId = "654366fbba51a942cd41835f";
   const { userInfo } = useSelector((state) => state.auth);
-  const { categorys, products, loader } = useSelector((state) => state.home);
+  const { categorys, products, search_products, loader } = useSelector(
+    (state) => state.home
+  );
   const [activeSeller, setActiveSeller] = useState([]);
   const [categoryShow, setCategoryShow] = useState(true);
   const { pathname } = useLocation();
@@ -50,7 +52,7 @@ const Headers = ({ isFixed }) => {
   const { card_product_count, wishlist_count } = useSelector(
     (state) => state.card
   );
-  const { count } = useSelector((state) => state.chat);
+  // const { count } = useSelector((state) => state.chat);
   const [receverMessage, setReceverMessage] = useState("");
 
   const [searchValue, setSearchValue] = useState("");
@@ -76,14 +78,15 @@ const Headers = ({ isFixed }) => {
 
   const search = () => {
     navigate(`/product/search?category=${category}&&value=${searchValue}`);
+    setSearchValue("");
   };
 
-  const [filteredUsers, setFilteredUsers] = useState(products);
+  const [filteredUsers, setFilteredUsers] = useState(search_products);
 
   const handleInputChange = (e) => {
     const searchTerm = e.target.value;
     setSearchValue(searchTerm);
-    const filteredItems = products.filter((user) =>
+    const filteredItems = search_products.filter((user) =>
       user.name.toString().toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -107,7 +110,7 @@ const Headers = ({ isFixed }) => {
     setFilteredUsers("");
   }, [category, listening, navigate, transcript]);
 
-  const headerStyle =isLargeScreen && isFixed ? { position: "fixed" } : {};
+  const headerStyle = isLargeScreen && isFixed ? { position: "fixed" } : {};
 
   useEffect(() => {
     socket.on("seller_message", (msg) => {
@@ -133,6 +136,24 @@ const Headers = ({ isFixed }) => {
       }
     }
   }, [dispatch, receverMessage, userInfo.id]);
+
+  const navigate_wishlist = () => {
+    if (userInfo) {
+      navigate("/dashboard/my-wishlist");
+    } else {
+      toast.error("Cần đăng nhập để tiếp tục!");
+      navigate("/login");
+    }
+  };
+
+  const navigate_cart = () => {
+    if (userInfo) {
+      navigate("/cart");
+    } else {
+      toast.error("Cần đăng nhập để tiếp tục!");
+      navigate("/login");
+    }
+  };
 
   return (
     <div
@@ -327,9 +348,7 @@ const Headers = ({ isFixed }) => {
                 <div className="flex md-lg:hidden justify-center items-center gap-5">
                   <div className="flex justify-center gap-5">
                     <div
-                      onClick={() =>
-                        navigate(userInfo ? "/dashboard/my-wishlist" : "/login")
-                      }
+                      onClick={() => navigate_wishlist()}
                       className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
                     >
                       <Link to="/dashboard/my-wishlist">
@@ -344,7 +363,7 @@ const Headers = ({ isFixed }) => {
                       )}
                     </div>
                     <div
-                      onClick={() => navigate(userInfo ? "/cart" : "/login")}
+                      onClick={() => navigate_cart()}
                       className="relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]"
                     >
                       <span className="text-xl text-orange-500">

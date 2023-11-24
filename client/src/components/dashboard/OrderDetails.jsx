@@ -181,15 +181,21 @@ const OrderDetails = () => {
             }  rounded-full`}
             style={{ fontSize: "80px" }}
           />
-         {myOrder.payment_status === "paid" ? 
-          <p className="text-slate-400">
-            Đã Xác Nhận Thông Tin Thanh Toán
-            {moment(myOrder?.updatedAt).format("LLL")}
-          </p> : "Thanh toán sau khi nhận hàng"}
+          {myOrder.payment_status === "paid" ? (
+            <p>
+              Đã Thanh Toán vào:
+              <span className="text-slate-400">
+                {moment(myOrder?.updatedAt).format("LLL")}
+              </span>
+            </p>
+          ) : (
+            "Thanh toán sau khi nhận hàng"
+          )}
         </div>
         <div
           className={`w-full sm:hidden border-t-4 ${
             myOrder?.delivery_status === "Vận Chuyển" ||
+            myOrder?.delivery_status === "Shipper Nhận Được Hàng" ||
             myOrder?.delivery_status === "Đang Giao Hàng" ||
             myOrder?.delivery_status === "Đã Giao Hàng" ||
             myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
@@ -203,6 +209,7 @@ const OrderDetails = () => {
           <MdLocalShipping
             className={`p-2 border-4 ${
               myOrder?.delivery_status === "Vận Chuyển" ||
+              myOrder?.delivery_status === "Shipper Nhận Được Hàng" ||
               myOrder?.delivery_status === "Đang Giao Hàng" ||
               myOrder?.delivery_status === "Đã Giao Hàng" ||
               myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
@@ -213,6 +220,7 @@ const OrderDetails = () => {
             } rounded-full`}
             style={
               myOrder?.delivery_status === "Vận Chuyển" ||
+              myOrder?.delivery_status === "Shipper Nhận Được Hàng" ||
               myOrder?.delivery_status === "Đang Giao Hàng" ||
               myOrder?.delivery_status === "Đã Giao Hàng" ||
               myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
@@ -222,7 +230,17 @@ const OrderDetails = () => {
                 : { fontSize: "80px", color: "slategray" }
             }
           />
-          <p>Đã Giao Cho ĐVVC</p>
+          {myOrder?.delivery_status === "Vận Chuyển" ||
+          myOrder?.delivery_status === "Shipper Nhận Được Hàng" ||
+          myOrder?.delivery_status === "Đang Giao Hàng" ||
+          myOrder?.delivery_status === "Đã Giao Hàng" ||
+          myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
+          myOrder?.delivery_status === "Giao Hàng Thành Công" ||
+          myOrder?.delivery_status === "Yêu Cầu Trả Hàng" ? (
+            <p>Đã Giao Cho ĐVVC</p>
+          ) : (
+            ""
+          )}
         </div>
         <div
           className={`w-full sm:hidden border-t-4 ${
@@ -248,7 +266,15 @@ const OrderDetails = () => {
             } rounded-full`}
             style={{ fontSize: "80px" }}
           />
-          <p>Đã Nhận Được Hàng</p>
+          {myOrder?.delivery_status === "Giao Hàng Thành Công" ||
+          myOrder?.delivery_status === "Đã Giao Hàng" ||
+          myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
+          myOrder?.delivery_status === "Giao Hàng Thành Công" ||
+          myOrder?.delivery_status === "Yêu Cầu Trả Hàng" ? (
+            <p>Đã Nhận Được Hàng</p>
+          ) : (
+            ""
+          )}
         </div>
         <div
           className={`w-full sm:hidden border-t-4 ${
@@ -278,8 +304,12 @@ const OrderDetails = () => {
           />
           {myOrder?.delivery_status === "Xác Nhận Trả Hàng" ? (
             <p>Đã Trả Hàng</p>
-          ) : (
+          ) : myOrder?.delivery_status === "Đã Giao Hàng" ||
+            myOrder?.delivery_status === "Xác Nhận Trả Hàng" ||
+            myOrder?.delivery_status === "Yêu Cầu Trả Hàng" ? (
             <p>Đơn Hàng Đã Hoàn Thành</p>
+          ) : (
+            ""
           )}
         </div>
       </div>

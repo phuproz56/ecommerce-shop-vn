@@ -13,7 +13,7 @@ const Request = () => {
 
   useEffect(() => {
     dispatch(get_all_review_order());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="px-2 lg:px-7 pt-5">

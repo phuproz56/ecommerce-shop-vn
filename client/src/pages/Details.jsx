@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   get_product,
   check_review_customer,
-  recommendations,
+  // recommendations,
 } from "../store/reducers/homeReducer";
 import {
   add_to_card,
@@ -47,9 +47,9 @@ const Details = () => {
 
   const location = useLocation();
 
-  useEffect(() => {
-    dispatch(recommendations(userInfo.id));
-  }, [userInfo.id, dispatch]);
+  // useEffect(() => {
+  //   dispatch(recommendations(userInfo.id));
+  // }, [userInfo.id, dispatch]);
 
   useEffect(() => {
     dispatch(
@@ -115,10 +115,28 @@ const Details = () => {
     }
   };
 
+  const handleQuantityChange = (e) => {
+    const newQuantity = parseInt(e.target.value, 10);
+    if (
+      !isNaN(newQuantity) &&
+      newQuantity >= 1 &&
+      product &&
+      product.stock &&
+      newQuantity <= product.stock
+    ) {
+      setQuantity(newQuantity);
+    } else if (newQuantity >= product.stock) {
+      setQuantity(product.stock);
+    } else {
+      setQuantity(1);
+    }
+  };
+
   const add_card = () => {
     if (userInfo) {
       if (selectedSize === "") {
         setSize(true);
+        toast.error("Vui lòng chọn size!");
       } else {
         dispatch(
           add_to_card({
@@ -176,6 +194,7 @@ const Details = () => {
     if (userInfo) {
       if (selectedSize === "") {
         setSize(true);
+        toast.error("Vui lòng chọn size!");
       } else {
         let price = 0;
 
@@ -221,13 +240,13 @@ const Details = () => {
   };
 
   return (
-    <div className="pt-[200px]">
-      <Headers isFixed={true} />
+    <div>
+      <Headers />
       <section className="bg-[url('http://localhost:3000/images/banner/order.jpg')] h-[220px] mt-6 bg-cover bg-no-reqeat relative bg-left">
         <div className="absolute left-0 top-0 h-full w-full mx-auto bg-[#2422228a]">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
             <div className="flex flex-col justify-center gap-1 items-center h-full w-full text-white">
-              <h2 className="text-3xl font-bold">shop.my</h2>
+              <h2 className="text-3xl font-bold">Chi Tiết Sản Phẩm</h2>
             </div>
           </div>
         </div>
@@ -330,7 +349,14 @@ const Details = () => {
                       >
                         -
                       </div>
-                      <div className="px-5"> {quantity}</div>
+
+                      <input
+                        type="text"
+                        value={quantity}
+                        onChange={handleQuantityChange}
+                        className="px-[2px] text-center m-[2px]"
+                      />
+
                       <div
                         onClick={() => inc()}
                         className="px-6 cursor-pointer"

@@ -6,14 +6,12 @@ import {
   get_review_products,
   messageClear,
   xoa_review,
-  commit_review,
 } from "../../store/Reducers/productReducer";
 import { FaTrash } from "react-icons/fa";
 import { Tooltip } from "antd";
 import { RxCross1 } from "react-icons/rx";
 import toast from "react-hot-toast";
 import FadeLoader from "react-spinners/FadeLoader";
-import { AiFillCheckCircle } from "react-icons/ai";
 
 const SeeReviewCustomer = () => {
   const dispatch = useDispatch();
@@ -28,10 +26,6 @@ const SeeReviewCustomer = () => {
 
   const delete_review = (id) => {
     dispatch(xoa_review(id));
-  };
-
-  const pheduyet = (id) => {
-    dispatch(commit_review(id));
   };
 
   useEffect(() => {
@@ -163,20 +157,6 @@ const SeeReviewCustomer = () => {
                       className="py-1 px-4 font-medium whitespace-nowrap"
                     >
                       <div className="flex justify-start items-center gap-4">
-                        {d.review.approved ? (
-                          <p className="p-2 bg-green-400 border rounded-md text-black">
-                            Đã duyệt
-                          </p>
-                        ) : (
-                          <Tooltip title="duyệt đánh giá">
-                            <Link
-                              onClick={() => pheduyet(d?.review?._id)}
-                              className="p-[10px] bg-green-500 text-white rounded hover:shadow-lg hover:shadow-yellow-500/50"
-                            >
-                              <AiFillCheckCircle />
-                            </Link>
-                          </Tooltip>
-                        )}
                         <Tooltip title="Xóa Đánh Giá">
                           <Link
                             onClick={() => setOpen(d?.review?._id)}

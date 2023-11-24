@@ -28,8 +28,6 @@ const Reviews = ({ product }) => {
     useSelector((state) => state.home);
   const { userInfo } = useSelector((state) => state.auth);
 
-  console.log(check_review);
-
   const [re, setRe] = useState();
 
   const review_submit = (e) => {
@@ -43,24 +41,21 @@ const Reviews = ({ product }) => {
     dispatch(customer_review(obj));
   };
 
-  const find_approved = reviews.filter((item) => item.approved === true);
-
   useEffect(() => {
     if (successMessage) {
       toast.success(successMessage);
-      if (!find_approved.length) {
-        dispatch(
-          get_reviews({
-            productId: product._id,
-            pageNumber,
-          })
-        );
 
-        dispatch(get_product(product.slug));
-        setRat("");
-        setRe("");
-        dispatch(messageClear());
-      }
+      dispatch(
+        get_reviews({
+          productId: product._id,
+          pageNumber,
+        })
+      );
+
+      dispatch(get_product(product.slug));
+      setRat("");
+      setRe("");
+      dispatch(messageClear());
     }
   }, [successMessage]);
 
@@ -229,7 +224,11 @@ const Reviews = ({ product }) => {
         </div>
       </div>
       <div>
-        {check_review === 0 && <p className="text-red-500">bạn cần mua sản phẩm để được đánh giá sản phẩm!</p>}
+        {check_review === 0 && (
+          <p className="text-red-500">
+            bạn cần mua sản phẩm để được đánh giá sản phẩm!
+          </p>
+        )}
         {userInfo ? (
           <div className="flex flex-col gap-3">
             <div className="flex gap-1">

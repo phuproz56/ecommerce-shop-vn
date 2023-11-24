@@ -97,6 +97,22 @@ const Vanchuyen = () => {
                               Email: {userInfo.email}
                             </p>
                           </div>
+                          <div className="w-full flex">
+                            Trạng thái thanh toán:{" "}
+                            {q?.payment_status === "unpaid" ? (
+                              <p className="flex pl-2 text-red-500 w-auto">
+                                Chưa chọn hình thức thanh toán{" "}
+                              </p>
+                            ) : q?.payment_status === "paid" ? (
+                              <p className="pl-2 text-green-500">
+                                Đã Thanh Toán
+                              </p>
+                            ) : (
+                              <p className="pl-2 text-green-500">
+                                Thanh Toán Khi Nhận Hàng
+                              </p>
+                            )}
+                          </div>
                         </div>
 
                         <div className="mt-3 flex flex-col">

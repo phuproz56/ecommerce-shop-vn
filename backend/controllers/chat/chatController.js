@@ -72,7 +72,7 @@ class chatController {
               $push: {
                 myFriends: {
                   fdId: userId,
-                  name: user.name,
+                  name: user?.name,
                   image: "",
                 },
               },

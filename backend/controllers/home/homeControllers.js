@@ -58,6 +58,10 @@ class homeControllers {
 
   get_products = async (req, res) => {
     try {
+      const search_products = await productModel.find({}).sort({
+        createdAt: -1,
+      });
+
       const products = await productModel.find({}).limit(16).sort({
         createdAt: -1,
       });
@@ -84,6 +88,7 @@ class homeControllers {
         topRated_products,
         discount_products,
         relatedProducts,
+        search_products,
       });
     } catch (error) {
       console.log(error.message);
@@ -168,6 +173,10 @@ class homeControllers {
     const parPage = 12;
     req.query.parPage = parPage;
     try {
+      const search_products = await productModel.find({}).sort({
+        createdAt: -1,
+      });
+
       const products = await productModel.find({}).sort({
         createdAt: -1,
       });
@@ -180,7 +189,7 @@ class homeControllers {
         .ratingQuery()
         .sortByPrice()
         .countProducts();
-      
+
       const result = new queryProducts(products, req.query)
         .categoryQuery()
         .categorySex()
@@ -193,11 +202,11 @@ class homeControllers {
         .limit()
         .getProducts();
 
-
       responseReturn(res, 200, {
         products: result,
         totalProduct,
         parPage,
+        search_products,
       });
     } catch (error) {
       console.log(error.message);
@@ -208,15 +217,13 @@ class homeControllers {
     const { name, rating, review, productId } = req.body;
 
     try {
-      const newComment = new reviewModel({
+      await reviewModel.create({
         productId,
         name,
         rating,
         review,
         date: moment(Date.now()).format("LL"),
       });
-
-      await newComment.save();
 
       let rat = 0;
       const reviews = await reviewModel.find({
@@ -236,7 +243,7 @@ class homeControllers {
       });
 
       responseReturn(res, 201, {
-        message: "Đánh giá đã được gửi và đang chờ phê duyệt!",
+        message: "Đánh giá thành công!!",
       });
     } catch (error) {
       console.log(error);
@@ -261,7 +268,6 @@ class homeControllers {
                 $size: 0,
               },
             },
-            approved: true, // Thêm điều kiện approved: true ở đây
           },
         },
         {
@@ -306,12 +312,11 @@ class homeControllers {
           }
         }
       }
-      const getAll = await reviewModel.find({ productId, approved: true });
+      const getAll = await reviewModel.find({ productId });
 
       const reviews = await reviewModel
         .find({
           productId,
-          approved: true,
         })
         .skip(skipPage)
         .limit(limit)
@@ -408,54 +413,55 @@ class homeControllers {
   check_review_customer = async (req, res) => {
     const { customerId, productId } = req.params;
     try {
-      const count = await customerOrder.countDocuments({
-        customerId: new ObjectId(customerId),
-        products: { $elemMatch: { _id: productId } },
-      });
+      if (customerId != "undefined") {
+        const userInfo = await customerModel.findById(customerId);
+        if (userInfo) {
+          const count = await customerOrder.countDocuments({
+            customerId: new ObjectId(customerId),
+            products: { $elemMatch: { _id: productId } },
+          });
 
-      responseReturn(res, 200, { count: count > 0 ? count : 0 });
+          responseReturn(res, 200, { count: count && count > 0 ? count : 0 });
+        }
+      }
     } catch (error) {
-      console.error("Error checking customer purchase:", error);
-      return false;
+      responseReturn(res, 500, { error: error.message });
+      console.error("Error checking customer purchase:", error.message);
     }
   };
 
-  recommendations = async (req, res) => {
-    const { id } = req.params;
-    try {
-      const customer = await customerModel.findById(id);
-      if (!customer) {
-        return res.status(404).json({ message: "Không tìm thấy người dùng" });
-      }
+  // recommendations = async (req, res) => {
+  //   const { id } = req.params;
+  //   try {
+  //     const customer = await customerModel.findById(id);
+  //     if (!customer) {
+  //       return res.status(404).json({ message: "Không tìm thấy người dùng" });
+  //     }
 
-      const recommendations = await productModel.aggregate([
-        {
-          $match:{
-            
-          }
-        },
-        {
-          $addFields: {
-            distance: {
-              $sqrt: {
-                $sum: customer.sex === "$sex" ? 0 : 1, // Khoảng cách giữa giới tính người dùng và sản phẩm
-                // $pow: [{ $subtract: ["$price", customer.price] }, 2], // Ví dụ về khoảng cách với giá
-                // Thêm các trường khoảng cách cho các thuộc tính khác tùy ý
-              },
-            },
-          },
-        },
-        {
-          $sort: { distance: 1 }, // Sắp xếp theo khoảng cách tăng dần
-        },
-        {
-          $limit: 10, // Giới hạn số lượng sản phẩm trả về
-        },
-      ]);
-
-
-    } catch (error) {}
-  };
+  //     const recommendations = await productModel.aggregate([
+  //       {
+  //         $match: {},
+  //       },
+  //       {
+  //         $addFields: {
+  //           distance: {
+  //             $sqrt: {
+  //               $sum: customer.sex === "$sex" ? 0 : 1, // Khoảng cách giữa giới tính người dùng và sản phẩm
+  //               // $pow: [{ $subtract: ["$price", customer.price] }, 2], // Ví dụ về khoảng cách với giá
+  //               // Thêm các trường khoảng cách cho các thuộc tính khác tùy ý
+  //             },
+  //           },
+  //         },
+  //       },
+  //       {
+  //         $sort: { distance: 1 }, // Sắp xếp theo khoảng cách tăng dần
+  //       },
+  //       {
+  //         $limit: 10, // Giới hạn số lượng sản phẩm trả về
+  //       },
+  //     ]);
+  //   } catch (error) {}
+  // };
 }
 
 module.exports = new homeControllers();
