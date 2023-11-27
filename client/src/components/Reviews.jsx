@@ -265,7 +265,11 @@ const Reviews = ({ product }) => {
                 readOnly={check_review > 0 ? false : true}
               ></textarea>
               <div>
-                <button className="py-1 px-5 bg-indigo-500 text-white rounded-sm">
+                <button
+                  className={`py-1 px-5 bg-indigo-500 text-white rounded-sm ${
+                    check_review > 0 ? "" : "hidden"
+                  }`}
+                >
                   Đánh giá
                 </button>
               </div>

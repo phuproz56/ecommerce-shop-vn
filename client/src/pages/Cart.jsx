@@ -69,7 +69,7 @@ const Cart = () => {
     if (temp <= stock) {
       dispatch(quantity_inc(card_id));
     } else {
-      toast.error("Hết hàng!!");
+      toast.error("Số lượng không thể vượt quá kho!!");
       dispatch(messageClear());
     }
   };

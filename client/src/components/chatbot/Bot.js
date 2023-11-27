@@ -1,8 +1,10 @@
+/* eslint-disable no-eval */
 /* eslint-disable no-multi-str */
 import React, { useState, useEffect, useRef } from "react";
 import "./Bot.css";
 import messageSound from "./message.mp3";
 import logo from "./chatbot.png";
+import { useSelector } from "react-redux";
 
 export default function App() {
   const [messages, setMessages] = useState([]);
@@ -23,6 +25,7 @@ export default function App() {
   const [currentMenu, setCurrentMenu] = useState("main");
   const [showFeedback, setShowFeedback] = useState(false);
   const [originalUserMessage, setOriginalUserMessage] = useState("");
+  const { categorys } = useSelector((state) => state.home);
   const audio = useRef(null);
   const chatMessagesRef = useRef(null);
 
@@ -132,22 +135,21 @@ export default function App() {
       };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu("one");
-      setMenu1Options([
-        "Xem địa chỉ cụ thể",
-        "Trở Về",
-      ]);
+      setMenu1Options(["Xem địa chỉ cụ thể", "Trở Về"]);
     } else if (option === "Cửa hàng bán những gì?") {
       const userMessage = { text: "Cửa hàng bán những gì?", sender: "user" };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = {
-        text: "Cửa hàng chúng tôi bán những sản phẩm quần áo thời trang chất lượng cao từ thương hiệu hàng đầu, bạn có thể vào bấm vào cửa hàng để xem thông tin chi tiết",
+        text: `Cửa hàng chúng tôi bán những sản phẩm quần áo thời trang chất lượng cao từ thương hiệu hàng đầu, bạn có thể vào bấm vào cửa hàng để xem thông tin chi tiết, sau đây là danh mục sản phẩm ở bên mình:  ${categorys.map(
+          (item) => item.name
+        )} `,
         sender: "bot",
       };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu("one");
       setMenu1Options([
-        // "Academic Calendar",
+        "Tôi có thể thanh toán bằng cách nào?",
         // "Academic Structure",
         // "Syllabus",
         // "Academic Council",
@@ -259,18 +261,21 @@ export default function App() {
       setMessages((prevMessages) => [...prevMessages, botMessage]);
       setCurrentMenu("two");
       setMenu2Options(["Trở Về", "Trang Chủ"]);
-    } else if (option === "Academic Calendar") {
-      const userMessage = { text: "Academic Calendar", sender: "user" };
+    } else if (option === "Tôi có thể thanh toán bằng cách nào?") {
+      const userMessage = {
+        text: "Tôi có thể thanh toán bằng cách nào?",
+        sender: "user",
+      };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
 
       const botMessage = {
-        text: "We have a properly managed and updated calander you can access it by clicking here",
+        text: "Bạn có thể thanh toán bằng thẻ visa hoặc có thể thanh toán sau khi nhận hàng!",
         sender: "bot",
-        link: "https://www.viit.ac.in/images/Academics/Institute_Calendar_Sem-I_AY_2023-24.pdf",
+        // link: "https://www.viit.ac.in/images/Academics/Institute_Calendar_Sem-I_AY_2023-24.pdf",
       };
-      redirectToLink(
-        "https://www.viit.ac.in/images/Academics/Institute_Calendar_Sem-I_AY_2023-24.pdf"
-      );
+      // redirectToLink(
+      //   "https://www.viit.ac.in/images/Academics/Institute_Calendar_Sem-I_AY_2023-24.pdf"
+      // );
       setMessages((prevMessages) => [...prevMessages, botMessage]);
       setMenu2Options(["Trở Về", "Trang Chủ"]);
     } else if (option === "Academic Structure") {
@@ -852,6 +857,7 @@ export default function App() {
             text: `Chào ${name}, ${data.response}`,
             sender: "bot",
           };
+
           setMessages((prevMessages) => [...prevMessages, botMessage]);
 
           if (data.options) {
@@ -924,7 +930,6 @@ export default function App() {
   const handleThumbsDownFeedback = () => {
     setShowFeedback(false);
     const userMessage = { text: originalUserMessage, sender: "user" };
-    console.log(userMessage);
 
     fetch("http://localhost:5000/api/chatbot/thumbsDownMessage", {
       method: "POST",
@@ -999,6 +1004,8 @@ export default function App() {
     setShowExitModal(false);
   };
 
+  // console.log(messages)
+
   return (
     <>
       <div className="container" id="blur">
@@ -1046,7 +1053,8 @@ export default function App() {
                   <a
                     href={message.link}
                     target="_blank"
-                    onClick={(e) => openLinkInNewTab(e, message.link)} rel="noreferrer"
+                    onClick={(e) => openLinkInNewTab(e, message.link)}
+                    rel="noreferrer"
                   >
                     {message.text}
                   </a>
@@ -1199,9 +1207,9 @@ export default function App() {
           )}
 
           <br />
-          {/* <button className="closeBOT" onClick={handleToggleExitModal}>
-              ❌
-            </button> */}
+          <button className="closeBOT" onClick={handleToggleExitModal}>
+            ❌
+          </button>
         </div>
       </div>
 
@@ -1211,7 +1219,10 @@ export default function App() {
         <div className="exit-modal">
           <div className="exit-modal-content">
             <div className="exit-modal-header">
-              <h4>Are you sure you want to exit?Your chat won't be stored.</h4>
+              <h4>
+                Bạn có chắc muốn thoát không? Nếu thoát cuộc hội thoại sẽ được
+                xóa!
+              </h4>
             </div>
             <div className="exit-modal-footer">
               <button onClick={handleExitYes} className="exit-yes-button">

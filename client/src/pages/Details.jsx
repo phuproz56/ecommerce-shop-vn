@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import Headers from "../components/Headers";
@@ -9,7 +7,7 @@ import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Footer from "../components/Footer";
 import Ratings from "../components/Ratings";
-import { AiFillGithub, AiFillHeart, AiOutlineTwitter } from "react-icons/ai";
+import { AiFillGithub, AiOutlineTwitter } from "react-icons/ai";
 import { FaFacebookF, FaLinkedin } from "react-icons/fa";
 import Reviews from "../components/Reviews";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -17,6 +15,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { useDispatch, useSelector } from "react-redux";
+import FadeLoader from "react-spinners/FadeLoader";
 import {
   get_product,
   check_review_customer,
@@ -26,21 +25,25 @@ import {
   add_to_card,
   messageClear,
   add_to_wishlist,
-  remove_wishlist,
 } from "../store/reducers/cardReducer";
 import toast from "react-hot-toast";
-import Select from "react-select";
 
 const Details = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { product, relatedProducts, moreProducts, totalReview, check_review } =
-    useSelector((state) => state.home);
+
+  const {
+    product,
+    relatedProducts,
+    moreProducts,
+    totalReview,
+    check_review,
+    loader,
+  } = useSelector((state) => state.home);
   const { slug } = useParams();
   const [image, setImage] = useState("");
   const [state, setState] = useState("reviews");
   const [selectedOption, setSelectedOption] = useState(product?.color);
-  const [selectedSize, setSelectedSize] = useState("");
 
   const { userInfo } = useSelector((state) => state.auth);
   const { errorMessage, successMessage } = useSelector((state) => state.card);
@@ -50,6 +53,7 @@ const Details = () => {
   // useEffect(() => {
   //   dispatch(recommendations(userInfo.id));
   // }, [userInfo.id, dispatch]);
+  const [selectedSize, setSelectedSize] = useState("");
 
   useEffect(() => {
     dispatch(
@@ -58,6 +62,10 @@ const Details = () => {
         productId: product._id,
       })
     );
+    dispatch(get_product(slug));
+    if (product && product?.size) {
+      setSelectedSize(product.size[0]);
+    }
   }, [dispatch, userInfo.id, product._id]);
 
   useEffect(() => {
@@ -103,7 +111,7 @@ const Details = () => {
 
   const inc = () => {
     if (quantity >= product.stock) {
-      toast.error("Hết hàng!");
+      toast.error("Số lượng không thể vượt quá kho!");
     } else {
       setQuantity(quantity + 1);
     }
@@ -161,7 +169,7 @@ const Details = () => {
           productId: product._id,
           name: product.name,
           price: product.price,
-          image: product.images[0],
+          image: product?.images[0],
           discount: product.discount,
           rating: product.rating,
           slug: product.slug,
@@ -174,10 +182,6 @@ const Details = () => {
   };
 
   useEffect(() => {
-    dispatch(get_product(slug));
-  }, [dispatch]);
-
-  useEffect(() => {
     if (errorMessage) {
       toast.error(errorMessage);
       dispatch(messageClear());
@@ -186,7 +190,7 @@ const Details = () => {
       toast.success(successMessage);
       dispatch(messageClear());
     }
-  }, [errorMessage, successMessage]);
+  }, [dispatch, errorMessage, successMessage]);
 
   const [size, setSize] = useState(false);
 
@@ -230,18 +234,10 @@ const Details = () => {
     }
   };
 
-  const chat_to_shop = (id) => {
-    if (userInfo) {
-      navigate(`/dashboard/chat/${id}`);
-    } else {
-      toast.error("Cần đăng nhập để tiếp tục!");
-      navigate("/login");
-    }
-  };
-
   return (
     <div>
       <Headers />
+
       <section className="bg-[url('http://localhost:3000/images/banner/order.jpg')] h-[220px] mt-6 bg-cover bg-no-reqeat relative bg-left">
         <div className="absolute left-0 top-0 h-full w-full mx-auto bg-[#2422228a]">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
@@ -267,224 +263,233 @@ const Details = () => {
         </div>
       </div>
       <section>
-        <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto pb-16">
-          <div className="grid grid-cols-2 md-lg:grid-cols-1 gap-8 ">
-            <div>
-              <div className="p-5 border">
-                <img
-                  className="h-[500px] w-full"
-                  src={image ? image : product.images?.[0]}
-                  alt="product_image"
-                />
-              </div>
-              <div className="py-3">
-                {product.images && (
-                  <Carousel
-                    autoPlay={true}
-                    infinite={true}
-                    transitionDuration={500}
-                    responsive={responsive}
-                  >
-                    {product.images.map((img, i) => {
-                      return (
-                        <div key={i} onClick={() => setImage(img)}>
-                          <img
-                            className="h-[120px] cursor-pointer"
-                            src={img}
-                            alt="img_new"
-                          />
-                        </div>
-                      );
-                    })}
-                  </Carousel>
-                )}
-              </div>
-            </div>
-            <div className="flex flex-col gap-5">
-              <div className="text-3xl text-slate-600 font-bold">
-                <h2>{product.name}</h2>
-              </div>
-              <div className="flex justify-start items-center gap-4">
-                <div className="flex text-xl">
-                  <Ratings ratings={product.rating}></Ratings>
+        {loader ? (
+          <FadeLoader />
+        ) : (
+          <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto pb-16">
+            <div className="grid grid-cols-2 md-lg:grid-cols-1 gap-8 ">
+              <div>
+                <div className="p-5 border">
+                  <img
+                    className="h-[500px] w-full"
+                    src={image ? image : product.images?.[0]}
+                    alt="product_image"
+                  />
                 </div>
-                <span className="text-green-500">({totalReview} Đánh Giá)</span>
+                <div className="py-3">
+                  {product.images && (
+                    <Carousel
+                      autoPlay={true}
+                      infinite={true}
+                      transitionDuration={500}
+                      responsive={responsive}
+                    >
+                      {product.images.map((img, i) => {
+                        return (
+                          <div key={i} onClick={() => setImage(img)}>
+                            <img
+                              className="h-[120px] cursor-pointer"
+                              src={img}
+                              alt="img_new"
+                            />
+                          </div>
+                        );
+                      })}
+                    </Carousel>
+                  )}
+                </div>
               </div>
-              <div className="text-2xl text-red-500 font-bold flex gap-3">
-                {product.discount ? (
-                  <>
-                    <h2 className="line-through text-slate-400">
-                      {product.price.toLocaleString("vi", {
-                        style: "currency",
-                        currency: "VND",
-                      })}{" "}
-                    </h2>
-                    <h2>
-                      {(
-                        product.price -
-                        Math.floor(product.price * product.discount) / 100
-                      ).toLocaleString("vi", {
-                        style: "currency",
-                        currency: "VND",
-                      })}{" "}
-                      (-{product.discount}%)
-                    </h2>
-                  </>
-                ) : (
-                  <h2>Price: {product.price}</h2>
-                )}
-              </div>
-              <h2 className="text-slate-600 ">Giới tính: {product.sex}</h2>
-              <h2 className="text-slate-600 ">Màu sắc: {product?.color}</h2>
-              <div className="text-slate-600">
-                <p>{product.description}</p>
-              </div>
-              <div className="flex gap-3 pb-10 border-b">
-                {product.stock ? (
-                  <>
-                    <div className="flex bg-slate-200 h-[50px] justify-center items-center text-xl">
-                      <div
-                        onClick={() => dec()}
-                        className="px-6 cursor-pointer"
-                      >
-                        -
-                      </div>
+              <div className="flex flex-col gap-5">
+                <div className="text-3xl text-slate-600 font-bold">
+                  <h2>{product.name}</h2>
+                </div>
+                <div className="flex justify-start items-center gap-4">
+                  <div className="flex text-xl">
+                    <Ratings ratings={product.rating}></Ratings>
+                  </div>
+                  <span className="text-green-500">
+                    ({totalReview} Đánh Giá)
+                  </span>
+                </div>
+                <div className="text-2xl text-red-500 font-bold flex gap-3">
+                  {product.discount ? (
+                    <>
+                      <h2 className="line-through text-slate-400">
+                        {product.price.toLocaleString("vi", {
+                          style: "currency",
+                          currency: "VND",
+                        })}{" "}
+                      </h2>
+                      <h2>
+                        {(
+                          product.price -
+                          Math.floor(product.price * product.discount) / 100
+                        ).toLocaleString("vi", {
+                          style: "currency",
+                          currency: "VND",
+                        })}{" "}
+                        (-{product.discount}%)
+                      </h2>
+                    </>
+                  ) : (
+                    <h2>Price: {product.price}</h2>
+                  )}
+                </div>
+                <h2 className="text-slate-600 ">Giới tính: {product.sex}</h2>
+                <h2 className="text-slate-600 ">Màu sắc: {product?.color}</h2>
+                <div className="text-slate-600">
+                  <p>{product.description}</p>
+                </div>
+                <div className="flex gap-3 pb-10 border-b">
+                  {product.stock ? (
+                    <>
+                      <div className="flex bg-slate-200 h-[50px] justify-center items-center text-xl">
+                        <div
+                          onClick={() => dec()}
+                          className="px-6 cursor-pointer"
+                        >
+                          -
+                        </div>
 
-                      <input
-                        type="text"
-                        value={quantity}
-                        onChange={handleQuantityChange}
-                        className="px-[2px] text-center m-[2px]"
-                      />
+                        <input
+                          type="text"
+                          value={quantity}
+                          onChange={handleQuantityChange}
+                          className="px-[2px] text-center m-[2px]"
+                        />
 
-                      <div
-                        onClick={() => inc()}
-                        className="px-6 cursor-pointer"
-                      >
-                        +
+                        <div
+                          onClick={() => inc()}
+                          className="px-6 cursor-pointer"
+                        >
+                          +
+                        </div>
                       </div>
-                    </div>
-                    <div>
-                      <button
-                        onClick={add_card}
-                        className="px-5 py-1 sm:h-full h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white"
-                      >
-                        Thêm Vào Giỏ Hàng
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  ""
-                )}
-                <div>
-                  <div
-                    onClick={add_wishlist}
-                    className={`px-5 py-1 h-[50px] sm:h-full flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white
+                      <div>
+                        <button
+                          onClick={add_card}
+                          className="px-5 py-1 sm:h-full h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white"
+                        >
+                          Thêm Vào Giỏ Hàng
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                  <div>
+                    <div
+                      onClick={add_wishlist}
+                      className={`px-5 py-1 h-[50px] sm:h-full flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white
                   `}
-                  >
-                    Thêm Vào Yêu Thích
+                    >
+                      Thêm Vào Yêu Thích
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="flex py-5 gap-5">
-                <div className="w-[200px] text-black font-bold text-xl flex flex-col gap-5">
-                  <span>Sản phẩm có sẵn</span>
-                  <span>Chia sẻ</span>
-                </div>
-                <div className="flex flex-col gap-5">
-                  <span
-                    className={`text-${product.stock ? "green" : "red"}-500`}
-                  >
-                    {product.stock ? `Tồn kho (${product.stock})` : "Hết hàng"}
-                  </span>
-                  <ul className="flex justify-start items-center gap-3">
-                    <li>
-                      <a
-                        className="w-[38px] h-[38px] hover:bg-cyan-500 hover:text-white flex justify-center items-center bg-white rounded-full"
-                        href="#"
-                      >
-                        <FaFacebookF />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="w-[38px] h-[38px] hover:bg-cyan-500 hover:text-white flex justify-center items-center bg-white rounded-full"
-                        href="#"
-                      >
-                        <AiOutlineTwitter />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="w-[38px] h-[38px] hover:bg-cyan-500 hover:text-white flex justify-center items-center bg-white rounded-full"
-                        href="#"
-                      >
-                        <FaLinkedin />
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="w-[38px] h-[38px] hover:bg-cyan-500 hover:text-white flex justify-center items-center bg-white rounded-full"
-                        href="#"
-                      >
-                        <AiFillGithub />
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <h2>Chọn size:</h2>
-
-                {product?.size &&
-                  product?.size.map((u) => (
-                    <div
-                      onClick={() => setSelectedSize(u) || setSize(false)}
-                      className={``}
+                <div className="flex py-5 gap-5">
+                  <div className="w-[200px] text-black font-bold text-xl flex flex-col gap-5">
+                    <span>Sản phẩm có sẵn</span>
+                    <span>Chia sẻ</span>
+                  </div>
+                  <div className="flex flex-col gap-5">
+                    <span
+                      className={`text-${product.stock ? "green" : "red"}-500`}
                     >
-                      <input
-                        readOnly
-                        className={`flex w-[50px] p-2 text-center border font-bold cursor-pointer ${
-                          selectedSize === u
-                            ? "text-green-400 border-green-400 cursor-not-allowed"
-                            : "hover:text-red-500 border hover:border-red-500"
-                        }`}
-                        name="size"
-                        id=""
-                        value={u}
-                      />
-                    </div>
-                  ))}
-                {size ? (
-                  <h2 className="text-red-500">
-                    <b>vui lòng chọn size bạn mong muốn!!!</b>
-                  </h2>
-                ) : (
-                  ""
-                )}
-              </div>
-              <div className="flex gap-3">
-                {product.stock ? (
-                  <button
-                    onClick={buy}
-                    className="px-8 py-3 h-[50px] sm:h-full cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white"
-                  >
-                    Mua ngay
-                  </button>
-                ) : (
-                  ""
-                )}
-                {/* <button
+                      {product.stock
+                        ? `Tồn kho (${product.stock})`
+                        : "Hết hàng"}
+                    </span>
+                    <ul className="flex justify-start items-center gap-3">
+                      <li>
+                        <a
+                          className="w-[38px] h-[38px] hover:bg-cyan-500 hover:text-white flex justify-center items-center bg-white rounded-full"
+                          href="#"
+                        >
+                          <FaFacebookF />
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          className="w-[38px] h-[38px] hover:bg-cyan-500 hover:text-white flex justify-center items-center bg-white rounded-full"
+                          href="#"
+                        >
+                          <AiOutlineTwitter />
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          className="w-[38px] h-[38px] hover:bg-cyan-500 hover:text-white flex justify-center items-center bg-white rounded-full"
+                          href="#"
+                        >
+                          <FaLinkedin />
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          className="w-[38px] h-[38px] hover:bg-cyan-500 hover:text-white flex justify-center items-center bg-white rounded-full"
+                          href="#"
+                        >
+                          <AiFillGithub />
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <h2>Chọn size:</h2>
+
+                  {product?.size &&
+                    product?.size.map((u) => (
+                      <div
+                        onClick={() => setSelectedSize(u) || setSize(false)}
+                        className={``}
+                      >
+                        <input
+                          readOnly
+                          className={`flex w-[50px] p-2 text-center border font-bold cursor-pointer ${
+                            selectedSize === u
+                              ? "text-green-400 border-green-400 cursor-not-allowed"
+                              : "hover:text-red-500 border hover:border-red-500"
+                          }`}
+                          name="size"
+                          id=""
+                          value={u}
+                        />
+                      </div>
+                    ))}
+                  {size ? (
+                    <h2 className="text-red-500">
+                      <b>vui lòng chọn size bạn mong muốn!!!</b>
+                    </h2>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div className="flex gap-3">
+                  {product.stock ? (
+                    <button
+                      onClick={buy}
+                      className="px-8 py-3 h-[50px] sm:h-full cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white"
+                    >
+                      Mua ngay
+                    </button>
+                  ) : (
+                    ""
+                  )}
+                  {/* <button
                   onClick={() => chat_to_shop(product.sellerId)}
                   className="px-8 py-3 sm:h-full h-[50px] cursor-pointer hover:shadow-lg hover:shadow-orange-500/40 bg-orange-500 text-white block"
                 >
                   Chat với Người Bán
                 </button> */}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </section>
+
       <section>
         <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto pb-16">
           <div className="flex flex-wrap">
@@ -538,7 +543,7 @@ const Details = () => {
                         <div className="relative h-[270px]">
                           <img
                             className="w-full h-full"
-                            src={p.images[0]}
+                            src={p?.images[0]}
                             alt=""
                           />
                           {p.discount !== 0 && (
@@ -605,7 +610,7 @@ const Details = () => {
                         <div className="w-full h-full">
                           <img
                             className="w-full h-full"
-                            src={p.images[0]}
+                            src={p?.images[0]}
                             alt=""
                           />
                           <div className="absolute h-full w-full top-0 left-0 bg-[#000] opacity-25 hover:opacity-50 transition-all duration-500"></div>
@@ -644,6 +649,7 @@ const Details = () => {
           </div>
         </div>
       </section>
+
       <Footer />
     </div>
   );

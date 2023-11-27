@@ -6,11 +6,12 @@ from sklearn.preprocessing import LabelEncoder
 import json
 import sys
 
-training_set = pd.read_excel('./routes/route_chatbot/training_set1.csv', sheet_name='Sheet1', engine='openpyxl')
+training_set = pd.read_excel('C:\\LuanVan-HK1_23-24\\Ecommerce-shop-vn\\backend\\routes\\route_chatbot\\training_set1.xlsx', sheet_name='Sheet1')
 X_train = training_set['Questions']
 y_train = training_set['Answers']
 
-options_set = pd.read_excel('./routes/route_chatbot/options.xlsx', sheet_name='Sheet1', engine='openpyxl')
+
+options_set = pd.read_excel('C:\\LuanVan-HK1_23-24\\Ecommerce-shop-vn\\backend\\routes\\route_chatbot\\options.xlsx', sheet_name='Sheet1')
 X_options = options_set['Questions']
 y_options = options_set['Answers']
 
@@ -42,7 +43,6 @@ else:
     predicted_answer_encoded = xgb_classifier.predict(user_input_tfidf)[0]
     predicted_answer = label_encoder.inverse_transform([predicted_answer_encoded])[0]
     confidence_score = xgb_classifier.predict_proba(user_input_tfidf).max() * 100
-    print(predicted_answer)
 
     if confidence_score >= 15:
         response = {"response": predicted_answer}
@@ -56,4 +56,5 @@ else:
     response["options"] = options
 
 print(json.dumps(response))
+#print("scope: ",confidence_score)
 

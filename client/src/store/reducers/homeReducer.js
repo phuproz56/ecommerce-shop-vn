@@ -200,9 +200,13 @@ export const homeReducer = createSlice({
       state.search_products = payload.search_products;
     },
     [get_product.fulfilled]: (state, { payload }) => {
+      state.loader = false;
       state.product = payload.product;
       state.relatedProducts = payload.relatedProducts;
       state.moreProducts = payload.moreProducts;
+    },
+    [get_product.pending]: (state, { payload }) => {
+      state.loader = true;
     },
     [price_range_product.fulfilled]: (state, { payload }) => {
       state.latest_products = payload.latest_products;
