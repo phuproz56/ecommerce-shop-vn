@@ -82,6 +82,7 @@ const DsShipper = () => {
           </div>
         ))}
       <div className="w-full p-4  bg-[#283046] rounded-md">
+        
         <div className="flex justify-between items-center">
           <select
             onChange={(e) => setParPage(parseInt(e.target.value))}
@@ -98,6 +99,14 @@ const DsShipper = () => {
             type="text"
             placeholder="search"
           />
+        </div>
+        <div className="text-white text-end pl-2">
+          <Link
+            to="/admin/dashboard/register-shipper"
+            className="p-2 text-end bg-green-500 mt-4 rounded-md hover:bg-green-300 hover:text-black"
+          >
+            <button className="p-2 mt-4">Tạo Tài Khoản Shipper</button>
+          </Link>
         </div>
         <div className=" overflow-x-auto">
           <table className="w-full text-sm text-left text-[#d0d2d6]">

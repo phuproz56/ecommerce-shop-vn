@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { IoMdClose } from "react-icons/io";
 import { FaList } from "react-icons/fa";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { get_sellers } from "../../store/Reducers/chatReducer";
 import { BsEmojiSmile } from "react-icons/bs";
@@ -17,7 +17,7 @@ import { socket } from "../../utils/utils";
 const ChatSeller = () => {
   const scrollRef = useRef();
   const { userInfo } = useSelector((state) => state.auth);
-
+  const navigate = useNavigate();
   const { sellerId } = useParams();
   const dispatch = useDispatch();
   const {
@@ -88,6 +88,10 @@ const ChatSeller = () => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [seller_admin_message]);
 
+  const rollback = () => {
+    navigate("/admin/dashboard/sellers");
+  };
+
   return (
     <div className="px-2 lg:px-7 py-5">
       <div className="w-full bg-[#283046] px-4 py-4 rounded-md h-[calc(100vh-140px)]">
@@ -98,6 +102,14 @@ const ChatSeller = () => {
             } md:left-0 md:relative transition-all`}
           >
             <div className="w-full h-[calc(100vh-177px)] bg-[#252b3b] md:bg-transparent overflow-y-auto">
+              <div className="text-white cursor-pointer uppercase">
+                <p
+                  onClick={rollback}
+                  className="p-2 border w-[100px] text-center rounded-md border-slate-500 hover:bg-green-400 hover:text-slate-600 transition-all duration-300"
+                >
+                  Quay Lại
+                </p>
+              </div>
               <div className="flex text-xl justify-between items-center p-4 md:p-0 md:px-3 md:pb-3 text-white">
                 <h2>Nhân Viên</h2>
                 <span

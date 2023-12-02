@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   get_review_products,
@@ -15,6 +15,7 @@ import FadeLoader from "react-spinners/FadeLoader";
 
 const SeeReviewCustomer = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [open, setOpen] = useState("");
 
   const { product_find, successMessage, loader } = useSelector(
@@ -35,9 +36,22 @@ const SeeReviewCustomer = () => {
       window.location.reload(1);
     }
   }, [successMessage]);
+
+  const rollback = () => {
+    navigate(-1); // Sử dụng navigate(-1) để quay lại trang trước đó
+  };
+
   return (
     <div className="px-2 lg:px-7 pt-5 ">
       <div className="w-full p-4  bg-[#283046] rounded-md">
+        <div className="text-white cursor-pointer uppercase">
+          <p
+            onClick={rollback}
+            className="p-2 border w-[100px] text-center rounded-md border-slate-500 hover:bg-green-400 hover:text-slate-600 transition-all duration-300"
+          >
+            Quay Lại
+          </p>
+        </div>
         {open &&
           product_find.map((u, i) => (
             <div

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Search from "../components/Search";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaEye, FaTrash, FaWarehouse } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { useSelector, useDispatch } from "react-redux";
@@ -84,6 +84,14 @@ const Products = () => {
           setSearchValue={setSearchValue}
           searchValue={searchValue}
         />
+        <div className="text-white text-end">
+          <Link
+            to="/admin/dashboard/add-product"
+            className="p-2 text-end bg-green-500 mt-4 rounded-md hover:bg-green-300 hover:text-black"
+          >
+            <button className="p-2 mt-4">Thêm sản phẩm</button>
+          </Link>
+        </div>
         <div className="overflow-x-auto mt-5">
           <table className="w-full text-sm text-left text-[#d0d2d6]">
             <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
@@ -113,7 +121,7 @@ const Products = () => {
                   SL
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  hoạt động
+                 
                 </th>
               </tr>
             </thead>
@@ -196,6 +204,22 @@ const Products = () => {
                           className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50"
                         >
                           <FaEdit />
+                        </Link>
+                      </Tooltip>
+                      <Tooltip title="Nhập Hàng">
+                        <Link
+                          to={`/admin/dashboard/log-product-detail/${d._id}`}
+                          className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50"
+                        >
+                          <FaWarehouse />
+                        </Link>
+                      </Tooltip>
+                      <Tooltip title="Xem Chi Tiết Phiếu Nhập">
+                        <Link
+                          to={`/admin/dashboard/log-product-see-detail/${d._id}`}
+                          className="p-[6px] bg-yellow-300 text-white rounded hover:shadow-lg hover:shadow-yellow-500/50"
+                        >
+                          <FaEye />
                         </Link>
                       </Tooltip>
                       <Tooltip title="Xóa Sản Phẩm">

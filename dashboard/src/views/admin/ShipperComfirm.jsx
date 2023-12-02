@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { FaEye } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Pagination from "../Pagination";
 import Search from "../components/Search";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,13 +10,12 @@ import { get_admin_orders } from "../../store/Reducers/OrderReducer";
 import { Tooltip } from "antd";
 
 const ShipperComfirm = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
-  const { totalOrder, orders_shipper } = useSelector(
-    (state) => state.order
-  );
+  const { totalOrder, orders_shipper } = useSelector((state) => state.order);
 
   const t = orders_shipper?.filter(
     (d) =>
@@ -38,14 +37,27 @@ const ShipperComfirm = () => {
     );
   }, [parPage, currentPage, searchValue, dispatch]);
 
+  const rollback = () => {
+    navigate(-1); // Sử dụng navigate(-1) để quay lại trang trước đó
+  };
+
   return (
     <div className="px-2 lg:px-7 pt-5 ">
       <div className="w-full p-4  bg-[#283046] rounded-md">
+        <div className="text-white cursor-pointer uppercase mb-2">
+          <p
+            onClick={rollback}
+            className="p-2 border w-[100px] text-center rounded-md border-slate-500 hover:bg-green-400 hover:text-slate-600 transition-all duration-300"
+          >
+            Quay Lại
+          </p>
+        </div>
         <Search
           setParPage={setParPage}
           setSearchValue={setSearchValue}
           searchValue={searchValue}
         />
+
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left text-[#d0d2d6]">
             <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">

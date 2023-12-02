@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import { FaEye } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { get_all_review_order } from "../../store/Reducers/OrderReducer";
 import { Tooltip } from "antd";
 
 const Request = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { review_order } = useSelector((state) => state.order);
@@ -15,9 +16,21 @@ const Request = () => {
     dispatch(get_all_review_order());
   }, [dispatch]);
 
+  const rollback = () => {
+    navigate(-1); // Sử dụng navigate(-1) để quay lại trang trước đó
+  };
+
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4  bg-[#283046] rounded-md">
+        <div className="text-white cursor-pointer uppercase">
+          <p
+            onClick={rollback}
+            className="p-2 border w-[100px] text-center rounded-md border-slate-500 hover:bg-green-400 hover:text-slate-600 transition-all duration-300"
+          >
+            Quay Lại
+          </p>
+        </div>
         {!review_order.length && (
           <p className="text-lg text-white">Chưa có lượt đánh giá đơn hàng</p>
         )}

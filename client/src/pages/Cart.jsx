@@ -15,6 +15,8 @@ import {
   quantity_dec,
 } from "../store/reducers/cardReducer";
 import toast from "react-hot-toast";
+import { Tooltip } from "antd";
+import { FaQuestionCircle } from "react-icons/fa";
 
 const Cart = () => {
   const location = useLocation();
@@ -311,11 +313,16 @@ const Cart = () => {
                       </div>
                       <div className="flex justify-between  items-center">
                         <span>PHÍ VẬN CHUYỂN</span>
-                        <span>
+                        <span className="flex flex-row">
                           {shipping_fee.toLocaleString("vi", {
                             style: "currency",
                             currency: "VND",
                           })}
+                          <b className="pt-1 pl-1">
+                            <Tooltip title="Tổng số tiền trong giỏ hàng > 500.000đ sẽ miễn phí vận chuyển, nếu không thì mặc định phí vận chuyển 50.000đ">
+                              <FaQuestionCircle />
+                            </Tooltip>
+                          </b>
                         </span>
                       </div>
                       <div className="flex gap-2 border-t-2 border-slate-500">

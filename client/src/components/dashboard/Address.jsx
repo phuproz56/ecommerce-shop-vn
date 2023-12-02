@@ -238,7 +238,7 @@ const Address = () => {
           </div>
         ))}
 
-      {userInfo.addresses?.length === "undefined" && (
+      {(userInfo.addresses?.length === "undefined" || !userInfo?.addresses || "") && (
         <h5 className="text-center pt-8 text-[18px]">
           Bạn chưa cập nhật địa chỉ nào!!!
         </h5>

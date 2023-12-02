@@ -9,8 +9,10 @@ import {
   shipper_register,
 } from "../../store/Reducers/authReducer";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 const RegisterShipper = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loader, errorMessage, successMessage } = useSelector(
     (state) => state.auth
   );
@@ -46,9 +48,23 @@ const RegisterShipper = () => {
       dispatch(messageClear());
     }
   }, [successMessage, errorMessage]);
+
+  const rollback = () => {
+    navigate(-1); // Sử dụng navigate(-1) để quay lại trang trước đó
+  };
+
   return (
     <div className="px-2 lg:px-7 pt-5">
       <div className="w-full p-4  bg-[#283046] rounded-md text-white">
+        {" "}
+        <div className="text-white cursor-pointer uppercase">
+          <p
+            onClick={rollback}
+            className="p-2 border w-[100px] text-center rounded-md border-slate-500 hover:bg-green-400 hover:text-slate-600 transition-all duration-300"
+          >
+            Quay Lại
+          </p>
+        </div>
         <h2 className="text-center">Đăng Ký Tài Khoản Shipper</h2>
         <form onSubmit={submit}>
           <div className="flex flex-col w-full gap-1 mb-3 ">

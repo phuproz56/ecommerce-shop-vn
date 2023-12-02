@@ -96,6 +96,22 @@ const Sellers = () => {
             placeholder="search"
           />
         </div>
+        <div className="text-white text-end pl-2">
+          <Link
+            to="/admin/dashboard/chat-sellers"
+            className="p-2 text-end bg-green-500 mt-4 rounded-md hover:bg-green-300 hover:text-black"
+          >
+            <button className="p-2 mt-4">Chat Với Nhân Viên</button>
+          </Link>
+        </div>
+        <div className="text-white text-end pl-2">
+          <Link
+            to="/admin/dashboard/register-nvadmin"
+            className="p-2 text-end bg-pink-500 mt-4 rounded-md hover:bg-pink-300 hover:text-black"
+          >
+            <button className="p-2 mt-4">Tạo Tài Khoản Nhân Viên</button>
+          </Link>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left text-[#d0d2d6]">
             <thead className="text-xs text-[#d0d2d6] uppercase border-b border-slate-700">

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BsImages } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { get_category, get_brand } from "../../store/Reducers/categoryReducer";
 import { add_product, messageClear } from "../../store/Reducers/productReducer";
@@ -14,6 +14,7 @@ import Multiselect from "multiselect-react-dropdown";
 import "react-quill/dist/quill.snow.css";
 const AddProduct = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { categorys, brands } = useSelector((state) => state.category);
   const { loader, successMessage, errorMessage } = useSelector(
     (state) => state.product
@@ -246,16 +247,28 @@ const AddProduct = () => {
     dispatch(add_product(formData));
   };
 
+  const rollback = () => {
+    navigate(-1); // Sử dụng navigate(-1) để quay lại trang trước đó
+  };
+
   return (
     <div className="px-2 lg:px-7 pt-5 ">
       <div className="w-full p-4  bg-[#283046] rounded-md">
+        <div className="text-white cursor-pointer uppercase">
+          <p
+            onClick={rollback}
+            className="p-2 border w-[100px] text-center rounded-md border-slate-500 hover:bg-green-400 hover:text-slate-600 transition-all duration-300"
+          >
+            Quay Lại
+          </p>
+        </div>
         <div className="flex justify-between items-center pb-4">
           <h1 className="text-[#d0d2d6] text-xl font-semibold">
             Thêm Sản Phẩm
           </h1>
           <Link
             className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-sm px-7 py-2 my-2 "
-            to="/seller/dashboard/products"
+            to="/admin/dashboard/products"
           >
             Tất Cả Sản Phẩm
           </Link>

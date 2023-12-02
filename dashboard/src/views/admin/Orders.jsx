@@ -8,6 +8,8 @@ import Search from "../components/Search";
 import { useSelector, useDispatch } from "react-redux";
 import { get_seller_orders } from "../../store/Reducers/OrderReducer";
 import { Tooltip } from "antd";
+import { MdRateReview } from "react-icons/md";
+import { RiProductHuntFill } from "react-icons/ri";
 const Orders = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,6 +43,30 @@ const Orders = () => {
           setSearchValue={setSearchValue}
           searchValue={searchValue}
         />
+        <div className="text-white text-end pl-2">
+          <Link
+            to="/admin/dashboard/shipper-comfirm"
+            className="p-2 text-end bg-green-500 mt-4 rounded-md hover:bg-green-300 hover:text-black"
+          >
+            <button className="p-2 mt-4">Shipper Nhận Đơn</button>
+          </Link>
+        </div>
+        <div className="text-white text-end pl-2">
+          <Link
+            to="/admin/dashboard/all-review-product"
+            className="p-2 text-end bg-pink-500 mt-4 rounded-md hover:bg-pink-300 hover:text-black"
+          >
+            <button className="p-2 mt-4">Xem Đánh Giá Sản Phẩm</button>
+          </Link>
+        </div>
+        <div className="text-white text-end pl-2">
+          <Link
+            to="/admin/dashboard/all-review-order"
+            className="p-2 text-end bg-yellow-500 mt-4 rounded-md hover:bg-yellow-300 hover:text-black"
+          >
+            <button className="p-2 mt-4">Xem Đánh Giá Đơn Hàng</button>
+          </Link>
+        </div>
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left text-[#d0d2d6]">
             <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
@@ -102,14 +128,32 @@ const Orders = () => {
                     scope="row"
                     className="py-3 px-4 font-medium whitespace-nowrap"
                   >
-                    <Tooltip title="Xem Chi Tiết Đơn Hàng">
-                      <Link
-                        to={`/admin/dashboard/order/details/${d._id}`}
-                        className="p-[6px] w-[30px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50 flex justify-center items-center"
-                      >
-                        <FaEye />
-                      </Link>
-                    </Tooltip>
+                    <div className="flex justify-start items-center gap-4">
+                      <Tooltip title="Xem Chi Tiết Đơn Hàng">
+                        <Link
+                          to={`/admin/dashboard/order/details/${d._id}`}
+                          className="p-[6px] w-[30px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50 flex justify-center items-center"
+                        >
+                          <FaEye />
+                        </Link>
+                      </Tooltip>
+                      {/* <Tooltip title="Xem Đánh Giá Đơn Hàng">
+                        <Link
+                          to={`/admin/dashboard/all-review-order`}
+                          className="p-[6px] w-[30px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-green-500/50 flex justify-center items-center"
+                        >
+                          <MdRateReview />
+                        </Link>
+                      </Tooltip> */}
+                      {/* <Tooltip title="Xem Đánh Giá Sản Phẩm">
+                        <Link
+                          to={`/admin/dashboard/all-review-product`}
+                          className="p-[6px] w-[30px] bg-pink-500 rounded hover:shadow-lg hover:shadow-green-500/50 flex justify-center items-center"
+                        >
+                          <RiProductHuntFill />
+                        </Link>
+                      </Tooltip> */}
+                    </div>
                   </td>
                 </tr>
               ))}

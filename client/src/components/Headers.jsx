@@ -33,7 +33,9 @@ import io from "socket.io-client";
 import { messageClear, updateMessage } from "../store/reducers/ChatReducer";
 import toast from "react-hot-toast";
 import { useMediaQuery } from "react-responsive";
+import { Tooltip } from "antd";
 const socket = io("http://localhost:5000");
+
 const Headers = ({ isFixed }) => {
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
   const isSmallScreen = useMediaQuery({ maxWidth: 767 });
@@ -618,12 +620,14 @@ const Headers = ({ isFixed }) => {
                       />
 
                       <div className="flex items-end h-full">
-                        <p
-                          className="flex text-lg cursor-pointer "
-                          onClick={SpeechRecognition.startListening}
-                        >
-                          <BiMicrophone />
-                        </p>
+                        <Tooltip title="Tìm kiếm bằng giọng nói">
+                          <p
+                            className="flex text-lg cursor-pointer bg-slate-500 p-2 rounded-full hover:bg-slate-400 text-white"
+                            onClick={SpeechRecognition.startListening}
+                          >
+                            <BiMicrophone />
+                          </p>
+                        </Tooltip>
                       </div>
                     </div>
                   )}
